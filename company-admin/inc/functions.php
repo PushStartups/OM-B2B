@@ -3,12 +3,15 @@
 //CHECK WHETHER ADMIN LOGGED IN OR NOT
 function checkAdminSession() {
 
-    if(empty($_SESSION['company_admin']))
+    if(empty($_SESSION['b2b_admin']))
     {
         header("location:login.php");
     }
 
 }
+
+
+
 
 //GET ALL RESTAURANTS FROM DATABSE (SHOWING ON INDEX.PHP)
 function getAllRestaurants()
@@ -56,13 +59,25 @@ function getAllOrders()
 // GET ALL ORDERS FROM DATABASE (SHOWING ON ORDERS.PHP)
 function getAllB2BOrders()
 {
-    DB::useDB('orderapp_b2b');
+    DB::useDB('orderapp_b2b_wui');
     $orders = DB::query("select o.*, c.name as company_name, u.smooch_id as email from b2b_orders as o inner join company as c on o.company_id = c.id  inner join b2b_users as u on o.user_id = u.id order by o.id DESC ");
     return $orders;
 }
 
+// GET ALL ORDERS FROM DATABASE (SHOWING ON ORDERS.PHP)
+function getSpecificUserB2BOrders($user_id)
+{
+    DB::useDB('orderapp_b2b_wui');
+    $orders = DB::query("select o.*, c.name as company_name, u.smooch_id as email from b2b_orders as o inner join company as c on o.company_id = c.id  inner join b2b_users as u on o.user_id = u.id where u.id = '$user_id' order by o.id DESC ");
+    return $orders;
+}
 
-
+function UserTotalSpenditure($user_id)
+{
+    DB::useDB('orderapp_b2b_wui');
+    $monthly = DB::queryFirstRow("SELECT SUM( actual_total ) AS monthly_total FROM b2b_orders WHERE MONTH(DATE) = MONTH(CURDATE())  AND user_id =  '$user_id'");
+    return $monthly['monthly_total'];
+}
 function getOrderItems($order_id)
 {
     DB::useDB('orderapp_user');
@@ -77,19 +92,13 @@ function getAllTimings($restaurant_id)
     $timings = DB::query("select * from weekly_availibility where restaurant_id = '$restaurant_id'");
     return $timings;
 }
-// GET ALL ORDERS FROM DATABASE (SHOWING ON ORDERS.PHP)
-function getSpecificUserB2BOrders($user_id)
-{
-    DB::useDB('orderapp_b2b');
-    $orders = DB::query("select o.*, c.name as company_name, u.smooch_id as email from b2b_orders as o inner join company as c on o.company_id = c.id  inner join b2b_users as u on o.user_id = u.id where u.id = '$user_id' order by o.id DESC ");
-    return $orders;
-}
+
 
 
 function getOrderItemsB2B($order_id)
 {
 
-    DB::useDB('orderapp_b2b');
+    DB::useDB('orderapp_b2b_wui');
     $order_detail = DB::query("select * from b2b_order_detail where order_id = '$order_id'");
     return $order_detail;
 }
@@ -107,7 +116,7 @@ function getOrderItemsB2B($order_id)
 
 function getCompanyNameByOrderId($order_id)
 {
-    DB::useDB('orderapp_b2b');
+    DB::useDB('orderapp_b2b_wui');
     $orders = DB::queryFirstRow("select o.*, c.name as company_name from b2b_orders as o  inner join company as c on o.company_id = c.id where o.id = '$order_id'");
     return $orders;
 }
@@ -141,7 +150,7 @@ function getPaymentMethod($order_id)
 
 function getPaymentMethodB2B($order_id)
 {
-    DB::useDB('orderapp_b2b');
+    DB::useDB('orderapp_b2b_wui');
     $payment       =  DB::queryFirstRow("select * from b2b_orders where id = '$order_id' ");
 
     $total                   =  $payment['total'];
@@ -162,7 +171,7 @@ function getRefundCount($order_id)
 
 function getRefundCountB2B($order_id)
 {
-    DB::useDB('orderapp_b2b');
+    DB::useDB('orderapp_b2b_wui');
     DB::query("select * from b2b_refund where order_id = '$order_id'");
     return $refund_count = DB::count();
 }
@@ -190,7 +199,7 @@ function getTotalRefundAmount($order_id)
 
 function getTotalRefundAmountB2B($order_id)
 {
-    DB::useDB('orderapp_b2b');
+    DB::useDB('orderapp_b2b_wui');
     $total = 0;
     $orders = DB::query("select * from b2b_refund where order_id = '$order_id'");
     foreach($orders as $order)
@@ -218,16 +227,11 @@ function getAllCities()
 //GET ALL B2B COMPANIES
 function getAllCompanies()
 {
-    DB::useDB('orderapp_b2b');
+    DB::useDB('orderapp_b2b_wui');
     $cities = DB::query("select * from company");
     return $cities;
 }
-function UserTotalSpenditure($user_id)
-{
-    DB::useDB('orderapp_b2b');
-    $monthly = DB::queryFirstRow("SELECT SUM( actual_total ) AS monthly_total FROM b2b_orders WHERE MONTH(DATE) = MONTH(CURDATE())  AND user_id =  '$user_id'");
-    return $monthly['monthly_total'];
-}
+
 //function getRestaurantsOfSpecificCompany($company_id)
 //{
 //    $restaurants = DB::query("select company_rest.*, restaurants.name_en as restaurants_name from company_rest inner join restaurants on company_rest.rest_id = restaurants.id where company_id = '$company_id'");
@@ -237,7 +241,7 @@ function UserTotalSpenditure($user_id)
 //GET COMPANY NAME
 function getCompanyName($company_id)
 {
-    DB::useDB('orderapp_b2b');
+    DB::useDB('orderapp_b2b_wui');
     $company = DB::queryFirstRow("select * from company where id = '$company_id'");
     return  $company['name'];
 }
@@ -245,14 +249,14 @@ function getCompanyName($company_id)
 //GET ALL COMPANIES
 function getSpecificCompanies($company_id)
 {
-    DB::useDB('orderapp_b2b');
+    DB::useDB('orderapp_b2b_wui');
     $edit_company = DB::queryFirstRow("select * from company where id = '$company_id'");
     return  $edit_company;
 }
 //GET ALL COMPANIES TIMINGS
 function getSpecificCompanyTiming($company_id)
 {
-    DB::useDB('orderapp_b2b');
+    DB::useDB('orderapp_b2b_wui');
     $edit_company_time = DB::query("select * from company_timing where company_id = '$company_id'");
     return  $edit_company_time;
 }
@@ -261,7 +265,7 @@ function getSpecificCompanyTiming($company_id)
 //GET USERS OF SPECIFIC COMPANY
 function getUsersOfSpecificCompany($companies_id)
 {
-    DB::useDB('orderapp_b2b');
+    DB::useDB('orderapp_b2b_wui');
 
 
     $company = DB::query("select * from b2b_users where company_id = '$companies_id'");
@@ -386,27 +390,19 @@ function getSpecificCity($city_id)
     return $city;
 }
 
-function getSpecificUser($user_id)
-{
-    DB::useDB('orderapp_b2b');
-
-    $user = DB::queryFirstRow("select * from b2b_users where id = '$user_id'");
-    return $user;
-}
-
 function getAllTags()
 {
     return $tags= DB::query("select * from tags");
+}
+
+function getSpecificb2bRestDisc($rest_id)
+{
+    DB::useDB('orderapp_b2b_wui');
+    return $rest_discounts = DB::queryFirstRow("select * from b2b_rest_discounts where id = '$rest_id'");
 }
 
 function getAllB2BRestDiscounts()
 {
     $b2bRestDiscounts  =  DB::query("select brd.*,c.name,r.name_en from b2b_rest_discounts as brd inner join restaurants as r on brd.rest_id = r.id  inner join company as c on brd.company_id = c.id");
     return $b2bRestDiscounts;
-}
-
-function getSpecificb2bRestDisc($rest_id)
-{
-    DB::useDB('orderapp_b2b');
-    return $rest_discounts = DB::queryFirstRow("select * from b2b_rest_discounts where id = '$rest_id'");
 }
