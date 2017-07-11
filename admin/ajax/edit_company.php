@@ -181,8 +181,6 @@ foreach ($timings as $time)
 
 
 
-
-
 DB::useDB('orderapp_b2b_wui');
 
 
