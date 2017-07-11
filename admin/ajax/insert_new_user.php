@@ -13,7 +13,7 @@ DB::useDB('orderapp_b2b');
 $company = DB::queryFirstRow("SELECT * FROM company where id = '$company_id'");
 $discount = $company['discount'];
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 
 DB::insert('b2b_users', array(
 

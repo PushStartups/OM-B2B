@@ -183,7 +183,7 @@ foreach ($timings as $time)
 
 
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 
 
 //UPDATE COMPANY
@@ -191,6 +191,18 @@ DB::update('company', array(
     "name"              =>  $_POST['name'],
     "delivery_address"  =>  $_POST['address'],
     "discount"          =>  $_POST['amount'],
+
+    "payment_method"     =>  $_POST['payment_method'],
+    "team_size"     =>  $_POST['team_size'],
+    "ordering_deadline_time"     =>  $_POST['ordering_deadline_time'],
+    "delivery_time"     =>  $_POST['delivery_time'],
+    "limit_of_restaurants"     =>  $_POST['limit_of_restaurants'],
+    "company_address"     =>  $_POST['company_address'],
+    "contact_name"     =>  $_POST['contact_name'],
+    "contact_number"     =>  $_POST['contact_number'],
+    "contact_email"     =>  $_POST['contact_email'],
+    "ledger_link"     =>  $_POST['ledger_link'],
+
     "min_order"          =>  $_POST['min_order'],
     "discount_type"     =>  $_POST['discount_type'],
     "email"             =>  $_POST['email'],
@@ -209,7 +221,7 @@ $week5_id = $week5['id'];
 $week6_id = $week6['id'];
 $week7_id = $week7['id'];
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 DB::update('company_timing', array(
     "opening_time"                  =>  $_POST['sunday_start_time'],
     "closing_time"                  =>  $_POST['sunday_end_time'],
@@ -218,7 +230,7 @@ DB::update('company_timing', array(
 
 ),  "id=%d",     $week7_id  );
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 DB::update('company_timing', array(
     "opening_time"                  =>  $_POST['monday_start_time'],
     "closing_time"                  =>  $_POST['monday_end_time'],
@@ -227,7 +239,7 @@ DB::update('company_timing', array(
 
 ),  "id=%d",     $week1_id  );
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 DB::update('company_timing', array(
     "opening_time"                  =>  $_POST['tuesday_start_time'],
     "closing_time"                  =>  $_POST['tuesday_end_time'],
@@ -236,7 +248,7 @@ DB::update('company_timing', array(
 
 ),  "id=%d",     $week2_id  );
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 DB::update('company_timing', array(
     "opening_time"                  =>  $_POST['wednesday_start_time'],
     "closing_time"                  =>  $_POST['wednesday_end_time'],
@@ -245,7 +257,7 @@ DB::update('company_timing', array(
 
 ),  "id=%d",     $week3_id  );
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 DB::update('company_timing', array(
     "opening_time"                  =>  $_POST['thursday_start_time'],
     "closing_time"                  =>  $_POST['thursday_end_time'],
@@ -254,7 +266,7 @@ DB::update('company_timing', array(
 
 ),  "id=%d",     $week4_id  );
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 DB::update('company_timing', array(
     "opening_time"                  =>  $_POST['friday_start_time'],
     "closing_time"                  =>  $_POST['friday_end_time'],
@@ -263,7 +275,7 @@ DB::update('company_timing', array(
 
 ),  "id=%d",     $week5_id  );
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 DB::update('company_timing', array(
     "opening_time"                  =>  $_POST['saturday_start_time'],
     "closing_time"                  =>  $_POST['saturday_end_time'],

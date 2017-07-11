@@ -11,6 +11,97 @@ $('#area_en').bind('input', function() {
 });
 
 
+
+$('#payment_method').bind('input', function() {
+
+    document.getElementById('error_payment_method').innerHTML = "";
+
+});
+
+$('#team_size').bind('input', function() {
+
+    document.getElementById('error_team_size').innerHTML = "";
+
+});
+
+$('#ordering_deadline_time').bind('input', function() {
+
+    document.getElementById('error_ordering_deadline_time').innerHTML = "";
+
+});
+
+$('#delivery_time').bind('input', function() {
+
+    document.getElementById('error_delivery_time').innerHTML = "";
+
+});
+
+$('#company_address').bind('input', function() {
+
+    document.getElementById('error_company_address').innerHTML = "";
+
+});
+
+
+$('#contact_name').bind('input', function() {
+
+    document.getElementById('error_contact_name').innerHTML = "";
+
+});
+
+$('#contact_number').bind('input', function() {
+
+    if(!this.value.match(/^\d+$/))
+    {
+        document.getElementById('error_contact_number').innerHTML = "Wrong Number!";
+    }
+    else
+    {
+        document.getElementById('error_contact_number').innerHTML = "";
+    }
+
+});
+
+
+$('#limit_of_restaurants').bind('input', function() {
+
+    if(!this.value.match(/^\d+$/))
+    {
+        document.getElementById('error_limit_of_restaurants').innerHTML = "Wrong Number!";
+    }
+    else
+    {
+        document.getElementById('error_limit_of_restaurants').innerHTML = "";
+    }
+
+});
+
+
+
+$('#contact_email').bind('input', function() {
+
+    if(!this.value.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/))
+    {
+        document.getElementById('error_contact_email').innerHTML = "Wrong Email!";
+        return;
+
+    }
+    else
+    {
+        document.getElementById('error_contact_email').innerHTML = "";
+    }
+
+});
+
+$('#ledger_link').bind('input', function() {
+
+    document.getElementById('error_ledger_link').innerHTML = "";
+
+});
+
+
+
+
 $('#amount').bind('input', function() {
 
     if(!this.value.match(/^\d+$/))
@@ -94,6 +185,18 @@ function edit_company(companies_id,urll)
     var email                    =  $('#email').val();
     var password                    =  $('#password').val();
 
+    var payment_method                  =  $('#payment_method').val();
+    var team_size                  =  $('#team_size').val();
+    var ordering_deadline_time                  =  $('#ordering_deadline_time').val();
+    var delivery_time                  =  $('#delivery_time').val();
+    var limit_of_restaurants                  =  $('#limit_of_restaurants').val();
+    var company_address                  =  $('#company_address').val();
+    var contact_name                  =  $('#contact_name').val();
+    var contact_number                  =  $('#contact_number').val();
+    var contact_email                  =  $('#contact_email').val();
+    var ledger_link                  =  $('#ledger_link').val();
+
+
     var sunday_start_time       =  $('#sunday_start_time').val();
     var sunday_end_time         =  $('#sunday_end_time').val();
 
@@ -134,6 +237,68 @@ function edit_company(companies_id,urll)
         $('#error_address').html('Address Required*');
         return;
     }
+
+    if(limit_of_restaurants == "")
+    {
+        $('#error_limit_of_restaurants').html('Required*');
+        return;
+    }
+
+    if(payment_method == "")
+    {
+        $('#error_payment_method').html('Required*');
+        return;
+    }
+
+    if(team_size == "")
+    {
+        $('#error_team_size').html('Required*');
+        return;
+    }
+
+    if(ordering_deadline_time == "")
+    {
+        $('#error_ordering_deadline_time').html('Required*');
+        return;
+    }
+
+    if(delivery_time == "")
+    {
+        $('#error_delivery_time').html('Required*');
+        return;
+    }
+
+
+    if(company_address == "")
+    {
+        $('#error_company_address').html('Required*');
+        return;
+    }
+
+    if(contact_name == "")
+    {
+        $('#error_contact_name').html('Required*');
+        return;
+    }
+
+    if(contact_number == "")
+    {
+        $('#error_contact_number').html('Required*');
+        return;
+    }
+
+    if(contact_email == "")
+    {
+        $('#error_contact_email').html('Required*');
+        return;
+    }
+
+    if(ledger_link == "")
+    {
+        $('#error_ledger_link').html('Required*');
+        return;
+    }
+
     if(min_order == "")
     {
         $('#error_min_order').html('Minimum Amount Required*');
@@ -275,6 +440,20 @@ function edit_company(companies_id,urll)
         'address'                 :  $('#area_en').val(),
         'name'                    :  $('#name').val(),
         'amount'                  :  $('#amount').val(),
+
+
+        'payment_method'                  :  $('#payment_method').val(),
+        'team_size'                  :  $('#team_size').val(),
+        'ordering_deadline_time'                  :  $('#ordering_deadline_time').val(),
+        'delivery_time'                  :  $('#delivery_time').val(),
+        'limit_of_restaurants'                  :  $('#limit_of_restaurants').val(),
+        'company_address'                  :  $('#company_address').val(),
+        'contact_name'                  :  $('#contact_name').val(),
+        'contact_number'                  :  $('#contact_number').val(),
+        'contact_email'                  :  $('#contact_email').val(),
+        'ledger_link'                  :  $('#ledger_link').val(),
+
+
         'min_order'               :  $('#min_order').val(),
         'discount_type'           :  $('#discount_type').val(),
         'email'                   :  $('#email').val(),

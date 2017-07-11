@@ -162,6 +162,7 @@ function add_company()
     var team_size                  =  $('#team_size').val();
     var ordering_deadline_time                  =  $('#ordering_deadline_time').val();
     var delivery_time                  =  $('#delivery_time').val();
+    var limit_of_restaurants                  =  $('#limit_of_restaurants').val();
     var company_address                  =  $('#company_address').val();
     var contact_name                  =  $('#contact_name').val();
     var contact_number                  =  $('#contact_number').val();
@@ -228,6 +229,12 @@ function add_company()
     if(amount == "")
     {
         $('#error-amount').html('Amount Required*');
+        return;
+    }
+
+    if(limit_of_restaurants == "")
+    {
+        $('#error_limit_of_restaurants').html('Required*');
         return;
     }
 
@@ -412,6 +419,7 @@ function add_company()
         'team_size'                  :  $('#team_size').val(),
         'ordering_deadline_time'                  :  $('#ordering_deadline_time').val(),
         'delivery_time'                  :  $('#delivery_time').val(),
+        'limit_of_restaurants'                  :  $('#limit_of_restaurants').val(),
         'company_address'                  :  $('#company_address').val(),
         'contact_name'                  :  $('#contact_name').val(),
         'contact_number'                  :  $('#contact_number').val(),
