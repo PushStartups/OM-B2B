@@ -189,6 +189,7 @@ DB::useDB('orderapp_b2b_wui');
 //UPDATE COMPANY
 DB::update('company', array(
     "name"              =>  $_POST['name'],
+    "registered_company_number"              =>  $_POST['registered_company_number'],
     "delivery_address"  =>  $_POST['address'],
     "discount"          =>  $_POST['amount'],
 
@@ -207,6 +208,7 @@ DB::update('company', array(
     "discount_type"     =>  $_POST['discount_type'],
     "email"             =>  $_POST['email'],
     "password"          =>  $_POST['password'],
+    "notes"          =>  $_POST['notes'],
     "lat"          =>  $_POST['lat'],
     "lng"          =>  $_POST['lng'],
 

@@ -128,6 +128,15 @@ include "header.php";
                                             <input class="form-control" id="name" name="name" value="<?php echo $edit_company['name'];?>"  type="text">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_name"></span>
                                         </div>
+
+
+                                        <div class="form-group">
+                                            <label>Registered Company Number</label>
+                                            <input class="form-control" id="registered_company_number" name="registered_company_number" placeholder="Enter Company Number" value="<?php echo $edit_company['registered_company_number'];?>" type="text">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_registered_company_number"></span>
+                                        </div>
+
+
                                         <div style="display:none" class="form-group">
                                             <div id="map" class="map_canvas"></div>
                                         </div>
@@ -241,6 +250,13 @@ include "header.php";
                                             <input class="form-control" id="password" name="password" placeholder="Enter Password" type="text" value="<?=$edit_company['password']?>">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_password"></span>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label>Notes</label>
+                                            <input class="form-control" id="notes" name="notes" placeholder="Enter notes" type="text" value="<?=$edit_company['notes']?>">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_notes"></span>
+                                        </div>
+
 
                                         <br>
                                         <div class="row">

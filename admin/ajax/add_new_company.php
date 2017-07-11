@@ -7,6 +7,7 @@ DB::useDB('orderapp_b2b_wui');
 
 DB::insert('company', array(
     "name"              =>  $_POST['name'],
+    "registered_company_number"              =>  $_POST['registered_company_number'],
     "delivery_address"  =>  $_POST['address'],
     "min_order"         =>  $_POST['min_order'],
     "discount"          =>  $_POST['amount'],
@@ -25,6 +26,7 @@ DB::insert('company', array(
 
     "email"             =>  $_POST['email'],
     "password"          =>  $_POST['password'],
+    "notes"          =>  $_POST['notes'],
     "voting"            =>  0,
     "lat"          =>  $_POST['lat'],
     "lng"          =>  $_POST['lng'],

@@ -4,6 +4,12 @@ $('#name').bind('input', function() {
 
 });
 
+$('#registered_company_number').bind('input', function() {
+
+    document.getElementById('error_registered_company_number').innerHTML = "";
+
+});
+
 $('#area_en').bind('input', function() {
 
     document.getElementById('error_address').innerHTML = "";
@@ -150,6 +156,11 @@ $('#password').bind('input', function() {
 
 });
 
+$('#notes').bind('input', function() {
+
+    document.getElementById('error_notes').innerHTML = "";
+
+});
 
 function delete_company(company_id)
 {
@@ -180,10 +191,12 @@ function edit_company(companies_id,urll)
     var address                 =  $('#area_en').val();
     var min_order              =  $('#min_order').val();
     var name                    =  $('#name').val();
+    var registered_company_number                    =  $('#registered_company_number').val();
     var amount                  =  $('#amount').val();
     var discount_type           =  $('#discount_type').val();
     var email                    =  $('#email').val();
     var password                    =  $('#password').val();
+    var notes                    =  $('#notes').val();
 
     var payment_method                  =  $('#payment_method').val();
     var team_size                  =  $('#team_size').val();
@@ -226,6 +239,12 @@ function edit_company(companies_id,urll)
         $('#error_name').html('Name Required*');
         return;
     }
+    if(registered_company_number == "")
+    {
+        $('#error_registered_company_number').html('Required*');
+        return;
+    }
+
 
     if($('#lat').val() == "")
     {
@@ -326,6 +345,12 @@ function edit_company(companies_id,urll)
     if(password == "")
     {
         $('#error_password').html('Password Required*');
+        return;
+    }
+
+    if(notes == "")
+    {
+        $('#error_notes').html('Required*');
         return;
     }
 
@@ -439,6 +464,7 @@ function edit_company(companies_id,urll)
         'week7_id'                : $('#week7_id').val(),
         'address'                 :  $('#area_en').val(),
         'name'                    :  $('#name').val(),
+        'registered_company_number'                    :  $('#registered_company_number').val(),
         'amount'                  :  $('#amount').val(),
 
 
@@ -458,6 +484,8 @@ function edit_company(companies_id,urll)
         'discount_type'           :  $('#discount_type').val(),
         'email'                   :  $('#email').val(),
         'password'                :  $('#password').val(),
+
+        'notes'                :  $('#notes').val(),
 
         'sunday_start_time'       :  $('#sunday_start_time').val(),
         'sunday_end_time'         :  $('#sunday_end_time').val(),
