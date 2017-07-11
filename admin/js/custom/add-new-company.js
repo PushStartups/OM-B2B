@@ -5,6 +5,21 @@ $('#name').bind('input', function() {
 
 });
 
+
+$('#registered_company_number').bind('input', function() {
+
+    if(!this.value.match(/^\d+$/))
+    {
+        document.getElementById('error_registered_company_number').innerHTML = "Wrong Number!";
+    }
+    else
+    {
+        document.getElementById('error_registered_company_number').innerHTML = "";
+    }
+
+});
+
+
 $('#area_en').bind('input', function() {
 
     document.getElementById('error-address').innerHTML = "";
@@ -148,6 +163,12 @@ $('#password').bind('input', function() {
 
 });
 
+$('#notes').bind('input', function() {
+
+    document.getElementById('error_notes').innerHTML = "";
+
+});
+
 
 
 function add_company()
@@ -156,12 +177,14 @@ function add_company()
     var address                 =  $('#area_en').val();
     var min_order               =  $('#min_order').val();
     var name                    =  $('#name').val();
+    var registered_company_number                    =  $('#registered_company_number').val();
     var amount                  =  $('#amount').val();
 
     var payment_method                  =  $('#payment_method').val();
     var team_size                  =  $('#team_size').val();
     var ordering_deadline_time                  =  $('#ordering_deadline_time').val();
     var delivery_time                  =  $('#delivery_time').val();
+    var limit_of_restaurants                  =  $('#limit_of_restaurants').val();
     var company_address                  =  $('#company_address').val();
     var contact_name                  =  $('#contact_name').val();
     var contact_number                  =  $('#contact_number').val();
@@ -171,6 +194,7 @@ function add_company()
     var discount_type           =  $('#discount_type').val();
     var email                    =  $('#email').val();
     var password                    =  $('#password').val();
+    var notes                    =  $('#notes').val();
 
     var sunday_start_time       =  $('#sunday_start_time').val();
     var sunday_end_time         =  $('#sunday_end_time').val();
@@ -201,6 +225,11 @@ function add_company()
         $('#error-name').html('Name Required*');
         return;
     }
+    if(registered_company_number == "")
+    {
+        $('#error_registered_company_number').html('Required*');
+        return;
+    }
 
     if(address == "")
     {
@@ -228,6 +257,12 @@ function add_company()
     if(amount == "")
     {
         $('#error-amount').html('Amount Required*');
+        return;
+    }
+
+    if(limit_of_restaurants == "")
+    {
+        $('#error_limit_of_restaurants').html('Required*');
         return;
     }
 
@@ -303,6 +338,13 @@ function add_company()
     if(password == "")
     {
         $('#error_password').html('Password Required*');
+        return;
+    }
+
+
+    if(notes == "")
+    {
+        $('#error_notes').html('Required*');
         return;
     }
 
@@ -406,12 +448,14 @@ function add_company()
         'address'                 :  $('#area_en').val(),
         'min_order'               :  $('#min_order').val(),
         'name'                    :  $('#name').val(),
+        'registered_company_number'                    :  $('#registered_company_number').val(),
         'amount'                  :  $('#amount').val(),
 
         'payment_method'                  :  $('#payment_method').val(),
         'team_size'                  :  $('#team_size').val(),
         'ordering_deadline_time'                  :  $('#ordering_deadline_time').val(),
         'delivery_time'                  :  $('#delivery_time').val(),
+        'limit_of_restaurants'                  :  $('#limit_of_restaurants').val(),
         'company_address'                  :  $('#company_address').val(),
         'contact_name'                  :  $('#contact_name').val(),
         'contact_number'                  :  $('#contact_number').val(),
@@ -421,6 +465,8 @@ function add_company()
         'discount_type'           :  $('#discount_type').val(),
         'email'                   :  $('#email').val(),
         'password'                :  $('#password').val(),
+
+        'notes'                :  $('#notes').val(),
 
         'sunday_start_time'       :  $('#sunday_start_time').val(),
         'sunday_end_time'         :  $('#sunday_end_time').val(),

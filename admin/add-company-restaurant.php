@@ -7,27 +7,8 @@ if(isset($_GET['companies_id']))
 {
     $companies_id = $_GET['companies_id'];
     $company_name = getCompanyName($companies_id);
-
+    $company_rest_limit = 2;
     //$restaurants = getRestaurantsOfSpecificCompany($companies_id);
-}
-
-DB::useDB('orderapp_b2b_wui');
-$r = DB::queryFirstRow("select * from company where id = '$companies_id'");
-$restaurant_limit = $r['limit_of_restaurants'];
-
-DB::useDB('orderapp_b2b_wui');
-$restaurants  = DB::query("select * from company_rest where company_id = '$companies_id'");
-$rest_count = DB::count();
-
-
-$hide = 0;
-if($rest_count  >= $restaurant_limit)
-{
-    $hide = 1;
-}
-else
-{
-    $company_rest_limit = $restaurant_limit - $rest_count;
 }
 
 ?>
@@ -42,21 +23,16 @@ else
 
             <!-- col -->
             <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-                <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-briefcase "></i> <?=$company_name?> (Restaurant Limit : <?=$restaurant_limit?>) </h1>
+                <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-briefcase "></i> <?=$company_name?> </h1>
             </div>
-
             <!-- end col -->
 
             <!-- right side of the page with the sparkline graphs -->
             <!-- col -->
             <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-                <?php if($hide == 0){ ?>
-                <a onclick="add_restaurant_tab()" style="float:right"  class="btn btn-lg bg-color-purple txt-color-white"><i class="fa-fw fa fa-plus "></i> Add Default Restaurants</a>
-                <?php } else { ?>
-                    <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><b>Restaurant Limit is Full </b></h1>
 
-                <?php
-                } ?>
+                <a onclick="add_restaurant_tab()" style="float:right"  class="btn btn-lg bg-color-purple txt-color-white"><i class="fa-fw fa fa-plus "></i> Add New Restaurant</a>
+
             </div>
             <!-- end col -->
 
@@ -133,7 +109,8 @@ else
 
 <!--                    $restaurants = DB::query("select company_rest.*, restaurants.name_en as restaurants_name from company_rest inner join restaurants on company_rest.rest_id = restaurants.id where company_id = '$company_id'");-->
                     <?php
-
+                    DB::useDB('orderapp_b2b_wui');
+                    $restaurants  = DB::query("select * from company_rest where company_id = '$companies_id'");
 
 
                     ?>

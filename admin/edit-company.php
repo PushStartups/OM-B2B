@@ -128,6 +128,15 @@ include "header.php";
                                             <input class="form-control" id="name" name="name" value="<?php echo $edit_company['name'];?>"  type="text">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_name"></span>
                                         </div>
+
+
+                                        <div class="form-group">
+                                            <label>Registered Company Number</label>
+                                            <input class="form-control" id="registered_company_number" name="registered_company_number" placeholder="Enter Company Number" value="<?php echo $edit_company['registered_company_number'];?>" type="text">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_registered_company_number"></span>
+                                        </div>
+
+
                                         <div style="display:none" class="form-group">
                                             <div id="map" class="map_canvas"></div>
                                         </div>
@@ -165,6 +174,71 @@ include "header.php";
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_amount"></span>
                                         </div>
 
+
+
+                                        <div class="form-group">
+                                            <label>Payment Method </label>
+                                            <input class="form-control" id="payment_method" name="payment_method" value="<?=$edit_company['payment_method'];?>" placeholder="Enter Payment Method" type="text">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_payment_method"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Team Size </label>
+                                            <input class="form-control" id="team_size" name="team_size" placeholder="Enter Team Size" value="<?=$edit_company['team_size'];?>" type="text">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_team_size"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Restaurant Limit </label>
+                                            <input class="form-control" id="limit_of_restaurants" name="limit_of_restaurants" value="<?=$edit_company['limit_of_restaurants'];?>" placeholder="Enter Limit Of Restaurant" type="text">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_limit_of_restaurants"></span>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label>Ordering Deadline Time </label>
+                                            <input class="form-control" id="ordering_deadline_time" name="ordering_deadline_time" placeholder="Ordering Deadline" type="text">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_ordering_deadline_time"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Delivery Time </label>
+                                            <input class="form-control" id="delivery_time" name="delivery_time" placeholder="Delivery Time" type="text">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_delivery_time"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Company Address </label>
+                                            <input class="form-control" id="company_address" name="company_address" value="<?=$edit_company['company_address'];?>" placeholder="Enter Compnay Address" type="text">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_company_address"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Contact Name </label>
+                                            <input class="form-control" id="contact_name" name="contact_name" value="<?=$edit_company['contact_name'];?>" placeholder="Enter Contact Name" type="text">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_contact_name"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Contact Phone Number </label>
+                                            <input class="form-control" id="contact_number" name="contact_number" value="<?=$edit_company['contact_number'];?>" placeholder="Enter Contact Name" type="text">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_contact_number"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Contact Email </label>
+                                            <input class="form-control" id="contact_email" name="contact_email" value="<?=$edit_company['contact_email'];?>" placeholder="Enter Contact Email" type="text">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_contact_email"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Ledger Link </label>
+                                            <input class="form-control" id="ledger_link" name="ledger_link" value="<?=$edit_company['ledger_link'];?>" placeholder="Enter Ledger Link" type="text">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_ledger_link"></span>
+                                        </div>
+
+
+
                                         <div class="form-group">
                                             <label>Email</label>
                                             <input class="form-control" id="email" name="email" placeholder="Enter Email" type="text" value="<?=$edit_company['email']?>">
@@ -176,6 +250,13 @@ include "header.php";
                                             <input class="form-control" id="password" name="password" placeholder="Enter Password" type="text" value="<?=$edit_company['password']?>">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_password"></span>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label>Notes</label>
+                                            <input class="form-control" id="notes" name="notes" placeholder="Enter notes" type="text" value="<?=$edit_company['notes']?>">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_notes"></span>
+                                        </div>
+
 
                                         <br>
                                         <div class="row">

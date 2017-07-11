@@ -37,10 +37,10 @@ foreach($categories as $category)
 DB::delete('menus', "id=%d", $menu_id);
 DB::delete('weekly_availibility', "restaurant_id=%d", $restaurant_id );
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 DB::delete('user_votes', "restaurant_id=%d", $restaurant_id );
 
-DB::useDB('orderapp_restaurants');
+DB::useDB('orderapp_restaurants_b2b_wui');
 DB::delete('restaurant_tags', "restaurant_id=%d", $restaurant_id );
 DB::delete('restaurant_gallery', "restaurant_id=%d", $restaurant_id );
 
@@ -56,14 +56,14 @@ foreach($orders as $order)
 DB::useDB('orderapp_user');
 DB::delete('user_orders', "restaurant_id=%d", $restaurant_id );
 
-DB::useDB('orderapp_restaurants');
+DB::useDB('orderapp_restaurants_b2b_wui');
 DB::delete('delivery_fee', "restaurant_id=%d", $restaurant_id );
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 DB::delete('company_voting', "restaurant_id=%d", $restaurant_id );
 DB::delete('company_rest', "rest_id=%d", $restaurant_id );
 DB::delete('b2b_rest_discounts', "rest_id=%d", $restaurant_id );
 
-DB::useDB('orderapp_restaurants');
+DB::useDB('orderapp_restaurants_b2b_wui');
 DB::delete('restaurants', "id=%d", $restaurant_id );
 echo json_encode("success");
