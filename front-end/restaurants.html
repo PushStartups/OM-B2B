@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Orderapp | Order from restaurants online</title>
+    <link rel="icon" href="images/favicon.png" type="image/png" sizes="32x32">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style-en.css">
+    <link rel="stylesheet" type="text/css" href="css/generic.css">
+    <link rel="stylesheet" type="text/css" href="css/restaurants.css">
+</head>
+<body>
+<div id="wrapper">
+    <section class="jumbotron-fluid">
+        <div id="header" class="orang_gradient_ltr">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-4 pull-left">
+                        <div class="logo">
+                            <a href="../">
+                                <div class="logo-img">
+                                    <img src="images/logo.png" alt="images description">
+                                </div>
+                                <h2 class="f white light"> CHOOSE YOUR RESTAURANT <p class="comment f white"><span class="f white">Choose your restaurant</span></p></h2>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 pull-right">
+                        <nav id="nav">
+                            <ul class="bt-sm">
+                                <li>
+                                    <a href="#">
+                                        <img class="icon-user" src="images/ic_profile01.png">
+                                        <span id="name_company">test, testcompany <em>500 NIS</em></span>
+                                    </a>
+                                    <div class="dropdown-nav" id="dropdown-nav" style="display: none;">
+                                        <h3>Hey test, Nice to meet you :)</h3>
+                                        <a onclick="clearLocalStorage()" href="#">Disconnect</a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li><a class="f white" href="#">About</a></li>
+                                <li><a class="f white active" href="#">HE</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <a class="btn-back" href="#"><img src="images/icon01.png"></a>
+        </div>
+    </section>
+    <section class="block">
+        <div class="jumbtron-fluid">
+            <div class="parent-bottom" style="position: relative;width:100%;height:100%;">
+                <img src="images/left_bottom.png">
+                <img src="images/right_bottom.png" style="left: auto; right: 0;"/>
+            </div>
+            <div class="container">
+
+
+
+
+
+                <div class="row no-gutters">
+                    <div class="col-xs-3">
+
+
+
+                        <aside id="sidebar">
+
+                            <ul class="nav nav-tabs md-pills pills-secondary flex-column" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link view-link" data-toggle="tab" href="#panel41" role="tab"><h3>View all restaurant</h3></a>
+                                    <div class="list-holder">
+                                        <h3 class="view-link f black"></h3>
+                                        <ul class="list accordion multilevel-accordion">
+                                            <li>
+                                                <a class="f black opener" href="#">Cuisine</a>
+                                                <div class="list-item slide">
+                                                    <ul>
+                                                        <li>
+                                                            <label class="control control--checkbox">
+                                                                <input id="cb_milky" type="checkbox">
+                                                                <div class="control__indicator"></div>Dairy  [1]
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label class="control control--checkbox">
+                                                                <input id="cb_meat" type="checkbox">
+                                                                <div class="control__indicator"></div>Meat  [12]
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label class="control control--checkbox">
+                                                                <input id="cb_pizzeria" type="checkbox">
+                                                                <div class="control__indicator"></div>Pizzeria  [5]
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label class="control control--checkbox">
+                                                                <input id="cb_sushi" type="checkbox">
+                                                                <div class="control__indicator"></div>Sushi  [8]
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label class="control control--checkbox">
+                                                                <input id="cb_hamburger" type="checkbox">
+                                                                <div class="control__indicator"></div>Hamburger  [1]
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <a class="f black opener" href="#">Kashrut</a>
+                                                <div class="list-item slide">
+                                                    <ul>
+                                                        <li>
+                                                            <label class="control control--checkbox">
+                                                                <input id="cb_milky" type="checkbox">
+                                                                <div class="control__indicator"></div>Dairy  [1]
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label class="control control--checkbox">
+                                                                <input id="cb_meat" type="checkbox">
+                                                                <div class="control__indicator"></div>Meat  [12]
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label class="control control--checkbox">
+                                                                <input id="cb_pizzeria" type="checkbox">
+                                                                <div class="control__indicator"></div>Pizzeria  [5]
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label class="control control--checkbox">
+                                                                <input id="cb_sushi" type="checkbox">
+                                                                <div class="control__indicator"></div>Sushi  [8]
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label class="control control--checkbox">
+                                                                <input id="cb_hamburger" type="checkbox">
+                                                                <div class="control__indicator"></div>Hamburger  [1]
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link view" data-toggle="tab" href="#panel42" role="tab"><h3>View past orders</h3></a>
+                                    <div class="list-holder">
+                                        <h3 class="view-link f black"></h3>
+                                        <ul class="list accordion multilevel-accordion">
+                                            <li>
+                                                <a class="f black opener" href="#">Order Date</a>
+                                                <div class="list-item slide">
+                                                    <ul>
+                                                        <li>
+                                                            <label class="control control--radio">
+                                                                <div class="chek-box-holder">
+                                                                    <input type="radio" name="radio"/>
+                                                                    <div class="control__indicator"></div>
+                                                                </div>
+                                                                <p>Last Week  [2]</p>
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label class="control control--radio">
+                                                                <div class="chek-box-holder">
+                                                                    <input type="radio" name="radio"/>
+                                                                    <div class="control__indicator"></div>
+                                                                </div>
+
+                                                            </label>
+                                                            <div class="row no-gutters add" style="float: right; width: 88%;">
+                                                                <div class="col-xs-5">
+                                                                    <div class="form-group">
+                                                                        <p>To</p>
+                                                                        <div class='input-group date' id='datetimepicker6'>
+                                                                            <input dateee type='text' class="form-control" />
+                                                                            <span class="input-group-addon">
+                                                                                <span class="glyphicon glyphicon-calendar"></span>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-5">
+                                                                    <div class="form-group">
+                                                                        <p>From</p>
+                                                                        <div class='input-group date form_datetime' id='datetimepicker7'>
+                                                                            <input name="datee" type='text' class="form-control" />
+                                                                            <span class="input-group-addon">
+                                                                                <span class="glyphicon glyphicon-calendar"></span>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-2">
+                                                                    <p style="visibility: hidden; margin: 0;">button</p>
+                                                                    <button type="button" class="btn-arrow"><img src="images/ic_next.png"></button>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <a class="f black opener" href="#">Canceled orders</a>
+                                                <div class="list-item slide">
+                                                    <ul>
+                                                        <li>
+                                                            <label class="control control--checkbox">
+                                                                <input id="cb_milky" type="checkbox">
+                                                                <div class="control__indicator"></div>Show Canceled orders  [1]
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link motorbike" data-toggle="tab" href="#panel43" role="tab"><h3>View orders on the way</h3></a>
+                                </li>
+                            </ul>
+
+                        </aside>
+                    </div>
+                    <div class="col-xs-9">
+                        <div id="contant">
+                            <div class="tab-content vertical">
+                                <div class="tab-pane fade in " id="panel41" role="tabpanel">
+                                    <ul class="rest-list">
+                                        <li>
+                                            <ul>
+                                                <li>
+                                                    <div class="img-circle">
+                                                        <img src="images/logo-img.png" alt="images description">
+                                                    </div>
+                                                    <div class="txt">
+                                                        <h1 class="light">bandora</h1>
+                                                        <p><em class="f black">Kashrut</em> Rabanut Shfelat yehuda Meat, Burger</p>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="text">
+                                                        <p><em class="f black">10% Off </em> Between the hours 00:00 - 23:00</p>
+                                                    </div>
+                                                </li>
+                                                <li class="third">
+                                                    <address class="address">
+                                                        <img class="edit edit1" src="images/ic_checkin.png">
+                                                        <p>Sderot Yigal alon 12</p>
+                                                        <div class="tooltip-popup popup"><p class="f black">Sderot Yigal Allon 6, Canion Shaarei Ha'Ir <strong>Beit Shemesh</strong></p></div>
+                                                    </address>
+                                                </li>
+                                                <li>
+                                                    <div class="btn-box"><button class="bt_ordernow" type="button" onclick="window.location.href='order.html'">order<br>now</button></div>
+                                                    <time class="time">
+                                                        <img class="bike" src="images/motorbike-delivery.png">
+                                                        <p>delivery time 11:00</p>
+                                                        <div class="time-popup popup" style="display: none;">
+                                                            <div class="header">
+                                                                <p class="f black" style="text-transform: uppercase;">Delivery Time for today</p>
+                                                                <p>PickUp is possible as long  as the restaurant is open</p>
+                                                            </div>
+                                                            <table>
+                                                                <tr>
+                                                                    <td class="f black">10:30 - 10:45</td>
+                                                                    <td>25 NIS minimum</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="f black">10:30 - 10:45</td>
+                                                                    <td>25 NIS minimum</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="f black">10:30 - 10:45</td>
+                                                                    <td>25 NIS minimum</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+
+                                                    </time>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <ul>
+                                                <li>
+                                                    <div class="img-circle">
+                                                        <img src="images/logo-img.png" alt="images description">
+                                                    </div>
+                                                    <div class="txt">
+                                                        <h1 class="light">bandora</h1>
+                                                        <p><em class="f black">Kashrut</em> Rabanut Shfelat yehuda Meat, Burger</p>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="text">
+                                                        <p><em class="f black">10% Off </em> Between the hours 00:00 - 23:00</p>
+                                                    </div>
+                                                </li>
+                                                <li class="third">
+                                                    <address class="address">
+                                                        <img class="edit edit1" src="images/ic_checkin.png">
+                                                        <p>Sderot Yigal alon 12</p>
+                                                        <div class="tooltip-popup popup"><p class="f black">Sderot Yigal Allon 6, Canion Shaarei Ha'Ir <strong>Beit Shemesh</strong></p></div>
+                                                    </address>
+                                                </li>
+                                                <li>
+                                                    <div class="btn-box"><button class="bt_ordernow" type="button" onclick="window.location.href='order.html'">order<br>now</button></div>
+                                                    <time class="time">
+                                                        <img class="bike" src="images/motorbike-delivery.png">
+                                                        <p>delivery time 11:00</p>
+                                                    </time>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <ul>
+                                                <li>
+                                                    <div class="img-circle">
+                                                        <img src="images/logo-img.png" alt="images description">
+                                                    </div>
+                                                    <div class="txt">
+                                                        <h1 class="light">bandora</h1>
+                                                        <p><em class="f black">Kashrut</em> Rabanut Shfelat yehuda Meat, Burger</p>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="text">
+                                                        <p><em class="f black">10% Off </em> Between the hours 00:00 - 23:00</p>
+                                                    </div>
+                                                </li>
+                                                <li class="third">
+                                                    <address class="address">
+                                                        <img class="edit edit1" src="images/ic_checkin.png">
+                                                        <p>Sderot Yigal alon 12</p>
+                                                        <div class="tooltip-popup popup"><p class="f black">Sderot Yigal Allon 6, Canion Shaarei Ha'Ir <strong>Beit Shemesh</strong></p></div>
+                                                    </address>
+                                                </li>
+                                                <li>
+                                                    <div class="btn-box"><button class="bt_ordernow" type="button">order<br>now</button></div>
+                                                    <time class="time">
+                                                        <img class="bike" src="images/motorbike-delivery.png">
+                                                        <p>delivery time 11:00</p>
+                                                    </time>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade in" id="panel42" role="tabpanel">
+                                    <ul class="rest-list">
+                                        <li>
+                                            <ul>
+                                                <li>
+                                                    <div class="img-circle">
+                                                        <img src="images/logo-img.png" alt="images description">
+                                                    </div>
+                                                    <div class="txt">
+                                                        <h1>bandora</h1>
+                                                        <div class="order received"><i class="fa fa-check-circle" aria-hidden="true"></i> <p>Order received</p></div>
+                                                        <p>Order from date <em class="f black">11/12/2017</em><br> in the amount of <em class="f black">80 NIS</em></p>
+                                                    </div>
+                                                </li>
+                                                <li class="last">
+                                                    <div class="btn-box"><button class="bt_ordernow" type="button">Reorder</button></div>
+                                                    <div class="text add">
+                                                        <p><em class="f black">Angus Salad</em> 150 grams goose breast or entrecote, 170 grams chicken breast</p>
+                                                        <p style="margin: 0;"><em class="f black">Chicken Salad</em> Egg, portobello <a class="more-info" href="#">more info</a></p>
+
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <ul>
+                                                <li>
+                                                    <div class="img-circle">
+                                                        <img src="images/logo-img.png" alt="images description">
+                                                    </div>
+                                                    <div class="txt">
+                                                        <h1>bandora</h1>
+                                                        <div class="order canceled"><i class="fa fa-times-circle" aria-hidden="true"></i> <p>Canceled orders</p></div>
+                                                        <p>Order from date <em class="f black">11/12/2017</em><br> in the amount of <em class="f black">80 NIS</em></p>
+                                                    </div>
+                                                </li>
+                                                <li class="last">
+                                                    <div class="btn-box"><button class="bt_ordernow" type="button">Reorder</button></div>
+                                                    <div class="text add">
+                                                        <p><em class="f black">Angus Salad</em> 150 grams goose breast or entrecote, 170 grams chicken breast</p>
+                                                        <p style="margin: 0;"><em class="f black">Chicken Salad</em> Egg, portobello <a class="more-info" href="#">more info</a></p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade active in" id="panel43" role="tabpanel">
+                                    <div class="box-frame">
+                                        <h2 class="light">19/06/17</h2>
+                                        <div class="view-order">
+                                            <ul class="rest-list">
+                                                <li>
+                                                    <ul>
+                                                        <li>
+                                                            <div class="txt-box">
+                                                                <h2 class="light">On the way</h2>
+                                                                <p>Order Status</p>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="txt-box">
+                                                                <h2 class="light">Bandora</h2>
+                                                                <p>Sderot Yigal alon 12…</p>
+                                                                <div class="tooltip-popup popup"><p class="f black">Sderot Yigal Allon 6, Canion Shaarei Ha'Ir   <strong>Beit Shemesh</strong></p></div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="txt-box">
+                                                                <h2 class="light">11:00-11:45</h2>
+                                                                <p>Delivery time</p>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="txt-box">
+                                                                <h2 class="light">Total 39 NIS</h2>
+                                                                <p>See the menu order</p>
+                                                                <div class="time-popup popup" style="display: none;">
+                                                                    <div class="header">
+                                                                        <table>
+                                                                            <tr>
+                                                                                <td>1 Super Spicy Bandora</td>
+                                                                                <td>50 NIS</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>1 Merguez Sausage</td>
+                                                                                <td>35 NIS</td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                    <table>
+                                                                        <tr>
+                                                                            <td>Sub Total</td>
+                                                                            <td class="f black">85 NIS</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Company Contribution</td>
+                                                                            <td class="f black">-30 NIS</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Total Due</td>
+                                                                            <td class="f black">50 NIS</td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                            <div class="footer-box">
+                                                <button class="f white btn-order" type="button"><img src="images/plus.png"> Add an Order</button>
+                                                <a class="btn-link" href="#">
+                                                    <p>Cancle order</p>
+                                                    <div class="cancle-order popup">
+                                                        <h4>Are you sure that you want to cancel the order?</h4>
+                                                        <div class="btn-holder">
+                                                            <button class="btn-cancle" type="button"><p class="f white">Dont Cancle</p></button>
+                                                            <button class="btn-cancle" type="button"><p class="f white">Cancle</p></button>
+                                                        </div>
+                                                        <p>You can cancel an order up to half an hour before Delivery time</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
+<!--<script src="js/bootstrap.min.js"></script>-->
+<!--<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>-->
+
+<script src="js/jquery.accordion.js"></script>
+
+<script type="text/javascript">
+
+
+    $('#datetimepicker6').datetimepicker();
+    $('#datetimepicker7').datetimepicker({
+        useCurrent: false //Important! See issue #1075
+    });
+    $("#datetimepicker6").on("dp.change", function (e) {
+        $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+    });
+    $("#datetimepicker7").on("dp.change", function (e) {
+        $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+    });
+
+
+
+</script>
+
+</body>
+</html>

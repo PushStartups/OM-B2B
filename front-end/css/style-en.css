@@ -1,0 +1,276 @@
+/*-----------------------------------------------------------------------------------
+    Template Name:             style.css
+    Template URI:              ....................................
+    Description:               ....................................
+    CoDer :                    Push Srartups 
+    CoDer's Site URL:          www.pushstartups.com
+    Version:                   1.0
+    Creation date:             04.06.17
+
+-----------------------------------------------------------------------------------*/
+
+
+/*** ===================================/***
+     TABLE OF CONTENT
+/*** ===================================/*** 
+
+1. Basic
+	+ html
+	+ color
+	+ button
+	+ line
+
+3. Typography
+	+ title
+	+ txt
+	+ link
+	+ list
+	+ tables
+	+ fa icon
+
+3. Form
+	+ Input
+	+ textarea
+	+ select
+	+ submit
+
+3.  UI Elements
+	+ Popup
+	+ Icon
+
+
+
+/* ===================================/***
+     Basic
+/*** ===================================***/
+
+/**========== Html ==========**/
+
+html {direction: ltr; height:100%;}
+html, body{overflow:hidden; margin: 0px; padding: 0px; }
+body{ float:left; font-family: 'Roboto', sans-serif, Arial; position:relative; height:100%; width: 100%; background-color: #F7F8FA ; color: #797979; font-size:16px; line-height: 19px;}
+header {width: 100%; position: fixed;}
+iframe{ width:100%; border:0;}
+section { position: relative;}
+article, section, footer, header, figure, aside, hgroup, nav{display:block;}
+header,nav,article,footer,section,aside,figure,figcaption{display:block}
+button {outline: none; border: none; box-shadow: none;}
+img {border: 0px; margin: 0px;}
+a>img {display: block;}
+
+a, textarea.form-control, .bt,
+input.form-control, button.form-control, select.form-control,
+input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], 
+input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], 
+input[type="color"], input[type="submit"], select, textarea, button, .sidebar ul li, .top_header nav#main-nav ul li.menu-item, .pricing .s_pricing header,
+.dashboard .more, #homepage .box, .used-line #homepage .side_navigation ul.items-dropdown li.dropdown, ul.social_icon li, .dashboard .mask
+{ transition: all 0.3s ease-in; -moz-transition: all 0.3s ease-in;-o-transition: all 0.3s ease-in;-webkit-transition: all 0.3s ease-in;-ms-transition: all 0.3s ease-in;}
+
+
+
+/**========== Color ==========**/
+.orang {background-color: #FF7F00;}
+.orang_light {background-color: #FFAF5F}
+.green {background-color: #2FD903; }
+.blue {background-color:#6284EB; }
+
+.f.orang {color: #FF7F00;}
+.f.green {color: #2FD903; }
+.f.blue {color:#6284EB; }
+.f.white {color:#fff; }
+.f.black {color:#000; }
+.red{color: #ff0000;}
+
+.orang_gradient_ltr {background: rgba(255,128,0,1);
+background: -moz-linear-gradient(left, rgba(255,128,0,1) 0%, rgba(255,175,95,1) 100%);
+background: -webkit-gradient(left top, right top, color-stop(0%, rgba(255,128,0,1)), color-stop(100%, rgba(255,175,95,1)));
+background: -webkit-linear-gradient(left, rgba(255,128,0,1) 0%, rgba(255,175,95,1) 100%);
+background: -o-linear-gradient(left, rgba(255,128,0,1) 0%, rgba(255,175,95,1) 100%);
+background: -ms-linear-gradient(left, rgba(255,128,0,1) 0%, rgba(255,175,95,1) 100%);
+background: linear-gradient(to right, rgba(255,128,0,1) 0%, rgba(255,175,95,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff8000', endColorstr='#ffaf5f', GradientType=1 );}
+
+.orang_gradient_ttb {background: rgba(255,175,75,1);
+background: -moz-linear-gradient(top, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,175,75,1)), color-stop(100%, rgba(255,146,10,1)));
+background: -webkit-linear-gradient(top, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 100%);
+background: -o-linear-gradient(top, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 100%);
+background: -ms-linear-gradient(top, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 100%);
+background: linear-gradient(to bottom, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf4b', endColorstr='#ff920a', GradientType=0 );}
+
+
+.gray {background-color: #797979;}
+.gray_light {background-color: #F7F7F7;}
+.gray_light2 {background-color: #EEEEEE;}
+
+
+
+/**========== Button ==========**/
+
+.bt { border-radius: 8px; color: #ffffff; text-align: center; width: 100%; }
+.bt-sm {font-size: 16px; line-height: 1.5; width: auto; height:40px; }
+.bt-md {font-size: 24px; line-height: 1.5; height: 60px; }
+.bt-lg {font-size: 33px; line-height: 1.5; height: 80px; text-transform:uppercase; }
+
+
+.bt_ordernow {color: #ffffff; height: 80px; border-radius: 13px; background-color: #F46C00;}
+.bt_ordernow:hover {background: rgba(255,175,75,1);
+background: -moz-linear-gradient(left, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 100%);
+background: -webkit-gradient(left top, right top, color-stop(0%, rgba(255,175,75,1)), color-stop(100%, rgba(255,146,10,1)));
+background: -webkit-linear-gradient(left, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 100%);
+background: -o-linear-gradient(left, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 100%);
+background: -ms-linear-gradient(left, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 100%);
+background: linear-gradient(to right, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf4b', endColorstr='#ff920a', GradientType=1 );}
+
+
+/**========== Line ==========**/
+.main-line, hr {border-color: #CACACA!important}
+hr {margin: 20px 0; border: 0; border-top: 1px solid ;}
+
+
+/* ===================================/***
+     Typography
+/*** ===================================***/
+
+
+/**========== Title ==========**/
+h1 {font-size: 33px; line-height: 36px; color: #000; text-transform: capitalize;}
+h1.light {font-weight: 300;}
+h1.medium {}
+h1.bold {}
+
+h2 {font-size: 24px; line-height: 27px; text-transform: capitalize;}
+h2.light {font-weight: 300;}
+h2.medium {}
+h2.bold {}
+
+h3 {font-size: 20px; line-height: 23px;}
+h3.light {font-weight: 300;}
+h3.medium {}
+h3.bold {}
+
+
+
+
+
+/*** ===================================/***
+     Typography
+/*** ===================================/**/
+
+a, body, code, body, input, textarea, span {
+font-family:'Roboto' ; text-transform: none;/* Main font */}
+
+/**========== Title ==========**/
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color:#000;
+  margin: 0 0 20px 0;
+  font-weight:400;
+  font-family:'Roboto';
+}
+
+
+/**========== Txt ==========**/
+p, ul li, ul li a, span { font-family:'Roboto'; color:#797979; line-height: 20px;}
+p.comment { color:#fa5353; line-height: 17px; font-size: 12px;}
+
+/**========== Link ==========**/
+a {font-family:'Roboto'; color:#6284EB; text-decoration: none; cursor: pointer; font-size: 16px;}
+/*a.active, a.active:hover {text-decoration: none; color: #6284EB;}*/
+a.active, a.active:hover {text-decoration: none; }
+a:hover, a:focus{ text-decoration:none; outline:none; color: #6284EB }
+a img{border: 0px none;}
+
+
+/**========== List ==========**/
+ul, ol {  padding: 0; margin: 0 0 0; list-style:none;}
+ul li ,ul li a, ol li,ol li a{ font-family:'Roboto'; color:#797979;}
+ul ul,
+ul ol,
+ol ol,
+ol ul {margin-bottom: 0;}
+li {line-height: 20px; float: left;}
+
+ul {margin-bottom: 20px;}
+
+/**========== Fa icon ==========**/
+.fa {margin-left: 12px;}
+
+/*** ===================================/***
+     Forms
+/*** ===================================***/
+.form-control {  background-color: transparent;}
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="time"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+input[type="submit"],
+select,
+textarea
+{
+  background-color: transparent;
+  color: #797979;
+  font-weight: 300;
+  box-shadow:none;
+  /*border-radius: 0px;*/
+  padding: 10px;
+  /*margin-bottom:15px; */
+}
+
+
+input[type="text"]:hover,
+input[type="password"]:hover,
+input[type="datetime"]:hover,
+input[type="datetime-local"]:hover,
+input[type="date"]:hover,
+input[type="month"]:hover,
+input[type="time"]:hover,
+input[type="week"]:hover,
+input[type="number"]:hover,
+input[type="email"]:hover,
+input[type="url"]:hover,
+input[type="search"]:hover,
+input[type="tel"]:hover,
+input[type="color"]:hover,
+input[type="submit"]:hover,
+select:hover,
+textarea:hover{
+  background-color: #ffffff;
+}
+
+.form-group>.form-control {margin-bottom: 0px;}
+
+::-webkit-input-placeholder {color: #797979;}
+:-moz-placeholder {/* Firefox 18- */ color: #797979;}
+::-moz-placeholder {  /* Firefox 19+ */color: #797979;}
+:-ms-input-placeholder {color: #797979;}
+
+input.has-icon, select.has-icon , textarea.has-icon { padding-left: 35px;}
+
+
+/*** ===================================/***
+     UI Elements
+/*** ===================================***/
+
+
+/**========== Popup ==========**/
+.popup {border-radius:13px; box-shadow: 3px 2px 4px 0 rgba(0, 0, 0, 0.28); border: solid 1px #a7a7a7;}
+
+/**========== Icon ==========**/
+

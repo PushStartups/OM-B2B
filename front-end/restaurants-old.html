@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Orderapp | Order from restaurants online</title>
+    <link rel="icon" href="images/favicon.png" type="image/png" sizes="32x32">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style-en.css">
+    <link rel="stylesheet" type="text/css" href="css/generic.css">
+    <link rel="stylesheet" type="text/css" href="css/restaurants.css">
+    <link rel="stylesheet" type="text/css" href="css/past-order.css">
+</head>
+<body>
+<div id="wrapper">
+    <section class="jumbotron-fluid">
+        <div id="header" class="orang_gradient_ltr">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-4 pull-left">
+                        <a class="btn" data-popup-open="popup-1" href="#">Open Popup #1</a>
+                        <div class="logo">
+                            <a href="#" data-toggle="modal" data-target="#myorder">
+                                <div class="logo-img">
+                                    <img src="images/logo.png" alt="images description">
+                                </div>
+                                <strong class="f white"> CHOOSE YOUR RESTAURANT</strong>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 pull-right">
+                        <nav id="nav">
+                            <ul class="bt-sm">
+                                <li>
+                                    <img class="icon-user" src="images/ic_profile01.png">
+                                    <a class="f white" href="#">Sign up</a> <span class="or">or</span> <a class="f white" href="#">Log in</a>
+                                    <div class="dropdown-nav popup" id="signin">
+                                        <div class="signin">
+
+                                            <form class="login-form" >
+
+                                                <h2>Log In</h2>
+
+                                                <p>Log In and make the ordering process shorter</p>
+
+                                                <div class="btn-holder">
+                                                    <button class="btn btn-facebook" type="button">Log In with Facebook</button>
+                                                    <button class="btn btn-google google-btn" type="button">Log In with Google</button>
+                                                </div>
+                                                <div class="line">Or</div>
+
+                                                <!-- start login with email sectopm -->
+
+                                                <a id="login_with_email_pass"  class="login-email" href="#">Log In with Email and Password</a>
+                                                <div id="login_email" class="login-section" style="display: none">
+                                                    <input id="email-login" class="form-control" type="email" placeholder="Email Address">
+                                                    <input id="password-login" class="form-control add" type="password" placeholder="Password">
+                                                    <a  onclick="forgetPassword()" class="login-email text-left" href="#">Forgot password</a>
+                                                    <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error-login"></span>
+                                                    <button onclick="loginUser()" class="btn btn-login" type="button">Log In</button>
+                                                </div>
+
+                                                <!-- end login with email sectopm -->
+
+                                                <!-- start forget sectopm -->
+                                                <div id="forget_pass_sec" class="forget-section" style="display: none">
+                                                    <p>enter your email in order to reset your password</p>
+                                                    <input id="rest-pass-email" class="form-control add1" type="email" placeholder="Email Address">
+                                                    <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error-reset"></span>
+                                                    <button id="rest-pass-request" class="btn btn-login" type="button">Send</button>
+                                                </div>
+                                                <!-- end forget sectopm -->
+
+
+                                                <div class="" id="email_reset_message" style="display: none">
+                                                    <p style="text-align: left">We send you a link to reset your password via email</p>
+                                                    <a style="text-align: left; margin-bottom: 40px" onclick="restPasswordResend()" class="login-guest" href="#">I did’nt get an email</a>
+                                                </div>
+
+
+                                                <a  class="login-guest asGuest" href="#">Continue as guest</a>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-nav popup" id="signup" style="display: none">
+                                        <div id="signup" class="signup" >
+                                            <form class="login-form" id="signUpForm">
+                                                <h2>Sign Up</h2>
+                                                <p>Sign Up and make the ordering process shorter</p>
+                                                <p>Alredy have account? <a onclick="switchToLogin()" href="#">Log In</a></p>
+                                                <div class="btn-holder">
+                                                    <button onclick="myFacebookLogin()" class="btn btn-facebook" type="button">Sign Up with Facebook</button>
+                                                    <button  id="google-btn"  class="btn btn-google " type="button">Sign Up with Google</button>
+                                                </div>
+                                                <div class="line">Or</div>
+
+                                                <!--start login with email sectopm-->
+                                                <div class="links" id="signup-message">
+                                                    <a id="signup-email-pass" class="login-email" href="#">Sign Up with Email and Password</a>
+                                                    <a class="login-guest asGuest" href="#">Continue as guest</a>
+                                                </div>
+
+                                                <div class="login-section" id="manual-signup" style="display: none">
+                                                    <input id="signup-email" class="form-control" type="email" placeholder="Email Address">
+                                                    <input id="signup-password" class="form-control" type="password" placeholder="Password">
+                                                    <input id="signup-confirm-pass" class="form-control add" type="password" placeholder="Password">
+                                                    <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error-signup"></span>
+                                                    <button id="signUp-btn" class="btn btn-login" type="button">Sign Up</button>
+                                                    <a class="login-guest asGuest" href="#">Continue as guest</a>
+                                                </div>
+
+
+                                                <!-- end login with email sectopm -->
+                                                <div class="" id="email_verification_message" style="display: none">
+                                                    <p>In order to complete your registration, please click the link you recieved via email.</p>
+                                                    <a  onclick="resendValidationLink()" class="login-guest" href="#">I did’nt get an email</a>
+                                                </div>
+
+
+                                            </form>
+
+
+                                            <div id="loginMessage" class="welcom-popup" style="display: none">
+                                                <h3 id="success-message"></h3>
+                                                <a  id="logout" class="login-guest" href="#">logout</a>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li><a class="f white" href="#">About</a></li>
+                                <li><a class="f white active" href="#">HE</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <a class="btn-back" href="#"><img src="images/icon01.png"></a>
+        </div>
+    </section>
+    <section class="block">
+        <div class="jumbtron-fluid">
+            <div class="parent-bottom" style="position: relative;width:40%;height:100%;">
+                <img src="images/left_bottom.png">
+            </div>
+            <div class="container">
+                <div class="row no-gutters">
+                    <div class="col-xs-3">
+                        <aside id="sidebar">
+                            <div class="list-holder">
+                                <h3 class="view-link f black">View all restaurant</h3>
+                                <ul class="list accordion multilevel-accordion">
+                                    <li>
+                                        <a class="f black opener" href="#">Cuisine</a>
+                                        <div class="list-item slide">
+                                            <ul>
+                                                <li>
+                                                    <label class="control control--checkbox">
+                                                        <input id="cb_milky" type="checkbox">
+                                                        <div class="control__indicator"></div>Dairy  [1]
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label class="control control--checkbox">
+                                                        <input id="cb_meat" type="checkbox">
+                                                        <div class="control__indicator"></div>Meat  [12]
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label class="control control--checkbox">
+                                                        <input id="cb_pizzeria" type="checkbox">
+                                                        <div class="control__indicator"></div>Pizzeria  [5]
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label class="control control--checkbox">
+                                                        <input id="cb_sushi" type="checkbox">
+                                                        <div class="control__indicator"></div>Sushi  [8]
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label class="control control--checkbox">
+                                                        <input id="cb_hamburger" type="checkbox">
+                                                        <div class="control__indicator"></div>Hamburger  [1]
+                                                    </label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a class="f black opener" href="#">Kashrut</a>
+                                        <div class="list-item slide">
+                                            <ul>
+                                                <li>
+                                                    <label class="control control--checkbox">
+                                                        <input id="cb_milky" type="checkbox">
+                                                        <div class="control__indicator"></div>Dairy  [1]
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label class="control control--checkbox">
+                                                        <input id="cb_meat" type="checkbox">
+                                                        <div class="control__indicator"></div>Meat  [12]
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label class="control control--checkbox">
+                                                        <input id="cb_pizzeria" type="checkbox">
+                                                        <div class="control__indicator"></div>Pizzeria  [5]
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label class="control control--checkbox">
+                                                        <input id="cb_sushi" type="checkbox">
+                                                        <div class="control__indicator"></div>Sushi  [8]
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label class="control control--checkbox">
+                                                        <input id="cb_hamburger" type="checkbox">
+                                                        <div class="control__indicator"></div>Hamburger  [1]
+                                                    </label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="view-past">
+                                        <a href="#" class="btn-post f black">View past orders</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                    <div class="col-xs-9">
+                        <div id="contant">
+                            <ul class="rest-list">
+                                <li>
+                                    <ul>
+                                        <li>
+                                            <div class="img-circle">
+                                                <img src="images/logo-img.png" alt="images description">
+                                            </div>
+                                            <div class="txt">
+                                                <h2 class="f black">bandora</h2>
+                                                <p><em class="f black">Kashrut</em> Rabanut Shfelat yehuda Meat, Burger</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <time class="time">
+                                                <img class="edit" src="images/clock.png">
+                                                <span>8:30-9:00</span>
+                                                    <div class="time-popup popup">
+                                                        <div class="header">
+                                                            <h3 class="f black">opening hours</h3>
+                                                            <h4 class="f black">Until half an hour before closing</h4>
+                                                        </div>
+                                                        <table>
+                                                            <tr>
+                                                                <td>Sunday</td>
+                                                                <td>08:30AM - 11:00PM</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Monday</td>
+                                                                <td>08:30AM - 11:00PM</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Tuesday</td>
+                                                                <td>08:30AM - 11:00PM</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Wednesday</td>
+                                                                <td>08:30AM - 11:00PM</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Thursday</td>
+                                                                <td>08:30AM - 11:00PM</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Friday</td>
+                                                                <td class="pull-left">Close</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Saturday</td>
+                                                                <td class="pull-left">Close</td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                            </time>
+                                        </li>
+                                        <li class="third">
+                                            <address class="address">
+                                                <img class="edit edit1" src="images/ic_checkin.png">
+                                                <span>Sderot Yigal alon 12</span>
+                                                <div class="tooltip-popup popup"><p class="f black">Sderot Yigal Allon 6, Canion Shaarei Ha'Ir <strong>Beit Shemesh</strong></p></div>
+                                            </address>
+                                        </li>
+                                        <li>
+                                            <button class="bt_ordernow" type="button">order<br>now <em class="f white">Deal</em></button>
+                                            <div class="text">
+                                                <img class="bike" src="images/motorbike-delivery.png">
+                                                <span><em class="f black">25 NIS delivery</em>100 NIS minimum</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <ul>
+                                        <li>
+                                            <div class="img-circle">
+                                                <img src="images/Bitmap1.png" alt="images description">
+                                            </div>
+                                            <div class="txt">
+                                                <h2 class="f black">Angus</h2>
+                                                <p><em class="f black">Kashrut</em> Rabanut Shfelat yehuda Meat, Burger</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <time class="time"><img class="edit" src="images/clock.png"> <span>8:30-9:00</span></time>
+                                        </li>
+                                        <li class="third">
+                                            <address class="address"><img class="edit edit1" src="images/ic_checkin.png"> <span>Sderot Yigal alon 12</span></address>
+                                        </li>
+                                        <li>
+                                            <button class="bt_ordernow" type="button">order<br>now</button>
+                                            <div class="text">
+                                                <img class="bike" src="images/motorbike-delivery.png">
+                                                <span><em class="f black">25 NIS delivery</em>100 NIS minimum</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <ul>
+                                        <li>
+                                            <div class="img-circle">
+                                                <img src="images/Bitmap3.png" alt="images description">
+                                            </div>
+                                            <div class="txt">
+                                                <h2 class="f black">Grill443</h2>
+                                                <p><em class="f black">Kashrut</em> Rabanut Shfelat yehuda Meat, Burger</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <time class="time"><img class="edit" src="images/clock.png"> <span>8:30-9:00</span></time>
+                                        </li>
+                                        <li class="third">
+                                            <address class="address"><img class="edit edit1" src="images/ic_checkin.png"> <span>Sderot Yigal alon 12</span></address>
+                                        </li>
+                                        <li>
+                                            <button class="bt_ordernow" type="button">order<br>now</button>
+                                            <div class="text">
+                                                <img class="bike" src="images/motorbike-delivery.png">
+                                                <span><em class="f black">25 NIS delivery</em>100 NIS minimum</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="offline">
+                                    <ul>
+                                        <li>
+                                            <div class="img-circle">
+                                                <img src="images/Bitmap4.png" alt="images description">
+                                            </div>
+                                            <div class="txt">
+                                                <h2 class="f black">oshi oshi</h2>
+                                                <p><em class="f black">Kashrut</em> Rabanut Shfelat yehuda Meat, Burger</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <time class="time"><img class="edit" src="images/clock.png"> <span>8:30-9:00</span></time>
+                                        </li>
+                                        <li class="third">
+                                            <address class="address"><img class="edit edit1" src="images/ic_checkin.png"> <span>Sderot Yigal alon 12</span></address>
+                                        </li>
+                                        <li>
+                                            <button class="bt_ordernow" type="button">order<br>now</button>
+                                            <div class="text">
+                                                <img class="bike" src="images/motorbike-delivery.png">
+                                                <span><em class="f black">25 NIS delivery</em>100 NIS minimum</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+<div class="modal fade" id="myorder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="popup" data-popup="popup-1">
+    <div class="popup-inner">
+        <h2>Wow! This is Awesome! (Popup #1)</h2>
+        <div class="box-frame">
+            <ul>
+                <li><input type="checkbox" id="test1" /><label for="test1">Red</label></li>
+                <li><input type="checkbox" id="test2" /><label for="test2">Red</label></li>
+                <li><input type="checkbox" id="test3" /><label for="test3">Red</label></li>
+                <li><input type="checkbox" id="test4" /><label for="test4">Red</label></li>
+                <li><input type="checkbox" id="test5" /><label for="test5">Red</label></li>
+                <li><input type="checkbox" id="test6" /><label for="test6">Red</label></li>
+                <li><input type="checkbox" id="test7" /><label for="test7">Red</label></li>
+                <li><input type="checkbox" id="test8" /><label for="test8">Red</label></li>
+                <li><input type="checkbox" id="test9" /><label for="test9">Red</label></li>
+                <li><input type="checkbox" id="test10" /><label for="test10">Red</label></li>
+                <li><input type="checkbox" id="test11" /><label for="test11">Red</label></li>
+                <li><input type="checkbox" id="test12" /><label for="test12">Red</label></li>
+
+            </ul>
+        </div>
+        <p><a data-popup-close="popup-1" href="#">Close</a></p>
+        <a class="popup-close" data-popup-close="popup-1" href="#">x</a>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.accordion.js"></script>
+<script>
+    $(function() {
+        //----- OPEN
+        $('[data-popup-open]').on('click', function(e)  {
+            var targeted_popup_class = jQuery(this).attr('data-popup-open');
+            $('[data-popup="' + targeted_popup_class + '"]').fadeIn(350);
+
+            e.preventDefault();
+        });
+
+        //----- CLOSE
+        $('[data-popup-close]').on('click', function(e)  {
+            var targeted_popup_class = jQuery(this).attr('data-popup-close');
+            $('[data-popup="' + targeted_popup_class + '"]').fadeOut(350);
+
+            e.preventDefault();
+        });
+    });
+</script>
+
+</body>
+</html>
