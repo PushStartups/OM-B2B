@@ -5,11 +5,20 @@ $('#name').bind('input', function() {
 
 });
 
+
 $('#registered_company_number').bind('input', function() {
 
-    document.getElementById('error_registered_company_number').innerHTML = "";
+    if(!this.value.match(/^\d+$/))
+    {
+        document.getElementById('error_registered_company_number').innerHTML = "Wrong Number!";
+    }
+    else
+    {
+        document.getElementById('error_registered_company_number').innerHTML = "";
+    }
 
 });
+
 
 $('#area_en').bind('input', function() {
 
