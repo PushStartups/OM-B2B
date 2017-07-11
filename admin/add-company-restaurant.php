@@ -7,10 +7,14 @@ if(isset($_GET['companies_id']))
 {
     $companies_id = $_GET['companies_id'];
     $company_name = getCompanyName($companies_id);
+    $company_rest_limit = 2;
     //$restaurants = getRestaurantsOfSpecificCompany($companies_id);
 }
-?>
 
+?>
+    <script>
+        var rest_limit = '<?=$company_rest_limit?>';
+    </script>
     <!-- MAIN CONTENT -->
     <div id="content">
 
@@ -62,11 +66,11 @@ if(isset($_GET['companies_id']))
                                         <div class="form-group">
                                             <label>Restaurant Name</label>
 <!--                                            <input class="form-control" id="rest_name" name="rest_name" placeholder="Enter Restaurant Name" type="text">-->
-                                            <select id="rest_name" name="rest_name[]" multiple="multiple" class="form-control" required>
+                                            <select id="rest_name" name="rest_name[]" multiple="multiple" class="multiselect-ui form-control" required>
                                                 <?php
 
 
-                                                DB::useDB('orderapp_b2b');
+                                                DB::useDB('orderapp_b2b_wui');
                                                 $rest_ids = DB::query("SELECT *  FROM company_rest WHERE company_id =  '$companies_id'");
 
 
@@ -74,7 +78,7 @@ if(isset($_GET['companies_id']))
                                                 foreach ($rest_ids as $r) {
                                                     $row[] = $r['rest_id'];
                                                 }
-                                                DB::useDB('orderapp_restaurants');
+                                                DB::useDB('orderapp_restaurants_b2b_wui');
                                                 $qry1 = " select  * from  restaurants where id not in('" . implode("','", $row) . "') ";
 
                                                 $restaurant = db::query($qry1);
@@ -105,7 +109,7 @@ if(isset($_GET['companies_id']))
 
 <!--                    $restaurants = DB::query("select company_rest.*, restaurants.name_en as restaurants_name from company_rest inner join restaurants on company_rest.rest_id = restaurants.id where company_id = '$company_id'");-->
                     <?php
-                    DB::useDB('orderapp_b2b');
+                    DB::useDB('orderapp_b2b_wui');
                     $restaurants  = DB::query("select * from company_rest where company_id = '$companies_id'");
 
 
@@ -146,7 +150,7 @@ if(isset($_GET['companies_id']))
 
                                     foreach($restaurants as $restaurant)
                                     {
-                                        DB::useDB('orderapp_restaurants');
+                                        DB::useDB('orderapp_restaurants_b2b_wui');
                                         $rest = DB::queryFirstRow("select * from restaurants where id = '".$restaurant['rest_id']."'");
                                         ?>
                                         <tr>

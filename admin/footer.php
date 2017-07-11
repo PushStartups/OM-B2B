@@ -413,9 +413,48 @@ you can add as many as you like
         source: rest_name
     });
     $(document).ready(function() {
-        $('#rest_name').multiselect({
+        
+        $('.multiselect-ui').multiselect({
+            onChange: function(option, checked) {
+                // Get selected options.
+                var selectedOptions = $('.multiselect-ui option:selected');
+
+                if (selectedOptions.length >= rest_limit) {
+                    // Disable all other checkboxes.
+                    var nonSelectedOptions = $('.multiselect-ui option').filter(function() {
+                        return !$(this).is(':selected');
+                    });
+
+                    nonSelectedOptions.each(function() {
+                        var input = $('input[value="' + $(this).val() + '"]');
+                        input.prop('disabled', true);
+                        input.parent('li').addClass('disabled');
+                    });
+                }
+                else {
+                    // Enable all checkboxes.
+                    $('.multiselect-ui option').each(function() {
+                        var input = $('input[value="' + $(this).val() + '"]');
+                        input.prop('disabled', false);
+                        input.parent('li').addClass('disabled');
+                    });
+                }
+            },
             maxHeight: '300',
         });
+//        var last_valid_selection = null;
+//        alert(rest_limit);
+//        $('#rest_name').change(function(event) {
+//
+//            if ($(this).val().length > rest_limit) {
+//                alert('You can only choose' + rest_limit + 'restaurants');
+//
+//               this.checked = false;
+//            } else {
+//                last_valid_selection = $(this).val();
+//            }
+//        });
+
     });
 
 
