@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+	<meta charset="utf-8">
+	<title> OrderApp</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<!-- #CSS Links -->
+	<!-- Basic Styles -->
+	<link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="css/font-awesome.min.css">
+
+	<!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+	<link rel="stylesheet" type="text/css" media="screen" href="css/orderappadmin-production-plugins.min.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="css/orderappadmin-production.min.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="css/orderappadmin-skins.min.css">
+
+	<!-- SmartAdmin RTL Support -->
+	<link rel="stylesheet" type="text/css" media="screen" href="css/orderappadmin-rtl.min.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="css/orderappadmin.css">
+
+	<!-- We recommend you use "your_style.css" to override SmartAdmin
+         specific styles this will also ensure you retrain your customization with each SmartAdmin update.
+    <link rel="stylesheet" type="text/css" media="screen" href="css/your_style.css"> -->
+
+	<!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
+	<!--<link rel="stylesheet" type="text/css" media="screen" href="css/demo.min.css">-->
+
+
+	<!-- #FAVICONS -->
+	<link rel="shortcut icon" href="img/favicon/favicon.png" type="image/x-icon">
+	<link rel="icon" href="img/favicon/favicon.png" type="image/x-icon">
+
+	<!-- #GOOGLE FONT -->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+
+	<!-- #APP SCREEN / ICONS -->
+	<!-- Specifying a Webpage Icon for Web Clip
+         Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
+	<link rel="apple-touch-icon" href="img/splash/sptouch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="img/splash/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="img/splash/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="img/splash/touch-icon-ipad-retina.png">
+
+	<!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!-- Startup image for web apps -->
+	<link rel="apple-touch-startup-image" href="img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+	<link rel="apple-touch-startup-image" href="img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+	<link rel="apple-touch-startup-image" href="img/splash/iphone.png" media="screen and (max-device-width: 320px)">
+
+</head>
+	<body class="">
+
+		<!-- #HEADER -->
+		<header id="header">
+			<div id="logo-group">
+
+				<!-- PLACE YOUR LOGO HERE -->
+				<span id="logo"> <img src="img/logo.png" alt="SmartAdmin"> </span>
+				<!-- END LOGO PLACEHOLDER -->
+
+				<!-- AJAX-DROPDOWN : control this dropdown height, look and feel from the LESS variable file -->
+				<div class="ajax-dropdown">
+
+					<!-- the ID links are fetched via AJAX to the ajax container "ajax-notifications" -->
+					<div class="btn-group btn-group-justified" data-toggle="buttons">
+						<label class="btn btn-default">
+							<input type="radio" name="activity" id="ajax/notify/mail.html">
+							Msgs (14) </label>
+						<label class="btn btn-default">
+							<input type="radio" name="activity" id="ajax/notify/notifications.html">
+							notify (3) </label>
+						<label class="btn btn-default">
+							<input type="radio" name="activity" id="ajax/notify/tasks.html">
+							Tasks (4) </label>
+					</div>
+
+					<!-- notification content -->
+					<div class="ajax-notifications custom-scroll">
+
+						<div class="alert alert-transparent">
+							<h4>Click a button to show messages here</h4>
+							This blank page message helps protect your privacy, or you can show the first message here automatically.
+						</div>
+
+						<i class="fa fa-lock fa-4x fa-border"></i>
+
+					</div>
+					<!-- end notification content -->
+
+					<!-- footer: refresh area -->
+					<span> Last updated on: 12/12/2013 9:43AM
+						<button type="button" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Loading..." class="btn btn-xs btn-default pull-right">
+							<i class="fa fa-refresh"></i>
+						</button> </span>
+					<!-- end footer -->
+
+				</div>
+				<!-- END AJAX-DROPDOWN -->
+			</div>
+
+		</header>
+		<!-- END HEADER -->
+		<!-- #NAVIGATION -->
+		<aside id="left-panel">
+			<nav>
+				<ul>
+					<li class="active">
+						<a href="dashboard-social.html" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>
+					</li>
+					<li>
+						<a href="restaurant.php" title="Restaurant"><i class="fa fa-lg fa-fw fa-cutlery"></i> <span class="menu-item-parent">Restaurant</span></a>
+					</li>
+				</ul>
+			</nav>
+			
+
+			<span class="minifyme" data-action="minifyMenu"> 
+				<i class="fa fa-arrow-circle-left hit"></i> 
+			</span>
+
+		</aside>
+		<!-- END NAVIGATION -->
+
+		<!-- MAIN PANEL -->
+		<div id="main" role="main">
+
+			<!-- MAIN CONTENT -->
+			<div id="content">
+
+				<!-- row -->
+				<div class="row">
+
+					<!-- col -->
+					<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+						<h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-home"></i> Dashboard <span>>
+							Social Wall </span></h1>
+					</div>
+					<!-- end col -->
+
+				</div>
+				<!-- end row -->
+
+				<!--
+				The ID "widget-grid" will start to initialize all widgets below
+				You do not need to use widgets if you dont want to. Simply remove
+				the <section></section> and you can use wells or panels instead
+				-->
+
+				<!-- widget grid -->
+				<section id="widget-grid" class="">
+
+					<!-- row -->
+
+					<div class="row">
+
+						<!-- a blank row to get started -->
+						<div class="col-sm-6 col-lg-4">
+
+							<!-- your contents here -->
+							<div class="panel panel-default">
+								<div class="panel-body status">
+									<div class="who clearfix">
+										<img src="img/avatars/5.png" alt="img" class="online">
+										<span class="name"><b>Karrigan Mean</b> shared a photo</span>
+										<span class="from"><b>1 days ago</b> via Mobile, Sydney, Australia</span>
+									</div>
+									<div class="image"><img src="img/realestate/6.png" alt="img">
+									</div>
+									<ul class="links">
+										<li>
+											<a href="javascript:void(0);"><i class="fa fa-thumbs-o-up"></i> Like</a>
+										</li>
+										<li>
+											<a href="javascript:void(0);"><i class="fa fa-comment-o"></i> Comment</a>
+										</li>
+										<li>
+											<a href="javascript:void(0);"><i class="fa fa-share-square-o"></i> Share</a>
+										</li>
+									</ul>
+									<ul class="comments">
+										<li>
+											<img src="img/avatars/sunny.png" alt="img" class="online">
+											<span class="name">John Doe</span>
+											Looks like a nice house, when did you get it? Are we having the party there next week? ;)
+										</li>
+										<li>
+											<img src="img/avatars/2.png" alt="img" class="online">
+											<span class="name">Alice Wonder</span>
+											Seems cool.
+										</li>
+										<li>
+											<img src="img/avatars/sunny.png" alt="img" class="online">
+											<input type="text" class="form-control" placeholder="Post your comment...">
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="panel panel-default">
+								<div class="panel-body status">
+									<div class="who clearfix">
+										<h4>See anyone you know? Connect with them</h4>
+									</div>
+									<div class="row">
+										<div class="text">
+											<div class="col-sm-12 col-md-6 col-lg-4">
+												<div class="well text-center connect">
+													<img src="img/avatars/female.png" alt="img" class="margin-bottom-5 margin-top-5">
+													<br>
+													<span class="font-xs"><b>Jennifer Lezly</b></span>
+													<a href="javascript:void(0);" class="btn btn-xs btn-success margin-top-5 margin-bottom-5"> <span class="font-xs">Connect</span> </a>
+												</div>
+											</div>
+											<div class="col-sm-12 col-md-6 col-lg-4">
+												<div class="well text-center connect">
+													<img src="img/avatars/female.png" alt="img" class="margin-bottom-5 margin-top-5">
+													<br>
+													<span class="font-xs"><b>Jennifer Lezly</b></span>
+													<a href="javascript:void(0);" class="btn btn-xs btn-success margin-top-5 margin-bottom-5"> <span class="font-xs">Connect</span> </a>
+												</div>
+											</div>
+											<div class="col-sm-12 col-md-6 col-lg-4">
+												<div class="well text-center connect">
+													<img src="img/avatars/female.png" alt="img" class="margin-bottom-5 margin-top-5">
+													<br>
+													<span class="font-xs"><b>Jennifer Lezly</b></span>
+													<a href="javascript:void(0);" class="btn btn-xs btn-success margin-top-5 margin-bottom-5"> <span class="font-xs">Connect</span> </a>
+												</div>
+											</div>
+										</div>
+									</div>
+									<ul class="links text-right">
+										<li class="">
+											<a href="javascript:void(0);">Find people you know <i class="fa fa-arrow-right"></i> </a>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="col-sm-6 col-lg-4">
+
+							<div class="panel panel-default">
+								<div class="panel-body status">
+									<div class="who clearfix">
+										<img src="img/avatars/sunny.png" alt="img" class="online">
+										<span class="name"><b>John Doe</b> sent you a message</span>
+										<span class="from"><b>1 days ago</b> via Mobile, Dubai</span>
+									</div>
+									<div class="text">
+										Just landed in Dubai. My body must have lost like 4 liters of moisture, its 50 degrees here!!
+									</div>
+									<ul class="links">
+										<li>
+											<a href="javascript:void(0);"><i class="fa fa-comment"></i> Reply</a>
+										</li>
+										<li>
+											<a href="javascript:void(0);"><i class="fa fa-share-square-o"></i> Share</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="panel panel-default">
+								<div class="panel-body status smart-form vote">
+									<div class="who clearfix">
+										<img src="img/avatars/3.png" alt="img" class="offline">
+										<span class="name"><b>Alliz Yaen</b> started a question poll</span>
+										<span class="from"><b>2 days ago</b> via Mobile, Sydney, Australia</span>
+									</div>
+									<div class="image">
+										<strong>How did you guys like the movie <i>"Albert The Einstine?"</i> I reckon it was an awesome movie! </strong>
+									</div>
+									<ul class="comments">
+										<li>
+											<label class="radio">
+												<input type="radio" name="radio">
+												<i></i>It was a great movie! </label>
+										</li>
+										<li>
+											<label class="radio">
+												<input type="radio" name="radio">
+												<i></i>The Movie could have been better... </label>
+										</li>
+										<li>
+											<label class="radio">
+												<input type="radio" name="radio">
+												<i></i>It was a boring documentry :( </label>
+										</li>
+										<li class="text-right">
+											<a href="javascript:void(0);" class="btn btn-xs btn-primary">Submit Vote</a>
+										</li>
+									</ul>
+
+									<ul class="links">
+										<li>
+											<a href="javascript:void(0);"><i class="fa fa-thumbs-o-up"></i> Like</a>
+										</li>
+										<li>
+											<a href="javascript:void(0);"><i class="fa fa-comment-o"></i> Comment</a>
+										</li>
+										<li>
+											<a href="javascript:void(0);"><i class="fa fa-share-square-o"></i> Share</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="panel panel-default">
+
+								<div class="panel-body status">
+
+									<div class="who clearfix">
+										<h4>Latest Forum Posts</h4>
+									</div>
+
+									<div class="who clearfix">
+										<img src="img/avatars/2.png" alt="img" class="busy">
+										<span class="name font-sm"> <span class="text-muted">Posted by</span> <b> Karrigan Mean <span class="pull-right font-xs text-muted"><i>3 minutes ago</i></span> </b>
+											<br>
+											<a href="javascript:void(0);" class="font-md">Business Requirement Docs</a> </span>
+									</div>
+
+									<div class="who clearfix">
+										<img src="img/avatars/3.png" alt="img" class="offline">
+										<span class="name font-sm"> <span class="text-muted">Posted by</span> <b> Alliz Yaen <span class="pull-right font-xs text-muted"><i>2 days ago</i></span> </b>
+											<br>
+											<a href="javascript:void(0);" class="font-md">Maecenas nec odio et ante tincidun</a> </span>
+									</div>
+
+									<div class="who clearfix">
+										<img src="img/avatars/4.png" alt="img" class="away">
+										<span class="name font-sm"> <span class="text-muted">Posted by</span> <b> Barley Kartzukh <span class="pull-right font-xs text-muted"><i>1 month ago</i></span> </b>
+											<br>
+											<a href="javascript:void(0);" class="font-md">Tincidun nec Gasket Mask </a> </span>
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+
+						<div class="col-sm-6 col-lg-4">
+
+							<div class="panel panel-default">
+								<div class="panel-body status">
+									<div class="who clearfix">
+										<img src="img/avatars/sunny.png" alt="img" class="busy">
+										<span class="name"><b>You</b> shared a blog</span>
+										<span class="from"><b>1 days ago</b> via Mobile, Sydney, Australia</span>
+									</div>
+									<div class="text">
+										<p>
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+											Quisque in mauris elit. Ut nec arcu pretium eros varius porta vitae sit amet ipsum. Suspendisse porttitor, libero in rutrum pretium, lectus arcu maximus massa, ut condimentum metus libero laoreet lectus. Phasellus a lectus pulvinar, lacinia sem quis, suscipit turpis.
+											<br>
+											<br>
+											Nam ipsum orci, blandit in lectus ut, viverra vehicula nisl. Proin eu arcu ut neque tempus viverra nec ac tellus. <strong>[</strong><a href="javascript:void(0);">Keep reading</a><strong>]</strong>
+									</div>
+									<ul class="links">
+										<li>
+											<a href="javascript:void(0);"><i class="fa fa-thumbs-o-up"></i> Like</a>
+										</li>
+										<li>
+											<a href="javascript:void(0);"><i class="fa fa-comment-o"></i> Comment</a>
+										</li>
+										<li>
+											<a href="javascript:void(0);"><i class="fa fa-share-square-o"></i> Share</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="panel panel-default">
+								<div class="panel-body status">
+									<div class="who clearfix">
+										<h4>Live Twitter Feed</h4>
+									</div>
+									<div class="text">
+
+										<blockquote class="twitter-tweet">
+											<p lang="en" xml:lang="en">
+												Sunsets don’t get much better than this one over <a href="https://twitter.com/GrandTetonNPS" target="_blank">@GrandTetonNPS</a>. <a href="https://twitter.com/hashtag/nature?src=hash" target="_blank">#nature</a> <a href="https://twitter.com/hashtag/sunset?src=hash">#sunset</a> <a href="http://t.co/YuKy2rcjyU" target="_blank">pic.twitter.com/YuKy2rcjyU</a>
+											</p>
+											— US Dept of Interior (@Interior) <a href="https://twitter.com/Interior/status/463440424141459456" target="_blank">May 5, 2014</a>
+										</blockquote>
+
+									</div>
+									<ul class="links text-right">
+										<li class="">
+											<a href="javascript:void(0);">Next <i class="fa fa-arrow-right"></i> </a>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="panel panel-default">
+								<div class="panel-body status">
+									<div class="who clearfix">
+										<h4>Live Chat</h4>
+									</div>
+									
+									<div id="chat-body" class="chat-body custom-scroll">
+										<ul>
+											<li class="message">
+												<img src="img/avatars/5.png" class="online" alt="">
+												<div class="message-text">
+													<time>
+														2014-01-13
+													</time> <a href="javascript:void(0);" class="username">Sadi Orlaf</a> Hey did you meet the new board of director? He's a bit of an geek if you ask me...anyway here is the report you requested. I am off to launch with Lisa and Andrew, you wanna join?
+													<p class="chat-file row">
+														<b class="pull-left col-sm-6"> <!--<i class="fa fa-spinner fa-spin"></i>--> <i class="fa fa-file"></i> report-2013-demographic-report-annual-earnings.xls </b>
+														<span class="col-sm-6 pull-right"> <a href="javascript:void(0);" class="btn btn-xs btn-default">cancel</a> <a href="javascript:void(0);" class="btn btn-xs btn-success">save</a> </span>
+													</p>
+												</div>
+											</li>
+											<li class="message">
+												<img src="img/avatars/sunny.png" class="online" alt="">
+												<div class="message-text">
+													<time>
+														2014-01-13
+													</time> <a href="javascript:void(0);" class="username">John Doe</a> Haha! Yeah I know what you mean. Thanks for the file Sadi! <i class="fa fa-smile-o txt-color-orange"></i> 
+												</div>
+											</li>
+										</ul>
+									</div>
+
+									<div class="chat-footer">
+
+											<!-- CHAT TEXTAREA -->
+											<div class="textarea-div">
+
+												<div class="typearea">
+													<textarea placeholder="Write a reply..." id="textarea-expand" class="custom-scroll"></textarea>
+												</div>
+
+											</div>
+
+											<!-- CHAT REPLY/SEND -->
+											<span class="textarea-controls">
+												<button class="btn btn-sm btn-primary pull-right">
+													Reply
+												</button> <span class="pull-right smart-form" style="margin-top: 3px; margin-right: 10px;"> <label class="checkbox pull-right">
+														<input type="checkbox" name="subscription" id="subscription">
+														<i></i>Press <strong> ENTER </strong> to send </label> </span> <a href="javascript:void(0);" class="pull-left"><i class="fa fa-camera fa-fw fa-lg"></i></a> </span>
+
+										</div>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+
+					<!-- end row -->
+
+				</section>
+				<!-- end widget grid -->
+
+			</div>
+			<!-- END MAIN CONTENT -->
+
+		</div>
+		<!-- END MAIN PANEL -->
+
+		<!-- PAGE FOOTER -->
+		<div class="page-footer">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6">
+					<span class="txt-color-white">OrderApp</span>
+				</div>
+			</div>
+		</div>
+		<!-- END SHORTCUT AREA -->
+
+		<!--================================================== -->
+
+		<!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)-->
+		<script data-pace-options='{ "restartOnRequestAfter": true }' src="js/plugin/pace/pace.min.js"></script>
+
+		<!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script>
+			if (!window.jQuery) {
+				document.write('<script src="js/libs/jquery-2.1.1.min.js"><\/script>');
+			}
+		</script>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+		<script>
+			if (!window.jQuery.ui) {
+				document.write('<script src="js/libs/jquery-ui-1.10.3.min.js"><\/script>');
+			}
+		</script>
+
+		<!-- IMPORTANT: APP CONFIG -->
+		<script src="js/app.config.js"></script>
+
+		<!-- JS TOUCH : include this plugin for mobile drag / drop touch events-->
+		<script src="js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script> 
+
+		<!-- BOOTSTRAP JS -->
+		<script src="js/bootstrap/bootstrap.min.js"></script>
+
+		<!-- CUSTOM NOTIFICATION -->
+		<script src="js/notification/SmartNotification.min.js"></script>
+
+		<!-- JARVIS WIDGETS -->
+		<script src="js/smartwidgets/jarvis.widget.min.js"></script>
+
+		<!-- EASY PIE CHARTS -->
+		<script src="js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
+
+		<!-- SPARKLINES -->
+		<script src="js/plugin/sparkline/jquery.sparkline.min.js"></script>
+
+		<!-- JQUERY VALIDATE -->
+		<script src="js/plugin/jquery-validate/jquery.validate.min.js"></script>
+
+		<!-- JQUERY MASKED INPUT -->
+		<script src="js/plugin/masked-input/jquery.maskedinput.min.js"></script>
+
+		<!-- JQUERY SELECT2 INPUT -->
+		<script src="js/plugin/select2/select2.min.js"></script>
+
+		<!-- JQUERY UI + Bootstrap Slider -->
+		<script src="js/plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
+
+		<!-- browser msie issue fix -->
+		<script src="js/plugin/msie-fix/jquery.mb.browser.min.js"></script>
+
+		<!-- FastClick: For mobile devices -->
+		<script src="js/plugin/fastclick/fastclick.min.js"></script>
+
+		<!--[if IE 8]>
+
+		<h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+
+		<![endif]-->
+
+		<!-- Demo purpose only -->
+		<!--<script src="js/demo.min.js"></script>-->
+
+		<!-- MAIN APP JS FILE -->
+		<script src="js/app.min.js"></script>
+
+		<!-- ENHANCEMENT PLUGINS : NOT A REQUIREMENT -->
+		<!-- Voice command : plugin -->
+		<script src="js/speech/voicecommand.min.js"></script>
+
+		<!-- SmartChat UI : plugin -->
+		<script src="js/smart-chat-ui/smart.chat.ui.min.js"></script>
+		<script src="js/smart-chat-ui/smart.chat.manager.min.js"></script>
+
+		<!-- PAGE RELATED PLUGIN(S) 
+		<script src="..."></script>-->
+
+		<script type="text/javascript">
+
+			$(document).ready(function() {
+			 	
+				/* DO NOT REMOVE : GLOBAL FUNCTIONS!
+				 *
+				 * pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
+				 *
+				 * // activate tooltips
+				 * $("[rel=tooltip]").tooltip();
+				 *
+				 * // activate popovers
+				 * $("[rel=popover]").popover();
+				 *
+				 * // activate popovers with hover states
+				 * $("[rel=popover-hover]").popover({ trigger: "hover" });
+				 *
+				 * // activate inline charts
+				 * runAllCharts();
+				 *
+				 * // setup widgets
+				 * setup_widgets_desktop();
+				 *
+				 * // run form elements
+				 * runAllForms();
+				 *
+				 ********************************
+				 *
+				 * pageSetUp() is needed whenever you load a page.
+				 * It initializes and checks for all basic elements of the page
+				 * and makes rendering easier.
+				 *
+				 */
+				
+				 pageSetUp();
+				 
+				/*
+				 * ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
+				 * eg alert("my home function");
+				 * 
+				 * var pagefunction = function() {
+				 *   ...
+				 * }
+				 * loadScript("js/plugin/_PLUGIN_NAME_.js", pagefunction);
+				 * 
+				 * TO LOAD A SCRIPT:
+				 * var pagefunction = function (){ 
+				 *  loadScript(".../plugin.js", run_after_loaded);	
+				 * }
+				 * 
+				 * OR
+				 * 
+				 * loadScript(".../plugin.js", run_after_loaded);
+				 */
+				
+			})
+		
+		</script>
+
+		<!-- Your GOOGLE ANALYTICS CODE Below -->
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+				_gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+				_gaq.push(['_trackPageview']);
+			
+			(function() {
+				var ga = document.createElement('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(ga, s);
+			})();
+
+		</script>
+
+	</body>
+
+</html>
