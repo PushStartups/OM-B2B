@@ -3,7 +3,7 @@ require_once '../inc/initDb.php';
 DB::query("set names utf8");
 
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 
 DB::insert('company', array(
     "name"              =>  $_POST['name'],
@@ -11,6 +11,18 @@ DB::insert('company', array(
     "min_order"         =>  $_POST['min_order'],
     "discount"          =>  $_POST['amount'],
     "discount_type"     =>  $_POST['discount_type'],
+
+    "payment_method"     =>  $_POST['payment_method'],
+    "team_size"     =>  $_POST['team_size'],
+    "ordering_deadline_time"     =>  $_POST['ordering_deadline_time'],
+    "delivery_time"     =>  $_POST['delivery_time'],
+    "limit_of_restaurants"     =>  $_POST['limit_of_restaurants'],
+    "company_address"     =>  $_POST['company_address'],
+    "contact_name"     =>  $_POST['contact_name'],
+    "contact_number"     =>  $_POST['contact_number'],
+    "contact_email"     =>  $_POST['contact_email'],
+    "ledger_link"     =>  $_POST['ledger_link'],
+
     "email"             =>  $_POST['email'],
     "password"          =>  $_POST['password'],
     "voting"            =>  0,
