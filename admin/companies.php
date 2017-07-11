@@ -60,6 +60,7 @@ include "header.php";
 
                                     <thead>
 
+
                                     <tr>
                                         <th data-class="expand">Company ID</th>
                                         <th >Company Name</th>

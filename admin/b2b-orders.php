@@ -1,5 +1,9 @@
 <?php
 include "header.php";
+$_SESSION['search_email'] = "";
+$_SESSION['search_company'] = "";
+$_SESSION['search_start_date'] = "";
+$_SESSION['search_end_date'] = "";
 ?>
 <!-- MAIN PANEL -->
 <div id="main" role="main">
@@ -27,6 +31,41 @@ include "header.php";
             <!-- end col -->
 
         </div>
+        <div class ="row">
+            <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+                <form  method="post" enctype="multipart/form-data">
+                    <fieldset>
+
+                        <div class="form-group">
+                            <select class="form-control"  onchange="search_company(this.value);">
+                                <option value=""  selected disabled> Select Company</option>
+                                <?php
+                                DB::useDB('orderapp_b2b_wui');
+                                $company = DB::query("select * from company");
+                                foreach($company as $companies){  ?>
+                                    <option value=<?=$companies['id']?>><?=$companies['name']?></option>
+                                <?php } ?>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <input class="form-control" id="search-user-email" type="text" placeholder="Search User Email"><br>
+                        </div>
+
+                        <div class="form-group">
+                            <input class="form-control" id="search-start-date" type="text" placeholder="Search Start Date"><br>
+                        </div>
+
+                        <div class="form-group">
+                            <input class="form-control" id="search-end-date"  type="text" placeholder="Search End Date"><br>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <br><br>
         <!-- end row -->
 
         <!--
@@ -83,7 +122,7 @@ include "header.php";
                                     </tr>
                                     </thead>
 
-                                    <tbody>
+                                    <tbody id="target-content">
                                     <?php $orders = getAllB2BOrders();
                                     foreach ($orders as $order)
                                     {
