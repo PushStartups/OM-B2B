@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Orderapp | Order from restaurants online</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/expSupport.js"></script>
+    <link rel="icon" href="images/favicon.png" type="image/png" sizes="32x32">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style-en.css">
+    <link rel="stylesheet" type="text/css" href="css/generic.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+
+    <style>
+        .error{
+            display: none;
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="wrapper">
+    <!-- carousel slider -->
+    <div class="carousel slide carousel-fade" data-ride="carousel">
+        <div class="carousel-inner" role="listbox">
+            <div class="item active"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+        </div>
+    </div>
+    <section class="img-block">
+        <nav id="nav">
+            <ul>
+                <li><a class="f white" href="#">About</a></li>
+                <li><a class="f white active" href="#">HE</a></li>
+            </ul>
+        </nav>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <header id="header">
+                        <div class="logo">
+                            <a href="../">
+                                <img src="images/logo.png" alt="images description">
+                                <strong>Order App</strong>
+                            </a>
+                        </div>
+                    </header>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1 class="light f white">ORDER SMART <br>ORDER FAST</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 col-xs-12 add">
+                    <form class="form" action="#">
+
+                        <div class="form-holder">
+                            <div id="parent-form">
+                                <div class="row no-gutters add">
+
+                                    <div class="col-md-4 col-sm-4 col-xs-12 box add-name">
+                                        <div class="row no-gutters add">
+                                            <div class="col-xs-10 box">
+
+                                                <input ctype="text" class="mandatory form-control" type="text" placeholder="User Name" id="name">
+
+                                            </div>
+                                            <div class="col-xs-2 box">
+                                                <i class="fa fa-exclamation-circle error" aria-hidden="true" id="circle-error-name"></i>
+                                            </div>
+                                        </div>
+                                        <div class="error-tooltip error" id="error-name">
+                                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                            <p class="f black">Fails Username</p>
+                                        </div>
+                                        <script>onChangeRemoveError('name')</script>
+                                    </div>
+
+                                    <div class="col-md-4 col-sm-4 col-xs-12 box password">
+                                        <div class="row no-gutters add">
+                                            <div class="col-xs-10 box">
+
+                                                <input ctype="password" class="mandatory form-control change-type" type="text" placeholder="Password"  id="password">
+
+                                            </div>
+                                            <div class="col-xs-2 box">
+                                                <i class="fa fa-exclamation-circle error" aria-hidden="true" id="circle-error-password"></i>
+                                                <!--<a id="showhide" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>-->
+                                            </div>
+                                        </div>
+                                        <div class="error-tooltip error" id="error-password">
+                                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                            <p class="f black">Wrong Password</p>
+                                        </div>
+                                        <script>onChangeRemoveError('password')</script>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-12 box">
+                                        <button class="btn-submit bt bt-md orang_gradient_ltr f white" type="button"  onclick="ErrorCheck('parent-form')">Start Ordering</button>
+                                    </div>
+                                    
+                                    <!--CALLING FUNCTION ON EVERY SUCCESS-->
+
+                                    <script>function onFormSucess(){ goto('restaurants.html'); }</script>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row no-gutters">
+                            <div class="col-md-12">
+                                <span class="error-txt f white" style="display: none;">*Required field</span>
+                                <a href="#" data-toggle="modal" data-target="#email-popup"   onclick="$('#email').val('')"   class="forget-psd">Oops, I forget my password</a>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="img">
+        <img src="images/delivery-desktop.png" alt="images description">
+    </div>
+
+
+    <div class="modal fade b2b-popup"  id="email-popup" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <!--<img class="ic_close" src="images/ic_close.png" onclick="$('#detail-popup').fadeOut(); $('.overlay').fadeOut()">-->
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                <h2 class="f black">It’s Ok…  <br>Just please enter your Email address</h2>
+                <div id="popup-form">
+                    <div class="row no-gutters tas" id="email-parent">
+                        <div class="col-xs-10">
+                            <input ctype="email" class="mandatory " type="email" id="email" placeholder="E-mail addres">
+                        </div>
+                        <div class="col-xs-2">
+                            <button data-toggle="modal" onclick="ErrorCheckPopUp('popup-form')" type="submit"><img src="images/ic_next.png"></button>
+                        </div>
+                    </div>
+                    <div class="error-tooltip error" id="error-email">
+                        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                        <p class="f black">Wrong Email</p>
+                    </div>
+                    <script>onChangeRemoveError('email')</script>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade b2b-popup"  id="check-email-popup" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                <div class="check-email">
+                    <h2 class="f black">Please check your email</h2>
+                    <a class="get-link" href="#">i didn’t get it</a>
+                </div>
+                <!--<div class="check-email">-->
+                <!--<h2 class="f black">Oh, Your email does not exist</h2>-->
+                <!--<h3 class="f black">Contact your company</h3>-->
+                <!--<div class="line">Or</div>-->
+                <!--<button class="btn-submit bt bt-md orang_gradient_ltr f white" type="button" >Contact our service</button>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+
+    $('.carousel').carousel();
+
+
+    $(document).ready(function () {
+        $("#showhide").click(function () {
+            if ($(".change-type").attr("type")=="password") {
+                $(".change-type").attr("type", "text");
+            }
+            else{
+                $(".change-type").attr("type", "password");
+            }
+
+        });
+    });
+
+</script>
+</body>
+</html>
