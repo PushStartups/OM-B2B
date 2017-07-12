@@ -72,6 +72,7 @@ include "header.php";
                                         <tr>
                                             <th data-class="expand">ID</th>
                                             <th >Email</th>
+                                            <th >Name</th>
                                             <th >Address</th>
                                             <th >Discount</th>
                                             <th >Contact</th>
@@ -92,6 +93,7 @@ include "header.php";
                                             <tr>
                                                 <td><?=$user['id']?></td>
                                                 <td><?=$user['smooch_id']?></td>
+                                                <td><?=$user['name']?></td>
                                                 <td><?=$user['address']?></td>
                                                 <td><?=$user['discount']?></td>
                                                 <td><?=$user['contact']?></td>

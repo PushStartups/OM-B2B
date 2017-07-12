@@ -43,13 +43,20 @@ $('#address').bind('input', function() {
 function add_new_user(url)
 {
 
+    
     var name            =  $('#name').val();
     var smooch_id       =  $('#smooch_id').val();
     var password        =  $('#password').val();
     var contact         =  $('#contact').val();
     var address         =  $('#address').val();
+    var company_id      =  $('#company_id').val();
 
 
+    if(company_id == null)
+    {
+        alert("Please Select Company");
+        return;
+    }
     if (name == "")
     {
         $('#name_error').html('Required*');

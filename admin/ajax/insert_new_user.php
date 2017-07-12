@@ -1,6 +1,6 @@
 <?php
 require_once '../inc/initDb.php';
-require '../../restapi/PHPMailer/PHPMailerAutoload.php';
+
 session_start();
 DB::query("set names utf8");
 
@@ -9,7 +9,7 @@ $company_id = $_POST['company_id'];
 $email = $_POST['smooch_id'];
 $password = $_POST['name'].rand(100,9999);
 $username = strtolower($_POST['name']);
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 $company = DB::queryFirstRow("SELECT * FROM company where id = '$company_id'");
 $discount = $company['discount'];
 

@@ -4,15 +4,6 @@ require '../restapi/PHPMailer/PHPMailerAutoload.php';
 if(isset($_POST["Import"])){
 
 
-    $last_id = DB::queryFirstRow("SELECT max(id) FROM b2b_users");
-    $last_user_id = $last_id['id'];
-    $company_id = $_POST['company_id'];
-
-
-    $company = DB::queryFirstRow("SELECT * FROM company where id = '$company_id'");
-    $discount = $company['discount'];
-
-
     $filename = $_FILES["file"]["tmp_name"];
 
 
@@ -25,8 +16,19 @@ if(isset($_POST["Import"])){
 
             if($counter != 0)
             {
+                DB::useDB('orderapp_b2b_wui');
+                $last_id = DB::queryFirstRow("SELECT max(id) FROM b2b_users");
+                $last_user_id = $last_id['id'];
+                $company_id = $getData[4];
+
+                DB::useDB('orderapp_b2b_wui');
+                $company = DB::queryFirstRow("SELECT * FROM company where id = '$company_id'");
+                $discount = $company['discount'];
+
+
                 $last_user_id++;
                 $password = $getData[1].rand(100,9999);
+                DB::useDB('orderapp_b2b_wui');
                 DB::insert('b2b_users', array(
                     "smooch_id"         => $getData[0],
                     "name"              => $getData[1],
@@ -42,7 +44,7 @@ if(isset($_POST["Import"])){
                     "extras"            => NULL,
                     "restaurant_id"     => NULL,
                     "role_id"           => NULL,
-                    "company_id"        => $company_id,
+                    "company_id"        => $getData[4],
                     "voucherify_id"     => 0
                 ));
 
@@ -69,7 +71,7 @@ if(isset($_POST["Import"])){
         }
 
         fclose($file);
-        header("location:companies.php");
+        header("location:manage-users.php");
     }
 }
 ?>
