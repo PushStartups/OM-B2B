@@ -374,6 +374,15 @@ include "header.php";
                                         </table>
 
 
+                                        <div class="form-group">
+                                            <label>Send Email: </label><br>
+                                            <input type="radio" name="send_email" value="1" id="send_mail_y"> Yes
+                                            <input type="radio" name="send_email" value="0" id="send_mail_n"> No
+                                        </div>
+
+
+
+
                                     </fieldset>
                                     <div class="form-actions">
                                         <div onclick="add_company()" class="btn btn-primary btn-lg">

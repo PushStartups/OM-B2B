@@ -26,19 +26,41 @@ $('#price').bind('input', function() {
 function delete_subitem(subitem_id,url)
 {
 
-    addLoading();
-    $.ajax({
-        url:"ajax/delete_subitem.php",
-        method:"post",
-        data:{subitem_id:subitem_id},
-        dataType:"json",
-        success:function(data)
-        {
-            hideLoading();
-            alert("Subitems deleted successfully");
-            window.location.href = url;
-        }
+    $(function(){
+        swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this Subitem!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel please!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    addLoading();
+                    $.ajax({
+                        url:"ajax/delete_subitem.php",
+                        method:"post",
+                        data:{subitem_id:subitem_id},
+                        dataType:"json",
+                        success:function(data)
+                        {
+                            hideLoading();
+                            alert("Subitem deleted successfully");
+                            window.location.href = url;
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Subitem is safe :)", "error");
+                    window.location.href = url;
+                }
+            });
     });
+
+
 }
 
 
@@ -89,7 +111,7 @@ function edit_subitems(subitem_id,url)
         success:function(data)
         {
             hideLoading();
-            alert("Subitems added successfully");
+            alert("Subitem added successfully");
             window.location.href = url;
         }
     });

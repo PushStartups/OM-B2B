@@ -3,12 +3,13 @@ include "header.php";
 
 if(isset($_GET['id']))
 {
-    $restaurant_id              =   $_GET['id'];
-    $menu_id                    =   getMenuId($restaurant_id);
+    echo "as: ".$restaurant_id              =   $_GET['id'];
+    echo " ass: ".$menu_id                    =   getMenuId($restaurant_id);
     $restaurant_name            =   getRestaurantName($restaurant_id);
     $_SESSION['r_name']         =   $restaurant_name;
     $_SESSION['category_url']   =   $_SERVER['REQUEST_URI'];
     $categories                 =   getAllCategories($menu_id);
+
 }
 else
 {
@@ -42,7 +43,7 @@ else
 
                     <div class="form-group">
                         <label>Import Category Through CSV</label>
-                        <input class="form-control" id="file" name="file"  type="file">
+                        <input class="form-control" id="file" name="file"  type="file" required>
                         <input type="hidden" value="<?=$menu_id?>" name="menu_id" id="menu_id">
                         <input type="hidden" value="<?=$_SERVER['REQUEST_URI']?>" name="url" id="url">
 
@@ -57,7 +58,27 @@ else
         </div><br><br>
 
         <!-- widget grid -->
+        <?php
 
+        if(!empty($categories)) {
+            $counter = 0;
+            foreach($categories as $cat)
+            {
+                DB::queryFirstRow("select * from items where category_id =  '".$cat['id']."'");
+                if(DB::count() > 0)
+                {
+                    $counter = 1;
+                }
+            }
+            if($counter == 1){
+        ?>
+        <div align="center">
+            <a style="text-decoration: none" href="add-business-offers.php?id=<?=$menu_id?>"><div class="btn btn-purple btn-lg">
+                    <i class="fa fa-plus"></i>
+                    Add Business Offers To <?=$restaurant_name?>
+                </div></a>
+        </div><br><br>
+        <?php  } }?>
         <section id="widget-grid"  id="myform">
 
             <!-- SHOW CATEGORIES-->
@@ -92,7 +113,6 @@ else
                                             <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Logo</th>
                                             <th data-hide="phone"><i class="fa-fw fa fa-info text-muted hidden-md hidden-sm hidden-xs"></i> Name </th>
                                             <th data-hide="phone"><i class="fa-fw fa fa-info text-muted hidden-md hidden-sm hidden-xs"></i> שֵׁם </th>
-                                            <th data-hide="phone"><i class="fa-fw fa fa-tags text-muted hidden-md hidden-sm hidden-xs"></i> Is Discount </th>
                                             <th data-hide="phone"><i class="fa-fw fa fa-plus text-muted hidden-md hidden-sm hidden-xs"></i> Add Items </th>
                                             <th data-hide="phone,tablet"><i class="fa fa-fw fa-edit txt-color-blue hidden-md hidden-sm hidden-xs"></i> Edit</th>
                                             <th data-hide="phone,tablet"><i class="fa fa-fw fa-edit txt-color-blue hidden-md hidden-sm hidden-xs"></i> Delete</th>
@@ -110,7 +130,7 @@ else
                                                 <td><img class="logo-table" src="<?=WEB_PATH.$category['image_url'] ?>"></td>
                                                 <td><?=$category['name_en']?></td>
                                                 <td><?=$category['name_he']?></td>
-                                                <td><?=$category['is_discount']?></td>
+
                                                 <td><a style="text-decoration: none" href="add-new-items.php?id=<?=$category['id']?>"><button class="btn btn-labeled btn-success  txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-plus"></i> Add Items </button></a></td>
                                                 <td><a href="edit-category.php?id=<?=$category['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-edit"></i> Edit </button></a></td>
                                                 <td><a onclick="delete_category('<?=$category['id']?>','<?=$_SERVER['REQUEST_URI']?>')"><button class="btn btn-labeled btn-danger txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-trash-o"></i> Delete</button></a></td>

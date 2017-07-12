@@ -37,7 +37,7 @@ else
 
                     <div class="form-group">
                         <label>Import Extras Through CSV</label>
-                        <input class="form-control" id="file" name="file"  type="file">
+                        <input class="form-control" id="file" name="file"  type="file" required>
                         <input type="hidden" value="<?=$item_id?>" name="item_id" id="item_id">
                         <input type="hidden" value="<?=$_SERVER['REQUEST_URI']?>" name="url" id="url">
 
@@ -98,7 +98,8 @@ else
                                         <tbody>
                                         <?php
 
-                                        foreach($extras as $extra) {
+                                        foreach($extras as $extra)
+                                        {
                                             ?>
                                             <tr>
                                                 <td><?=$extra['id']?></td>
@@ -156,6 +157,19 @@ else
                                     Add Choices & Addons
                                 </div>
                                 <br><br>
+                                <script>
+                                    function extra_type(val)
+                                    {
+                                        if(val == "One")
+                                        {
+                                            $("#price-replace-div").show();
+                                        }
+                                        else {
+                                            $("#price-replace-div").hide();
+                                        }
+
+                                    }
+                                </script>
                                 <div id="add-choices" style="display: none">
                                     <form>
                                         <fieldset>
@@ -175,7 +189,7 @@ else
 
                                             <div class="form-group">
                                                 <label>Type</label>
-                                                <select id="type" name="type" class="form-control">
+                                                <select id="type" name="type" class="form-control" onchange="extra_type(this.value)">
                                                     <option value="Multiple" selected>Multiple</option>
                                                     <option value="One">One</option>
                                                 </select>
@@ -188,7 +202,7 @@ else
                                                 <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="limit_error"></span>
                                             </div>
 
-                                            <div class="form-group">
+                                            <div id="price-replace-div" style="display:none" class="form-group">
                                                 <label>Price Replace</label>
                                                 <select id="price_replace" name="price_replace" class="form-control">
                                                     <option value="0" selected>0</option>

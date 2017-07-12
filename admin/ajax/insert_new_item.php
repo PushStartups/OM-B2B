@@ -23,6 +23,9 @@ DB::insert('items', array(
     "sort"                  =>      $sort
 
 ));
+$item_id = DB::insertId();
+
+
 
 
 echo json_encode("success");

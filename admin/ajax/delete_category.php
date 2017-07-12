@@ -21,8 +21,9 @@ foreach($items as $item)
     DB::delete('items', "id=%d", $item['id']);
 
 }
-
+DB::delete('business_lunch_detail', "category_id=%d", $category_id);
 DB::delete('categories', "id=%d", $category_id);
+
 
 
 echo json_encode("success");

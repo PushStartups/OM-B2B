@@ -12,7 +12,32 @@ $('#name_he').bind('input', function() {
 
 });
 
+$('input[name=onoffswitch1]').change(function(){
+    if($(this).is(':checked')) {
+        //RESTAURANT KO ON KARNA HAI
+        change_hide_status_city($(this).attr("id"),'0');
+    } else {
+        // Checkbox is not checked.
+        change_hide_status_city($(this).attr("id"),'1');
 
+    }
+});
+
+
+function change_hide_status_city(restaurant_id,val)
+{
+    addLoading();
+    $.ajax({
+        url:"ajax/change_hide_status_city.php",
+        method:"post",
+        data:{id:restaurant_id,val:val},
+        dataType:"json",
+        success:function(data)
+        {
+            hideLoading();
+        }
+    });
+}
 
 
 function add_new_city(url)

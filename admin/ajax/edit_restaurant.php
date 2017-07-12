@@ -48,7 +48,9 @@ DB::update('restaurants', array(
     "hechsher_en"           =>      $_POST['hechsher_en'],
     "hechsher_he"           =>      $_POST['hechsher_he'],
     "pickup_hide"           =>      $_POST['pickup_hide'],
-    "min_amount"           =>       $_POST['min_amount'],
+    "min_amount"            =>       $_POST['min_amount'],
+    "lat"                   =>       $_POST['lat'],
+    "lng"                   =>       $_POST['lng'],
 
 ), "id=%d", $_POST['rest_id']
 );

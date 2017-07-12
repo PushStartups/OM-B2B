@@ -63,25 +63,33 @@ include "header.php";
                                     <tr>
                                         <th data-class="expand">Company ID</th>
                                         <th >Company Name</th>
-
+                                        <th >Hide/Show</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
 
                                     <tbody>
                                     <?php
-                                    $cities = getAllCities();
+                                    $cities     =   getAllCities();
                                     foreach ($cities as $city)
                                     {
                                         ?>
                                         <tr>
                                             <td><?=$city['name_en']?></td>
                                             <td><?=$city['name_he']?></td>
-
-
+                                            <td>
+                                            <div class="onoffswitch">
+                                                <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="<?=$city['id']?>" <?php if($city['hide'] == '0'){ ?> checked <?php } ?>>
+                                                <label class="onoffswitch-label" for="<?=$city['id']?>">
+                                                    <span class="onoffswitch-inner"></span>
+                                                    <span class="onoffswitch-switch"></span>
+                                                </label>
+                                            </div>
+                                            </td>
                                            <td><a href="edit-city.php?id=<?=$city['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-edit"></i> Edit </button></a></td>
                                         </tr>
-                                    <?php } ?>
+                                    <?php
+                                    } ?>
                                     </tbody>
 
                                 </table>

@@ -219,6 +219,15 @@ function add_company()
     var saturday_end_time       =  $('#saturday_end_time').val();
 
 
+    if (document.getElementById('send_mail_y').checked) {
+
+        var send_mail = 1 ;
+    }
+    else if (document.getElementById('send_mail_n').checked) {
+
+        var send_mail = 0 ;
+    }
+
 
     if(name == "")
     {
@@ -467,6 +476,8 @@ function add_company()
         'password'                :  $('#password').val(),
 
         'notes'                :  $('#notes').val(),
+
+        'send_mail'                :  send_mail,
 
         'sunday_start_time'       :  $('#sunday_start_time').val(),
         'sunday_end_time'         :  $('#sunday_end_time').val(),
