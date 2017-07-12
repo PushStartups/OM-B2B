@@ -131,24 +131,24 @@ DB::query("set names utf8");
             <!--			<li>-->
             <!--				<a href="dashboard-social.html" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>-->
             <!--			</li>-->
-<!--            <li>-->
-<!--                <a href="#" title="Restaurant"><i class="fa fa-lg fa-fw fa-cutlery"></i> <span class="menu-item-parent">Restaurants</span></a>-->
-<!--                <ul>-->
-<!--                    --><?php // $city = getAllCities();
-//                    foreach ($city as $cities)
-//                    {
-//
-//                    ?>
-<!--                    <li>-->
-<!--                        <a href="index.php?id=--><?//=$cities['id']?><!--" title=--><?//=$cities['name_en']?><!--><span class="menu-item-parent">--><?//=$cities['name_en']?><!--</span></a>-->
-<!--                    </li>-->
-<!--                    --><?php
-//                    } ?>
-<!--                </ul>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a href="tags.php" title="Tags"><i class="fa fa-lg fa-fw fa-tags"></i> <span class="menu-item-parent">Tags</span></a>-->
-<!--            </li>-->
+            <li>
+                <a href="#" title="Restaurant"><i class="fa fa-lg fa-fw fa-cutlery"></i> <span class="menu-item-parent">Restaurants</span></a>
+                <ul>
+                    <?php  $city = getAllCities();
+                    foreach ($city as $cities)
+                    {
+
+                    ?>
+                    <li>
+                        <a href="index.php?id=<?=$cities['id']?>" title=<?=$cities['name_en']?>><span class="menu-item-parent"><?=$cities['name_en']?></span></a>
+                    </li>
+                    <?php
+                    } ?>
+                </ul>
+            </li>
+            <li>
+                <a href="tags.php" title="Tags"><i class="fa fa-lg fa-fw fa-tags"></i> <span class="menu-item-parent">Tags</span></a>
+            </li>
 <!--            <li>-->
 <!--                <a href="orders.php" title="Orders"><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">Orders</span></a>-->
 <!--            </li>-->
