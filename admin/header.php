@@ -147,9 +147,9 @@ DB::query("set names utf8");
                     } ?>
                 </ul>
             </li>
-            <li>
-                <a href="tags.php" title="Tags"><i class="fa fa-lg fa-fw fa-tags"></i> <span class="menu-item-parent">Tags</span></a>
-            </li>
+<!--            <li>-->
+<!--                <a href="tags.php" title="Tags"><i class="fa fa-lg fa-fw fa-tags"></i> <span class="menu-item-parent">Tags</span></a>-->
+<!--            </li>-->
 <!--            <li>-->
 <!--                <a href="orders.php" title="Orders"><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">Orders</span></a>-->
 <!--            </li>-->
