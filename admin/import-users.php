@@ -38,7 +38,6 @@ if(isset($_POST["Import"])){
                     "date"              => DB::sqleval("NOW()"),
                     "contact"           => $getData[2],
                     "address"           => $getData[3],
-                    "state"             => 0,
                     "language"          => "english",
                     "payment_url"       => NULL,
                     "extras"            => NULL,

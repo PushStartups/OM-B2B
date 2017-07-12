@@ -32,8 +32,7 @@ DB::insert('b2b_users', array(
     "voucherify_id"     => 0,
     "user_name"         => $username,
     "discount"          => $discount,
-    "date"              => DB::sqleval("NOW()"),
-    "state"             => 0,
+    "date"              => DB::sqleval("NOW()")
 
 ));
 
