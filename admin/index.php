@@ -21,9 +21,7 @@ else{
 		background-color: #d75b85 !important;
 	}
 </style>
-<script>
-	window.location.href = "companies.php";
-</script>
+
 <!-- END NAVIGATION -->
 
 <!-- MAIN PANEL -->
@@ -38,7 +36,7 @@ else{
 
 			<!-- col -->
 			<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-				<h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-cutlery"></i> Restaurants</h1>
+				<h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-cutlery"></i>B2B Restaurants</h1>
 			</div>
 			<!-- end col -->
 
@@ -51,14 +49,7 @@ else{
 						<?php $count = getTotalRestaurants();  ?>
 						<h5> Total Restaurants <span class="txt-color-blue"><?=$count?></span></h5>
 					</li>
-					<li class="sparks-info">
-						<?php $count1 = getRestaurantsCountByCity(1);  ?>
-						<h5> Beit Shemesh <span class="txt-color-purple">&nbsp;<?=$count1?></span></h5>
-					</li>
-					<li class="sparks-info">
-						<?php $count2 = getRestaurantsCountByCity(2);  ?>
-						<h5> Modiin <span class="txt-color-greenDark">&nbsp;<?=$count2?></span></h5>
-					</li>
+					
 				</ul>
 				<!-- end sparks -->
 			</div><br>
@@ -69,7 +60,7 @@ else{
 		<div align="center">
 			<a style="text-decoration: none" href="add-new-restaurant.php"><div class="btn btn-purple btn-lg">
 					<i class="fa fa-plus"></i>
-					Add Restaurant
+					Add B2B Restaurants
 				</div></a>
 		</div><br><br>
 
