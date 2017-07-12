@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'SanFranciscoDisplay-Medium';
+  src: url('SanFranciscoDisplay-Medium.woff') format('woff'),
+       url('SanFranciscoDisplay-Medium.ttf') format('truetype'),
+       url('SanFranciscoDisplay-Medium.svg#SanFranciscoDisplay-Medium') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
