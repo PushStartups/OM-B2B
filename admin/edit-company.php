@@ -177,12 +177,6 @@ include "header.php";
 
 
                                         <div class="form-group">
-                                            <label>Payment Method </label>
-                                            <input class="form-control" id="payment_method" name="payment_method" value="<?=$edit_company['payment_method'];?>" placeholder="Enter Payment Method" type="text">
-                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_payment_method"></span>
-                                        </div>
-
-                                        <div class="form-group">
                                             <label>Team Size </label>
                                             <input class="form-control" id="team_size" name="team_size" placeholder="Enter Team Size" value="<?=$edit_company['team_size'];?>" type="text">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_team_size"></span>
@@ -207,11 +201,7 @@ include "header.php";
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_delivery_time"></span>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label>Company Address </label>
-                                            <input class="form-control" id="company_address" name="company_address" value="<?=$edit_company['company_address'];?>" placeholder="Enter Compnay Address" type="text">
-                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_company_address"></span>
-                                        </div>
+
 
                                         <div class="form-group">
                                             <label>Contact Name </label>
@@ -240,20 +230,20 @@ include "header.php";
 
 
                                         <div class="form-group">
-                                            <label>Email</label>
+                                            <label>Company Email</label>
                                             <input class="form-control" id="email" name="email" placeholder="Enter Email" type="text" value="<?=$edit_company['email']?>">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_email"></span>
                                         </div>
 
                                         <div class="form-group">
-                                            <label>Password</label>
+                                            <label>Compnay Password</label>
                                             <input class="form-control" id="password" name="password" placeholder="Enter Password" type="text" value="<?=$edit_company['password']?>">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_password"></span>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Notes</label>
-                                            <input class="form-control" id="notes" name="notes" placeholder="Enter notes" type="text" value="<?=$edit_company['notes']?>">
+                                            <textarea class="form-control" id="notes" name="notes" placeholder="Enter notes" value="<?=$edit_company['notes']?>"></textarea>
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_notes"></span>
                                         </div>
 
