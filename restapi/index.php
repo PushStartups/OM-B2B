@@ -14,6 +14,7 @@ use Voucherify\CustomerBuilder;
 use Voucherify\ClientException;
 
 
+
 DB::query("set names utf8");
 
 
