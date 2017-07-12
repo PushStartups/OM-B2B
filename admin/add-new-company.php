@@ -73,7 +73,7 @@ include "header.php";
                                         <div class="form-group">
                                             <label>Delivery Address</label>
                                             <input class="form-control" id="area_en" name="area_en"  placeholder="Enter Delivery Address" type="text">
-                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error-address"></span>
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_area_en"></span>
                                         </div>
 
                                         <div class="form-group">
@@ -359,14 +359,6 @@ include "header.php";
                                             </tbody>
 
                                         </table>
-
-
-                                        <div class="form-group">
-                                            <label>Send Email: </label><br>
-                                            <input type="radio" name="send_email" value="1" id="send_mail_y"> Yes
-                                            <input type="radio" name="send_email" value="0" id="send_mail_n"> No
-                                        </div>
-
 
 
 

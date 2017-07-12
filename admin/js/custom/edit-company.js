@@ -9,6 +9,7 @@ $('#registered_company_number').bind('input', function() {
     if(!this.value.match(/^\d+$/))
     {
         document.getElementById('error_registered_company_number').innerHTML = "Wrong Number!";
+        return;
     }
     else
     {
@@ -61,6 +62,7 @@ $('#contact_number').bind('input', function() {
     if(!this.value.match(/^\d+$/))
     {
         document.getElementById('error_contact_number').innerHTML = "Wrong Number!";
+        return;
     }
     else
     {
@@ -75,6 +77,7 @@ $('#limit_of_restaurants').bind('input', function() {
     if(!this.value.match(/^\d+$/))
     {
         document.getElementById('error_limit_of_restaurants').innerHTML = "Wrong Number!";
+        return;
     }
     else
     {
@@ -100,13 +103,20 @@ $('#contact_email').bind('input', function() {
 
 });
 
+
 $('#ledger_link').bind('input', function() {
 
-    document.getElementById('error_ledger_link').innerHTML = "";
+    if(!this.value.match(/^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/))
+    {
+        document.getElementById('error_ledger_link').innerHTML = "Wrong URL";
+        return;
+    }
+    else
+    {
+        document.getElementById('error_ledger_link').innerHTML = "";
+    }
 
 });
-
-
 
 
 $('#amount').bind('input', function() {
@@ -114,6 +124,7 @@ $('#amount').bind('input', function() {
     if(!this.value.match(/^\d+$/))
     {
         document.getElementById('error_amount').innerHTML = "Wrong Number!";
+        return;
     }
     else
     {
@@ -127,6 +138,7 @@ $('#min_order').bind('input', function() {
     if(!this.value.match(/^\d+$/))
     {
         document.getElementById('error_min_ordert').innerHTML = "Wrong Number!";
+        return;
     }
     else
     {

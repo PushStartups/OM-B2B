@@ -11,6 +11,7 @@ $('#registered_company_number').bind('input', function() {
     if(!this.value.match(/^\d+$/))
     {
         document.getElementById('error_registered_company_number').innerHTML = "Wrong Number!";
+        return;
     }
     else
     {
@@ -22,7 +23,7 @@ $('#registered_company_number').bind('input', function() {
 
 $('#area_en').bind('input', function() {
 
-    document.getElementById('error-address').innerHTML = "";
+    document.getElementById('error_area_en').innerHTML = "";
 
 });
 
@@ -32,6 +33,7 @@ $('#team_size').bind('input', function() {
     if(!this.value.match(/^\d+$/))
     {
         document.getElementById('error_team_size').innerHTML = "Wrong Number!";
+        return;
     }
     else
     {
@@ -65,6 +67,7 @@ $('#contact_number').bind('input', function() {
     if(!this.value.match(/^\d+$/))
     {
         document.getElementById('error_contact_number').innerHTML = "Wrong Number!";
+        return;
     }
     else
     {
@@ -79,6 +82,7 @@ $('#limit_of_restaurants').bind('input', function() {
     if(!this.value.match(/^\d+$/))
     {
         document.getElementById('error_limit_of_restaurants').innerHTML = "Wrong Number!";
+        return;
     }
     else
     {
@@ -104,11 +108,21 @@ $('#contact_email').bind('input', function() {
 
 });
 
+
 $('#ledger_link').bind('input', function() {
 
-    document.getElementById('error_ledger_link').innerHTML = "";
+    if(!this.value.match(/^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/))
+    {
+        document.getElementById('error_ledger_link').innerHTML = "Wrong URL";
+        return;
+    }
+    else
+    {
+        document.getElementById('error_ledger_link').innerHTML = "";
+    }
 
 });
+
 
 
 $('#amount').bind('input', function() {
@@ -116,6 +130,7 @@ $('#amount').bind('input', function() {
     if(!this.value.match(/^\d+$/))
     {
         document.getElementById('error_amount').innerHTML = "Wrong Number!";
+        return;
     }
     else
     {
@@ -129,6 +144,7 @@ $('#min_order').bind('input', function() {
     if(!this.value.match(/^\d+$/))
     {
         document.getElementById('error_min_order').innerHTML = "Wrong Number!";
+        return;
     }
     else
     {
@@ -213,20 +229,9 @@ function add_company()
     var saturday_start_time     =  $('#saturday_start_time').val();
     var saturday_end_time       =  $('#saturday_end_time').val();
 
-
-    if (document.getElementById('send_mail_y').checked) {
-
-        var send_mail = 1 ;
-    }
-    else if (document.getElementById('send_mail_n').checked) {
-
-        var send_mail = 0 ;
-    }
-
-
     if(name == "")
     {
-        $('#error-name').html('Name Required*');
+        $('#error_name').html('Name Required*');
         return;
     }
     if(registered_company_number == "")
@@ -237,14 +242,10 @@ function add_company()
 
     if(address == "")
     {
-        $('#error-address').html('Address Required*');
+        $('#error_delivery_address').html('Address Required*');
         return;
     }
-    if($('#lat').val() == "")
-    {
-        $('#error-address').html('Please Use Suggesstions*');
-        return;
-    }
+
 
     if(min_order == "")
     {

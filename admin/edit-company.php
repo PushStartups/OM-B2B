@@ -243,7 +243,7 @@ include "header.php";
 
                                         <div class="form-group">
                                             <label>Notes</label>
-                                            <textarea class="form-control" id="notes" name="notes" placeholder="Enter notes" value="<?=$edit_company['notes']?>"></textarea>
+                                            <textarea class="form-control" id="notes" name="notes" placeholder="Enter notes" ><?php echo $edit_company['notes']?></textarea>
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_notes"></span>
                                         </div>
 

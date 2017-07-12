@@ -23,7 +23,6 @@ DB::insert('company', array(
     "ledger_link"     =>  $_POST['ledger_link'],
 
     "email"             =>  $_POST['email'],
-    "send_email"             =>  $_POST['send_mail'],
     "password"          =>  $_POST['password'],
     "notes"          =>  $_POST['notes'],
     "voting"            =>  0,
