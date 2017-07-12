@@ -88,7 +88,7 @@ else
                                                 <label>Price Replace</label>
                                                 <select id="price_replace" name="price_replace" class="form-control">
 
-                                                    <?php if($extra['type'] == 0){  ?>
+                                                    <?php if($extra['price_replace'] == 0){  ?>
                                                         <option value="0" selected>0</option>
                                                         <option value="1">1</option>
                                                     <?php } else { ?>

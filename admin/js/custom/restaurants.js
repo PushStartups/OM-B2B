@@ -66,6 +66,8 @@ function change_hide_status(restaurant_id,val)
         }
     });
 }
+
+
 function addLoading(){
 
     $("#Loader_bg").css("display" , "block");

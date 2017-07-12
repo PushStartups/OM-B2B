@@ -95,6 +95,8 @@ else
                                                 <span style="direction:RTL;font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="desc_he_error"></span>
                                             </div>
 
+
+
                                         </fieldset>
                                         <div class="form-actions">
                                             <div onclick="edit_item('<?=$item_id?>','<?=$_SERVER['REQUEST_URI']?>')" class="btn btn-primary btn-lg">

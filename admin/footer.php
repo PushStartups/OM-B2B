@@ -139,7 +139,22 @@ you can add as many as you like
     // DO NOT REMOVE : GLOBAL FUNCTIONS!
 
     $('.clockpicker').clockpicker();
-
+    function search_company(company_id)
+    {
+        addLoading();
+        $.ajax({
+            type: "POST",
+            url: "ajax/company_search.php",
+            data: {
+                company_id    : company_id,
+            },
+            dataType: "json",
+            success: function (response) {
+                $("#target-content").html(response);
+                hideLoading();
+            }
+        });
+    }
 
     $(document).ready(function() {
 
@@ -346,6 +361,79 @@ you can add as many as you like
 
 
     globalTag = null;
+
+
+    //USER EMAIL
+    var user_email = new Array();
+    <?php
+    DB::useDB('orderapp_b2b_wui');
+    $arr1 = DB::query("select * from b2b_users");
+    foreach($arr1 as $tag_name ){ ?>
+    user_email.push("<?php echo $tag_name['smooch_id']; ?>");
+    <?php } ?>
+
+    $( "#search-user-email").autocomplete({
+        source: user_email,
+        select: function (event, ui) {
+            addLoading();
+            $.ajax({
+                type: "POST",
+                url: "ajax/user_email_search.php",
+                data: {
+                    user_email    :  ui.item.label,
+                },
+                dataType: "json",
+                success: function (response) {
+                    $("#target-content").html(response);
+                    hideLoading();
+                }
+            });
+
+        },
+    });
+
+    $("#search-start-date").datepicker({
+        dateFormat: 'yy-mm-dd',
+        onSelect: function(selected,evnt) {
+            //alert(selected);
+            addLoading();
+            $.ajax({
+                type: "POST",
+                url: "ajax/start_date_search.php",
+                data: {
+                    start_date   :  selected,
+                },
+                dataType: "json",
+                success: function (response) {
+                    $("#target-content").html(response);
+                    hideLoading();
+                }
+            });
+        }
+    });
+
+    $("#search-end-date").datepicker({
+        dateFormat: 'yy-mm-dd',
+        onSelect: function(selected) {
+
+            addLoading();
+            $.ajax({
+                type: "POST",
+                url: "ajax/end_date_search.php",
+                data: {
+                    end_date   :  selected,
+                },
+                dataType: "json",
+                success: function (response) {
+                    $("#target-content").html(response);
+                    hideLoading();
+                }
+            });
+
+        }
+
+    });
+
 
 
 

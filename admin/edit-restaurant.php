@@ -80,7 +80,9 @@ else
                                                 <input class="form-control" id="contact" name="contact" value="<?=$restaurant['contact']?>" placeholder="Enter Contact" type="text">
                                                 <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="contact_error"></span>
                                             </div>
-
+                                            <input type="hidden" id="lat" name="lat" value="<?=$restaurant['lat']?>">
+                                            <input type="hidden" id="lng" name="lng" value="<?=$restaurant['lng']?>">
+                                            
                                             <div class="form-group">
                                                 <label>Minimum Amount</label>
                                                 <input class="form-control" id="min_amount" name="min_amount" value="<?=$restaurant['min_amount']?>" placeholder="Enter Amount" type="text">
@@ -89,14 +91,14 @@ else
                                             
 
                                             <div class="form-group">
-                                                <label>Pickup</label>
+                                                <label>Pickup From Restaurant</label>
                                                 <select id="pickup_hide" name="pickup_hide" class="form-control">
                                                     <?php if($restaurant['pickup_hide'] == 0){  ?>
-                                                        <option value="0" selected>No</option>
-                                                        <option value="1">Yes</option>
+                                                        <option value="0" selected>Yes</option>
+                                                        <option value="1">No</option>
                                                     <?php } else { ?>
-                                                        <option value="1" selected>Yes</option>
-                                                        <option value="0">No</option>
+                                                        <option value="1" selected>No</option>
+                                                        <option value="0">Yes</option>
 
                                                     <?php } ?>
                                                 </select>
@@ -154,7 +156,14 @@ else
                                                 </select>
                                                 <span style="font-size: 14px; color: red; width: 100%; padding: 9px;text-transform: none;"></span>
                                             </div>
+                                            <style>
+                                                .map_canvas {
+                                                    width: 500px;
+                                                    height: 300px;
+                                                    margin: 10px 20px 10px 0;
+                                                }
 
+                                            </style>
                                             <div class="form-group">
                                                 <label>Description </label>
                                                 <textarea class="form-control" id="description_en" name="description_en" placeholder="Enter Description" type="text"><?=$restaurant['description_en']?></textarea>
@@ -165,15 +174,18 @@ else
                                                 <textarea style="direction:RTL;" class="form-control" id="description_he" name="description_he" placeholder="הזן תיאור בעברית" type="text"><?=$restaurant['description_he']?></textarea>
                                                 <span style="direction:RTL;font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="description_he_error"></span>
                                             </div>
+                                            <div style="display:none" class="form-group">
+                                                <div id="map" class="map_canvas"></div>
+                                            </div>
 
                                             <div class="form-group">
                                                 <label>Address </label>
-                                                <input class="form-control" id="address_en" name="address_en" value="<?=$restaurant['address_en']?>" placeholder="Enter Address in English" type="text">
+                                                <input class="form-control" id="area_en" name="area_en" value="<?=$restaurant['address_en']?>" placeholder="Enter Address in English" type="text">
                                                 <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="address_en_error"></span>
                                             </div>
                                             <div class="form-group">
                                                 <label dir="rtl">כתובת </label>
-                                                <input style="direction:RTL;" class="form-control" id="address_he" name="address_he" value="<?=$restaurant['address_he']?>" placeholder="הזן כתובת בעברית" type="text">
+                                                <input style="direction:RTL;" class="form-control" id="area_he" name="area_he" value="<?=$restaurant['address_he']?>" placeholder="הזן כתובת בעברית" type="text">
                                                 <span style="direction:RTL;font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="address_he_error"></span>
                                             </div>
 

@@ -14,19 +14,45 @@ $('#name_he').bind('input', function() {
 
 function delete_category(category_id,url)
 {
-    addLoading();
-    $.ajax({
-        url:"ajax/delete_category.php",
-        method:"post",
-        data:{category_id:category_id},
-        dataType:"json",
-        success:function(data)
-        {
-            hideLoading();
-            alert("Category deleted successfully");
-            window.location.href = url;
-        }
+
+    $(function(){
+        swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this Category!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel please!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    addLoading();
+                    $.ajax({
+                        url:"ajax/delete_category.php",
+                        method:"post",
+                        data:{category_id:category_id},
+                        dataType:"json",
+                        success:function(data)
+                        {
+                            hideLoading();
+                           // alert("Category deleted successfully");
+                            window.location.href = url;
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Category is safe :)", "error");
+                    window.location.href = url;
+                }
+            });
     });
+
+
+
+
+
 }
 
 
@@ -73,7 +99,7 @@ function edit_category(category_id,url)
         success:function(data)
         {
             hideLoading();
-            alert("Category edited successfully");
+            alert("Category updated successfully");
 
         }
     });

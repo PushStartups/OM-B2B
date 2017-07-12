@@ -8,7 +8,7 @@ $rest = DB::queryFirstRow("select id from restaurants where name_en = '$restaura
 $restaurant_id   = $rest['id'];
 
 
-DB::useDB('orderapp_b2b_wui');
+DB::useDB('orderapp_b2b');
 DB::queryFirstRow("select * from company_rest where company_id = '$company_id ' and rest_id = '$restaurant_id' ");
 if(DB::count() == 0) {
 
@@ -18,8 +18,6 @@ if(DB::count() == 0) {
         "rest_id" => $restaurant_id,
     ));
 
-
-    
     echo $output;
 }
 else{

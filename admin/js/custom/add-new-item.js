@@ -52,6 +52,7 @@ function add_new_item(category_id,url)
     var price                      =  $('#price').val();
 
 
+
     if(name_en == "")
     {
         $('#name_en_error').html('Required*');
@@ -86,17 +87,15 @@ function add_new_item(category_id,url)
 
     var postForm = { //Fetch form data
 
-        'name_en'                 :  $('#name_en').val(),
-        'name_he'                 :  $('#name_he').val(),
+        'name_en'                   :  $('#name_en').val(),
+        'name_he'                   :  $('#name_he').val(),
 
-        'desc_en'          :  $('#desc_en').val(),
-        'desc_he'          :  $('#desc_he').val(),
-
-        'price'                   :  $('#price').val(),
-
-        'hide'                    :  $('#hide').val(),
-
-        'category_id'             :   category_id
+        'desc_en'                   :  $('#desc_en').val(),
+        'desc_he'                   :  $('#desc_he').val(),
+        'price'                     :  $('#price').val(),
+        'hide'                      :  $('#hide').val(),
+        'category_id'               :   category_id,
+      
 
     };
 
