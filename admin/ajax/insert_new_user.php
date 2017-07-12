@@ -23,12 +23,7 @@ DB::insert('b2b_users', array(
     "password"          => $password,
     "contact"           => $_POST['contact'],
     "address"           => $_POST['address'],
-
     "language"          => "english",
-    "payment_url"       => NULL,
-    "extras"            => NULL,
-    "restaurant_id"     => NULL,
-    "role_id"           => NULL,
     "voucherify_id"     => 0,
     "user_name"         => $username,
     "discount"          => $discount,

@@ -39,10 +39,6 @@ if(isset($_POST["Import"])){
                     "contact"           => $getData[2],
                     "address"           => $getData[3],
                     "language"          => "english",
-                    "payment_url"       => NULL,
-                    "extras"            => NULL,
-                    "restaurant_id"     => NULL,
-                    "role_id"           => NULL,
                     "company_id"        => $getData[4],
                     "voucherify_id"     => 0
                 ));
