@@ -26,15 +26,17 @@ $('#area_en').bind('input', function() {
 
 });
 
-$('#payment_method').bind('input', function() {
-
-    document.getElementById('error_payment_method').innerHTML = "";
-
-});
 
 $('#team_size').bind('input', function() {
 
-    document.getElementById('error_team_size').innerHTML = "";
+    if(!this.value.match(/^\d+$/))
+    {
+        document.getElementById('error_team_size').innerHTML = "Wrong Number!";
+    }
+    else
+    {
+        document.getElementById('error_team_size').innerHTML = "";
+    }
 
 });
 
@@ -50,11 +52,6 @@ $('#delivery_time').bind('input', function() {
 
 });
 
-$('#company_address').bind('input', function() {
-
-    document.getElementById('error_company_address').innerHTML = "";
-
-});
 
 
 $('#contact_name').bind('input', function() {
@@ -180,12 +177,10 @@ function add_company()
     var registered_company_number                    =  $('#registered_company_number').val();
     var amount                  =  $('#amount').val();
 
-    var payment_method                  =  $('#payment_method').val();
     var team_size                  =  $('#team_size').val();
     var ordering_deadline_time                  =  $('#ordering_deadline_time').val();
     var delivery_time                  =  $('#delivery_time').val();
     var limit_of_restaurants                  =  $('#limit_of_restaurants').val();
-    var company_address                  =  $('#company_address').val();
     var contact_name                  =  $('#contact_name').val();
     var contact_number                  =  $('#contact_number').val();
     var contact_email                  =  $('#contact_email').val();
@@ -194,7 +189,7 @@ function add_company()
     var discount_type           =  $('#discount_type').val();
     var email                    =  $('#email').val();
     var password                    =  $('#password').val();
-    var notes                    =  $('#notes').val();
+    var notes                    =  document.getElementById("notes").value;
 
     var sunday_start_time       =  $('#sunday_start_time').val();
     var sunday_end_time         =  $('#sunday_end_time').val();
@@ -275,11 +270,6 @@ function add_company()
         return;
     }
 
-    if(payment_method == "")
-    {
-        $('#error_payment_method').html('Required*');
-        return;
-    }
 
     if(team_size == "")
     {
@@ -299,12 +289,6 @@ function add_company()
         return;
     }
 
-
-    if(company_address == "")
-    {
-        $('#error_company_address').html('Required*');
-        return;
-    }
 
     if(contact_name == "")
     {
@@ -460,12 +444,10 @@ function add_company()
         'registered_company_number'                    :  $('#registered_company_number').val(),
         'amount'                  :  $('#amount').val(),
 
-        'payment_method'                  :  $('#payment_method').val(),
         'team_size'                  :  $('#team_size').val(),
         'ordering_deadline_time'                  :  $('#ordering_deadline_time').val(),
         'delivery_time'                  :  $('#delivery_time').val(),
         'limit_of_restaurants'                  :  $('#limit_of_restaurants').val(),
-        'company_address'                  :  $('#company_address').val(),
         'contact_name'                  :  $('#contact_name').val(),
         'contact_number'                  :  $('#contact_number').val(),
         'contact_email'                  :  $('#contact_email').val(),
@@ -475,7 +457,7 @@ function add_company()
         'email'                   :  $('#email').val(),
         'password'                :  $('#password').val(),
 
-        'notes'                :  $('#notes').val(),
+        'notes'                :  document.getElementById("notes").value,
 
         'send_mail'                :  send_mail,
 

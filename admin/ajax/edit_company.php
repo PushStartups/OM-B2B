@@ -191,12 +191,10 @@ DB::update('company', array(
     "delivery_address"  =>  $_POST['address'],
     "discount"          =>  $_POST['amount'],
 
-    "payment_method"     =>  $_POST['payment_method'],
     "team_size"     =>  $_POST['team_size'],
     "ordering_deadline_time"     =>  $_POST['ordering_deadline_time'],
     "delivery_time"     =>  $_POST['delivery_time'],
     "limit_of_restaurants"     =>  $_POST['limit_of_restaurants'],
-    "company_address"     =>  $_POST['company_address'],
     "contact_name"     =>  $_POST['contact_name'],
     "contact_number"     =>  $_POST['contact_number'],
     "contact_email"     =>  $_POST['contact_email'],
