@@ -33,6 +33,7 @@ DB::query("set names utf8");
     <link rel="stylesheet" type="text/css" media="screen" href="css/orderappadmin.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/clockpicker.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap-multiselect.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/sweetalert.css">
     <!-- We recommend you use "your_style.css" to override SmartAdmin
          specific styles this will also ensure you retrain your customization with each SmartAdmin update.
     <link rel="stylesheet" type="text/css" media="screen" href="css/your_style.css"> -->

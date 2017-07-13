@@ -58,6 +58,9 @@ function delete_extras(extra_id,url)
             });
     });
 
+
+
+
 }
 
 function update_extras(extra_id,url)

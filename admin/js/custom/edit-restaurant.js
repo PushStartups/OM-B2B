@@ -52,13 +52,13 @@ $('#description_he').bind('input', function() {
 
 });
 
-$('#address_en').bind('input', function() {
+$('#area_en').bind('input', function() {
 
     document.getElementById('address_en_error').innerHTML = "";
 
 });
 
-$('#address_he').bind('input', function() {
+$('#area_he').bind('input', function() {
 
     document.getElementById('address_he_error').innerHTML = "";
 
@@ -99,8 +99,8 @@ function update_restaurant(rest_id)
     var description_en             =  $('#description_en').val();
     var description_he             =  $('#description_he').val();
 
-    var address_en                 =  $('#address_en').val();
-    var address_he                 =  $('#address_he').val();
+    var address_en                 =  $('#area_en').val();
+    var address_he                 =  $('#area_he').val();
 
     var hechsher_en                =  $('#hechsher_en').val();
     var hechsher_he                =  $('#hechsher_he').val();
@@ -108,6 +108,12 @@ function update_restaurant(rest_id)
 
 
 
+    if($('#lat').val() == "")
+    {
+        $('#address_en_error').html('Please Use Suggestions*');
+        return;
+
+    }
     if(name_en == "")
     {
         $('#name_en_error').html('Required*');
@@ -181,14 +187,16 @@ function update_restaurant(rest_id)
         'description_en'          :  $('#description_en').val(),
         'description_he'          :  $('#description_he').val(),
 
-        'address_en'              :  $('#address_en').val(),
-        'address_he'              :  $('#address_he').val(),
+        'address_en'              :  $('#area_en').val(),
+        'address_he'              :  $('#area_he').val(),
 
         'hechsher_en'             :  $('#hechsher_en').val(),
         'hechsher_he'             :  $('#hechsher_he').val(),
         'pickup_hide'             :  $('#pickup_hide').val(),
         'min_amount'              :  $('#min_amount').val(),
-        'rest_id'                 :  rest_id
+        'rest_id'                 :  rest_id,
+        'lat'                     : $('#lat').val(),
+        'lng'                     : $('#lng').val(),
 
 
     };
@@ -210,7 +218,7 @@ function update_restaurant(rest_id)
                // save_imagee_edit(data);
             }
             hideLoading();
-            alert("restaurant updated successfully");
+            alert("Restaurant updated successfully");
             //window.location.href = "index.php?id="+city_id;
         }
     });
@@ -219,19 +227,43 @@ function update_restaurant(rest_id)
 
 function delete_restaurant(restaurant_id,url)
 {
-    addLoading();
-    $.ajax({
-        url:"ajax/delete_restaurant.php",
-        method:"post",
-        data:{restaurant_id:restaurant_id},
-        dataType:"json",
-        success:function(data)
-        {
-            hideLoading();
-            alert("Restaurant deleted successfully");
-            window.location.href = "index.php";
-        }
+    $(function(){
+        swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this restaurant!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel please!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    swal("Deleted!", "Restaurant has been deleted.", "success");
+                    addLoading();
+                    $.ajax({
+                        url:"ajax/delete_restaurant.php",
+                        method:"post",
+                        data:{restaurant_id:restaurant_id},
+                        dataType:"json",
+                        success:function(data)
+                        {
+                            hideLoading();
+                            //alert("Restaurant deleted successfully");
+                            window.location.href = "index.php";
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Restaurant is safe :)", "error");
+                    window.location.href = url;
+                }
+            });
     });
+
+
+
 }
 
 
