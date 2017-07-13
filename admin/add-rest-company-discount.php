@@ -58,13 +58,7 @@ include "header.php";
                                                 <input class="form-control" id="discount" name="discount" placeholder="Enter Discount in Percentage" type="text">
                                                 <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="discount_error"></span>
                                             </div>
-
-                                            <div class="form-group">
-                                                <label>In Time Discount</label>
-                                                <input class="form-control" id="in_time_discount" name="in_time_discount" placeholder="Enter In Time Discount in Percentage" type="text">
-                                                <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="in_time_discount_error"></span>
-                                            </div>
-
+                                            
 
                                             <br>
                                         </fieldset>

@@ -47,20 +47,26 @@ $result = DB::query($sql);
 
 $output = "";
 foreach($result as $order) {
+
     $refundAmount = getTotalRefundAmountB2B($order['id']);
+    DB::useDB('orderapp_restaurants_b2b_wui');
+    $rest = DB::queryFirstRow("select * from restaurants where id = '".$order['restaurant_id']."' ");
+    $restaurant_name = $rest['name_en'];
+
 
     $output .= '<tr>';
     $output .= '<td>' . $order['id'] . '</td>';
     $output .= '<td>' . $order['email'] . '</td>';
 
     $output .= '<td>' . $order['company_name'] . '</td>';
+    $output .= '<td>' .  $restaurant_name.'</td>';
 
     $output .= '<td>' . $order['total'] . " NIS" . '</td>';
 
     $output .= '<td>' . $order['actual_total'] . " NIS" . '</td>';
 
     $output .= '<td>' . $order['discount'] . " NIS" . '</td>';
-
+    $output .= '<td>' .  $order['payment_info'].'</td>';
     $output .= '<td>' . $refundAmount . " NIS" . '</td>';
     if (empty($order['transaction_id'])) {
         $order['transaction_id'] = "N/A";

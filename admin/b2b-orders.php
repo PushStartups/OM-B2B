@@ -49,6 +49,7 @@ $_SESSION['search_end_date'] = "";
                             </select>
                         </div>
 
+
                         <div class="form-group">
                             <input class="form-control" id="search-user-email" type="text" placeholder="Search User Email"><br>
                         </div>
@@ -106,10 +107,12 @@ $_SESSION['search_end_date'] = "";
                                         <th >User Email</th>
 
                                         <th data-hide="phone, tablet">Company</th>
+                                        <th data-hide="phone, tablet">Restaurant Name</th>
 
                                         <th data-hide="phone, tablet">Payable Amount</th>
                                         <th data-hide="phone, tablet">Purchasing Amount</th>
-                                        <th data-hide="phone,tablet">Todays's Remaining Balance</th>
+                                        <th data-hide="phone,tablet">Today's Remaining Balance</th>
+                                        <th data-hide="phone,tablet">Payment</th>
 
                                         <th data-hide="phone, tablet">Refund</th>
                                         <th data-hide="phone, tablet">Transaction ID</th>
@@ -127,6 +130,9 @@ $_SESSION['search_end_date'] = "";
                                     foreach ($orders as $order)
                                     {
                                         $refundAmount =   getTotalRefundAmountB2B($order['id']);
+                                        DB::useDB('orderapp_restaurants_b2b_wui');
+                                        $rest = DB::queryFirstRow("select * from restaurants where id = '".$order['restaurant_id']."' ");
+                                        $restaurant_name = $rest['name_en'];
                                         ?>
                                         <tr>
                                             <td><?=$order['id']?></td>
@@ -135,11 +141,14 @@ $_SESSION['search_end_date'] = "";
 
                                             <td><?=$order['company_name']?></td>
 
+                                            <td><?=$restaurant_name?></td>
+
                                             <td><?=$order['total']." NIS"?></td>
 
                                             <td><?=$order['actual_total']." NIS"?></td>
 
                                             <td><?=$order['discount']." NIS"?></td>
+                                            <td><?=$order['payment_info']?></td>
 
                                             <td><?=$refundAmount." NIS"?></td>
 

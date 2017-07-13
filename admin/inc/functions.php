@@ -253,6 +253,12 @@ function getSpecificCompanies($company_id)
     $edit_company = DB::queryFirstRow("select * from company where id = '$company_id'");
     return  $edit_company;
 }
+function getSpecificUsers($user_id)
+{
+
+    DB::useDB('orderapp_b2b_wui');
+    return $user = DB::queryFirstRow("select * from b2b_users  where id = '$user_id' ");
+}
 //GET ALL COMPANIES TIMINGS
 function getSpecificCompanyTiming($company_id)
 {

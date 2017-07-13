@@ -65,7 +65,7 @@ include "header.php";
                                             <th >Restaurant</th>
 
                                             <th data-hide="phone, tablet">Discount</th>
-                                            <th data-hide="phone, tablet">In Time Discount</th>
+
 
 
                                             <th>Action</th>
@@ -76,14 +76,14 @@ include "header.php";
                                         <tbody>
                                         <?php
                                         //  DB::query("select brd.*,c.name,r.name_en from b2b_rest_discounts as brd inner join restaurants as r on brd.rest_id = r.id  inner join company as c on brd.company_id = c.id");
-                                        DB::useDB('orderapp_b2b');
+                                        DB::useDB('orderapp_b2b_wui');
                                         $b2bRestDiscounts = DB::query("select * from b2b_rest_discounts");
                                         //$b2bRestDiscounts = getAllB2BRestDiscounts();
                                         foreach ($b2bRestDiscounts as $companies)
                                         {
-                                            DB::useDB('orderapp_b2b');
+                                            DB::useDB('orderapp_b2b_wui');
                                             $company = DB::queryFirstRow("select * from company     where id = '".$companies['company_id']."'");
-                                            DB::useDB('orderapp_restaurants');
+                                            DB::useDB('orderapp_restaurants_b2b_wui');
                                             $restaurant = DB::queryFirstRow("select * from restaurants where id = '".$companies['rest_id']."'");
 
 
@@ -94,8 +94,6 @@ include "header.php";
                                                 <td><?=$restaurant['name_en']?></td>
 
                                                 <td><?=$companies['discount_percent']?>%</td>
-
-                                                <td><?=$companies['in_time_discount']?>%</td>
 
                                               <td><a href="edit-b2b-rest-discount.php?id=<?=$companies['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-edit"></i> Edit </button></a></td>
                                                 <td><a onclick="delete_b2b_rest_disc('<?=$companies['id']?>','<?=$_SERVER['REQUEST_URI']?>')"><button class="btn btn-labeled btn-danger txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-trash-o"></i> Delete</button></a></td>

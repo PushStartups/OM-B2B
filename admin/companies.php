@@ -71,9 +71,9 @@ include "header.php";
                                         <th data-hide="phone, tablet">Contact Number</th>
                                         <th data-hide="phone, tablet">Contact Email</th>
                                         <th data-hide="phone, tablet">Ledger Link</th>
-                                        <th data-hide="phone, tablet">Delivery Timings</th>
+                                        <th data-hide="phone, tablet">Order DeadLine</th>
+                                        <th data-hide="phone, tablet">Delivery Time</th>
                                         <th data-hide="phone, tablet">Add Or View Restaurants</th>
-
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -83,6 +83,12 @@ include "header.php";
                                     $company = getAllCompanies();
                                     foreach ($company as $companies)
                                     {
+
+                                        date_default_timezone_set("Asia/Jerusalem");
+                                        $day = date('l');
+                                        DB::useDB('orderapp_b2b_wui');
+                                        $getDay = DB::queryFirstRow("select * from company_timing where week_en = '$day' and company_id = '".$companies['id']."' ");
+                                        $ordering_deadline_time = $getDay['closing_time'];
                                         ?>
                                         <tr>
 
@@ -95,14 +101,12 @@ include "header.php";
                                             <td><?=$companies['contact_number']?></td>
                                             <td><?=$companies['contact_email']?></td>
                                             <td><a href="<?=$companies['ledger_link']?>" target="_blank"><?=$companies['ledger_link']?></a> </td>
-
-                                            <td>
-                                                <a href="add-company-delivery.php?companies_id=<?=$companies['id']?>"><button class="btn btn-labeled btn-warning  txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-plus"></i> Add Delivery Time </button></a>
-                                            </td>
-
-
-
-
+                                            <td><?=$ordering_deadline_time; ?> </td>
+                                            <?php if(($ordering_deadline_time != "Closed") || ($ordering_deadline_time != "")){  ?>
+                                            <td><?=getDeliveryTime($ordering_deadline_time); ?> </td>
+                                            <?php }  else { ?>
+                                                <td>Closed</td>
+                                            <?php } ?>
                                             <td><a href="add-company-restaurant.php?companies_id=<?=$companies['id']?>"><button class="btn btn-labeled btn-primary  txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-plus"></i> Add Or View Default Restaurants </button></a></td>
                                             <td><a href="edit-company.php?id=<?=$companies['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-info"></i> Detail </button></a></td>
                                         </tr>
@@ -148,6 +152,29 @@ include "header.php";
     <!-- END MAIN CONTENT -->
 
 </div>
+<?php
+function getDeliveryTime($orig_date){
+    if(($orig_date == "") || ($orig_date == null) ||($orig_date == "Closed"))
+    {
+        return "Closed";
+    }
+    $seconds = strtotime($orig_date);
+
+    $plus_one_hour = $seconds + 3600;
+
+    $next_hour = floor($plus_one_hour / 3600) * 3600;
+
+    $mydate =  date("H:i",$next_hour);
+
+    $exact_time = explode(':',$mydate);
+
+    $old_time = explode(':',$orig_date);
+
+
+    return $final_time = $exact_time[0].':'.$old_time[1];
+}
+?>
+?>
 <!-- END MAIN PANEL -->
 <?php
 include "footer.php";

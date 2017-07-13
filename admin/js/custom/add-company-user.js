@@ -120,6 +120,24 @@ function add_new_user(url)
 
 
 
+function delete_user_db(user_id,url)
+{
+    addLoading();
+    $.ajax({
+        url:"ajax/delete_b2b_users.php",
+        method:"post",
+        data:{user_id:user_id},
+        dataType:"json",
+        success:function(data)
+        {
+            hideLoading();
+            alert("Restaurant deleted successfully");
+            window.location.href = url ;
+        }
+    });
+}
+
+
 
 
 
