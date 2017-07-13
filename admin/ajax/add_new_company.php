@@ -14,8 +14,6 @@ DB::insert('company', array(
     "discount_type"     =>  $_POST['discount_type'],
 
     "team_size"     =>  $_POST['team_size'],
-    "ordering_deadline_time"     =>  $_POST['ordering_deadline_time'],
-    "delivery_time"     =>  $_POST['delivery_time'],
     "limit_of_restaurants"     =>  $_POST['limit_of_restaurants'],
     "contact_name"     =>  $_POST['contact_name'],
     "contact_number"     =>  $_POST['contact_number'],

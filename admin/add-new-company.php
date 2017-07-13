@@ -108,18 +108,6 @@ include "header.php";
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_limit_of_restaurants"></span>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label>Ordering Deadline Time </label>
-                                            <input class="form-control" id="ordering_deadline_time" name="ordering_deadline_time" placeholder="Ordering Deadline" type="text">
-                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_ordering_deadline_time"></span>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Delivery Time </label>
-                                            <input class="form-control" id="delivery_time" name="delivery_time" placeholder="Delivery Time" type="text">
-                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_delivery_time"></span>
-                                        </div>
-
 
                                         <div class="form-group">
                                             <label>Contact Name </label>

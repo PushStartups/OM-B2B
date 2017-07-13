@@ -42,19 +42,6 @@ $('#team_size').bind('input', function() {
 
 });
 
-$('#ordering_deadline_time').bind('input', function() {
-
-    document.getElementById('error_ordering_deadline_time').innerHTML = "";
-
-});
-
-$('#delivery_time').bind('input', function() {
-
-    document.getElementById('error_delivery_time').innerHTML = "";
-
-});
-
-
 
 $('#contact_name').bind('input', function() {
 
@@ -194,8 +181,6 @@ function add_company()
     var amount                  =  $('#amount').val();
 
     var team_size                  =  $('#team_size').val();
-    var ordering_deadline_time                  =  $('#ordering_deadline_time').val();
-    var delivery_time                  =  $('#delivery_time').val();
     var limit_of_restaurants                  =  $('#limit_of_restaurants').val();
     var contact_name                  =  $('#contact_name').val();
     var contact_number                  =  $('#contact_number').val();
@@ -275,18 +260,6 @@ function add_company()
     if(team_size == "")
     {
         $('#error_team_size').html('Required*');
-        return;
-    }
-
-    if(ordering_deadline_time == "")
-    {
-        $('#error_ordering_deadline_time').html('Required*');
-        return;
-    }
-
-    if(delivery_time == "")
-    {
-        $('#error_delivery_time').html('Required*');
         return;
     }
 
@@ -446,8 +419,6 @@ function add_company()
         'amount'                  :  $('#amount').val(),
 
         'team_size'                  :  $('#team_size').val(),
-        'ordering_deadline_time'                  :  $('#ordering_deadline_time').val(),
-        'delivery_time'                  :  $('#delivery_time').val(),
         'limit_of_restaurants'                  :  $('#limit_of_restaurants').val(),
         'contact_name'                  :  $('#contact_name').val(),
         'contact_number'                  :  $('#contact_number').val(),

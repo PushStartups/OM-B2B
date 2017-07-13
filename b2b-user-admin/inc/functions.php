@@ -365,6 +365,14 @@ function getSpecificTags($tags_id)
 }
 
 
+function getSpecificUsers($user_id)
+{
+
+    DB::useDB('orderapp_b2b_wui');
+    return $user = DB::queryFirstRow("select * from b2b_users  where id = '$user_id' ");
+}
+
+
 function getSpecificTagsRestaurant($tags_id)
 {
     return $tags = DB::query("select * from restaurants inner join restaurant_tags on restaurants.id = restaurant_tags.tag_id where restaurant_tags.restaurant_id = '$tags_id' ");
