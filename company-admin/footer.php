@@ -111,6 +111,7 @@ you can add as many as you like
 <script src="js/custom/sweetalert.min.js"></script>
 <script src="js/custom/add-company-rest.js"></script>
 <script src="js/custom/bootstrap-multiselect.js"></script>
+<script src="js/custom/company-detail.js"></script>
 <script type="text/javascript">
     hideLoading();
 </script>
