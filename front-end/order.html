@@ -23,7 +23,7 @@
                 <div class="row">
                     <div class="col-xs-4 pull-left">
                         <div class="logo">
-                            <a href="../">
+                            <a href="#">
                                 <div class="logo-img">
                                     <img src="images/logo.png" alt="images description">
                                 </div>
@@ -54,9 +54,9 @@
     </section>
     <section class="block">
         <div class="jumbtron-fluid">
-            <div class="parent-bottom" style="position: relative;width:100%;height:100%;">
+            <div class="parent-bottom" style="/*position: relative;*/width:100%;height:100%;">
                 <img src="images/left_bottom.png">
-                <img src="images/right_bottom.png" style="left: auto; right: 0;"/>
+                <img src="images/right_bottom-new.png" style="left: auto; right: 0; margin: 0; width: 60%; height: 90vh; top:10px;"/>
             </div>
             <div class="container">
             <div class="row no-gutters">
@@ -66,8 +66,8 @@
                             <div class="col-xs-11" id="rest-name-cat"><h2 class="f white light">Bandora</h2>
                                 <p class="f white">Derech Rabin 15, Beit Shemesh</p>
                                 <ul>
-                                    <li><img class="img" src="images/watch-icon.png">delivery time 11:00</li>
-                                    <li><img class="img add" src="images/motorbike-small.png">Min. Order for delivery 100 NIS</li>
+                                    <!--<li><img class="img" src="images/watch-icon.png">delivery time 11:00</li>-->
+                                    <li><img class="img add" src="images/motorbike-small.png">Delivery Time 11:00-11:15</li>
                                     <li><a class="tel" href="tel:0500000000"><img class="img" src="images/phone-icon.png">050-000-0000</a></li>
                                 </ul>
                             </div>
@@ -88,7 +88,7 @@
                         <div class="col-xs-9">
                             <div id="contant">
                                 <ul class="accordion multilevel-accordion">
-                                    <li>
+                                    <li class="active">
                                         <a href="#" class="opener">
                                             <h3 class="light">Bandora Grill</h3>
                                         </a>
@@ -138,7 +138,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
+                                    <li  class="active">
                                         <a href="#" class="opener">
                                             <h3 class="light">Bandora Salad </h3>
                                         </a>
@@ -207,27 +207,26 @@
                             </div>
                         </div>
 
-                        <div class="baron scrollable4">
+                        <div class="baron scrollable4" >
                             <div id="scrollable4" class="baron__scroller right">
                                 <div class="frame">
                                     <div class="order-item">
                                         <div class="row no-gutters">
-                                            <div class="col-xs-1">
+                                            <div class="col-xs-2">
                                             </div>
-                                            <div class="col-xs-11">
+                                            <div class="col-xs-10">
                                                 <div class="row no-gutters">
-                                                    <div class="col-xs-8">
+                                                    <div class="col-xs-9">
                                                         <p class="f black">Shawarma</p>
                                                     </div>
-                                                    <div class="col-xs-4">
-                                                        <a class="remove" href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                                    <div class="col-xs-3">
                                                         <p class="f black amount">30 NIS</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row no-gutters">
-                                            <div class="col-xs-1">
+                                            <div class="col-xs-2">
                                                 <div class="btn-arrow">
                                                     <a href="#" class="btn-up">
                                                         <i class="fa fa-angle-up" aria-hidden="true"></i>
@@ -240,6 +239,9 @@
                                             </div>
                                             <div class="col-xs-8">
                                                 <p>Veal, Pita, Addons: French Fries, Sauces: Chummus, Amba</p>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <a class="remove" href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -277,22 +279,22 @@
                                             </div>
                                         </div>
                                         <div class="minimum-item add">
-                                            <div class="coupon">
-                                                <label id="coupon-toggle" class="new-label">Coupon Code</label>
-                                                <div class="coupon-box">
-                                                    <div class="wrap">
-                                                        <button id="submitCoupon" class="btn-coupon-submit" type="button"><img src="images/icon011.png"></button>
-                                                        <input id="coupon-txt" type="text" placeholder="Type Coupon Code">
-                                                    </div>
-                                                    <span id="coupon-error" style="display: none" class="error">*incorrect code</span>
-                                                </div>
-                                            </div>
+                                            <!--<div class="coupon">-->
+                                                <!--<label id="coupon-toggle" class="new-label">Coupon Code</label>-->
+                                                <!--<div class="coupon-box">-->
+                                                    <!--<div class="wrap">-->
+                                                        <!--<button id="submitCoupon" class="btn-coupon-submit" type="button"><img src="images/icon011.png"></button>-->
+                                                        <!--<input id="coupon-txt" type="text" placeholder="Type Coupon Code">-->
+                                                    <!--</div>-->
+                                                    <!--<span id="coupon-error" style="display: none" class="error">*incorrect code</span>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
                                             <div class="row no-gutters">
                                                 <div class="col-xs-8">
                                                     <h3 class="title">Total Due</h3>
                                                 </div>
                                                 <div class="col-xs-4">
-                                                    <h3 class="nis">80 NIS</h3>
+                                                    <h3 class="nis">0 NIS</h3>
                                                 </div>
                                             </div>
                                         </div>
@@ -302,7 +304,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn-submit" onclick="window.location.href='confirm-order.html'" type="button">place order</button>
+                            <div class="info-card">
+                                <button class="btn-submit" onclick="window.location.href='confirm-order.html'" type="button">place order</button>
+                                <!--<div class="tooltip-popup popup"><p class="f black">Your cart is empty</p></div>-->
+                            </div>
                         </div>
 
                     </div>

@@ -1,13 +1,17 @@
 .block {
-    overflow: hidden;
-    margin: -79px auto 0;
+    margin: -73px auto 0;
+}
+.block:after{
+    display: block;
+    content: '';
+    clear: both;
 }
 .header-box{
     overflow: hidden;
     border-radius: 18px 0 0 0;
     background-color: #ff7f00;
     border: solid 1px rgba(255, 251, 251, 0.04);
-    padding: 15px 20px 10px 38px;
+    padding: 9px 20px 14px 32px;
     position: relative;
     z-index: 99;
     color: #fff;
@@ -18,12 +22,13 @@
 .header-box p{
     margin: 0;
     font-weight: 300;
+    line-height: 19px;
     display: inline-block;
     vertical-align: middle;
 }
 .alert-img{
     float: right;
-    margin: 12px -20px 0 0;
+    margin: 15px -20px 0 0;
     outline: none;
     position: relative;
     width: 80px;
@@ -44,7 +49,7 @@
     content: '';
 }
 .header-box h2{
-    margin: 0 0 4px;
+    margin: 0;
     text-transform: uppercase;
 }
 .header-box ul{
@@ -62,6 +67,11 @@
     display: inline-block;
     vertical-align: middle;
     padding: 0px 10px;
+}
+.header-box ul li .img {
+    margin: 0 5px 0 0;
+    display: inline-block;
+    vertical-align: top;
 }
 .header-box ul li i{margin: 0 5px 0 0;}
 .header-box ul li a, .header-box ul li a:active, .header-box ul li a:hover, .header-box ul li a:link {
@@ -221,7 +231,7 @@
 }
 .cart-holder{
     overflow: hidden;
-    min-height: 91vh;
+    min-height: 90vh;
     font-weight: 300;
     text-align: center;
     background: #F5F5F5;
@@ -232,7 +242,7 @@
     border-radius: 0 18px 0 0;
     background-color: #fafafa;
     border: solid 1px rgba(255, 251, 251, 0.04);
-    padding: 30px 38px 20px;
+    padding: 25px 34px 18px;
     position: relative;
     z-index: 99;
 }
@@ -252,6 +262,7 @@
     line-height: 27px;
     font-weight: 300;
     text-align: center;
+    color: #000;
 }
 .empty-cart{
     overflow: hidden;
@@ -267,10 +278,10 @@
     position: absolute;
     left: 0;
     right:0;
-    bottom: 40px;
+    bottom: 0;
 }
 .frame{
-    padding: 51px 38px 5px;
+    padding: 43px 30px 5px;
     overflow: hidden;
 }
 .minimum-item{
@@ -279,6 +290,7 @@
     text-align: center;
     border-top: 1px solid #cacaca;
 }
+.minimum-item.border{border-top: none;}
 .minimum-item p{margin: 0 0 10px;}
 .title{
     text-align: left;
@@ -313,11 +325,11 @@
     text-align: center;
     color: #ffffff;
     text-transform: uppercase;
+    visibility: hidden;
 }
 .btn-submit:hover{background-image: linear-gradient(to left, #ff7f00, #ffaf5f);}
 .pull-right{
     text-align: right;
-    padding-top: 7px;
 }
 
 /* style for popup verticaly center  */
@@ -536,8 +548,13 @@
     overflow: hidden;
     text-align: left;
     font-weight: 400;
+    padding: 0 0 5px;
     border-bottom: 1px solid #C9C9C9;
 }
+.order-item p {
+    margin: 0 0 4px;
+}
+
 
 .btn-arrow{
     overflow: hidden;
@@ -567,10 +584,11 @@
 .btn-arrow .count{
     display: block;
     font-size: 16px;
-    line-height: 20px;
+    line-height: 18px;
     color: #000 !important;
     letter-spacing: 0.2px;
     text-align: center;
+    padding: 2px 0 0;
 }
 .order-item .amount {
     float: right;
@@ -582,45 +600,50 @@
     width: inherit;
     height: inherit;
     color: #ff7f00;
+    visibility: hidden;
 }
 .order-item .remove {
     float: right;
     margin: -1px 0 0 5px;
 }
 
-
 /* order-info */
 .order-info{
-    overflow: hidden;
     width: 680px;
     margin: 0 auto;
     padding: 30px 0 39px;
 }
+.order-info:after{
+    display: block;
+    content: '';
+    clear: both;
+}
 .order-info ul{
     margin: 0 0 40px;
-    padding: 3px 58px;
+    padding: 3px 58px 33px;
     overflow: hidden;
     border:1px solid #DCDCDC;
     box-shadow: 3px 2px 4px 0 rgba(0, 0, 0, 0.28);
 }
 .order-info ul li{
     float: none;
-    padding: 33px 0 38px;
+    padding: 33px 0px 42px;
     border-top:1px solid #C9C9C9;
 }
 .order-info ul li:first-child{
     border: none;
 }
-.order-info ul h2{margin: 0 0 7px;}
+.order-info ul h2{margin: 0 0 10px;}
 
 .btn-secondary{
     background: none;
-    width: 170px;
+    width: 128px;
     position: relative;
-    border-color: #797979;
+    border-color: #000;
     color: #000;
     font-size: 16px;
     line-height: 20px;
+    padding: 4px;
 }
 .btn-secondary:after{
     content: "\f107";
@@ -635,16 +658,17 @@
     vertical-align: middle;
     margin: 0 0 0 10px;
 }
-.dropdown, .dropup {
-    position: relative !important;
-}
+/*.dropdown, .dropup {*/
+    /*position: relative !important;*/
+/*}*/
 .dropdown-item{
     display: block;
     color: #797979;
     padding: 5px 10px;
 }
 .dropdown-menu{
-    width: 190px;
+    width: 130px;
+    min-width: 130px;
     float: none;
     font-size: 16px;
     line-height: 19px;
@@ -652,6 +676,7 @@
     letter-spacing: 0.2px;
     text-align: left;
     color: #797979;
+    z-index: 100;
 }
 .scrollable-menu {
     height: auto;
@@ -667,6 +692,7 @@
     vertical-align: top;
     color: #097BDB;
     text-decoration: underline;
+    margin: 11px 0 0;
 }
 
 
@@ -715,7 +741,7 @@
 .fa-exclamation-circle{
     color:#ff0000;
     font-size: 20px;
-    line-height: 40px;
+    line-height: 31px;
     cursor: pointer;
     display: inline-block;
     vertical-align: middle;
@@ -726,24 +752,25 @@
 }
 .field-box input[type="text"]{
     border: none;
-    height: 40px;
+    height: 31px;
     margin: 0;
     font-size: 16px;
     line-height: 19px;
     font-weight:400;
+    padding: 3px 9px;
 }
 .form-control:focus{box-shadow: none;}
-.field-box .edit{margin: 8px 0 0;}
-.field-box .edit.add{margin: 11px 0 0;}
+.field-box .edit{margin: 6px 0 0; width: 30px;}
+.field-box .edit.add{margin: 6px 0 0;  width:20px;}
 .field-box{
     overflow: hidden;
     border:1px solid #000;
     border-radius: 3px;
     text-align: center;
-    margin: 0 0 20px;
+    margin: 0 0 19px;
 }
 .show-txt{
-    padding: 15px 0;
+    padding: 7px 0;
 }
 .show-txt:after{
     display: block;
@@ -766,7 +793,7 @@
     transition: all 1s;
 }
 .btn-add-submit.add{width: 116px;}
-.btn-add-submit:hover{
+.btn-add-submit.hover{
     color: #fff;
     background:#43D200 ;
 }
@@ -780,25 +807,31 @@
     text-transform: uppercase;
     background-image: linear-gradient(246deg, #ffae5e, #ff7f00);
     outline: none;
+    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.5);
 }
 .btn-order-now:hover{background-image: linear-gradient(246deg, #ff7f00, #ffae5e);}
 .btn-order-now h2{
     margin: 0;
     line-height: 58px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
 }
 
 .txt-block {
     overflow: hidden;
-    width: 680px;
+    width: 700px;
     margin: 0 auto;
-    padding: 115px 0 50px;
+    padding: 118px 0 50px;
     text-align: center;
 }
 .txt-block h2{
     line-height:34px;
-    margin: 0 0 55px;
+    margin: 0 0 10px;
 }
-
+.btn-holder-new{
+    padding: 10px 0;
+    background: none;
+}
 .btn-new-submit{
     width: 303px;
     height: 60px;
@@ -813,13 +846,14 @@
     border:2px solid transparent !important;
     border-radius: 60px;
     background-image: linear-gradient(246deg, #ffae5e, #ff7f00);
+    box-shadow: 2px 2px 42px 0 rgba(0, 0, 0, 0.17);
 }
-.btn-new-submit:hover{
+.btn-new-submit.hover{
     background:#fff ;
     color: #FC7D00;
     border:2px solid #FF7F00 !important;
 }
-.txt-block .btn-new-submit:hover h2{color: #FC7D00;}
+.txt-block .btn-new-submit.hover h2{color: #FC7D00;}
 .txt-block .btn-new-submit h2{
     margin: 0;
     text-transform: uppercase;
