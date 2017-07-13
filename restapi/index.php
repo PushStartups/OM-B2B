@@ -41,8 +41,18 @@ else
 }
 
 
+// SERVER URL TO UPLOAD CONTENT
+
+
+
+
+
+
 // SLIM INITIALIZATION
 $app = new \Slim\App();
+
+
+
 
 
 
@@ -171,7 +181,7 @@ function mailForgotPassword($password, $username, $user_email){
     $mailbody .= '<tr><td align="center" valign="top">';
     $mailbody .= '<h1 style="text-align: left; margin: 0 0 5px; color: #fff; font-size: 20px; line-height: 23px; font-weight: 700;">Password recovery</h1>';
     $mailbody .= '<p style="text-align: left; margin: 0; color: #fff;">'.date("Y/m/d").'</p></td>';
-    $mailbody .= '<td align="center" valign="top" style="text-align: right; width: 52px;"><img style="display: block;" src="https://'.$_SERVER['HTTP_HOST'].'/backend/restapi/images/delivery-email.png"></td></tr>';
+    $mailbody .= '<td align="center" valign="top" style="text-align: right; width: 52px;"><img style="display: block;" src="https://'.$_SERVER['HTTP_HOST'].'/restapi/images/delivery-email.png"></td></tr>';
     $mailbody .= '<tr><td align="center" valign="top"></td></tr></table></td></tr>';
     $mailbody .= '<tr><td align="center" valign="top" style="padding: 30px 15px 10px;">';
     $mailbody .= '<table border="0" cellpadding="0" cellspacing="0" width="100%">';
@@ -195,7 +205,7 @@ function mailForgotPassword($password, $username, $user_email){
     $mailbody .= '<td align="center" valign="top" style="padding: 10px 15px; background: #ffae5e;">';
     $mailbody .= '<table border="0" cellpadding="0" cellspacing="0" width="100%">';
     $mailbody .= '<tr><td align="center" valign="top" style="text-align: left; width: 100px; font-weight: 700;">';
-    $mailbody .= '<a style="display: block; width: 87px; margin: 0 auto; color: #fff;" href="'.$_SERVER['HTTP_HOST'].'"><img style="display: block; margin: 0 auto;" src="https://'.$_SERVER['HTTP_HOST'].'/backend/restapi/images/logo-image.png"></a></td></tr></table>';
+    $mailbody .= '<a style="display: block; width: 87px; margin: 0 auto; color: #fff;" href="'.$_SERVER['HTTP_HOST'].'"><img style="display: block; margin: 0 auto;" src="https://'.$_SERVER['HTTP_HOST'].'/restapi/images/logo-image.png"></a></td></tr></table>';
     $mailbody .= '</td></tr></table></td></tr></table>';
     $mailbody .= '</body>';
     $mailbody .= '</html>';

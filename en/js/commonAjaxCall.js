@@ -3,7 +3,7 @@
 function commonAjaxCall(url,data,callBcak)
 {
     //SERVER HOST DETAIL
-    var host = "https://"+window.location.hostname+"/backend";
+    var host = "https://"+window.location.hostname;
 
     $.ajax({
 
