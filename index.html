@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<script>
+
+    var USER_LANGUAGE = localStorage.getItem("USER_LANGUAGE");
+
+    if (USER_LANGUAGE == undefined || USER_LANGUAGE == "" || USER_LANGUAGE == null) {
+
+        USER_LANGUAGE = 'EN';
+        localStorage.setItem("USER_LANGUAGE", 'EN');
+
+    }
+
+    if (location.protocol != 'https:')
+    {
+
+        location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+
+    }
+
+    var isMobile = {
+
+        Android: function() {
+
+            return navigator.userAgent.match(/Android/i);
+        },
+        BlackBerry: function() {
+
+            return navigator.userAgent.match(/BlackBerry/i);
+        },
+        iOS: function() {
+
+            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        },
+        Opera: function() {
+
+            return navigator.userAgent.match(/Opera Mini/i);
+        },
+        Windows: function() {
+
+            return navigator.userAgent.match(/IEMobile/i);
+        },
+        any: function() {
+
+            return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+        }
+    };
+
+
+
+    // IF DEVICE IS MOBILE
+    if(isMobile.any())
+    {
+
+        if(window.location.hostname == "b2b.orderapp.com")
+        {
+            if (location.protocol != 'https:')
+            {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }
+
+
+            if(USER_LANGUAGE == 'EN') {
+
+                window.location.href = 'https://b2b.orderapp.com/m/en/';
+
+            }
+            else {
+
+                window.location.href = 'https://b2b.orderapp.com/m/he/';
+
+            }
+
+        }
+        else if(window.location.hostname == "devb2b.orderapp.com")
+        {
+
+            if (location.protocol != 'https:')
+            {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }
+
+
+            if(USER_LANGUAGE == 'EN') {
+
+                window.location.href = 'https://devb2b.orderapp.com/m/en/';
+
+            }
+            else {
+
+                window.location.href = 'https://devb2b.orderapp.com/m/he/';
+
+            }
+
+        }
+        else if(window.location.hostname == "qab2b.orderapp.com")
+        {
+
+            if (location.protocol != 'https:')
+            {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }
+
+
+            if(USER_LANGUAGE == 'EN') {
+
+                window.location.href = 'https://qab2b.orderapp.com/m/en/';
+
+            }
+            else {
+
+                window.location.href = 'https://qab2b.orderapp.com/m/he/';
+
+            }
+
+        }
+        else if(window.location.hostname == "stagingb2b.orderapp.com")
+        {
+
+            if (location.protocol != 'https:')
+            {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }
+
+
+
+            if(USER_LANGUAGE == 'EN') {
+
+                window.location.href = 'https://stagingb2b.orderapp.com/m/en/';
+
+            }
+            else {
+
+                window.location.href = 'https://stagingb2b.orderapp.com/m/he/';
+
+            }
+
+
+        }
+        else if(window.location.hostname == "devwideui.orderapp.com")
+        {
+
+            if (location.protocol != 'https:')
+            {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }
+
+
+            if(USER_LANGUAGE == 'EN') {
+
+                window.location.href = 'https://devwideui.orderapp.com/m/en/';
+
+            }
+            else {
+
+                window.location.href = 'https://devwideui.orderapp.com/m/he/';
+
+            }
+
+        }
+
+    }
+
+
+
+    // IF DESKTOP SITE REDIRECT TO DESKTOP SITE
+
+    else {
+
+
+        if(window.location.hostname == "b2b.orderapp.com")
+        {
+            if (location.protocol != 'https:')
+            {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }
+
+            if(USER_LANGUAGE == 'EN') {
+
+                window.location.href = 'https://b2b.orderapp.com/en/';
+
+            }
+            else {
+
+                window.location.href = 'https://b2b.orderapp.com/he/';
+
+            }
+
+        }
+
+
+        else if(window.location.hostname == "devb2b.orderapp.com")
+        {
+
+            if (location.protocol != 'https:')
+            {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }
+
+
+            if(USER_LANGUAGE == 'EN') {
+
+                window.location.href = 'https://devb2b.orderapp.com/en/';
+
+            }
+            else {
+
+                window.location.href = 'https://devb2b.orderapp.com/he/';
+
+            }
+
+        }
+
+        else if(window.location.hostname == "qab2b.orderapp.com")
+        {
+
+            if (location.protocol != 'https:')
+            {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }
+
+            if(USER_LANGUAGE == 'EN') {
+
+                window.location.href = 'https://qab2b.orderapp.com/en/';
+
+
+            }
+            else {
+
+                window.location.href = 'https://qab2b.orderapp.com/he/';
+
+
+            }
+
+        }
+
+        else if(window.location.hostname == "stagingb2b.orderapp.com")
+        {
+
+            if (location.protocol != 'https:')
+            {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }
+
+            if(USER_LANGUAGE == 'EN') {
+
+
+                window.location.href = 'https://stagingb2b.orderapp.com/en/';
+
+
+
+            }
+            else {
+
+
+                window.location.href = 'https://stagingb2b.orderapp.com/he';
+
+
+            }
+
+        }
+        else if(window.location.hostname == "devwideui.orderapp.com")
+        {
+
+            if (location.protocol != 'https:')
+            {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }
+
+            if(USER_LANGUAGE == 'EN') {
+
+
+
+                window.location.href = 'https://devwideui.orderapp.com/en/';
+
+
+
+            }
+            else {
+
+
+                window.location.href = 'https://devwideui.orderapp.com/he';
+
+
+            }
+
+        }
+
+    }
+    
+</script>
+</html>
