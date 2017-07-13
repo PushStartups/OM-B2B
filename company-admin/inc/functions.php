@@ -3,7 +3,7 @@
 //CHECK WHETHER ADMIN LOGGED IN OR NOT
 function checkAdminSession() {
 
-    if(empty($_SESSION['b2b_admin']))
+    if(empty($_SESSION['company_admin']))
     {
         header("location:login.php");
     }

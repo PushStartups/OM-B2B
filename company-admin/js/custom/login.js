@@ -17,7 +17,7 @@ $('#signin').on('click', function () {
             }
             else
             {
-                window.location.href="index.php?id="+data;
+                window.location.href="index.php";
             }
         }
     });
