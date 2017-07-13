@@ -71,7 +71,7 @@ include "header.php";
                                         <th data-hide="phone, tablet">Contact Number</th>
                                         <th data-hide="phone, tablet">Contact Email</th>
                                         <th data-hide="phone, tablet">Ledger Link</th>
-                                        <th data-hide="phone, tablet">Delivery Timings</th>
+
                                         <th data-hide="phone, tablet">Add Or View Restaurants</th>
 
                                         <th>Action</th>
@@ -95,14 +95,6 @@ include "header.php";
                                             <td><?=$companies['contact_number']?></td>
                                             <td><?=$companies['contact_email']?></td>
                                             <td><a href="<?=$companies['ledger_link']?>" target="_blank"><?=$companies['ledger_link']?></a> </td>
-
-                                            <td>
-                                                <a href="add-company-delivery.php?companies_id=<?=$companies['id']?>"><button class="btn btn-labeled btn-warning  txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-plus"></i> Add Delivery Time </button></a>
-                                            </td>
-
-
-
-
                                             <td><a href="add-company-restaurant.php?companies_id=<?=$companies['id']?>"><button class="btn btn-labeled btn-primary  txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-plus"></i> Add Or View Default Restaurants </button></a></td>
                                             <td><a href="edit-company.php?id=<?=$companies['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-info"></i> Detail </button></a></td>
                                         </tr>

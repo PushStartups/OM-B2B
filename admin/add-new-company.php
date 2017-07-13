@@ -127,11 +127,13 @@ include "header.php";
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_contact_email"></span>
                                         </div>
 
+
                                         <div class="form-group">
                                             <label>Ledger Link </label>
                                             <input class="form-control" id="ledger_link" name="ledger_link" placeholder="Enter Ledger Link" type="text">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_ledger_link"></span>
                                         </div>
+
 
                                         <div class="form-group">
                                             <label>Company Email</label>
@@ -139,11 +141,13 @@ include "header.php";
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_email"></span>
                                         </div>
 
+
                                         <div class="form-group">
                                             <label>Company Password</label>
                                             <input class="form-control" id="password" name="password" placeholder="Enter Password" type="text">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_password"></span>
                                         </div>
+
 
                                         <div class="form-group">
                                             <label>Notes</label>
@@ -179,11 +183,12 @@ include "header.php";
                                                             <span class="input-group-addon">
                                                             <span class="glyphicon glyphicon-time"></span>
                                                             </span>
-
                                                     </div>
+
                                                     <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_sunday_start_time"></span>
                                                 </td>
                                                 <td>
+
                                                     <div class="input-group form-group clockpicker">
                                                         <input type="text" id="sunday_end_time" class="form-control" placeholder="Select Time">
                                                         <span class="input-group-addon">
