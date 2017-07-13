@@ -56,8 +56,15 @@ include "header.php";
                                         <div class="form-group">
                                             <label>Company Name</label>
                                             <input class="form-control" id="name" name="name" placeholder="Enter Company Name" type="text">
-                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error-name"></span>
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_name"></span>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label>Registered Company Number</label>
+                                            <input class="form-control" id="registered_company_number" name="registered_company_number" placeholder="Enter Company Number" type="text">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_registered_company_number"></span>
+                                        </div>
+
                                         <div style="display:none" class="form-group">
                                             <div id="map" class="map_canvas"></div>
                                         </div>
@@ -66,7 +73,7 @@ include "header.php";
                                         <div class="form-group">
                                             <label>Delivery Address</label>
                                             <input class="form-control" id="area_en" name="area_en"  placeholder="Enter Delivery Address" type="text">
-                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error-address"></span>
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_area_en"></span>
                                         </div>
 
                                         <div class="form-group">
@@ -90,12 +97,6 @@ include "header.php";
                                         </div>
 
                                         <div class="form-group">
-                                            <label>Payment Method </label>
-                                            <input class="form-control" id="payment_method" name="payment_method" placeholder="Enter Payment Method" type="text">
-                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_payment_method"></span>
-                                        </div>
-
-                                        <div class="form-group">
                                             <label>Team Size </label>
                                             <input class="form-control" id="team_size" name="team_size" placeholder="Enter Team Size" type="text">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_team_size"></span>
@@ -107,29 +108,6 @@ include "header.php";
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_limit_of_restaurants"></span>
                                         </div>
 
-                                        <div class="input-group form-group clockpicker">
-                                            <label>Ordering Deadline Time </label>
-                                            <input type="text" id="ordering_deadline_time" name="ordering_deadline_time" class="form-control" placeholder="Select Time">
-                                            <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-time"></span>
-                                                            </span>
-                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_ordering_deadline_time"></span>
-                                        </div>
-
-                                        <div class="input-group form-group clockpicker">
-                                            <label>Delivery Time </label>
-                                            <input type="text" id="delivery_time" name="delivery_time" class="form-control" placeholder="Select Time">
-                                            <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-time"></span>
-                                                            </span>
-                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_delivery_time"></span>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Company Address </label>
-                                            <input class="form-control" id="company_address" name="company_address" placeholder="Enter Compnay Address" type="text">
-                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_company_address"></span>
-                                        </div>
 
                                         <div class="form-group">
                                             <label>Contact Name </label>
@@ -149,22 +127,32 @@ include "header.php";
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_contact_email"></span>
                                         </div>
 
+
                                         <div class="form-group">
                                             <label>Ledger Link </label>
                                             <input class="form-control" id="ledger_link" name="ledger_link" placeholder="Enter Ledger Link" type="text">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_ledger_link"></span>
                                         </div>
 
+
                                         <div class="form-group">
-                                            <label>Email</label>
+                                            <label>Company Email</label>
                                             <input class="form-control" id="email" name="email" placeholder="Enter Email" type="text">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_email"></span>
                                         </div>
 
+
                                         <div class="form-group">
-                                            <label>Password</label>
+                                            <label>Company Password</label>
                                             <input class="form-control" id="password" name="password" placeholder="Enter Password" type="text">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_password"></span>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label>Notes</label>
+                                            <textarea class="form-control" id="notes" name="notes" placeholder="Enter notes"></textarea>
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_notes"></span>
                                         </div>
 
                                         <br>
@@ -195,11 +183,12 @@ include "header.php";
                                                             <span class="input-group-addon">
                                                             <span class="glyphicon glyphicon-time"></span>
                                                             </span>
-
                                                     </div>
+
                                                     <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_sunday_start_time"></span>
                                                 </td>
                                                 <td>
+
                                                     <div class="input-group form-group clockpicker">
                                                         <input type="text" id="sunday_end_time" class="form-control" placeholder="Select Time">
                                                         <span class="input-group-addon">
@@ -363,6 +352,7 @@ include "header.php";
                                             </tbody>
 
                                         </table>
+
 
 
                                     </fieldset>

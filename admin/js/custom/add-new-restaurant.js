@@ -54,13 +54,13 @@ $('#description_he').bind('input', function() {
 
 });
 
-$('#address_en').bind('input', function() {
+$('#area_en').bind('input', function() {
 
     document.getElementById('address_en_error').innerHTML = "";
 
 });
 
-$('#address_he').bind('input', function() {
+$('#area_he').bind('input', function() {
 
     document.getElementById('address_he_error').innerHTML = "";
 
@@ -85,13 +85,64 @@ $('#file').bind('input', function() {
 });
 
 
+function add_business_offer(url)
+{
+    // alert($("#business_category").val());
+    // alert($("#business_item").val());
+    // alert($("#day").val());
+    // alert($("#week_cycle").val());
 
 
+    var postForm = { //Fetch form data
+        'category_id'   : $('#business_category').val(),
+        'item_id'       : $('#business_item').val(),
+        'day'           : $('#day').val(),
+        'week_cycle'    : $('#week_cycle').val()
+    };
 
+
+    addLoading();
+    $.ajax({
+        url:"ajax/insert_business_offer.php",
+        method:"post",
+        data:postForm,
+        dataType:"json",
+        success:function(data)
+        {
+            hideLoading();
+            alert("business offer added successfully");
+             window.location.href = url;
+        }
+    });
+
+}
+
+function category_change(val)
+{
+    addLoading();
+    $.ajax({
+        url: "ajax/business_offers.php",
+        type: 'POST',
+        data: {category_id:val},
+        dataType:"json",
+        success: function (data) {
+            //alert("restaurant added successfully");
+            hideLoading();
+            $("#item-div").show();
+            $("#week-cycle-div").show();
+            $("#week-day-div").show();
+            $("#business-offer-div").show();
+            $("#item-div").html(data);
+
+            // setTimeout(function(){ window.location.href = "index.php"; }, 5000);
+        }
+    });
+}
 
 
 
 function add_restaurant() {
+
     //alert(globalImg);
     var name_en = $('#name_en').val();
     var name_he = $('#name_he').val();
@@ -106,13 +157,19 @@ function add_restaurant() {
     var description_en = $('#description_en').val();
     var description_he = $('#description_he').val();
 
-    var address_en = $('#address_en').val();
-    var address_he = $('#address_he').val();
+    var address_en = $('#area_en').val();
+    var address_he = $('#area_he').val();
 
     var hechsher_en = $('#hechsher_en').val();
     var hechsher_he = $('#hechsher_he').val();
 
 
+    if($('#lat').val() == "")
+    {
+        $('#address_en_error').html('Please Use Suggestions*');
+        return;
+
+    }
 
     if (name_en == "") {
         $('#name_en_error').html('Required*');
@@ -176,13 +233,15 @@ function add_restaurant() {
         'description_en': $('#description_en').val(),
         'description_he': $('#description_he').val(),
 
-        'address_en': $('#address_en').val(),
-        'address_he': $('#address_he').val(),
+        'address_en' : $('#area_en').val(),
+        'address_he' : $('#area_he').val(),
 
         'hechsher_en': $('#hechsher_en').val(),
         'hechsher_he': $('#hechsher_he').val(),
         'pickup_hide': $('#pickup_hide').val(),
-        'min_amount': $('#min_amount').val(),
+        'min_amount' : $('#min_amount').val(),
+        'lat': $('#lat').val(),
+        'lng': $('#lng').val(),
 
 
     };
@@ -228,7 +287,8 @@ function save_imagee(rest_id,restapi_url)
         success: function (data) {
             alert("restaurant added successfully");
             hideLoading();
-             window.location.href = "index.php";
+
+           // setTimeout(function(){ window.location.href = "index.php"; }, 5000);
         }
     });
 }

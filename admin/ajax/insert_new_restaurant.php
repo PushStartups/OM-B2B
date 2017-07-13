@@ -25,6 +25,8 @@ $name_en   = $_POST['name_en'];
 
 $image_url = "/m/en/img/".strtolower($_POST['name_en'])."_logo.png";
 
+$max = DB::queryFirstRow("SELECT MAX( sort ) as sort  FROM restaurants");
+$getMax = $max['sort'] + 1;
 DB::insert('restaurants', array(
 
     "name_en"               =>      $_POST['name_en'],
@@ -41,7 +43,10 @@ DB::insert('restaurants', array(
     "hechsher_en"           =>      $_POST['hechsher_en'],
     "hechsher_he"           =>      $_POST['hechsher_he'],
     "pickup_hide"           =>      $_POST['pickup_hide'],
-    "min_amount"           =>       $_POST['min_amount'],
+    "min_amount"            =>      $_POST['min_amount'],
+    "sort"                  =>      $getMax,
+    "lat"                  =>       $_POST['lat'],
+    "lng"                  =>       $_POST['lng'],
 
 ));
 

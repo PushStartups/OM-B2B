@@ -33,7 +33,7 @@ else
 
                     <div class="form-group">
                         <label>Import Subitems Through CSV</label>
-                        <input class="form-control" id="file" name="file"  type="file">
+                        <input class="form-control" id="file" name="file"  type="file" required>
                         <input type="hidden" value="<?=$extra_id?>" name="extra_id" id="extra_id">
                         <input type="hidden" value="<?=$_SERVER['REQUEST_URI']?>" name="url" id="url">
 

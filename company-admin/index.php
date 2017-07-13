@@ -1,161 +1,234 @@
 <?php
 include "header.php";
 ?>
-	<!-- MAIN PANEL -->
-	<div id="main" role="main">
+<div id="main" role="main">
+<?php
 
 
-		<!-- MAIN CONTENT -->
-		<div id="content">
+    $companies_id   = $_SESSION['company_id'];
+    $company_name = getCompanyName($companies_id);
 
-			<!-- row -->
-			<div class="row">
-
-				<!-- col -->
-				<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-					<h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-shopping-cart "></i><?=$_SESSION['company_name']?> Company Orders</h1>
-				</div>
-				<!-- end col -->
-
-				<!-- right side of the page with the sparkline graphs -->
-				<!-- col -->
-				<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-					<!-- sparks -->
-
-					<!-- end sparks -->
-				</div>
-				<!-- end col -->
-
-			</div>
-			<!-- end row -->
-
-			<!--
-            The ID "widget-grid" will start to initialize all widgets below
-            You do not need to use widgets if you dont want to. Simply remove
-            the <section></section> and you can use wells or panels instead  -->
-
-			<!-- widget grid -->
-			<section id="widget-grid" class="">
-				<!-- row -->
-				<div class="row">
-					<!-- NEW WIDGET START -->
-					<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-						<!-- Widget ID (each widget will need unique ID)-->
-						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
-
-							<header>
-								<span class="widget-icon"> <i class="fa fa-table"></i> </span>
-								<h2><?=$_SESSION['company_name']?> Company Order Detail </h2>
-							</header>
-							<!-- widget div-->
-							<div>
-								<!-- widget edit box -->
-								<div class="jarviswidget-editbox">
-									<!-- This area used as dropdown edit box -->
-								</div>
-								<!-- end widget edit box -->
-								<!-- widget content -->
-								<div class="widget-body no-padding">
-
-									<table id="datatable_tabletools" class="table table-striped table-bordered" width="100%">
-
-										<thead>
-
-										<tr>
-											<th data-class="expand">Order ID</th>
-
-											<th >User Email</th>
-
-											<th data-hide="phone, tablet">Company</th>
-
-											<th data-hide="phone, tablet">Payable Amount</th>
-											<th data-hide="phone, tablet">Purchasing Amount</th>
-											<th data-hide="phone,tablet">Todays's Remaining Balance</th>
+    //$restaurants = getRestaurantsOfSpecificCompany($companies_id);
 
 
-											<th data-hide="phone, tablet">Transaction ID</th>
+DB::useDB('orderapp_b2b_wui');
+$r = DB::queryFirstRow("select * from company where id = '$companies_id'");
+$restaurant_limit = $r['limit_of_restaurants'];
+
+DB::useDB('orderapp_b2b_wui');
+$restaurants  = DB::query("select * from company_rest where company_id = '$companies_id'");
+$rest_count = DB::count();
+
+
+$hide = 0;
+if($rest_count  >= $restaurant_limit)
+{
+    $hide = 1;
+}
+else
+{
+    $company_rest_limit = $restaurant_limit - $rest_count;
+}
+
+?>
+    <script>
+        var rest_limit = '<?=$company_rest_limit?>';
+    </script>
+    <!-- MAIN CONTENT -->
+    <div id="content">
+
+        <!-- row -->
+        <div class="row">
+
+            <!-- col -->
+            <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+                <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-briefcase "></i> <?=$company_name?> (Restaurant Limit : <?=$restaurant_limit?>) </h1>
+            </div>
+
+            <!-- end col -->
+
+            <!-- right side of the page with the sparkline graphs -->
+            <!-- col -->
+            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+                <?php if($hide == 0){ ?>
+                <a onclick="add_restaurant_tab()" style="float:right"  class="btn btn-lg bg-color-purple txt-color-white"><i class="fa-fw fa fa-plus "></i> Add Restaurants</a>
+                <?php } else { ?>
+                    <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><b>Restaurant Limit is Full </b></h1>
+
+                <?php
+                } ?>
+            </div>
+            <!-- end col -->
+
+        </div>
+        <!-- end row -->
+
+        <!--
+        The ID "widget-grid" will start to initialize all widgets below
+        You do not need to use widgets if you dont want to. Simply remove
+        the <section></section> and you can use wells or panels instead  -->
+
+        <!-- widget grid -->
+
+        <section id="widget-grid" class="">
+            <!-- row -->
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                    <div style="display:none" class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false">
 
 
 
-											<th data-hide="phone,tablet">Date</th>
+                        <div>
 
-											<th>Action</th>
-										</tr>
-										</thead>
+                            <div class="widget-body">
 
-										<tbody>
-										<?php
-										DB::useDB('orderapp_b2b');
-										$orders = DB::query("select o.*, c.name as company_name, u.smooch_id as email from b2b_orders as o inner join company as c on o.company_id = c.id  inner join b2b_users as u on o.user_id = u.id  where o.company_id = '".$_SESSION['company_id']."' order by o.id DESC");
-										foreach ($orders as $order)
-										{
-											$refundAmount =   getTotalRefundAmountB2B($order['id']);
-											?>
-											<tr>
-												<td><?=$order['id']?></td>
-
-												<td><?=$order['email']?></td>
-
-												<td><?=$order['company_name']?></td>
-
-												<td><?=$order['total']." NIS"?></td>
-
-												<td><?=$order['actual_total']." NIS"?></td>
-
-												<td><?=$order['discount']." NIS"?></td>
-												
-
-												<?php if(empty($order['transaction_id'])) { $order['transaction_id'] = "N/A"; }?>
-												<td><?=$order['transaction_id']?></td>
+                                <form method="post" enctype="multipart/form-data" action="ajax/insert_company_restaurant.php">
+                                    <fieldset>
+                                        <input name="authenticity_token" type="hidden">
+                                        <div class="form-group">
+                                            <label>Restaurant Name</label>
+<!--                                            <input class="form-control" id="rest_name" name="rest_name" placeholder="Enter Restaurant Name" type="text">-->
+                                            <select id="rest_name" name="rest_name[]" multiple="multiple" class="multiselect-ui form-control" autocomplete="on" required>
+                                                <?php
 
 
-												<td><?=$order['date']?></td>
+                                                DB::useDB('orderapp_b2b_wui');
+                                                $rest_ids = DB::query("SELECT *  FROM company_rest WHERE company_id =  '$companies_id'");
 
-												<td><a href="b2b-order-detail.php?order_id=<?=$order['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-info"></i> Detail </button></a></td>
-											</tr>
-										<?php } ?>
-										</tbody>
 
-									</table>
 
-								</div>
-								<!-- end widget content -->
+                                                foreach ($rest_ids as $r) {
+                                                    $row[] = $r['rest_id'];
+                                                }
+                                                DB::useDB('orderapp_restaurants_b2b_wui');
+                                                $qry1 = " select  * from  restaurants where id not in('" . implode("','", $row) . "') ";
 
-							</div>
-							<!-- end widget div -->
+                                                $restaurant = db::query($qry1);
 
-						</div>
-						<!-- end widget -->
+                                                    foreach($restaurant as $rest)
+                                                    { ?>
+                                                        <option value="<?=$rest['id']?>"><?=$rest['name_en']?></option>
+                                                    <?php
+                                                    }
+                                                ?>
 
-					</article>
-					<!-- WIDGET END -->
 
-				</div>
 
-				<!-- end row -->
+                                            </select>
+                                            <input type="hidden" value="<?=$companies_id?>" id="company_id" name="company_id">
+                                            <input type="hidden" value="<?=$_SERVER['REQUEST_URI']?>" id="url" name="url">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error-name"></span>
+                                        </div>
+                                    </fieldset>
+                                    <div class="form-actions">
 
-				<!-- row -->
+                                    <input type="submit" value="Submit" class="btn btn-primary">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
-				<div class="row">
+<!--                    $restaurants = DB::query("select company_rest.*, restaurants.name_en as restaurants_name from company_rest inner join restaurants on company_rest.rest_id = restaurants.id where company_id = '$company_id'");-->
+                    <?php
 
-					<!-- a blank row to get started -->
-					<div class="col-sm-12">
-						<!-- your contents here -->
-					</div>
 
-				</div>
 
-				<!-- end row -->
+                    ?>
 
-			</section>
+                    <?php if(!empty($restaurants)){  ?>
+                    <!-- Widget ID (each widget will need unique ID)-->
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
 
-			<!-- end widget grid -->
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-cutlery"></i> </span>
+                            <h2>Restaurants </h2>
+                        </header>
+                        <!-- widget div-->
+                        <div>
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <!-- end widget edit box -->
+                            <!-- widget content -->
+                            <div class="widget-body no-padding">
 
-		</div>
-		<!-- END MAIN CONTENT -->
+                                <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
 
-	</div>
-	<!-- END MAIN PANEL -->
+                                    <thead>
+
+                                    <tr>
+                                        <th data-class="expand">Restaurant ID</th>
+                                        <th >Restaurant Name</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody id="content">
+                                    <?php
+
+
+                                    foreach($restaurants as $restaurant)
+                                    {
+                                        DB::useDB('orderapp_restaurants_b2b_wui');
+                                        $rest = DB::queryFirstRow("select * from restaurants where id = '".$restaurant['rest_id']."'");
+                                        ?>
+                                        <tr>
+                                            <td><?=$restaurant['rest_id']?></td>
+                                            <td><?=$rest['name_en']?></td>
+                                            <td><a onclick="delete_company_restaurant('<?=$restaurant['rest_id']?>','<?=$restaurant['company_id']?>','<?=$_SERVER['REQUEST_URI']?>')"><button class="btn btn-labeled btn-danger  txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-trash-o"></i> Delete </button></a></td>
+                                        </tr>
+                                    <?php } ?>
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                            <!-- end widget content -->
+
+                        </div>
+                        <!-- end widget div -->
+
+                    </div>
+                    <?php  } else { echo "<h2>No Restaurant Found In This Company</h2>"; } ?>
+                    <!-- end widget -->
+
+                </article>
+                <!-- WIDGET END -->
+
+            </div>
+
+            <!-- end row -->
+
+            <!-- row -->
+
+            <div class="row">
+
+                <!-- a blank row to get started -->
+                <div class="col-sm-12">
+                    <!-- your contents here -->
+                </div>
+
+            </div>
+
+            <!-- end row -->
+
+        </section>
+
+
+        <!-- end widget grid -->
+
+    </div>
+    <!-- END MAIN CONTENT -->
+
+</div>
+<script>
+
+</script>
+<!-- END MAIN PANEL -->
 <?php
 include "footer.php";
 ?>

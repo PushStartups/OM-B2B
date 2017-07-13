@@ -7,17 +7,14 @@ DB::useDB('orderapp_b2b_wui');
 
 DB::insert('company', array(
     "name"              =>  $_POST['name'],
+    "registered_company_number"              =>  $_POST['registered_company_number'],
     "delivery_address"  =>  $_POST['address'],
     "min_order"         =>  $_POST['min_order'],
     "discount"          =>  $_POST['amount'],
     "discount_type"     =>  $_POST['discount_type'],
 
-    "payment_method"     =>  $_POST['payment_method'],
     "team_size"     =>  $_POST['team_size'],
-    "ordering_deadline_time"     =>  $_POST['ordering_deadline_time'],
-    "delivery_time"     =>  $_POST['delivery_time'],
     "limit_of_restaurants"     =>  $_POST['limit_of_restaurants'],
-    "company_address"     =>  $_POST['company_address'],
     "contact_name"     =>  $_POST['contact_name'],
     "contact_number"     =>  $_POST['contact_number'],
     "contact_email"     =>  $_POST['contact_email'],
@@ -25,6 +22,7 @@ DB::insert('company', array(
 
     "email"             =>  $_POST['email'],
     "password"          =>  $_POST['password'],
+    "notes"          =>  $_POST['notes'],
     "voting"            =>  0,
     "lat"          =>  $_POST['lat'],
     "lng"          =>  $_POST['lng'],
@@ -150,7 +148,7 @@ else
 
 
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 DB::insert('company_timing', array(
     "company_id"                    =>  $company_id,
     "week_en"                       =>  "Monday",
@@ -161,7 +159,7 @@ DB::insert('company_timing', array(
     "closing_time_he"               =>  $_POST['monday_end_time_he']
 ));
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 DB::insert('company_timing', array(
     "company_id"                    =>  $company_id,
     "week_en"                       =>  "Tuesday",
@@ -172,7 +170,7 @@ DB::insert('company_timing', array(
     "closing_time_he"               =>  $_POST['tuesday_end_time_he']
 
 ));
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 DB::insert('company_timing', array(
     "company_id"                    =>  $company_id,
     "week_en"                       =>  "Wednesday",
@@ -183,7 +181,7 @@ DB::insert('company_timing', array(
     "closing_time_he"               =>  $_POST['wednesday_end_time_he']
 ));
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 DB::insert('company_timing', array(
     "company_id"                    =>  $company_id,
     "week_en"                       =>  "Thursday",
@@ -195,7 +193,7 @@ DB::insert('company_timing', array(
 ));
 
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 DB::insert('company_timing', array(
     "company_id"                    =>  $company_id,
     "week_en"                       =>  "Friday",
@@ -207,7 +205,7 @@ DB::insert('company_timing', array(
 ));
 
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 DB::insert('company_timing', array(
     "company_id"                    =>  $company_id,
     "week_en"                       =>  "Saturday",
@@ -219,7 +217,7 @@ DB::insert('company_timing', array(
 ));
 
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 DB::insert('company_timing', array(
     "company_id"                    =>  $company_id,
     "week_en"                       =>  "Sunday",

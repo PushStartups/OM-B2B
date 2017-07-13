@@ -44,7 +44,6 @@ else
             <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
                 <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-briefcase "></i> <?=$company_name?> (Restaurant Limit : <?=$restaurant_limit?>) </h1>
             </div>
-
             <!-- end col -->
 
             <!-- right side of the page with the sparkline graphs -->

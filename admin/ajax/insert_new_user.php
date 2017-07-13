@@ -1,6 +1,6 @@
 <?php
 require_once '../inc/initDb.php';
-require '../../restapi/PHPMailer/PHPMailerAutoload.php';
+
 session_start();
 DB::query("set names utf8");
 
@@ -9,11 +9,11 @@ $company_id = $_POST['company_id'];
 $email = $_POST['smooch_id'];
 $password = $_POST['name'].rand(100,9999);
 $username = strtolower($_POST['name']);
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 $company = DB::queryFirstRow("SELECT * FROM company where id = '$company_id'");
 $discount = $company['discount'];
 
-DB::useDB('orderapp_b2b');
+DB::useDB('orderapp_b2b_wui');
 
 DB::insert('b2b_users', array(
 
@@ -23,17 +23,11 @@ DB::insert('b2b_users', array(
     "password"          => $password,
     "contact"           => $_POST['contact'],
     "address"           => $_POST['address'],
-
     "language"          => "english",
-    "payment_url"       => NULL,
-    "extras"            => NULL,
-    "restaurant_id"     => NULL,
-    "role_id"           => NULL,
     "voucherify_id"     => 0,
     "user_name"         => $username,
     "discount"          => $discount,
-    "date"              => DB::sqleval("NOW()"),
-    "state"             => 0,
+    "date"              => DB::sqleval("NOW()")
 
 ));
 

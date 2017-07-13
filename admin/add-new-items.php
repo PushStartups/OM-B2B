@@ -37,7 +37,7 @@ else
 
                     <div class="form-group">
                         <label>Import Items Through CSV</label>
-                        <input class="form-control" id="file" name="file"  type="file">
+                        <input class="form-control" id="file" name="file"  type="file" required>
                         <input type="hidden" value="<?=$category_id?>" name="category_id" id="category_id">
                         <input type="hidden" value="<?=$_SERVER['REQUEST_URI']?>" name="url" id="url">
 
@@ -196,6 +196,8 @@ else
                                                 <textarea style="direction:RTL;" class="form-control" id="desc_he" name="desc_he" placeholder="הזן תיאור בעברית" type="text"></textarea>
                                                 <span style="direction:RTL;font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="desc_he_error"></span>
                                             </div>
+
+
 
                                         </fieldset>
                                         <div class="form-actions">

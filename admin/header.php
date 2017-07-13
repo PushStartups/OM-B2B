@@ -131,21 +131,22 @@ DB::query("set names utf8");
             <!--			<li>-->
             <!--				<a href="dashboard-social.html" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>-->
             <!--			</li>-->
-<!--            <li>-->
-<!--                <a href="#" title="Restaurant"><i class="fa fa-lg fa-fw fa-cutlery"></i> <span class="menu-item-parent">Restaurants</span></a>-->
-<!--                <ul>-->
-<!--                    --><?php // $city = getAllCities();
-//                    foreach ($city as $cities)
-//                    {
-//
-//                    ?>
-<!--                    <li>-->
-<!--                        <a href="index.php?id=--><?//=$cities['id']?><!--" title=--><?//=$cities['name_en']?><!--><span class="menu-item-parent">--><?//=$cities['name_en']?><!--</span></a>-->
-<!--                    </li>-->
-<!--                    --><?php
-//                    } ?>
-<!--                </ul>-->
-<!--            </li>-->
+            <li>
+                <a href="#" title="Restaurant"><i class="fa fa-lg fa-fw fa-cutlery"></i> <span class="menu-item-parent">B2B Restaurants</span></a>
+                <ul>
+                    <?php  $city = getAllCities();
+                    foreach ($city as $cities)
+                    {
+                        DB::query("select * from restaurants where city_id = '".$cities['id']."'");
+                        $count = DB::count();
+                        ?>
+                        <li>
+                            <a href="index.php?id=<?=$cities['id']?>" title=<?=$cities['name_en']?>><span class="menu-item-parent"><?=$cities['name_en']?>&nbsp;&nbsp;&nbsp;(<?=$count?>)</span></a>
+                        </li>
+                        <?php
+                    } ?>
+                </ul>
+            </li>
 <!--            <li>-->
 <!--                <a href="tags.php" title="Tags"><i class="fa fa-lg fa-fw fa-tags"></i> <span class="menu-item-parent">Tags</span></a>-->
 <!--            </li>-->
@@ -154,6 +155,9 @@ DB::query("set names utf8");
 <!--            </li>-->
             <li>
                 <a href="companies.php" title="Companies"><i class="fa fa-lg fa-fw fa-briefcase"></i> <span class="menu-item-parent">B2B Company</span></a>
+            </li>
+            <li>
+                <a href="manage-users.php" title="Manage Users"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">B2B Users</span></a>
             </li>
             <li>
                 <a href="b2b-orders.php" title="Orders"><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">B2B Orders</span></a>

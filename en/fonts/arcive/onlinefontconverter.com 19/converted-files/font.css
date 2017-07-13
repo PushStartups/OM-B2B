@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'SanFranciscoText-RegularItalic';
+  src: url('SanFranciscoText-RegularItalic.woff') format('woff'),
+       url('SanFranciscoText-RegularItalic.ttf') format('truetype'),
+       url('SanFranciscoText-RegularItalic.svg#SanFranciscoText-RegularItalic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+

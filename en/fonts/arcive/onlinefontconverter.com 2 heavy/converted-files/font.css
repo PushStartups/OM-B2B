@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'SanFranciscoDisplay-Heavy';
+  src: url('SanFranciscoDisplay-Heavy.woff') format('woff'),
+       url('SanFranciscoDisplay-Heavy.ttf') format('truetype'),
+       url('SanFranciscoDisplay-Heavy.svg#SanFranciscoDisplay-Heavy') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+

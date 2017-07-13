@@ -48,7 +48,7 @@ if($data != "") {
 
         $resp = "not working";
 
-        $image_url = "/m/en/img/cs-logo.png";
+        $image_url = "/m/en/img/cs-category.png";
 
     }
     DB::update('categories', array(

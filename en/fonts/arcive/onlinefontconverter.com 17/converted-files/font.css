@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'SanFranciscoText-Semibold';
+  src: url('SanFranciscoText-Semibold.woff') format('woff'),
+       url('SanFranciscoText-Semibold.ttf') format('truetype'),
+       url('SanFranciscoText-Semibold.svg#SanFranciscoText-Semibold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+

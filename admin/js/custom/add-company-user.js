@@ -43,13 +43,20 @@ $('#address').bind('input', function() {
 function add_new_user(url)
 {
 
+    
     var name            =  $('#name').val();
     var smooch_id       =  $('#smooch_id').val();
     var password        =  $('#password').val();
     var contact         =  $('#contact').val();
     var address         =  $('#address').val();
+    var company_id      =  $('#company_id').val();
 
 
+    if(company_id == null)
+    {
+        alert("Please Select Company");
+        return;
+    }
     if (name == "")
     {
         $('#name_error').html('Required*');
@@ -111,6 +118,24 @@ function add_new_user(url)
 
 
 
+
+
+function delete_user_db(user_id,url)
+{
+    addLoading();
+    $.ajax({
+        url:"ajax/delete_b2b_users.php",
+        method:"post",
+        data:{user_id:user_id},
+        dataType:"json",
+        success:function(data)
+        {
+            hideLoading();
+            alert("Restaurant deleted successfully");
+            window.location.href = url ;
+        }
+    });
+}
 
 
 

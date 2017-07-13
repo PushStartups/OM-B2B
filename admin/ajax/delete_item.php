@@ -9,7 +9,7 @@ foreach($extras as $extra)
     DB::delete('subitems', "extra_id=%d", $extra['id']);
     DB::delete('extras', "id=%d", $extra['id']);
 }
-
+DB::delete('business_lunch_detail', "item_id=%d", $item_id);
 DB::delete('items', "id=%d", $item_id);
 
 
