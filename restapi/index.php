@@ -147,6 +147,330 @@ $app->post('/forgot_email', function ($request, $response, $args){
 });
 
 
+// SAVE CATEGORY IMAGE FOR ADMIN PANEL UPDATE MAIN DB (ORDER APP)
+$app->post('/save_category_image', function ($request, $response, $args)
+{
+    $resp = "";
+    $data = '';
+
+    $id = $request->getParam('cat_id');
+    $menu_id = $request->getParam('menu_id');
+
+    $rests = DB::queryFirstRow("select * from categories where id = '".$id."'");
+    if(DB::count() != 0) {
+        $data = $rests['image_url'];
+    }
+    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $data));
+
+
+
+    $menu_id = DB::queryFirstRow("select restaurant_id from menus where id = '".$menu_id."'");
+
+    $restaurant = DB::queryFirstRow("select * from restaurants where id = '".$menu_id['restaurant_id']."'");
+
+
+    $restaurant['name_en'] = preg_replace('/\s*/', '', $restaurant['name_en']);
+
+    $restaurant['name_en'] = strtolower($restaurant['name_en']);
+
+
+    $rests['name_en'] = preg_replace('/\s*/', '', $rests['name_en']);
+
+    $rests['name_en'] = strtolower($rests['name_en']);
+
+
+
+    //"/m/en/img/categories/".$restaurant['name_en']."/".$_POST['name_en'].".png"
+    if(!is_dir("../m/en/img/categories/" . $restaurant['name_en']))
+    {
+        mkdir("../m/en/img/categories/" . $restaurant['name_en'], 0777);
+
+    }
+
+
+    $filepath = "../m/en/img/categories/".$restaurant['name_en']."/".$rests['name_en'].".png"; // or image.jpg
+
+
+    $image_url = "";
+    if(file_put_contents($filepath,$data))
+    {
+        $image_url = "/m/en/img/categories/".$restaurant['name_en']."/".$rests['name_en'].".png";
+        $resp =  "working";
+
+    }
+    else{
+
+        $resp = "not workign";
+        $image_url = "/m/en/img/cs-category.png";
+    }
+    DB::query("update categories set image_url = '".$image_url."' where id = '$id'");
+
+    $response = $response->withStatus(202);
+    $response = $response->withJson(json_encode($resp));
+    return $response;
+
+});
+
+
+// UPDATE DATA ENTERY DB
+
+
+$app->post('/save_category_image_dataentry', function ($request, $response, $args)
+{
+    global $con;
+    $resp = "";
+    $data = '';
+
+    $id = $request->getParam('cat_id');
+    $menu_id = $request->getParam('menu_id');
+
+
+    // CATEGORY IMAGE URL
+    $get_brand = "select * from categories where id = '".$id."'";
+    $run_brand = mysqli_query($con, $get_brand);
+
+    while($row_brand = mysqli_fetch_array($run_brand))
+    {
+        $data = $row_brand['image_url'];
+        $name  = $row_brand['name_en'];
+
+    }
+
+    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $data));
+
+
+    $get_brand = "select restaurant_id from menus where id = '".$menu_id."'";
+    $run_brand = mysqli_query($con, $get_brand);
+
+    while($row_brand2 = mysqli_fetch_array($run_brand))
+    {
+        $menu_id  = $row_brand2['restaurant_id'];
+
+        $get_brand = "select * from restaurants where id = '".$menu_id."'";
+        $run_brand = mysqli_query($con, $get_brand);
+
+        while($row_brand1 = mysqli_fetch_array($run_brand))
+        {
+            //$data = $row_brand['image_url'];
+            $restaurant['name_en']  = $row_brand1['name_en'];
+
+        }
+
+
+    }
+
+
+    $restaurant['name_en'] = preg_replace('/\s*/', '', $restaurant['name_en']);
+
+    $restaurant['name_en'] = strtolower($restaurant['name_en']);
+
+
+    $rests['name_en'] = preg_replace('/\s*/', '', $name);
+
+    $rests['name_en'] = strtolower($rests['name_en']);
+
+
+
+    //"/m/en/img/categories/".$restaurant['name_en']."/".$_POST['name_en'].".png"
+    if(!is_dir("../m/en/img/categories/" . $restaurant['name_en']))
+    {
+        mkdir("../m/en/img/categories/" . $restaurant['name_en'], 0777);
+
+    }
+
+
+    $filepath = "../m/en/img/categories/".$restaurant['name_en']."/".$rests['name_en'].".png"; // or image.jpg
+
+
+    $image_url = "";
+    if(file_put_contents($filepath,$data))
+    {
+        $image_url = "/m/en/img/categories/".$restaurant['name_en']."/".$rests['name_en'].".png";
+        $resp =  "working";
+
+    }
+    else{
+
+        $resp = "not workign";
+        $image_url = "/m/en/img/cs-category.png";
+    }
+
+    $update_order = "update categories set image_url = '".$image_url."' where id = '$id'";
+    $run_order = mysqli_query($con, $update_order);
+
+    //DB::query("update categories set image_url = '".$image_url."' where id = '$id'");
+
+    $response = $response->withStatus(202);
+    $response = $response->withJson(json_encode($resp));
+    return $response;
+
+});
+
+
+$app->post('/update_restaurant_logo', function ($request, $response, $args)
+{
+    $resp = "";
+    $data = '';
+
+    $id = $request->getParam('rest_id');
+
+    $rests = DB::queryFirstRow("select * from restaurants where id = '".$id."'");
+
+    if(DB::count() != 0) {
+
+        $data = $rests['logo'];
+
+    }
+
+    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $data));
+
+    $name_logo = preg_replace('/\s*/', '', $rests['name_en']);
+
+    $name_logo = strtolower($name_logo);
+
+    if (!is_dir("/m/en/img"))
+    {
+        mkdir("/m/en/img", 0777);
+
+    }
+
+    $filepath = "/m/en/img/".$name_logo."_logo.png"; // or image.jpg
+
+
+    $image_url = "";
+    if(file_put_contents($filepath,$data))
+    {
+        $image_url = "/m/en/img/".$name_logo."_logo.png";
+        $resp =  "workingg";
+
+    }
+    else
+    {
+
+        $resp = "not working";
+        $image_url = "/m/en/img/cs-logo.png";
+
+    }
+    DB::query("update restaurants set logo = '".$image_url."' where id = '$id'");
+
+
+
+
+    $response = $response->withStatus(202);
+    $response = $response->withJson(json_encode($image_url));
+    return $response;
+
+});
+
+$app->post('/insert_new_restaurant_dataentry', function ($request, $response, $args)
+{
+
+
+    global $con;
+
+    $resp = "";
+    $data = '';
+
+    $id = $request->getParam('rest_id');
+
+
+
+    $get_brand = "select * from restaurants where id = '".$id."'";
+    $run_brand = mysqli_query($con, $get_brand);
+
+    while($row_brand = mysqli_fetch_array($run_brand))
+    {
+        $data = $row_brand['logo'];
+        $name  = $row_brand['name_en'];
+
+    }
+
+
+    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $data));
+
+    $name_logo = preg_replace('/\s*/', '', $name);
+
+    $name_logo = strtolower($name_logo);
+
+    $filepath = "../m/en/img/".$name_logo."_logo.png"; // or image.jpg
+
+
+    $image_url = "";
+    if(file_put_contents($filepath,$data))
+    {
+        $image_url = "/m/en/img/".$name_logo."_logo.png";
+        $resp =  "workingg";
+
+    }
+    else
+    {
+
+        $resp = "not working";
+        $image_url = "/m/en/img/cs-logo.png";
+
+    }
+
+    $update_order = "update restaurants set logo = '".$image_url."' where id = '$id'";
+    $run_order = mysqli_query($con, $update_order);
+
+
+    $response = $response->withStatus(202);
+    $response = $response->withJson(json_encode($resp));
+    return $response;
+
+});
+
+
+$app->post('/insert_new_restaurant', function ($request, $response, $args)
+{
+    $resp = "";
+    $data = '';
+
+    $id = $request->getParam('rest_id');
+
+    $rests = DB::queryFirstRow("select * from restaurants where id = '".$id."'");
+
+    if(DB::count() != 0) {
+
+        $data = $rests['logo'];
+
+    }
+
+    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $data));
+
+    $name_logo = preg_replace('/\s*/', '', $rests['name_en']);
+
+    $name_logo = strtolower($name_logo);
+
+    $filepath = "../m/en/img/".$name_logo."_logo.png"; // or image.jpg
+
+
+    $image_url = "";
+    if(file_put_contents($filepath,$data))
+    {
+        $image_url = "/m/en/img/".$name_logo."_logo.png";
+        $resp =  "workingg";
+
+    }
+    else
+    {
+
+        $resp = "not working";
+        $image_url = "/m/en/img/cs-logo.png";
+
+    }
+    DB::query("update restaurants set logo = '".$image_url."' where id = '$id'");
+
+
+
+
+    $response = $response->withStatus(202);
+    $response = $response->withJson(json_encode($resp));
+    return $response;
+
+});
+
+
 $app->run();
 
 
