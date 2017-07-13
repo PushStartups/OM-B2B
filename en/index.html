@@ -2,23 +2,93 @@
 <html lang="en">
 
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Orderapp | Order from restaurants online</title>
     <link rel="icon" href="images/favicon.png" type="image/png" sizes="32x32">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style-en.css">
     <link rel="stylesheet" type="text/css" href="css/generic.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
+
+
+    <!--SITE SEO CONTENT-->
+        <!-- Google Analytics -->
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-89656592-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+
+        <!-- End Google Analytics -->
+        <!-- Facebook Pixel Code -->
+
+        <script>
+            !function (f, b, e, v, n, t, s) {
+                if (f.fbq) return; n = f.fbq = function () {
+                    n.callMethod ?
+                        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                }; if (!f._fbq) f._fbq = n;
+                n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+                t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+            }(window,
+                document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '2198328787059300'); // Insert your pixel ID here.
+            fbq('track', 'PageView');
+        </script>
+
+        <noscript>
+            <img height="1" width="1" style="display:none"
+                 src="https://www.facebook.com/tr?id=2198328787059300&ev=PageView&noscript=1" />
+        </noscript>
+
+        <!-- DO NOT MODIFY -->
+        <!-- End Facebook Pixel Code -->
+        <!-- Facebook/Twitter Open Graph -->
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@orderappteam" />
+        <meta property="og:url" content="http://orderapp.com" />
+        <meta property="og:title" content="OrderApp - Order delivery online today." />
+        <meta property="og:description" content="OrderApp is the easiest solution for ordering takeaway from restaurants.
+          We remove the phone call and give you the option of live chat or digital menu." />
+
+
+        <!-- Hotjar Tracking Code for orderapp.com -->
+        <script>
+            (function(h,o,t,j,a,r){
+                h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                h._hjSettings={hjid:532682,hjsv:5};
+                a=o.getElementsByTagName('head')[0];
+                r=o.createElement('script');r.async=1;
+                r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                a.appendChild(r);
+            })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+        </script>
+    <!--SITE SEO CONTENT CLOSED-->
+
 </head>
 
-
 <body>
+
+    <!--<div id="Loader_bg">-->
+        <!--<img id="loader" class="loader-css" src="/en/img/loader.gif" >-->
+    <!--</div>-->
+
 <div id="wrapper">
-    <!-- carousel slider -->
+
+    <!-- carousel slider for background  -->
     <div class="carousel slide carousel-fade" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
             <div class="item active"></div>
@@ -27,11 +97,12 @@
             <div class="item"></div>
         </div>
     </div>
+
     <section class="img-block">
         <nav id="nav">
             <ul>
-                <li><a class="f white" href="#">About</a></li>
-                <li><a class="f white active" href="#">HE</a></li>
+                <li data-toggle="modal" data-target="#error-info-popup"><a class="f white" href="#">About</a></li>
+                <!--<li><a class="f white active" href="#">HE</a></li>-->
             </ul>
         </nav>
         <div class="container">
@@ -47,19 +118,21 @@
                     </header>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-xs-12">
                     <h1 class="light f white">ORDER SMART <br>ORDER FAST</h1>
                 </div>
             </div>
-            <div class="row">
+
+            <div class="row" id="loginForm">
                 <div class="col-md-8 col-xs-12 add">
                     <form class="form" action="#">
                         <div class="row no-gutters add">
-                            <div class="col-md-4 col-sm-4 col-xs-12 box add-name">
+                            <div id="parent-user-name" class="col-md-4 col-sm-4 col-xs-12 box add-name">
                                 <div class="row no-gutters add">
                                     <div class="col-xs-10 box">
-                                        <input class="form-control" type="search" placeholder="User Name">
+                                        <input  ctype="text" class="form-control mandatory"  id="user-name" type="search" placeholder="User Name">
                                     </div>
                                     <div class="col-xs-2 box">
                                         <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
@@ -67,27 +140,33 @@
                                 </div>
                                 <div class="error-tooltip">
                                     <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                                    <p class="f black">Fals User Name</p>
+                                    <p id="error-user-name" class="f black"></p>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-4 col-xs-12 box password">
-                                <div class="row no-gutters add">
+                            <div id="parent-password" class="col-md-4 col-sm-4 col-xs-12 box password">
+                                <div  class="row no-gutters add">
                                     <div class="col-xs-10 box">
-                                        <input class="form-control change-type" type="password" placeholder="password">
+                                        <input ctype="password" class="form-control change-type mandatory" id="password" type="password" placeholder="password">
                                     </div>
+
                                     <div class="col-xs-2 box">
                                         <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                                        <!--<a id="showhide" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>-->
                                     </div>
+
                                 </div>
+                                <div class="error-tooltip">
+                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                    <p style="letter-spacing: 0;" id="error-password" class="f black"></p>
+                                </div>
+
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-12 box">
-                                <button class="btn-submit bt bt-md orang_gradient_ltr f white" type="button" onclick="window.location.href='restaurants.html'">Start Ordering</button>
+                                <button onclick="verifyUserPassword()" class="btn-submit bt bt-md orang_gradient_ltr f white" type="button" onclick="window.location.href='restaurants.html'">Start Ordering</button>
                             </div>
                         </div>
                         <div class="row no-gutters">
                             <div class="col-md-12">
-                                <span class="error-txt f white" style="display: none;">*Required field</span>
+                                <span class="error-txt f white" style="display: none;"></span>
                                 <a href="#" data-toggle="modal" data-target="#email-popup"   onclick="$('#user-em').val('')"   class="forget-psd">Oops, I forget my password</a>
                             </div>
                         </div>
@@ -96,15 +175,16 @@
             </div>
         </div>
     </section>
+
     <div class="img">
         <img src="images/delivery-desktop.png" alt="images description">
     </div>
+
 </div>
 
 <div class="modal fade b2b-popup"  id="email-popup" role="dialog">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
-            <!--<img class="ic_close" src="images/ic_close.png" onclick="$('#detail-popup').fadeOut(); $('.overlay').fadeOut()">-->
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
             <h2 class="f black">It’s Ok…  <br>Just please enter your Email address</h2>
             <div class="row no-gutters tas" id="email-parent">
@@ -124,38 +204,147 @@
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+
             <!--<div class="check-email">-->
                 <!--<h2 class="f black">Please check your email</h2>-->
                 <!--<a class="get-link" href="#">i didn’t get it</a>-->
             <!--</div>-->
+
             <div class="check-email">
                 <h2 class="f black">Oh, Your email does not exist</h2>
                 <h3 class="f black">Contact your company</h3>
                 <div class="line">Or</div>
                 <button class="btn-submit bt bt-md orang_gradient_ltr f white" type="button" >Contact our service</button>
             </div>
+
         </div>
     </div>
 </div>
 
+
+<div class="modal fade in mypopup" id="error-info-popup" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+            <h2> We'll be back soon!</h2>
+            <p>Sory for the inconvenience We will resolve this problem soon!</p>
+
+            <!-- SOCIAL LINKS FOR ORDER APP -->
+            <div class="social-icons">
+                <ul>
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/theorderapp/"><img src="images/fb.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://twitter.com/OrderAppTeam"><img src="images/tw.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://plus.google.com/106974163137537901922"><img src="images/gp.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/theorderapp/"><img src="images/insta.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.pinterest.com/orderapp/"><img src="images/pin.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/orderapp-team-4a886510b"><img src="images/link.png"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade in mypopup" id="about" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+            <h2> ORDERAPP, ORDER FAST </h2>
+            <p>
+                OrderApp is revolutionizing the online ordering experience.<br>
+                We ease all the pain involved in the ordering process. For restaurants, we are a flowing source of manageable orders. For users, we are an easy ordering platform with a timely delivery to your door.<br>
+                <br>
+                *Powered by Push Startups
+            </p>
+
+            <!-- SOCIAL LINKS FOR ORDER APP -->
+            <div class="social-icons">
+                <ul>
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/theorderapp/"><img src="images/fb.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://twitter.com/OrderAppTeam"><img src="images/tw.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://plus.google.com/106974163137537901922"><img src="images/gp.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/theorderapp/"><img src="images/insta.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.pinterest.com/orderapp/"><img src="images/pin.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/orderapp-team-4a886510b"><img src="images/link.png"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/index.js"></script>
+<script src="js/expSupport.js"></script>
+<script src="js/commonAjaxCall.js"></script>
+
+
 <script>
+
 
     $('.carousel').carousel();
 
-
     $(document).ready(function () {
+
         $("#showhide").click(function () {
-            if ($(".change-type").attr("type")=="password") {
+
+
+            if ($(".change-type").attr("type") == "password") {
+
+
                 $(".change-type").attr("type", "text");
+
             }
             else{
+
                 $(".change-type").attr("type", "password");
+
             }
 
         });
     });
+
+
+
+    // ERROR HANDLING CALLS ON INPUT FIELDS
+    onChangeRemoveError('user-name');
+    onChangeRemoveError('password');
+
 
 </script>
 </body>
