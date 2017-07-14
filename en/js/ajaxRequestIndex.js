@@ -69,7 +69,9 @@ function responseUserNamePasswordVerification(url,response) {
         }
         else  {
 
-            alert("success true");
+
+            localStorage.setItem("data_object", dataObject);
+            window.location.href = '/en/'+dataObject.company.name+'/restaurants';
 
         }
 
