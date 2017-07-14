@@ -53,10 +53,21 @@ function responseUserNamePasswordVerification(url,response) {
         if (response.error)
         {
 
-             alert("wrong username & password");
+            if(response.field == "user-name") {
+
+                $('#parent-user-name').addClass("error");
+                $('#error-user-name').html("invalid username");
+
+            }
+            else if(response.field == "password"){
+
+                $('#parent-password').addClass("error");
+                $('#error-password').html("invalid password");
+
+            }
 
         }
-        else {
+        else  {
 
             alert("success true");
 
@@ -70,5 +81,53 @@ function responseUserNamePasswordVerification(url,response) {
 
     }
 
+
+}
+
+
+
+function submitEmailForPasswordRecovery(){
+
+    if(errorCheck("forgetPasswordForm")) // IF NO GENERAL ERROR EXISTS REQUEST SERVER FOR FORGET PASSWORD REQUEST
+    {
+
+        var email = $('#email').val();
+
+
+        commonAjaxCall("/restapi/index.php/forgot_email", {"email": email}, callBackRespForgetPassword);
+
+    }
+}
+
+function callBackRespForgetPassword(url,response)
+{
+
+    try {
+
+
+        $('#check-email-popup').modal('show');
+        $('#email-popup').modal('hide');
+
+        if (response.error)
+        {
+
+
+            $('#email-sent-message').hide();
+            $('#email-error-message').show();
+        }
+        else {
+
+
+            $('#email-sent-message').show();
+            $('#email-error-message').hide();
+        }
+
+    }
+    catch (exp)
+    {
+
+        errorHandlerServerResponse(url,"parsing error call back");
+
+    }
 
 }

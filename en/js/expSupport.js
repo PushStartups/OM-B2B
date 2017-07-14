@@ -89,6 +89,7 @@ function errorCheck(parentId) {
                     // EMPTY VALUE ERROR
                     if (value == "") {
 
+                        $(error_id).html("*Required Field");
                         $(id).addClass('have-error');
                         $(child_parent).addClass('error');
                         $(error_id).addClass('error');
@@ -101,7 +102,9 @@ function errorCheck(parentId) {
 
                 if (!value.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)) {
                     $(id).addClass('have-error');
-                    $(error_id).removeClass('error');
+                    $(error_id).addClass('error');
+                    $(child_parent).addClass('error');
+                    $(error_id).html("Invalid Email");
                     return false;
 
                 }

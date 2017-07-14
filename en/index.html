@@ -82,9 +82,9 @@
 
 <body>
 
-    <!--<div id="Loader_bg">-->
-        <!--<img id="loader" class="loader-css" src="/en/img/loader.gif" >-->
-    <!--</div>-->
+    <div style="display: none" id="Loader_bg">
+        <img id="loader" class="loader-css" src="/en/images/loader.gif" >
+    </div>
 
 <div id="wrapper">
 
@@ -101,7 +101,7 @@
     <section class="img-block">
         <nav id="nav">
             <ul>
-                <li data-toggle="modal" data-target="#error-info-popup"><a class="f white" href="#">About</a></li>
+                <li data-toggle="modal" data-target="#about"><a class="f white" href="#">About</a></li>
                 <!--<li><a class="f white active" href="#">HE</a></li>-->
             </ul>
         </nav>
@@ -167,7 +167,7 @@
                         <div class="row no-gutters">
                             <div class="col-md-12">
                                 <span class="error-txt f white" style="display: none;"></span>
-                                <a href="#" data-toggle="modal" data-target="#email-popup"   onclick="$('#user-em').val('')"   class="forget-psd">Oops, I forget my password</a>
+                                <a href="#" data-toggle="modal" data-target="#email-popup"   class="forget-psd">Oops, I forget my password</a>
                             </div>
                         </div>
                     </form>
@@ -183,18 +183,19 @@
 </div>
 
 <div class="modal fade b2b-popup"  id="email-popup" role="dialog">
-    <div class="modal-dialog modal-md">
+    <div  id="forgetPasswordForm" class="modal-dialog modal-md">
         <div class="modal-content">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
             <h2 class="f black">It’s Ok…  <br>Just please enter your Email address</h2>
-            <div class="row no-gutters tas" id="email-parent">
+            <div class="row no-gutters tas" id="parent-email">
                 <div class="col-xs-10">
-                    <input type="email" id="user-em" placeholder="E-mail addres">
+                    <input class="mandatory" id="email" ctype="email" type="email"  placeholder="E-mail addres">
                 </div>
                 <div class="col-xs-2">
-                    <button type="submit"><img src="images/ic_next.png"></button>
+                    <button onclick="submitEmailForPasswordRecovery()" type="submit"><img src="images/ic_next.png"></button>
                 </div>
             </div>
+            <span style="margin-top: 10px;" id="error-email"></span>
         </div>
     </div>
 </div>
@@ -205,12 +206,12 @@
         <div class="modal-content">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
 
-            <!--<div class="check-email">-->
-                <!--<h2 class="f black">Please check your email</h2>-->
-                <!--<a class="get-link" href="#">i didn’t get it</a>-->
-            <!--</div>-->
+            <div style="display: none"  id="email-sent-message" class="check-email">
+                <h2 class="f black">Please check your email</h2>
+                <a  onclick="$('#check-email-popup').modal('hide'); submitEmailForPasswordRecovery(); " class="get-link" href="#">i didn’t get it</a>
+            </div>
 
-            <div class="check-email">
+            <div  style="display: none" id="email-error-message" class="check-email">
                 <h2 class="f black">Oh, Your email does not exist</h2>
                 <h3 class="f black">Contact your company</h3>
                 <div class="line">Or</div>
@@ -344,6 +345,16 @@
     // ERROR HANDLING CALLS ON INPUT FIELDS
     onChangeRemoveError('user-name');
     onChangeRemoveError('password');
+    onChangeRemoveError('email');
+
+
+    $('#Loader_bg').click(function (evt) {
+
+        evt.stopPropagation();
+        // Your code here
+
+    });
+
 
 
 </script>
