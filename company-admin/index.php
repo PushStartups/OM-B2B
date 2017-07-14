@@ -90,7 +90,7 @@ else
                                         <div class="form-group">
                                             <label>Restaurant Name</label>
 <!--                                            <input class="form-control" id="rest_name" name="rest_name" placeholder="Enter Restaurant Name" type="text">-->
-                                            <select id="rest_name" name="rest_name[]" multiple="multiple" class="multiselect-ui form-control" autocomplete="on" required>
+                                            <select id="rest_name" name="rest_name[]" multiple="multiple" class="multiselect-ui form-control" required>
                                                 <?php
 
 
