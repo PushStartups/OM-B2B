@@ -56,20 +56,34 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
         $user_name = $request->getParam('user_name');
         $password  = $request->getParam('password');
 
-        $obj = '';
+        $obj      = '';
+        $user     = '';
+        $company  = '';
 
         DB::useDB('orderapp_b2b_wui');
 
-        $user = DB::queryFirstRow("select * from b2b_users where user_name = '$user_name' and password = '$password'");
+        $userDB = DB::queryFirstRow("select * from b2b_users where user_name = '$user_name' and password = '$password'");
+
 
         if (DB::count() > 0)
         {
-            $company_id         = $user['company_id'];
-            $company            = DB::queryFirstRow("select * from company where id = $company_id");
 
-            $obj['company']         =   $company;
-            $obj['user']            =   $user;
-            $obj['error']           =   false;
+            $company_id         = $userDB['company_id'];
+            $companyDB          = DB::queryFirstRow("select * from company where id = $company_id");
+
+
+            $user['user_id']                =   $userDB['id'];
+            $user['name']                   =   $userDB['name'];
+            $user['email']                  =   $userDB['smooch_id'];
+            $user['contact']                =   $userDB['contact'];
+            $company['company_id']          =   $company_id;
+            $company['company_name']        =   $companyDB['name'];
+            $company['company_address']     =   $companyDB['delivery_address'];
+
+
+            $obj['company']                 =   $company;
+            $obj['user']                    =   $user;
+            $obj['error']                   =   false;
 
         }
         else

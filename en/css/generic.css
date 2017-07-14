@@ -722,7 +722,7 @@ img.bg {
     font-weight: 400 !important;
 }
 .mypopup .close:focus{outline: none !important;}
-
+.mypopup .close span{color: #fff !important;}
 .social-icons {
     overflow:hidden;
 }

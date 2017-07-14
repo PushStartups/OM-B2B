@@ -3,31 +3,38 @@ var dataObject;   // DATA OBJECT CONTAIN INFORMATION ABOUT COMPANY, USER & USER 
 
 $(document).ready(function() {
 
+    dataObject = localStorage.getItem("data_object_en");
 
-    dataObject = {
+    // EXCEPTION IF USER OBJECT NOT RECEIVED UN-DEFINED
+    if (dataObject != undefined && dataObject != "" && dataObject != null){
+
+        dataObject = JSON.parse(localStorage.getItem("data_object_en"));
+
+        var company_name   =   dataObject.company.company_name;
+        company_name       =   company_name.replace(/\s/g, '');
+
+        window.location.href = '/en/'+company_name+'/restaurants';
+
+    }
+    else
+    {
+
+        dataObject = {
 
 
-        'language': 'en',                  // USER LANGUAGE ENGLISH DESKTOP B2B
+            'language': 'en',                  // USER LANGUAGE ENGLISH DESKTOP B2B
+            'company': '',                    // attributes are {company_id, company_name, company>address}
+            'user': ''                     // attributes are {user_id, name, email, contact}
 
 
-        'user': null,                      // USER DATABASE OBJECT DB ATTRIBUTES
-                                           // {id, smooch_id, name, user_name, password, discount, date, contact, address, language,
-                                           // payment_url, company_id, voucherify_id}
+        };
 
-
-        'company' : null                   // COMPANY DATABASE OBJECT DB ATTRIBUTES
-                                           // {id, name, delivery_address, discount, discount_type, team_size, contact_name, contact_number,
-                                           // contact_email, ledger_link,voting, winner_limit, last_voting_id, last_voting_date, hide_payment,
-                                           // min_order, lat, lng , email, password,limit_of_restaurants, registered_company_no,notes}
-
-    };
-
+    }
 
 });
 
 
 // PASSWORD VERIFICATION FROM SERVER
-
 function verifyUserPassword() {
 
 
@@ -66,12 +73,21 @@ function responseUserNamePasswordVerification(url,response) {
 
             }
 
+
         }
         else  {
 
 
-            localStorage.setItem("data_object", dataObject);
-            window.location.href = '/en/'+dataObject.company.name+'/restaurants';
+            dataObject.company = response.company;
+            dataObject.user    = response.user;
+
+            var company_name   =   dataObject.company.company_name;
+            company_name       =   company_name.replace(/\s/g, '');
+
+            localStorage.setItem("data_object_en", JSON.stringify(dataObject));
+
+
+            window.location.href = '/en/'+company_name+'/restaurants';
 
         }
 
@@ -83,9 +99,7 @@ function responseUserNamePasswordVerification(url,response) {
 
     }
 
-
 }
-
 
 
 function submitEmailForPasswordRecovery(){
