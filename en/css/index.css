@@ -6,6 +6,14 @@
 body{
     background: none;
 }
+.container{
+    width: 80vw !important;
+    min-width: 1280px !important;
+}
+#loginForm .col-xs-7.add{
+    float: none;
+    margin: 0 auto;
+}
 .img{
     position:absolute;
     left:0;
