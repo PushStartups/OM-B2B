@@ -17,11 +17,21 @@ $('#name_he').bind('input', function() {
 
 });
 
-$('#price').bind('input', function() {
 
-    document.getElementById('price_error').innerHTML = "";
+$('#item_price').bind('input', function() {
+
+    if(!this.value.match(/^\d+$/))
+    {
+        document.getElementById('item_price_error').innerHTML = "Wrong Number!";
+    }
+    else
+    {
+        document.getElementById('item_price_error').innerHTML = "";
+    }
 
 });
+
+
 
 function delete_subitem(subitem_id,url)
 {
@@ -40,6 +50,7 @@ function delete_subitem(subitem_id,url)
             },
             function(isConfirm){
                 if (isConfirm) {
+                    swal("Deleted!", "Subitem has been deleted.", "success");
                     addLoading();
                     $.ajax({
                         url:"ajax/delete_subitem.php",
@@ -49,7 +60,6 @@ function delete_subitem(subitem_id,url)
                         success:function(data)
                         {
                             hideLoading();
-                            alert("Subitem deleted successfully");
                             window.location.href = url;
                         }
                     });
@@ -69,7 +79,7 @@ function edit_subitems(subitem_id,url)
 
     var name_en                    =  $('#name_en').val();
     var name_he                    =  $('#name_he').val();
-    var price                      =  $('#price').val();
+    var price                      =  $('#item_price').val();
 
     if(name_en == "")
     {
@@ -97,7 +107,7 @@ function edit_subitems(subitem_id,url)
         'name_en'                 :  $('#name_en').val(),
         'name_he'                 :  $('#name_he').val(),
 
-        'price'                   :  $('#price').val(),
+        'price'                   :  $('#item_price').val(),
 
 
     };

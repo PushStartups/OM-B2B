@@ -38,6 +38,7 @@ function delete_extras(extra_id,url)
             },
             function(isConfirm){
                 if (isConfirm) {
+                    swal("Deleted!", "Extras has been deleted.", "success");
                     addLoading();
                     $.ajax({
                         url:"ajax/delete_extra.php",
@@ -47,7 +48,6 @@ function delete_extras(extra_id,url)
                         success:function(data)
                         {
                             hideLoading();
-                            alert("Extras deleted successfully");
                             window.location.href = url;
                         }
                     });

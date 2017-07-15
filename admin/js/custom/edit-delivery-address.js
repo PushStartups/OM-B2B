@@ -92,18 +92,41 @@ function edit_address(delivery_id,url)
 
 function delete_delivery_address(delivery_id,url)
 {
-    addLoading();
-    $.ajax({
-        url:"ajax/delete-address.php",
-        method:"post",
-        data:{delivery_id:delivery_id},
-        dataType:"text",
-        success:function(data)
-        {
-            hideLoading();
+    $(function(){
+        swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel please!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    swal("Deleted!", "Address has been deleted.", "success");
+                    addLoading();
+                    $.ajax({
+                        url:"ajax/delete-address.php",
+                        method:"post",
+                        data:{delivery_id:delivery_id},
+                        dataType:"text",
+                        success:function(data)
+                        {
+                            hideLoading();
 
 
-            window.location.href = url;
-        }
+                            window.location.href = url;
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Address is safe :)", "error");
+                    window.location.href = url;
+                }
+            });
     });
+
 }
+

@@ -431,7 +431,6 @@ function add_company()
 
         'notes'                :  document.getElementById("notes").value,
 
-        'send_mail'                :  send_mail,
 
         'sunday_start_time'       :  $('#sunday_start_time').val(),
         'sunday_end_time'         :  $('#sunday_end_time').val(),

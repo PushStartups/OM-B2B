@@ -13,10 +13,18 @@ $('#name').bind('input', function() {
 
 $('#smooch_id').bind('input', function() {
 
-    document.getElementById('email_error').innerHTML = "";
+    if(!this.value.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/))
+    {
+        document.getElementById('email_error').innerHTML = "Wrong Email!";
+        return;
+
+    }
+    else
+    {
+        document.getElementById('email_error').innerHTML = "";
+    }
 
 });
-
 
 $('#contact').bind('input', function() {
 

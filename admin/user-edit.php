@@ -1,10 +1,10 @@
 <?php
 include "header.php";
-
+echo  $users_id                 =    $_GET['user_id'];
 if(isset($_GET['user_id']))
 {
 
-$users_id                 =    $_GET['user_id'];
+
     $users                    =    getSpecificUsers($users_id);
 
 $company = $users['company_id'];
@@ -62,8 +62,8 @@ else
 
                                         <div class="form-group">
                                             <label>Email</label>
-                                            <input class="form-control" id="smooch_id" name="smooch_id" placeholder="Enter Email" type="text" value="<?=$users['smooch_id'];?>">
-                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_email"></span>
+                                            <input class="form-control" id="email_smooch_id" name="email_smooch_id" placeholder="Enter Email" type="text" value="<?=$users['smooch_id'];?>">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_email_smooch_id"></span>
                                         </div>
 
 

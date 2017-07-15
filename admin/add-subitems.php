@@ -165,8 +165,8 @@ else
 
                                             <div class="form-group">
                                                 <label>Price</label>
-                                                <input class="form-control" id="price" name="price" placeholder="Enter Price" type="text">
-                                                <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="price_error"></span>
+                                                <input class="form-control" id="item_price" name="item_price" placeholder="Enter Price" type="text">
+                                                <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="item_price_error"></span>
                                             </div>
 
 

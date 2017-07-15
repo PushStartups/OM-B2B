@@ -16,9 +16,17 @@ $('#name_he').bind('input', function() {
 
 });
 
+
 $('#limit').bind('input', function() {
 
-    document.getElementById('limit_error').innerHTML = "";
+    if(!this.value.match(/^\d+$/))
+    {
+        document.getElementById('limit_error').innerHTML = "Wrong Number!";
+    }
+    else
+    {
+        document.getElementById('limit_error').innerHTML = "";
+    }
 
 });
 
