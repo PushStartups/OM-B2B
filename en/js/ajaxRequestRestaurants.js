@@ -67,7 +67,7 @@ function responseListOfRestaurants(url,response) {
         delivery_time_str   = response.delivery_time_str;
         appox_delivey_time  = response.appox_delivey_time;
         db_tags             = response.db_tags;
-        db_kashurt          = response.db_kashurt;
+        db_kashurt          = response.db_kashrut;
 
         var str = '';
 
