@@ -326,11 +326,6 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
 
 
 
-
-
-
-
-
             // GET GALLERY OF RESTAURANT
             DB::useDB('orderapp_restaurants_b2b_wui');
 
@@ -397,13 +392,21 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
             $count++;
         }
 
+        $db_restaurant_tags = DB::query("select * from tags");
+        $db_restaurant_tags['count'] = 0;
+
+
+        $db_restaurant_kashrut = DB::query("select * from kashrut");
+        $db_restaurant_kashrut['count'] = 0;
 
         $resp = [
 
             "restaurants"           => $restaurants,
             "company_open_status"   => $currentCompanyOpenStatus,
             "appox_delivey_time"    => $delivery_time,               // APPOX DELIVERY TIME (1 HOUR AFTER ORDER CLOSED)
-            "delivery_time_str"     => $delivery_time_str            // i.e 10:45 - 11:45
+            "delivery_time_str"     => $delivery_time_str,           // i.e 10:45 - 11:45
+            "db_tags"               => $db_restaurant_tags,          //
+            "db_kashrut"            => $db_restaurant_kashrut
 
         ];
 
