@@ -131,21 +131,7 @@ you can add as many as you like
 //        );
         pageSetUp();
 
-        /* // DOM Position key index //
 
-         l - Length changing (dropdown)
-         f - Filtering input (search)
-         t - The Table! (datatable)
-         i - Information (records)
-         p - Pagination (paging)
-         r - pRocessing
-         < and > - div elements
-         <"#id" and > - div with an id
-         <"class" and > - div with a class
-         <"#id.class" and > - div with an id and class
-
-         Also see: http://legacy.datatables.net/usage/features
-         */
 
         /* BASIC ;*/
         var responsiveHelper_dt_basic = undefined;
@@ -326,12 +312,13 @@ you can add as many as you like
     pausecontent.push("<?php echo $name['name_en']; ?>");
     <?php } ?>
 
-        $( "#rest_name" ).autocomplete({
+        $( "#rest_name").autocomplete({
             source: pausecontent
         });
     $(document).ready(function() {
 
         $('.multiselect-ui').multiselect({
+          
             onChange: function(option, checked) {
                 // Get selected options.
                 var selectedOptions = $('.multiselect-ui option:selected');
