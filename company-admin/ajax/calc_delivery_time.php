@@ -5,22 +5,21 @@ if(($orig_date == "") || ($orig_date == null) ||($orig_date == "Closed"))
 {
     echo json_encode("Closed");
 }
-else
-{
+else{
 
-    $seconds = strtotime($orig_date);
+$seconds = strtotime($orig_date);
 
-    $plus_one_hour = $seconds + 3600;
+$plus_one_hour = $seconds + 3600;
 
-    $next_hour = floor($plus_one_hour / 3600) * 3600;
+$next_hour = floor($plus_one_hour / 3600) * 3600;
 
-    $mydate =  date("H:i",$next_hour);
+$mydate =  date("H:i",$next_hour);
 
-    $exact_time = explode(':',$mydate);
+$exact_time = explode(':',$mydate);
 
-    $old_time = explode(':',$orig_date);
+$old_time = explode(':',$orig_date);
 
-    $send_time = $final_time = $exact_time[0].':'.$old_time[1];
+$send_time = $final_time = $exact_time[0].':'.$old_time[1];
 
-    echo json_encode($send_time);
+echo json_encode($send_time);
 }

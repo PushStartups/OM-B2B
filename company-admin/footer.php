@@ -313,12 +313,16 @@ you can add as many as you like
     <?php } ?>
 
         $( "#rest_name").autocomplete({
-            source: pausecontent
+            source: pausecontent,
+            select: function (event, ui) {
+                call(ui.item.label);
+
+            },
         });
     $(document).ready(function() {
 
         $('.multiselect-ui').multiselect({
-          
+
             onChange: function(option, checked) {
                 // Get selected options.
                 var selectedOptions = $('.multiselect-ui option:selected');

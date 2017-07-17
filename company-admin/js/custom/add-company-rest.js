@@ -4,6 +4,11 @@ function add_restaurant_tab()
 }
 
 
+function call(val)
+{
+    document.getElementById("restaurant_name").value = val;
+}
+
 function delete_company_restaurant(rest_id,company_id,url)
 {
     addLoading();
