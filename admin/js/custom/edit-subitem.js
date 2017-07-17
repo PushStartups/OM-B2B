@@ -40,6 +40,7 @@ function delete_subitem(subitem_id,url)
             },
             function(isConfirm){
                 if (isConfirm) {
+                    swal("Deleted!", "Subitem has been deleted.", "success");
                     addLoading();
                     $.ajax({
                         url:"ajax/delete_subitem.php",
@@ -49,7 +50,6 @@ function delete_subitem(subitem_id,url)
                         success:function(data)
                         {
                             hideLoading();
-                            alert("Subitem deleted successfully");
                             window.location.href = url;
                         }
                     });

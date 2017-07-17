@@ -162,21 +162,43 @@ $('#notes').bind('input', function() {
 
 });
 
+
 function delete_company(company_id)
 {
-    addLoading();
-    $.ajax({
-        url:"ajax/delete_company.php",
-        method:"post",
-        data:{company_id:company_id},
-        dataType:"json",
-        success:function(data)
-        {
-            hideLoading();
-            alert("Company deleted successfully");
-            window.location.href = "companies.php";
-        }
+    $(function(){
+        swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel please!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    swal("Deleted!", "Company has been deleted.", "success");
+                    addLoading();
+                    $.ajax({
+                        url:"ajax/delete_company.php",
+                        method:"post",
+                        data:{company_id:company_id},
+                        dataType:"json",
+                        success:function(data)
+                        {
+                            hideLoading();
+                            window.location.href = "companies.php";
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Company is safe :)", "error");
+                    window.location.href = url;
+                }
+            });
     });
+
 }
 
 

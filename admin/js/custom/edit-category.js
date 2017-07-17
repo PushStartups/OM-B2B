@@ -28,6 +28,7 @@ function delete_category(category_id,url)
                 closeOnCancel: false
             },
             function(isConfirm){
+                swal("Deleted!", "Category has been deleted.", "success");
                 if (isConfirm) {
                     addLoading();
                     $.ajax({
@@ -38,7 +39,6 @@ function delete_category(category_id,url)
                         success:function(data)
                         {
                             hideLoading();
-                           // alert("Category deleted successfully");
                             window.location.href = url;
                         }
                     });
@@ -48,10 +48,6 @@ function delete_category(category_id,url)
                 }
             });
     });
-
-
-
-
 
 }
 

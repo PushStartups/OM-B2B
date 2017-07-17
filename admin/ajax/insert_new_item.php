@@ -19,7 +19,7 @@ DB::insert('items', array(
     "name_he"               =>      $_POST['name_he'],
     "desc_en"               =>      $_POST['desc_en'],
     "desc_he"               =>      $_POST['desc_he'],
-    "price"                 =>      $_POST['price'],
+    "price"                 =>      $_POST['item_price'],
     "sort"                  =>      $sort
 
 ));

@@ -24,15 +24,15 @@ $('#desc_he').bind('input', function() {
 });
 
 
-$('#price').bind('input', function() {
+$('#item_price').bind('input', function() {
 
     if(!this.value.match(/^\d+$/))
     {
-        document.getElementById('price_error').innerHTML = "Wrong Number!";
+        document.getElementById('item_price_error').innerHTML = "Wrong Number!";
     }
     else
     {
-        document.getElementById('price_error').innerHTML = "";
+        document.getElementById('item_price_error').innerHTML = "";
     }
 
 });
@@ -49,7 +49,7 @@ function add_new_item(category_id,url)
     var name_he                    =  $('#name_he').val();
     var desc_en                    =  $('#desc_en').val();
     var desc_he                    =  $('#desc_he').val();
-    var price                      =  $('#price').val();
+    var item_price                      =  $('#item_price').val();
 
 
 
@@ -77,9 +77,9 @@ function add_new_item(category_id,url)
         return;
     }
 
-    if(price == "")
+    if(item_price == "")
     {
-        $('#price_error').html('Required');
+        $('#item_price_error').html('Required');
         return;
     }
 
@@ -92,7 +92,7 @@ function add_new_item(category_id,url)
 
         'desc_en'                   :  $('#desc_en').val(),
         'desc_he'                   :  $('#desc_he').val(),
-        'price'                     :  $('#price').val(),
+        'item_price'                     :  $('#item_price').val(),
         'hide'                      :  $('#hide').val(),
         'category_id'               :   category_id,
       

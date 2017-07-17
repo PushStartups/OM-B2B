@@ -140,7 +140,6 @@ you can add as many as you like
     // DO NOT REMOVE : GLOBAL FUNCTIONS!
 
     $('.clockpicker').clockpicker();
-    
     function search_company(company_id)
     {
         addLoading();

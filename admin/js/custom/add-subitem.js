@@ -17,9 +17,17 @@ $('#name_he').bind('input', function() {
 
 });
 
-$('#price').bind('input', function() {
 
-    document.getElementById('price_error').innerHTML = "";
+$('#item_price').bind('input', function() {
+
+    if(!this.value.match(/^\d+$/))
+    {
+        document.getElementById('item_price_error').innerHTML = "Wrong Number!";
+    }
+    else
+    {
+        document.getElementById('item_price_error').innerHTML = "";
+    }
 
 });
 
@@ -31,7 +39,7 @@ function add_subitems(extra_id,url)
 
     var name_en                    =  $('#name_en').val();
     var name_he                    =  $('#name_he').val();
-    var price                      =  $('#price').val();
+    var price                      =  $('#item_price').val();
 
     if(name_en == "")
     {
@@ -59,7 +67,7 @@ function add_subitems(extra_id,url)
         'name_en'                 :  $('#name_en').val(),
         'name_he'                 :  $('#name_he').val(),
 
-        'price'                   :  $('#price').val(),
+        'price'                   :  $('#item_price').val(),
 
 
     };

@@ -25,17 +25,17 @@ $('#contact').bind('input', function() {
 });
 
 
-$('#smooch_id').bind('input', function() {
+$('#email_smooch_id').bind('input', function() {
 
     if(!this.value.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/))
     {
-        document.getElementById('error_email').innerHTML = "Wrong Email!";
+        document.getElementById('error_email_smooch_id').innerHTML = "Wrong Email!";
 
         return;
     }
     else
     {
-        document.getElementById('error_email').innerHTML = "";
+        document.getElementById('error_email_smooch_id').innerHTML = "";
     }
 
 });
@@ -53,7 +53,7 @@ function edit_user(url)
 {
 
     var name            =  $('#name').val();
-    var smooch_id       =  $('#smooch_id').val();
+    var smooch_id       =  $('#email_smooch_id').val();
     var contact         =  $('#contact').val();
     var address         =  $('#address').val();
 
@@ -93,7 +93,7 @@ function edit_user(url)
 
         'users_id'     :  $('#users_id').val(),
         'name'           :  $('#name').val(),
-        'smooch_id'      :  $('#smooch_id').val(),
+        'smooch_id'      :  $('#email_smooch_id').val(),
         'contact'        :  $('#contact').val(),
         'address'        :  $('#address').val(),
 

@@ -195,3 +195,21 @@ function edit_company(companies_id,urll)
 }
 
 
+$('#company_deadline_time').on('change', function(){
+
+
+    var timee = document.getElementById("company_deadline_time").value;
+
+        $.ajax({
+        url:"ajax/calc_delivery_time.php",
+        method:"post",
+        data:{timee:timee} ,
+        dataType:"json",
+        success:function(data)
+        {
+            $("#delivery_time").val(data);
+        }
+    });
+});
+
+
