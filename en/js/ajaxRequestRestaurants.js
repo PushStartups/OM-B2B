@@ -48,142 +48,29 @@ $(document).ready(function() {
     dataObject = JSON.parse(localStorage.getItem("data_object_en"));
 
 
-    // REQUEST ALL RESTAURANTS FROM SERVER
-    commonAjaxCall("/restapi/index.php/get_all_restaurants", {"company_id":dataObject.company.company_id}, responseListOfRestaurants);
-
-
+    commonAjaxCall("/restapi/index.php/get_db_tags_and_kashrut",{}, responseDBAllTagsKashrut);
 
 });
 
+function responseDBAllTagsKashrut(url, response) {
 
-function responseListOfRestaurants(url,response) {
 
     addLoading();
 
     try {
 
-        listOfRestaurants   = response.restaurants;
-        company_open_status = response.company_open_status;
-        delivery_time_str   = response.delivery_time_str;
-        appox_delivey_time  = response.appox_delivey_time;
         db_tags             = response.db_tags;
         db_kashrut          = response.db_kashrut;
 
-        var str = '';
-
-        for(var x=0;x<listOfRestaurants.length;x++)
-        {
-
-            var tagString      =  fromTagsToString(listOfRestaurants[x]);
-            var kashrutString  =  fromKashrutToString(listOfRestaurants[x]);
-
-            // RESTAURANTS ORDERING ENABLE
-
-            if(company_open_status)
-            {
-
-                str +=
-                    '<li>'+
-                    '<ul>'+
-                    '<li>'+
-                    '<div class="img-circle">'+
-                    '<img src="'+listOfRestaurants[x].logo+'" alt="images description">'+
-                    '</div>'+
-                    '<div class="txt">'+
-                    '<h1 class="light">'+listOfRestaurants[x].name_en+'</h1>'+
-                    '<p><em class="f black">Kashrut</em> '+tagString+' </p>'+
-                    '</div>'+
-                    '</li>'+
-                    '<li>'+
-                    '<div class="text">'+
-                    '<p><em class="f black">'+listOfRestaurants[x].percentage_discount+' % off</em> Between the hours '+listOfRestaurants[x].today_timings+' </p>'+
-                    '</div>'+
-                    '</li>'+
-                    '<li class="third">'+
-                    '<address class="address">'+
-                    '<img class="edit edit1" src="/en/images/ic_checkin.png">'+
-                    '<p class="new-adress" >'+listOfRestaurants[x].address_en+'</p>'+
-                    '<div class="tooltip-popup popup"><p class="f black">'+listOfRestaurants[x].address_en+'</br><strong>'+listOfRestaurants[x].city_en+'</strong></p></div>'+
-                    '</address>'+
-                    '</li>'+
-                    '<li>'+
-                    '<div class="btn-box"><button class="bt_ordernow" type="button" onclick="">order<br>now</button></div>'+
-
-                    '<time class="time">'+
-
-                    '<div  id="rl-dt-ma-'+x+'"  style="cursor: pointer" class="rl-dt-ma-popup">'+
-                    '<img class="bike" src="/en/images/motorbike-delivery.png">'+
-                    '<p id="show-popup">Next Delivery '+appox_delivey_time+'</p>'+
-                    '</div>'+
-                    '</time>'+
-                    '</li>'+
-                    '</ul>'+
-                    '</li>';
-
-
-            }
-
-            //  RESTAURANTS ORDERING  DISABLED
-
-            else {
-
-
-                str +=
-
-                    '<li class="offline">'+
-                    '<ul>'+
-                    '<li>'+
-                    '<div class="img-circle">'+
-                    '<img src="'+listOfRestaurants[x].logo+'" alt="images description">'+
-                    '</div>'+
-                    '<div class="txt">'+
-                    '<h1 class="light">'+listOfRestaurants[x].name_en+'</h1>'+
-                    '<p><em class="f black">Kashrut</em> '+tagString+' </p>'+
-                    '</div>'+
-                    '</li>'+
-                    '<li>'+
-                    '<div class="text">'+
-                    '<p><em class="f black">10 % off</em> Between the hours 10:30 - 11:30 </p>'+
-                    '</div>'+
-                    '</li>'+
-                    '<li class="third">'+
-                    '<address class="address">'+
-                    '<img class="edit edit1" src="/en/images/ic_checkin.png">'+
-                    '<p class="new-adress" >'+listOfRestaurants[x].address_en+'</p>'+
-                    '<div class="tooltip-popup popup"><p class="f black">'+listOfRestaurants[x].address_en+'</br><strong>'+listOfRestaurants[x].city_en+'</strong></p></div>'+
-                    '</address>'+
-                    '</li>'+
-                    '<li>'+
-                    '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button" onclick="">Closed</button></div>'+
-                    '<time class="time">'+
-                    '<img class="bike" src="/en/images/motorbike-delivery.png">'+
-                    '<p> -- :: -- </p>'+
-                    '</time>'+
-                    '</li>'+
-                    '</ul>'+
-                    '</li>';
-
-
-
-            }
-
-
-        }
-
-        str +=  '<li class="last-row"></li>';
-
-
-        $('#rest-list').html(str);
-
-
-        str = "";
+        var str = "";
 
         for(var x = 0; x < db_tags.length ; x++)
         {
+
             str += '<li>'+
                 '<label class="control control--checkbox">'+
                 '<input id="cb-tags-'+x+'" onclick="onFilterChange('+x+')" type="checkbox">'+
-                '<div class="control__indicator"></div>'+db_tags[x].name_en+' ['+db_tags[x].count+']'+
+                '<div class="control__indicator"></div><span id="cb-tags-title'+x+'">'+db_tags[x].name_en+' ['+db_tags[x].count+']'+'</span>'+
                 '</label>'+
                 '</li>';
 
@@ -196,10 +83,11 @@ function responseListOfRestaurants(url,response) {
 
         for(var x = 0; x < db_kashrut.length ; x++)
         {
+
             str += '<li>'+
                 '<label class="control control--checkbox">'+
                 '<input id="cb-kashrut-'+x+'" onclick="onFilterChange('+x+')" type="checkbox">'+
-                '<div class="control__indicator"></div>'+db_kashrut[x].name_en+' ['+db_kashrut[x].count+']'+
+                '<div class="control__indicator"></div><span id="cb-kashrut-title'+x+'">'+db_kashrut[x].name_en+' ['+db_kashrut[x].count+']'+'</span>'+
                 '</label>'+
                 '</li>';
 
@@ -208,11 +96,247 @@ function responseListOfRestaurants(url,response) {
 
         $('#kashruts').html(str);
 
-
         $('.list-item').show();
+
+        // REQUEST ALL RESTAURANTS FROM SERVER
+        commonAjaxCall("/restapi/index.php/get_all_restaurants", {"company_id":dataObject.company.company_id}, responseListOfRestaurants);
+
+    }
+    catch (exp)
+    {
+
+        errorHandlerServerResponse(url,"parsing error call back");
+        hideLoading();
+
+    }
+}
+
+
+function responseListOfRestaurants(url,response) {
+
+    addLoading();
+
+    try {
+
+        listOfRestaurants   = response.restaurants;
+        company_open_status = response.company_open_status;
+        delivery_time_str   = response.delivery_time_str;
+        appox_delivey_time  = response.appox_delivey_time;
+
+
+        var str = '';
+
+        for(var x=0;x<listOfRestaurants.length;x++)
+        {
+            var tagString      =  fromTagsToString(listOfRestaurants[x]);
+            var kashrutString  =  fromKashrutToString(listOfRestaurants[x]);
+
+            var isShow = false;
+
+
+            for(var y = 0; y < db_tags.length ; y++)
+            {
+                var cb_id   = "#cb-tags-"+y;
+
+                if($(cb_id).is(':checked'))
+                {
+                    for (var z = 0; z < listOfRestaurants[x].tags.length; z++) {
+
+                        var tag = listOfRestaurants[x].tags[z]['name_en'];
+
+                        if ((tag.toLowerCase()).includes(db_tags[y].name_en.toLowerCase())) {
+
+                            isShow = true;
+                            break;
+
+                        }
+
+                    }
+
+                    if(isShow)
+                    {
+                        break;
+                    }
+                }
+            }
+
+
+            for(var y = 0; y < db_kashrut.length ; y++)
+            {
+
+                var cb_id   = "#cb-kashrut-"+y;
+
+                if($(cb_id).is(':checked'))
+                {
+                    for (var z = 0; z < listOfRestaurants[x].kashrut.length; z++) {
+
+                        var kasrut = listOfRestaurants[x].kashrut[z]['name_en'];
+
+                        if ((kasrut.toLowerCase()).includes(db_kashrut[y].name_en.toLowerCase())) {
+
+                            isShow = true;
+                            break;
+
+                        }
+
+                    }
+
+                    if(isShow)
+                    {
+                        break;
+                    }
+                }
+
+            }
+
+
+            if(isShow) {
+
+
+                // RESTAURANTS ORDERING ENABLE
+
+                if (company_open_status) {
+
+                    str +=
+                        '<li>' +
+                        '<ul>' +
+                        '<li>' +
+                        '<div class="img-circle">' +
+                        '<img src="' + listOfRestaurants[x].logo + '" alt="images description">' +
+                        '</div>' +
+                        '<div class="txt">' +
+                        '<h1 class="light">' + listOfRestaurants[x].name_en + '</h1>' +
+                        '<p><em class="f black">Kashrut</em> ' + kashrutString + ' </p>' +
+                        '</div>' +
+                        '</li>' +
+                        '<li>' +
+                        '<div class="text">' +
+                        '<p><em class="f black">' + listOfRestaurants[x].percentage_discount + ' % off</em> Between the hours ' + listOfRestaurants[x].today_timings + ' </p>' +
+                        '</div>' +
+                        '</li>' +
+                        '<li class="third">' +
+                        '<address class="address">' +
+                        '<img class="edit edit1" src="/en/images/ic_checkin.png">' +
+                        '<p class="new-adress" >' + listOfRestaurants[x].address_en + '</p>' +
+                        '<div class="tooltip-popup popup"><p class="f black">' + listOfRestaurants[x].address_en + '</br><strong>' + listOfRestaurants[x].city_en + '</strong></p></div>' +
+                        '</address>' +
+                        '</li>' +
+                        '<li>' +
+                        '<div class="btn-box"><button class="bt_ordernow" type="button" onclick="">order<br>now</button></div>' +
+
+                        '<time class="time">' +
+
+                        '<div  id="rl-dt-ma-' + x + '"  style="cursor: pointer" class="rl-dt-ma-popup">' +
+                        '<img class="bike" src="/en/images/motorbike-delivery.png">' +
+                        '<p id="show-popup">Next Delivery ' + appox_delivey_time + '</p>' +
+                        '</div>' +
+                        '</time>' +
+                        '</li>' +
+                        '</ul>' +
+                        '</li>';
+
+
+                }
+
+                //  RESTAURANTS ORDERING  DISABLED
+
+                else {
+
+
+                    str +=
+
+                        '<li class="offline">' +
+                        '<ul>' +
+                        '<li>' +
+                        '<div class="img-circle">' +
+                        '<img src="' + listOfRestaurants[x].logo + '" alt="images description">' +
+                        '</div>' +
+                        '<div class="txt">' +
+                        '<h1 class="light">' + listOfRestaurants[x].name_en + '</h1>' +
+                        '<p><em class="f black">Kashrut</em> ' + kashrutString + ' </p>' +
+                        '</div>' +
+                        '</li>' +
+                        '<li>' +
+                        '<div class="text">' +
+                        '<p><em class="f black">' + listOfRestaurants[x].percentage_discount + ' % off</em> Between the hours ' + listOfRestaurants[x].today_timings + ' </p>' +
+                        '</div>' +
+                        '</li>' +
+                        '<li class="third">' +
+                        '<address class="address">' +
+                        '<img class="edit edit1" src="/en/images/ic_checkin.png">' +
+                        '<p class="new-adress" >' + listOfRestaurants[x].address_en + '</p>' +
+                        '<div class="tooltip-popup popup"><p class="f black">' + listOfRestaurants[x].address_en + '</br><strong>' + listOfRestaurants[x].city_en + '</strong></p></div>' +
+                        '</address>' +
+                        '</li>' +
+                        '<li>' +
+                        '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button" onclick="">Closed</button></div>' +
+                        '<time class="time">' +
+                        '<img class="bike" src="/en/images/motorbike-delivery.png">' +
+                        '<p> -- :: -- </p>' +
+                        '</time>' +
+                        '</li>' +
+                        '</ul>' +
+                        '</li>';
+
+
+                }
+
+
+            }
+
+        }
+
+
+        str +=  '<li class="last-row"></li>';
+
+
+        $('#rest-list').html(str);
+
+
+
+        for(var x = 0; x < db_tags.length ; x++)
+        {
+
+            var text_id = "#cb-tags-title"+x;
+            var cb_id   = "#cb-tags-"+x;
+
+            $(text_id).html(db_tags[x].name_en+' ['+db_tags[x].count+']');
+
+            if(db_tags[x].count == 0)
+            {
+                $(cb_id).attr("disabled", true);
+            }
+            else {
+
+                $(cb_id).removeAttr("disabled");
+            }
+
+        }
+
+
+
+        for(var x = 0; x < db_kashrut.length ; x++)
+        {
+
+            var text_id = "#cb-kashrut-title"+x;
+            var cb_id   = "#cb-kashrut-"+x;
+
+            $(text_id).html(db_kashrut[x].name_en+' ['+db_kashrut[x].count+']');
+
+            if(db_kashrut[x].count == 0)
+            {
+                $(cb_id).attr("disabled", true);
+            }
+            else {
+
+                $(cb_id).removeAttr("disabled");
+            }
+        }
+
 
 
         hideLoading();
+
 
     }
     catch (exp)
