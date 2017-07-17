@@ -12,9 +12,7 @@ DB::useDB('orderapp_b2b_wui');
 $getDay = DB::queryFirstRow("select * from company_timing where week_en = '$day' and company_id = '$company_id' ");
 $ordering_deadline_time = $getDay['closing_time'];
 
-
-$timestamp = strtotime($ordering_deadline_time) + 60*60;
-$delivery_time = date('H:i', $timestamp);
+$delivery_time = $getDay['delivery_timing'];
 
 ?>
 
