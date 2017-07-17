@@ -576,10 +576,11 @@ $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
 
     $company_id = $request->getParam('company_id');
 
+    DB::useDB(B2B_DB);
     $company_restaurants = DB::query("select  rest_id from company_rest where company_id = '$company_id'");
 
     try{
-
+        DB::useDB(B2B_RESTAURANTS);
         $db_restaurant_tags = DB::query("select * from tags");
 
 
@@ -589,6 +590,7 @@ $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
             $count = 0;
             foreach ($company_restaurants as $company_restaurant)
             {
+                DB::useDB(B2B_RESTAURANTS);
                 $result = DB::queryFirstRow("select COUNT(*) as count from restaurant_tags where restaurant_id = '".$company_restaurant['rest_id']."' AND tag_id = '".$tag['id']."' ");
                 $count  = $count + $result['count'];
             }
@@ -597,7 +599,32 @@ $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
             $ctn++;
         }
 
+
+
+
+
+
+
+
+
+        DB::useDB(B2B_RESTAURANTS);
         $db_restaurant_kashrut = DB::query("select * from kashrut");
+        $ctn1 = 0;
+        foreach ($db_restaurant_kashrut as $kashrut)
+        {
+            $count1 = 0;
+            foreach ($company_restaurants as $company_restaurant)
+            {
+                DB::useDB(B2B_RESTAURANTS);
+                $result1 = DB::queryFirstRow("select COUNT(*) as count from restaurant_kashrut where restaurant_id = '".$company_restaurant['rest_id']."' AND kashrut_id = '".$kashrut['id']."' ");
+                $count1  = $count1 + $result1['count'];
+            }
+
+            $db_restaurant_kashrut[$ctn1]['count'] = $count1;
+            $ctn1++;
+        }
+
+
 
         $resp = [
             "db_tags"               => $db_restaurant_tags,          //
