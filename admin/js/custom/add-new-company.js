@@ -162,12 +162,12 @@ $('#password').bind('input', function() {
     document.getElementById('error_password').innerHTML = "";
 
 });
-
-$('#notes').bind('input', function() {
-
-    document.getElementById('error_notes').innerHTML = "";
-
-});
+//
+// $('#notes').bind('input', function() {
+//
+//     document.getElementById('error_notes').innerHTML = "";
+//
+// });
 
 
 
@@ -190,7 +190,7 @@ function add_company()
     var discount_type           =  $('#discount_type').val();
     var email                    =  $('#email').val();
     var password                    =  $('#password').val();
-    var notes                    =  document.getElementById("notes").value;
+   // var notes                    =  document.getElementById("notes").value;
 
     var sunday_start_time       =  $('#sunday_start_time').val();
     var sunday_end_time         =  $('#sunday_end_time').val();
@@ -309,11 +309,11 @@ function add_company()
     }
 
 
-    if(notes == "")
-    {
-        $('#error_notes').html('Required*');
-        return;
-    }
+    // if(notes == "")
+    // {
+    //     $('#error_notes').html('Required*');
+    //     return;
+    // }
 
 
 

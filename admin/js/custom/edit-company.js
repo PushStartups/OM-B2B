@@ -155,12 +155,12 @@ $('#password').bind('input', function() {
     document.getElementById('error_password').innerHTML = "";
 
 });
-
-$('#notes').bind('input', function() {
-
-    document.getElementById('error_notes').innerHTML = "";
-
-});
+//
+// $('#notes').bind('input', function() {
+//
+//     document.getElementById('error_notes').innerHTML = "";
+//
+// });
 
 
 function delete_company(company_id)
@@ -218,7 +218,7 @@ function edit_company(companies_id,urll)
     var discount_type           =  $('#discount_type').val();
     var email                    =  $('#email').val();
     var password                    =  $('#password').val();
-    var notes                    =  document.getElementById("notes").value;
+    //var notes                    =  document.getElementById("notes").value;
 
     var team_size                  =  $('#team_size').val();
     var limit_of_restaurants                  =  $('#limit_of_restaurants').val();
@@ -341,11 +341,11 @@ function edit_company(companies_id,urll)
         return;
     }
 
-    if(notes == "")
-    {
-        $('#error_notes').html('Required*');
-        return;
-    }
+    // if(notes == "")
+    // {
+    //     $('#error_notes').html('Required*');
+    //     return;
+    // }
 
 
 
