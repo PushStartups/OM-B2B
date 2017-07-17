@@ -77,6 +77,7 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
             $user['name']                   =   $userDB['name'];
             $user['email']                  =   $userDB['smooch_id'];
             $user['contact']                =   $userDB['contact'];
+            $user['discount']               =   $userDB['discount'];
             $company['company_id']          =   $company_id;
             $company['company_name']        =   $companyDB['name'];
             $company['company_address']     =   $companyDB['delivery_address'];
@@ -600,13 +601,6 @@ $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
         }
 
 
-
-
-
-
-
-
-
         DB::useDB(B2B_RESTAURANTS);
         $db_restaurant_kashrut = DB::query("select * from kashrut");
         $ctn1 = 0;
@@ -649,6 +643,131 @@ $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
 
 
 });
+
+//  WEB HOOK GET DATA OF CATEGORIES WITH ITEMS
+
+$app->post('/categories_with_items', function ($request, $response, $args)
+{
+    try {
+
+        $id = $request->getParam('restaurantId');
+
+        // GET MENUS FOR RESTAURANT i.e LUNCH
+        DB::useDB(B2B_RESTAURANTS);
+        $menu = DB::queryFirstRow("select * from menus where restaurant_id = '" . $id . "'");
+
+        // GET CATEGORIES OF RESTAURANT i.e ANGUS SALAD , ANGUS BURGER
+        DB::useDB(B2B_RESTAURANTS);
+        $categories = DB::query("select * from categories where menu_id = '" . $menu['id'] . "' order by sort ASC");
+
+        $count2 = 0;
+
+        $items = '';
+
+        foreach ($categories as $category) {
+
+            $items = array();
+
+            if($category['business_offer'] == 0) {
+
+                DB::useDB(B2B_RESTAURANTS);
+                $items = DB::query("select * from items where category_id = '" . $category["id"] . "' and hide = '0'");
+
+            }
+            else {
+
+//                // BUSINESS LUNCH CATEGORY GET SELECTED ITEMS
+                $first_day_this_month = date('Y-m-01');
+                $firstDayOfMonth = $first_day_this_month;
+
+                $currentDate = date('Y-m-d');
+
+                $dtCurrent      = DateTime::createFromFormat('Y-m-d', $currentDate);
+                $dtFirstOfMonth = DateTime::createFromFormat('Y-m-d', $firstDayOfMonth);
+
+                $numWeeks = 1 + (intval($dtCurrent->format("W")) - intval($dtFirstOfMonth->format("W")));
+
+                $dayOfWeek = date('l');
+
+                DB::useDB(B2B_RESTAURANTS);
+                $businessItemsIds = DB::query("select item_id from business_lunch_detail where category_id = '" . $category["id"] . "' AND  week_day = '$dayOfWeek' AND week_cycle = '$numWeeks'");
+
+
+                foreach ($businessItemsIds as $businessItem) {
+
+                    DB::useDB(B2B_RESTAURANTS);
+                    $item = DB::queryFirstRow("select * from items where category_id = '" . $category["id"] . "' and hide = '0' and id = '".$businessItem['item_id']."'");
+
+                    array_push($items, $item);
+                }
+
+            }
+
+            $count3 = 0;
+
+            // CHECK FOR ITEMS PRICE ZERO
+            foreach ($items as $item) {
+
+                if ($item['price'] == 0) {
+
+                    DB::useDB(B2B_RESTAURANTS);
+                    $extras = DB::query("select * from extras where item_id = '" . $item["id"] . "' AND type = 'One' AND price_replace=1");
+                    // EXTRAS WITH TYPE OME AND PRICE REPLACE 1
+
+                    foreach ($extras as $extra) {
+
+                        DB::useDB(B2B_RESTAURANTS);
+                        $subItems = DB::query("select * from subitems where extra_id = '" . $extra["id"] . "'");
+                        $lowestPrice = $subItems[0]['price'];
+
+                        foreach ($subItems as $subitem) {
+
+                            if ($subitem['price'] < $lowestPrice) {
+                                $lowestPrice = $subitem['price'];
+                            }
+
+                        }
+
+                        $items[$count3]['price'] = $lowestPrice;
+
+                    }
+                    //break;
+                }
+
+                $count3++;
+            }
+
+
+            $categories[$count2]['items'] = $items;
+            $count2++;
+        }
+
+        // CREATE DEFAULT OBJECT FOR ITEMS AND CATEGORIES;
+        $data = [
+            "menu_name_en" => $menu['name_en'],               // MENU NAME EN
+            "menu_name_he" => $menu['name_he'],               // MENU NAME HE
+            "categories_items" => $categories                 // CATEGORIES AND ITEMS
+        ];
+
+
+        // RESPONSE RETURN TO REST API CALL
+        $response = $response->withStatus(202);
+        $response = $response->withJson($data);
+        return $response;
+
+    }
+    catch(MeekroDBException $e) {
+
+        $response =  $response->withStatus(500);
+        $response =  $response->withHeader('Content-Type', 'text/html');
+        $response =  $response->write( $e->getMessage());
+        return $response;
+    }
+
+});
+
+
+
 
 // CANCEL ORDER
 $app->post('/cancel_order', function ($request, $response, $args)
