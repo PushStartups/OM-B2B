@@ -340,6 +340,8 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
 
             // GET B2B PERCENTAGE DISCOUNT ON THIS ITEM
 
+            $in_time_discount = 0;
+
             DB::useDB('orderapp_b2b_wui');
             $percentage_discount = DB::queryFirstRow("select * from b2b_rest_discounts where rest_id = '" .  $result['id'] . "' AND company_id = '".$company_id."'");
 
@@ -395,7 +397,7 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
 
         $db_restaurant_kashrut = DB::query("select * from kashrut");
 
-
+        
         $resp = [
 
             "restaurants"           => $restaurants,
