@@ -88,7 +88,10 @@ $_SESSION['search_end_date'] = "";
                                 <h2>B2B Order Detail </h2>
                             </header>
                             <div align="center">
-                                <a href="b2bOrderDetail.csv" download="b2bOrderDetail.csv"  class="btn-lg btn-primary m-t-10" > Export CSV File</a>
+                                <br>
+                                <a href="b2bOrderDetail.csv" download="b2bOrderDetail.csv"  class="btn-lg btn-primary m-t-10" > Print CSV Report</a>
+                                <br>
+                                <br>
                             </div>
                             <!-- widget div-->
                             <div>
@@ -142,6 +145,7 @@ $_SESSION['search_end_date'] = "";
                                         <tbody id="target-content">
                                         <?php $orders = getAllB2BOrders();
                                         $i = 1;
+                                        $totall = 0; $actual_total = 0 ; $discount = 0;
                                         foreach ($orders as $order)
                                         {
                                             $refundAmount =   getTotalRefundAmountB2B($order['id']);
@@ -164,13 +168,13 @@ $_SESSION['search_end_date'] = "";
                                                 <?php  $arr[3] = $restaurant_name;  ?>
 
                                                 <td><?=$order['total']." NIS"?></td>
-                                                <?php  $arr[4] = $order['total'];  ?>
+                                                <?php  $arr[4] = $order['total'];   $totall  = $totall + $order['total']; ?>
 
                                                 <td><?=$order['actual_total']." NIS"?></td>
-                                                <?php  $arr[5] = $order['actual_total'];  ?>
+                                                <?php  $arr[5] = $order['actual_total'];   $actual_total  = $actual_total + $order['actual_total']; ?>
 
                                                 <td><?=$order['discount']." NIS"?></td>
-                                                <?php  $arr[6] = $order['discount'];  ?>
+                                                <?php  $arr[6] = $order['discount'];   $discount  = $discount + $order['discount']; ?>
 
                                                 <td><?=$order['payment_info']?></td>
                                                 <?php  $arr[7] = $order['payment_info'];  ?>
@@ -191,7 +195,21 @@ $_SESSION['search_end_date'] = "";
                                             </tr>
 
                                             <?php $i++;
-                                            fputcsv($file,$arr); } ?>
+                                            fputcsv($file,$arr); }
+
+
+                                        $list = array
+                                        (
+                                            ",,,Total :, $totall , $actual_total , $discount  "
+                                        );
+                                        foreach ($list as $line)
+                                        {
+                                            fputcsv($file,explode(',',$line));
+                                        }
+
+                                        fclose($file);
+
+                                            ?>
 
 
                                         </tbody>
