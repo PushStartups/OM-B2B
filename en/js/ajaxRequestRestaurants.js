@@ -31,11 +31,11 @@ var pending_orders_object = null;  // USER'S PENDING ORDERS OBJECT
 
 
 
-// FILTER COUNT VALUES FOR AVAILABLE RESTAURANTS
-
-var dairy_count = 0, meat_count = 0, heath_count =0, pizzeria_count=0, hamburger_count=0, sushi_count=0;
+var db_tags  = null;               // CUISINE TAGS OF RESTAURNATS i.e MEAT, BURGER, HEALTH
 
 
+
+var db_kashurt = null;             // KASHURT OF RESTAURANTS i.e Mehardin
 
 
 // AFTER DOCUMENTED LOADED
@@ -66,16 +66,16 @@ function responseListOfRestaurants(url,response) {
         company_open_status = response.company_open_status;
         delivery_time_str   = response.delivery_time_str;
         appox_delivey_time  = response.appox_delivey_time;
-
-        dairy_count = 0; meat_count = 0; heath_count =0; pizzeria_count=0; hamburger_count=0; sushi_count=0;
+        db_tags             = response.db_tags;
+        db_kashurt          = response.db_kashurt;
 
         var str = '';
 
         for(var x=0;x<listOfRestaurants.length;x++)
         {
 
-            var tagString =  fromTagsToString(listOfRestaurants[x]);
-
+            var tagString      =  fromTagsToString(listOfRestaurants[x]);
+            var kashurtString  =  fromKashrutToString(listOfRestaurants[x]);
 
             // RESTAURANTS ORDERING ENABLE
 
@@ -83,7 +83,6 @@ function responseListOfRestaurants(url,response) {
             {
 
                 str +=
-
                     '<li>'+
                     '<ul>'+
                     '<li>'+
@@ -177,12 +176,37 @@ function responseListOfRestaurants(url,response) {
         $('#rest-list').html(str);
 
 
-        $('#dairy_text').html("Dairy ["+dairy_count+"]");
-        $('#meat_text').html("Meat ["+meat_count+"]");
-        $('#health_text').html("Health ["+heath_count+"]");
-        $('#pizzeria_text').html("Pizzeria ["+pizzeria_count+"]");
-        $('#hamburger_text').html("Hamburger["+hamburger_count+"]");
-        $('#sushi_text').html("Sushi ["+sushi_count+"]");
+        str = "";
+
+        for(var x = 0; x < db_tags.length ; x++)
+        {
+            str += '<li>'+
+                '<label class="control control--checkbox">'+
+                '<input id="cb-tags-'+x+'" onclick="onFilterChange('+x+')" type="checkbox">'+
+                '<div class="control__indicator"></div>'+db_tags[x].name_en+
+                '</label>'+
+                '</li>';
+
+        }
+
+        $('#tags').html(str);
+
+
+        str = "";
+
+        for(var x = 0; x < db_kashurt.length ; x++)
+        {
+            str += '<li>'+
+                '<label class="control control--checkbox">'+
+                '<input id="cb-kashurt-'+x+'" onclick="onFilterChange('+x+')" type="checkbox">'+
+                '<div class="control__indicator"></div>'+db_kashurt[x].name_en+
+                '</label>'+
+                '</li>';
+
+        }
+
+
+        $('#kashurts').html(str);
 
 
         $('.list-item').show();
@@ -210,43 +234,56 @@ function fromTagsToString (restaurant)
 {
     var tags = "";
 
-    for (var i=0 ; i < restaurant.tags.length ; i++)
-    {
+    for (var i=0 ; i < restaurant.tags.length ; i++) {
 
-        if ( i == 0)
+
+        if (i == 0)
             tags += restaurant.tags[i]['name_en'];
 
         else
-            tags += ", "+restaurant.tags[i]['name_en'] ;
+            tags += ", " + restaurant.tags[i]['name_en'];
 
 
-        if((restaurant.tags[i]['name_en']).toLowerCase() === "dairy")
-        {
-            dairy_count++;
-        }
-        else if((restaurant.tags[i]['name_en']).toLowerCase() === "meat")
-        {
-            meat_count++;
-        }
-        else if((restaurant.tags[i]['name_en']).toLowerCase() === "health")
-        {
-            heath_count++;
-        }
-        else if((restaurant.tags[i]['name_en']).toLowerCase() === "Pizzeria")
-        {
-            pizzeria_count++;
-        }
-        else if((restaurant.tags[i]['name_en']).toLowerCase() === "hamburger")
-        {
-            hamburger_count++;
-        }
-        else if((restaurant.tags[i]['name_en']).toLowerCase() === "sushi")
-        {
-            sushi_count++;
+        for (var x = 0; x < db_tags.length; x++) {
+
+
+            if ((restaurant.tags[i]['name_en']).toLowerCase() === db_tags[x].name_en.toLowerCase()) {
+
+                db_tags[x].count = parseInt(db_tags[x].count) + 1;
+            }
         }
     }
 
     return tags;
+}
+
+
+
+// CONVERT ALL RESTAUTANT TAGS TO STRING
+function fromKashrutToString (restaurant)
+{
+    var kashrut = "";
+
+    for (var i=0 ; i < restaurant.kashrut.length ; i++)
+    {
+
+        if ( i == 0)
+            kashrut += restaurant.kashrut[i]['name_en'];
+
+        else
+            kashrut += ", "+restaurant.kashrut[i]['name_en'] ;
+
+
+        for (var x = 0; x < db_kashurt.length; x++) {
+
+            if ((restaurant.db_kashurt[i]['name_en']).toLowerCase() === db_kashurt[x].name_en.toLowerCase()) {
+
+                db_kashurt[x].count = parseInt(db_kashurt[x].count) + 1;
+            }
+        }
+    }
+
+    return kashrut;
 }
 
 

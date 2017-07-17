@@ -366,8 +366,8 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
             $restaurant = [
 
                 "id"                   => $result["id"],                // RESTAURANT ID
-                "city_en"              => $city["name_en"],               // CITY NAME EN
-                "city_he"              => $city["name_he"],               // CITY NAME HE
+                "city_en"              => $city["name_en"],             // CITY NAME EN
+                "city_he"              => $city["name_he"],             // CITY NAME HE
                 "name_en"              => $result["name_en"],           // RESTAURANT NAME
                 "name_he"              => $result["name_he"],           // RESTAURANT NAME
                 "min_amount"           => $companyDetail['min_order'],  // COMPANY MINIMUM AMOUNT
