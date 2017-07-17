@@ -58,6 +58,8 @@ $(document).ready(function() {
 
 function responseListOfRestaurants(url,response) {
 
+    addLoading();
+
     try {
 
         listOfRestaurants   = response.restaurants;
@@ -110,7 +112,7 @@ function responseListOfRestaurants(url,response) {
 
                     '<time class="time">'+
 
-                    '<div onclick="rlDeliveryTimeMinAmountPopup('+x+')">'+
+                    '<div  id="rl-dt-ma-'+x+'"  style="cursor: pointer" class="rl-dt-ma-popup">'+
                     '<img class="bike" src="/en/images/motorbike-delivery.png">'+
                     '<p id="show-popup">Next Delivery '+appox_delivey_time+'</p>'+
                     '</div>'+
@@ -118,6 +120,7 @@ function responseListOfRestaurants(url,response) {
                     '</li>'+
                     '</ul>'+
                     '</li>';
+
 
             }
 
@@ -162,10 +165,14 @@ function responseListOfRestaurants(url,response) {
                     '</li>';
 
 
+
             }
 
 
         }
+
+        str +=  '<li class="last-row"></li>';
+
 
         $('#rest-list').html(str);
 
@@ -180,32 +187,20 @@ function responseListOfRestaurants(url,response) {
 
         $('.list-item').show();
 
+
+        hideLoading();
+
     }
     catch (exp)
     {
 
         errorHandlerServerResponse(url,"parsing error call back");
+        hideLoading();
 
     }
 
-}
 
 
-// REST LIST DSPLAY MIN AMOUNT AND DELIVERY TIME POPUP
-
-function rlDeliveryTimeMinAmountPopup(index)
-{
-    var id = '#rests-dt-mn';
-
-    if($(id).is(':hidden'))
-    {
-        $('.time-popup').hide();
-    }
-
-    $(id).toggle();
-
-    $('#dt-str').html(delivery_time_str);
-    $('#min_order_amount').html(listOfRestaurants[index].min_amount+' NIS minimum');
 
 }
 
@@ -700,6 +695,8 @@ function responsePendingOrders(url, response) {
 
 
         }
+
+        str +=  '<div class="last-row"></div>';
 
 
         pending_orders_object = response;
