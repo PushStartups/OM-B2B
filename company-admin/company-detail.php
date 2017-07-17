@@ -130,7 +130,7 @@ $delivery_time = date('H:i', $timestamp);
 
                                         <div class="form-group">
                                             <label>Delivery Time</label>
-                                            <input class="form-control" id="delivery_time" name="delivery_time" type="text" readonly value="<?=$delivery_time;?>">
+                                            <input class="form-control" id="delivery_time" name="delivery_time" type="text"  value="<?=$delivery_time;?>">
 
                                         </div>
 

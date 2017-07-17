@@ -11,6 +11,8 @@ use Mailgun\Mailgun;
 
 DB::query("set names utf8");
 
+define("B2B_DB","orderapp_b2b_wui");
+define("B2B_RESTAURANTS","orderapp_restaurants_b2b_wui");
 
 // ORDER RECEIVE EMAILS FOR SERVERS
 
@@ -305,8 +307,31 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
             };
 
 
-            // GET GALLERY OF RESTAURANT
 
+            // GET KOSHER OF RESTAURANT i.e MEHADRIN
+            DB::useDB('orderapp_restaurants_b2b_wui');
+            $kashrutIds = DB::query("select kashrut_id from restaurant_kashrut where restaurant_id = '" . $result['id'] . "'");
+
+            $kashrut = Array();
+            $count3 = 0;
+
+            foreach ($kashrutIds as $id) {
+
+
+                DB::useDB('orderapp_restaurants_b2b_wui');
+                $kashruts  =  DB::queryFirstRow("select * from kashrut where id = '" . $id["kashrut_id"] . "'");
+                $kashrut[$count3]  =  $kashruts;
+                $count3++;
+            };
+
+
+
+
+
+
+
+
+            // GET GALLERY OF RESTAURANT
             DB::useDB('orderapp_restaurants_b2b_wui');
 
             $galleryImages = DB::query("select url from restaurant_gallery where restaurant_id = '" . $result['id'] . "'");
@@ -352,6 +377,7 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
                 "name_he"              => $result["name_he"],           // RESTAURANT NAME
                 "min_amount"           => $companyDetail['min_order'],  // COMPANY MINIMUM AMOUNT
                 "tags"                 => $tags,                        // RESTAURANT TAGS
+                "kashrut"              => $kashrut,                     // RESTAURANT KASHRUT
                 "logo"                 => $result["logo"],              // RESTAURANT LOGO
                 "description_en"       => $result["description_en"],    // RESTAURANT DESCRIPTION
                 "description_he"       => $result["description_he"],    // RESTAURANT DESCRIPTION
@@ -538,6 +564,14 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
 
 
     }
+
+});
+
+// CANCEL ORDER
+$app->post('/cancel_order', function ($request, $response, $args)
+{
+    DB::useDB(B2B_DB);
+    $order_id = $request->getParam('order_id');
 
 });
 
@@ -896,6 +930,9 @@ $app->post('/insert_new_restaurant', function ($request, $response, $args)
     return $response;
 
 });
+
+
+
 
 
 

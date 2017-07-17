@@ -24,7 +24,8 @@ DB::update('company', array(
 
 $close = $_POST['company_deadline_time'];
 $week_en = $_POST['week_en'];
+$delivery_time = $_POST['delivery_time'];
 
-DB::query("UPDATE company_timing set closing_time = '$close' , closing_time_he = '$close' where company_id = '$company_id' and week_en = '$week_en' ");
+DB::query("UPDATE company_timing set closing_time = '$close' , closing_time_he = '$close', delivery_timing = '$delivery_time' where company_id = '$company_id' and week_en = '$week_en' ");
 
 echo json_encode($_POST['discount_type']);

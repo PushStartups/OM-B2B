@@ -63,7 +63,7 @@ include "header.php";
                                             <th >Restaurant</th>
 
                                             <th data-hide="phone, tablet">Discount</th>
-                                            <th data-hide="phone, tablet">In Time Discount</th>
+
 
 
 <!--                                            <th>Action</th>-->
@@ -92,8 +92,7 @@ include "header.php";
                                                 <td><?=$restaurant['name_en']?></td>
 
                                                 <td><?=$companies['discount_percent']?>%</td>
-
-                                                <td><?=$companies['in_time_discount']?>%</td>
+                                                
 
                                             </tr>
                                         <?php } ?>

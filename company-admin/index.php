@@ -42,7 +42,7 @@ else
 
             <!-- col -->
             <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-                <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-briefcase "></i> <?=$company_name?> (Restaurant Limit : <?=$restaurant_limit?>) </h1>
+                <h2 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-briefcase "></i> <?=$company_name?> (Restaurant Limit : <?=$restaurant_limit?>) </h2>
             </div>
 
             <!-- end col -->
@@ -53,7 +53,7 @@ else
                 <?php if($hide == 0){ ?>
                 <a onclick="add_restaurant_tab()" style="float:right"  class="btn btn-lg bg-color-purple txt-color-white"><i class="fa-fw fa fa-plus "></i> Add Restaurants</a>
                 <?php } else { ?>
-                    <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><b>Restaurant Limit is Full </b></h1>
+                    <h2 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><b>Restaurant Limit is Full </b></h2>
 
                 <?php
                 } ?>
@@ -89,35 +89,10 @@ else
                                         <input name="authenticity_token" type="hidden">
                                         <div class="form-group">
                                             <label>Restaurant Name</label>
-<!--                                            <input class="form-control" id="rest_name" name="rest_name" placeholder="Enter Restaurant Name" type="text">-->
-                                            <select id="rest_name" name="rest_name[]" multiple="multiple" class="multiselect-ui form-control" required>
-                                                <?php
-
-
-                                                DB::useDB('orderapp_b2b_wui');
-                                                $rest_ids = DB::query("SELECT *  FROM company_rest WHERE company_id =  '$companies_id'");
-
-
-
-                                                foreach ($rest_ids as $r) {
-                                                    $row[] = $r['rest_id'];
-                                                }
-                                                DB::useDB('orderapp_restaurants_b2b_wui');
-                                                $qry1 = " select  * from  restaurants where id not in('" . implode("','", $row) . "') ";
-
-                                                $restaurant = db::query($qry1);
-
-                                                    foreach($restaurant as $rest)
-                                                    { ?>
-                                                        <option value="<?=$rest['id']?>"><?=$rest['name_en']?></option>
-                                                    <?php
-                                                    }
-                                                ?>
-
-
-
-                                            </select>
+                                            <input class="form-control" id="rest_name" name="rest_name" placeholder="Enter Restaurant Name" type="text">
+                                         
                                             <input type="hidden" value="<?=$companies_id?>" id="company_id" name="company_id">
+                                            <input type="hidden"  id="restaurant_name" name="restaurant_name">
                                             <input type="hidden" value="<?=$_SERVER['REQUEST_URI']?>" id="url" name="url">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error-name"></span>
                                         </div>
