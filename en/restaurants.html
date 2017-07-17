@@ -297,9 +297,9 @@
                                                                         <p>From</p>
                                                                         <div class='input-group date' >
                                                                             <input  dateee type='text' id='datepicker' class="form-control" />
-                                                                            <span class="input-group-addon" >
-                                                                                <img src="/en/images/icon_calender.png" onclick="$('#datepicker').click()">
-                                                                            </span>
+                                                                            <!--<span class="input-group-addon" >-->
+                                                                                <!--<img src="/en/images/icon_calender.png" onclick="$('#datepicker').click()">-->
+                                                                            <!--</span>-->
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -308,9 +308,9 @@
                                                                         <p>To</p>
                                                                         <div class='input-group date form_datetime' >
                                                                             <input name="datee" id='datepicker2' type='text' class="form-control" />
-                                                                            <span class="input-group-addon" >
-                                                                                <img src="/en/images/icon_calender.png">
-                                                                            </span>
+                                                                            <!--<span class="input-group-addon" >-->
+                                                                                <!--<img src="/en/images/icon_calender.png">-->
+                                                                            <!--</span>-->
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -684,7 +684,7 @@ ERROR DISPLAY POPUP
 </div>
 
 
-<div class="time-popup popup" id="rests-dt-mn"  style="display: none;">
+<div current-index = "" class="time-popup popup" id="rests-dt-mn"  style="display: none;">
 
     <div class="header">
         <p class="f black" style="text-transform: uppercase;">Delivery Time for today</p>
@@ -865,9 +865,110 @@ ERROR DISPLAY POPUP
     });
 
 
+
+
+    $('body').on('click', '.rl-dt-ma-popup', function(e) {
+
+
+        if(!$("#rests-dt-mn").is(':hidden'))
+        {
+            $('.time-popup').hide();
+        }
+
+
+        var autoScroll = false;
+        var scrollTop = 0;
+        var scrollTopDiff = 0;
+
+        var container = $('#scrollable1');
+        var scrollTo = $(this);
+
+        setTimeout(function(){
+
+            // Or you can animate the scrolling:
+            container.animate({
+
+                scrollTop: ((scrollTo.offset().top - container.offset().top + container.scrollTop() ) - 300)
+
+            },400)
+
+        }, 300);
+
+
+        var that = this;
+
+
+        setTimeout(function () {
+
+            try {
+
+                var index = $(that).attr('id');
+                index = index.replace('rl-dt-ma-','');
+
+                $('#dt-str').html(delivery_time_str);
+                $('#min_order_amount').html(listOfRestaurants[index].min_amount+' NIS minimum');
+
+
+                var current_index = $("#rests-dt-mn").attr('current-index');
+
+
+                if(current_index  != index) {
+
+
+                    $("#rests-dt-mn").toggle();
+
+
+
+                    //show the menu directly over the placeholder
+                    $("#rests-dt-mn").css({
+
+                        position: "absolute",
+                        top: (scrollTo.offset().top + 90) + "px",
+                        left : (scrollTo.offset().left + 70) + "px"
+
+                    }).show();
+
+                    var offset = (($("#rests-dt-mn").height() +  $("#rests-dt-mn").offset().top) -   $(window).height());
+
+                    if(offset > 0)
+                    {
+                        console.log(offset);
+                        $("#rests-dt-mn").css({ top: ($("#rests-dt-mn").offset().top - offset) + "px"
+                        });
+
+                    }
+
+                    $("#rests-dt-mn").attr("current-index", index);
+
+                }
+                else {
+
+
+                    $("#rests-dt-mn").attr("current-index", "");
+
+                }
+
+
+
+
+
+            }
+            catch (e)
+            {
+                console.log(e);
+            }
+
+        }, 700);
+
+        e.stopPropagation();
+
+    });
+
+
     $(document).click(function () {
 
         $(".cancle-order").fadeOut();
+        $("#rests-dt-mn").fadeOut();
     })
 
 </script>

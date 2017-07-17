@@ -96,13 +96,14 @@
     width: 20px;
     height: 20px;
     content: '';
-    position: absolute;
-    top: 3px;
-    right:0;
-    background: #56EA48;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0 0 5px;
+    background: #797979;
     border-radius: 50%;
     box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
+.motorbike h3.active:after{background: #56EA48;}
 .list{
     margin: 0;
     padding: 0 0 0 46px;
@@ -199,6 +200,10 @@
     border-top: 1px solid #cacaca;
 }
 .rest-list li:first-child{border: none;}
+.last-row {
+    height: 281px;
+    border: none;
+}
 .rest-list ul{
     margin: 0;
     display: table;
@@ -312,7 +317,7 @@
     font-size: 12px;
     line-height: 15px;
     text-decoration: underline;
-    margin: 12px 0 0;
+    margin: 12px 53px 0 0;
     position: relative;
 }
 .cancle-order {
@@ -655,6 +660,7 @@
     border: 1px solid #000;
     background: #fff;
     border-radius:4px;
+    position: relative;
 }
 .input-group-addon {
     padding: 0;
@@ -669,9 +675,21 @@
 }
 .input-group .form-control{
     border: none;
-    padding: 0;
+    padding: 2px 15px 0 0;
     height: 16px;
     margin: 0;
+    font-size: 12px;
+    line-height: 15px;
+}
+.input-group .form-control:hover{background: none;}
+.input-group:after{
+    width: 20px;
+    height: 19px;
+    position: absolute;
+    top: 4px;
+    right: 0;
+    content: '';
+    background: url("../images/icon_calender.png") no-repeat;
 }
 .list-item .form-group{
     margin: 0 5px 0 0;
@@ -682,6 +700,7 @@
     background:none;
     padding: 0;
 }
+.btn-arrow:hover img{opacity: 0.7;}
 /*.btn-arrow img{*/
     /*width: 18px;*/
     /*margin: 0 0 0 -2px;*/
