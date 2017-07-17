@@ -182,10 +182,10 @@
                                                 <div class="list-item slide" style="display: none">
                                                     <ul id="tags">
                                                         <!--<li>-->
-                                                            <!--<label class="control control&#45;&#45;checkbox">-->
-                                                                <!--<input id="cb_milky" onclick="onFilterChange()" type="checkbox">-->
-                                                                <!--<div class="control__indicator"></div><span id="dairy_text">Dairy</span>-->
-                                                            <!--</label>-->
+                                                        <!--<label class="control control&#45;&#45;checkbox">-->
+                                                        <!--<input id="cb_milky" onclick="onFilterChange()" type="checkbox">-->
+                                                        <!--<div class="control__indicator"></div><span id="dairy_text">Dairy</span>-->
+                                                        <!--</label>-->
                                                         <!--</li>-->
                                                     </ul>
                                                 </div>
@@ -195,10 +195,10 @@
                                                 <div class="list-item slide" style="display: none">
                                                     <ul id="kashruts">
                                                         <!--<li>-->
-                                                            <!--<label class="control control&#45;&#45;checkbox">-->
-                                                                <!--<input id="cb_milky1" type="checkbox">-->
-                                                                <!--<div class="control__indicator"></div>Dairy  [1]-->
-                                                            <!--</label>-->
+                                                        <!--<label class="control control&#45;&#45;checkbox">-->
+                                                        <!--<input id="cb_milky1" type="checkbox">-->
+                                                        <!--<div class="control__indicator"></div>Dairy  [1]-->
+                                                        <!--</label>-->
                                                         <!--</li>-->
                                                     </ul>
                                                 </div>
@@ -244,7 +244,7 @@
                                                                         <div class='input-group date' >
                                                                             <input  dateee type='text' id='datepicker' class="form-control" />
                                                                             <!--<span class="input-group-addon" >-->
-                                                                                <!--<img src="/en/images/icon_calender.png" onclick="$('#datepicker').click()">-->
+                                                                            <!--<img src="/en/images/icon_calender.png" onclick="$('#datepicker').click()">-->
                                                                             <!--</span>-->
                                                                         </div>
                                                                     </div>
@@ -255,7 +255,7 @@
                                                                         <div class='input-group date form_datetime' >
                                                                             <input name="datee" id='datepicker2' type='text' class="form-control" />
                                                                             <!--<span class="input-group-addon" >-->
-                                                                                <!--<img src="/en/images/icon_calender.png">-->
+                                                                            <!--<img src="/en/images/icon_calender.png">-->
                                                                             <!--</span>-->
                                                                         </div>
                                                                     </div>
@@ -620,7 +620,7 @@ ERROR DISPLAY POPUP
 
 
 
-<div class="cancle-order popup" style="display: none; height: 200px;">
+<div current-index = "" class="cancle-order popup" style="display: none; height: 200px;">
     <h4>Are you sure that you want to <br>cancel the order?</h4>
     <div class="btn-holder">
         <button class="btn-cancle" type="button"><p class="f white">Dont Cancle</p></button>
@@ -628,6 +628,7 @@ ERROR DISPLAY POPUP
     </div>
     <p>You can cancel an order up to half an hour <br>before Delivery time</p>
 </div>
+
 
 
 <div current-index = "" class="time-popup popup" id="rests-dt-mn"  style="display: none;">
@@ -644,6 +645,29 @@ ERROR DISPLAY POPUP
 </div>
 
 
+
+<div current-index = "" id="po-detail-popup" class="time-popup popup" style="display: none;">
+
+    <div class="header">
+        <table id="cart-items">
+        </table>
+    </div>
+
+    <table>
+        <tr>
+            <td>Sub Total</td>
+            <td class="f black" id="actual-total"></td>
+        </tr>
+        <tr>
+            <td>Company Contribution</td>
+            <td class="f black" id="company_contribution"></td>
+        </tr>
+        <tr>
+            <td>Total Due</td>
+            <td class="f black" id="total"></td>
+        </tr>
+    </table>
+</div>
 
 
 
@@ -740,9 +764,15 @@ ERROR DISPLAY POPUP
 
 
 
-
-
     $('body').on('click', '.cancel-order-open', function(e) {
+
+
+        $("#po-detail-popup").fadeOut();
+
+        if(!$(".cancle-order").is(':hidden'))
+        {
+            $('.cancle-order').hide();
+        }
 
         var autoScroll = false;
         var scrollTop = 0;
@@ -758,9 +788,10 @@ ERROR DISPLAY POPUP
 
                 scrollTop: ((scrollTo.offset().top - container.offset().top + container.scrollTop() ) - 300)
 
-            },500)
+            },400)
 
         }, 300);
+
 
 
         var that = this;
@@ -770,41 +801,53 @@ ERROR DISPLAY POPUP
 
             try {
 
-                if (!$(".cancle-order").is(":visible"))
-
-                    $(".cancle-order").fadeToggle();
-
-                else
-
-                    $(".cancle-order").fadeOut();
+                var index = $(that).attr('id');
+                index = index.replace('cancel-order-open','');
 
 
-                //show the menu directly over the placeholder
-                $(".cancle-order").css({
+                var current_index = $(".cancle-order").attr('current-index');
 
-                    position: "absolute",
-                    top: (scrollTo.offset().top + -210) + "px",
-                    left : (scrollTo.offset().left - 20) + "px"
 
-                }).show();
+                if(current_index  != index) {
 
-                var offset = (($(".cancle-order").height() +  $(".cancle-order").offset().top) -   $(window).height());
+                    $(".cancle-order").toggle();
 
-                if(offset > 0)
-                {
-                    console.log(offset);
-                    $(".cancle-order").css({ top: ($(".cancle-order").offset().top - offset) + "px"
-                    });
+                    //show the menu directly over the placeholder
+                    $(".cancle-order").css({
+
+                        position: "absolute",
+                        top: (scrollTo.offset().top - 220) + "px",
+                        left: (scrollTo.offset().left + 35) + "px"
+
+                    }).show();
+
+                    var offset = (($(".cancle-order").height() + $(".cancle-order").offset().top) - $(window).height());
+
+
+                    if (offset > 0) {
+                        console.log(offset);
+                        $(".cancle-order").css({
+                            top: ($(".cancle-order").offset().top - offset) + "px"
+                        });
+
+                    }
+
+                    $(".cancle-order").attr("current-index", index);
 
                 }
+                else {
 
+
+                    $(".cancle-order").attr("current-index", "");
+
+                }
             }
             catch (e)
             {
                 console.log(e);
             }
 
-        }, 900);
+        }, 700);
 
         e.stopPropagation();
 
@@ -818,7 +861,7 @@ ERROR DISPLAY POPUP
 
         if(!$("#rests-dt-mn").is(':hidden'))
         {
-            $('.time-popup').hide();
+            $('#rests-dt-mn').hide();
         }
 
 
@@ -911,10 +954,125 @@ ERROR DISPLAY POPUP
     });
 
 
+
+
+    $('body').on('click', '.pending-order-detail', function(e) {
+
+
+        $(".cancle-order").fadeOut();
+
+        if(!$("#po-detail-popup").is(':hidden'))
+        {
+            $('#po-detail-popup').hide();
+        }
+
+        var autoScroll = false;
+        var scrollTop = 0;
+        var scrollTopDiff = 0;
+
+        var container = $('#scrollable1');
+        var scrollTo = $(this);
+
+        setTimeout(function(){
+
+            // Or you can animate the scrolling:
+            container.animate({
+
+                scrollTop: ((scrollTo.offset().top - container.offset().top + container.scrollTop() ) - 300)
+
+            },400)
+
+        }, 300);
+
+
+
+        var that = this;
+
+
+        setTimeout(function () {
+
+            try {
+
+                var index = $(that).attr('id');
+                index = index.replace('pending-order-detail','');
+
+                var str = "";
+
+                for(var x=0;x<pending_orders_object[index].order_detail.length;x++)
+                {
+
+                    str += '<tr>'+
+                           '<td>'+pending_orders_object[index].order_detail[x].qty+' '+pending_orders_object[index].order_detail[x].item+'</td>'+
+                           '<td>'+pending_orders_object[index].order_detail[x].sub_total+' NIS</td>'+
+                           '</tr>';
+
+                }
+
+
+                $('#cart-items').html(str);
+
+                $('#actual-total').html(pending_orders_object[index].actual_total+" NIS");
+                $('#company_contribution').html(pending_orders_object[index].company_contribution+" NIS");
+                $('#total').html(pending_orders_object[index].total+" NIS");
+
+
+                var current_index = $("#po-detail-popup").attr('current-index');
+
+
+                if(current_index  != index) {
+
+                    $("#po-detail-popup").toggle();
+
+                    //show the menu directly over the placeholder
+                    $("#po-detail-popup").css({
+
+                        position: "absolute",
+                        top: (scrollTo.offset().top + 45) + "px",
+                        left: (scrollTo.offset().left + 70) + "px"
+
+                    }).show();
+
+                    var offset = (($("#po-detail-popup").height() + $("#po-detail-popup").offset().top) - $(window).height());
+
+
+                    if (offset > 0) {
+                        console.log(offset);
+                        $("#po-detail-popup").css({
+                            top: ($("#po-detail-popup").offset().top - offset) + "px"
+                        });
+
+                    }
+
+                    $("#po-detail-popup").attr("current-index", index);
+
+
+                }
+                else {
+
+
+                    $("#po-detail-popup").attr("current-index", "");
+
+                }
+
+
+            }
+            catch (e)
+            {
+                console.log(e);
+            }
+
+        }, 700);
+
+        e.stopPropagation();
+
+    });
+
+
     $(document).click(function () {
 
         $(".cancle-order").fadeOut();
         $("#rests-dt-mn").fadeOut();
+        $("#po-detail-popup").fadeOut();
     })
 
 </script>

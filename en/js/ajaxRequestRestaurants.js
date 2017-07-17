@@ -239,7 +239,7 @@ function responseListOfRestaurants(url,response) {
                         '</address>' +
                         '</li>' +
                         '<li>' +
-                        '<div class="btn-box"><button class="bt_ordernow" type="button" onclick="">order<br>now</button></div>' +
+                        '<div class="btn-box"><button  class="bt_ordernow" type="button" onclick="onOrderNowClicked('+x+')">order<br>now</button></div>' +
 
                         '<time class="time">' +
 
@@ -785,54 +785,20 @@ function responsePendingOrders(url, response) {
                 '<li>'+
                 '<div class="txt-box">'+
                 '<h2 class="light">Total '+response[x].total+' NIS</h2>'+
-                '<p onclick="displayPendingOrderDetail('+x+')"><span class="arrow">See the menu order <i class="fa fa-angle-down" aria-hidden="true"></i></span></p>'+
+                '<p id="pending-order-detail'+x+'" class="pending-order-detail"><span class="arrow">See the menu order <i class="fa fa-angle-down" aria-hidden="true"></i></span></p>'+
 
-
-                '<div id="po-detail-popup-'+x+'" class="time-popup popup" style="display: none;">'+
-                '<div class="header">'+
-                '<table>';
-
-
-            for (var y = 0; y < response[x].order_detail.length; y++) {
-
-
-                str += '<tr>'+
-                    '<td>'+response[x].order_detail[y].qty+' '+response[x].order_detail[y].item+'</td>'+
-                    '<td>'+response[x].order_detail[y].sub_total+' NIS</td>'+
-                    '</tr>'+
-                    '<tr>';
-
-            }
-
-
-            str +=
-                '</table>'+
-                '</div>'+
-                '<table>'+
-                '<tr>'+
-                '<td>Sub Total</td>'+
-                '<td class="f black">'+response[x].actual_total+' NIS</td>'+
-                '</tr>'+
-                '<tr>'+
-                '<td>Company Contribution</td>'+
-                '<td class="f black">- '+response[x].company_contribution+' NIS</td>'+
-                '</tr>'+
-                '<tr>'+
-                '<td>Total Due</td>'+
-                '<td class="f black">'+response[x].total+' NIS</td>'+
-                '</tr>'+
-                '</table>'+
-                '</div>'+
                 '</div>'+
                 '</li>'+
                 '</ul>'+
                 '</li>'+
                 '</ul>'+
+
+
 
                 '<div class="footer-box">'+
                 '<button class="f white btn-order" type="button"><img src="/en/images/plus.png"> Add an Order</button>'+
                 '<a class="btn-link" href="#">'+
-                '<p class="cancel-order-open">Cancel Order</p>'+
+                '<p  id="cancel-order-open-'+x+'" class="cancel-order-open">Cancel Order</p>'+
                 '</a>'+
                 '</div>'+
                 '</div>';
@@ -856,15 +822,42 @@ function responsePendingOrders(url, response) {
 
 }
 
-function displayPendingOrderDetail(index) {
 
-    var id = '#po-detail-popup-'+index;
+function onOrderNowClicked(index)
+{
 
-    if($(id).is(':hidden'))
-    {
-        $('.time-popup').hide();
-    }
+    // CREATING ORDER OBJECT
 
-    $(id).toggle();
+    var orderObject  = {
+
+        selectedRestaurant : listOfRestaurants[index],
+        order_detail : null
+
+    };
+
+
+    // PUSHING SELECTED RESTAURANT ORDER OBJECT
+
+    // TEMPORARY REMOVE PREVIOUS ORDER
+
+    dataObject.rests_orders = [];
+
+
+    dataObject.rests_orders.push(orderObject);
+
+
+    localStorage.setItem("data_object_en", JSON.stringify(dataObject));
+
+
+    var company_name     =   dataObject.company.company_name;
+    company_name         =   company_name.replace(/\s/g, '');
+
+    var restaurant_name  =    listOfRestaurants[index].name_en;
+    restaurant_name      =    restaurant_name.replace(/\s/g, '');
+
+    window.location.href = '/en/'+company_name+"/"+restaurant_name+'/order';
+
+
 
 }
+
