@@ -573,8 +573,29 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
 $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
 {
     DB::useDB(B2B_RESTAURANTS);
+
+    $company_id = $request->getParam('company_id');
+
+    $company_restaurants = DB::query("select  rest_id from company_rest where company_id = '$company_id'");
+
     try{
+
         $db_restaurant_tags = DB::query("select * from tags");
+
+
+        $ctn = 0;
+        foreach ($db_restaurant_tags as $tag)
+        {
+            $count = 0;
+            foreach ($company_restaurants as $company_restaurant)
+            {
+                $result = DB::queryFirstRow("select COUNT(*) as count from restaurant_tags where restaurant_id = '".$company_restaurant['rest_id']."' AND tag_id = '".$tag['id']."' ");
+                $count  = $count + $result['count'];
+            }
+
+            $db_restaurant_tags[$ctn]['count'] = $count;
+            $ctn++;
+        }
 
         $db_restaurant_kashrut = DB::query("select * from kashrut");
 
