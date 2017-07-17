@@ -648,84 +648,37 @@ $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
 
 $app->post('/categories_with_items', function ($request, $response, $args)
 {
+
     try {
 
         $id = $request->getParam('restaurantId');
+        $company_id = $request->getParam('company_id');
 
         // GET MENUS FOR RESTAURANT i.e LUNCH
-        DB::useDB(B2B_RESTAURANTS);
         $menu = DB::queryFirstRow("select * from menus where restaurant_id = '" . $id . "'");
 
         // GET CATEGORIES OF RESTAURANT i.e ANGUS SALAD , ANGUS BURGER
-        DB::useDB(B2B_RESTAURANTS);
-        $categories = DB::query("select * from categories where menu_id = '" . $menu['id'] . "' order by sort ASC");
+        $categories = DB::query("select * from categories where menu_id = '" . $menu['id'] . "'");
 
         $count2 = 0;
-
-        $items = '';
-
         foreach ($categories as $category) {
 
-            $items = array();
-
-            if($category['business_offer'] == 0) {
-
-                DB::useDB(B2B_RESTAURANTS);
-                $items = DB::query("select * from items where category_id = '" . $category["id"] . "' and hide = '0'");
-
-            }
-            else {
-
-//                // BUSINESS LUNCH CATEGORY GET SELECTED ITEMS
-                $first_day_this_month = date('Y-m-01');
-                $firstDayOfMonth = $first_day_this_month;
-
-                $currentDate = date('Y-m-d');
-
-                $dtCurrent      = DateTime::createFromFormat('Y-m-d', $currentDate);
-                $dtFirstOfMonth = DateTime::createFromFormat('Y-m-d', $firstDayOfMonth);
-
-                $numWeeks = 1 + (intval($dtCurrent->format("W")) - intval($dtFirstOfMonth->format("W")));
-
-                $dayOfWeek = date('l');
-
-                DB::useDB(B2B_RESTAURANTS);
-                $businessItemsIds = DB::query("select item_id from business_lunch_detail where category_id = '" . $category["id"] . "' AND  week_day = '$dayOfWeek' AND week_cycle = '$numWeeks'");
-
-
-                foreach ($businessItemsIds as $businessItem) {
-
-                    DB::useDB(B2B_RESTAURANTS);
-                    $item = DB::queryFirstRow("select * from items where category_id = '" . $category["id"] . "' and hide = '0' and id = '".$businessItem['item_id']."'");
-
-                    array_push($items, $item);
-                }
-
-            }
+            $items = DB::query("select * from items where category_id = '" . $category["id"] . "'");
 
             $count3 = 0;
-
             // CHECK FOR ITEMS PRICE ZERO
             foreach ($items as $item) {
-
                 if ($item['price'] == 0) {
-
-                    DB::useDB(B2B_RESTAURANTS);
                     $extras = DB::query("select * from extras where item_id = '" . $item["id"] . "' AND type = 'One' AND price_replace=1");
                     // EXTRAS WITH TYPE OME AND PRICE REPLACE 1
 
                     foreach ($extras as $extra) {
-
-                        DB::useDB(B2B_RESTAURANTS);
                         $subItems = DB::query("select * from subitems where extra_id = '" . $extra["id"] . "'");
                         $lowestPrice = $subItems[0]['price'];
-
                         foreach ($subItems as $subitem) {
-
                             if ($subitem['price'] < $lowestPrice) {
                                 $lowestPrice = $subitem['price'];
                             }
-
                         }
 
                         $items[$count3]['price'] = $lowestPrice;
@@ -733,7 +686,6 @@ $app->post('/categories_with_items', function ($request, $response, $args)
                     }
                     //break;
                 }
-
                 $count3++;
             }
 
@@ -742,11 +694,32 @@ $app->post('/categories_with_items', function ($request, $response, $args)
             $count2++;
         }
 
+
+        // GET B2B PERCENTAGE DISCOUNT ON THIS ITEM
+
+        DB::useDB('orderapp_b2b_wui');
+        $percentage_discount = DB::queryFirstRow("select * from b2b_rest_discounts where rest_id = '" . $id . "' AND company_id = '".$company_id."'");
+
+        if(DB::count() == 0)
+        {
+            // NO DISCOUNT FOUND
+            $percentage_discount = '0';
+
+        }
+        else{
+
+            $percentage_discount = $percentage_discount['discount_percent'];
+
+        }
+
         // CREATE DEFAULT OBJECT FOR ITEMS AND CATEGORIES;
         $data = [
-            "menu_name_en" => $menu['name_en'],               // MENU NAME EN
-            "menu_name_he" => $menu['name_he'],               // MENU NAME HE
-            "categories_items" => $categories                 // CATEGORIES AND ITEMS
+
+            "menu_name_en" => $menu['name_en'],                        // MENU NAME EN
+            "menu_name_he" => $menu['name_he'],                        // MENU NAME HE
+            "categories_items" => $categories,                         // CATEGORIES AND ITEMS
+            "percentage_discount" => $percentage_discount              // PERCENTAGE DISCOUNT OF RESTAURANT
+
         ];
 
 
