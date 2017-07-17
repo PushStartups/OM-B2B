@@ -208,15 +208,15 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
                 if($singleTime['opening_time'] != "Closed") {
 
 
-                     $today_timings = $singleTime['opening_time'] . " - " . $singleTime['closing_time'];
-                     $openingTime = DateTime::createFromFormat('H:i', $singleTime['opening_time']);
-                     $closingTime = DateTime::createFromFormat('H:i', $singleTime['closing_time']);
-                     $currentTimes = DateTime::createFromFormat('H:i', $currentTime);
+                    $today_timings = $singleTime['opening_time'] . " - " . $singleTime['closing_time'];
+                    $openingTime = DateTime::createFromFormat('H:i', $singleTime['opening_time']);
+                    $closingTime = DateTime::createFromFormat('H:i', $singleTime['closing_time']);
+                    $currentTimes = DateTime::createFromFormat('H:i', $currentTime);
 
-                     // ESTIMATE DELIVERY TIME 1 HOUR LATER THEN CLOSING TIME
+                    // ESTIMATE DELIVERY TIME 1 HOUR LATER THEN CLOSING TIME
 
-                     $delivery_time = strtotime($singleTime['closing_time']) + 60*60;
-                     $delivery_time = date('H:i', $delivery_time);
+                    $delivery_time = strtotime($singleTime['closing_time']) + 60*60;
+                    $delivery_time = date('H:i', $delivery_time);
 
                     $delivery_time_end = strtotime($delivery_time) + 60*60;
                     $delivery_time_end = date('H:i', $delivery_time_end);
@@ -564,6 +564,39 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
 
 
     }
+
+});
+
+// CANCEL ORDER
+$app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
+{
+    DB::useDB(B2B_RESTAURANTS);
+    try{
+        $db_restaurant_tags = DB::query("select * from tags");
+
+        $db_restaurant_kashrut = DB::query("select * from kashrut");
+
+        $resp = [
+            "db_tags"               => $db_restaurant_tags,          //
+            "db_kashrut"            => $db_restaurant_kashrut
+
+        ];
+        // RESPONSE RETURN TO REST API CALL
+        $response = $response->withStatus(202);
+        $response = $response->withJson($resp);
+        return $response;
+
+    }
+
+
+    catch(MeekroDBException $e) {
+
+        $response =  $response->withStatus(500);
+        $response =  $response->withHeader('Content-Type', 'text/html');
+        $response =  $response->write( $e->getMessage());
+        return $response;
+    }
+
 
 });
 
