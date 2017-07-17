@@ -1,7 +1,11 @@
 .logo a h2{margin: -9px 0 0;}
 .block {
-    overflow: hidden;
     margin: -73px auto 0;
+}
+.block:after{
+    display: block;
+    content: '';
+    clear: both;
 }
 #sidebar{
     height: 100vh;
@@ -241,9 +245,10 @@
 }
 .view-order{
     border: 1px solid #E7E7E7;
+    margin: 0 0 20px;
 }
 .view-order .rest-list ul li{
-    width: 25%;
+    width: 25% !important;
     padding: 0 35px;
     min-height: inherit;
 }
@@ -548,6 +553,10 @@
     width: 140px;
     box-shadow: -3px -2px 12px 0 rgba(0, 0, 0, 0.2);
 }
+.offline .btn-box{
+    background: linear-gradient(#fff, #d1d1d1);
+}
+.offline .btn-box:hover{background: linear-gradient(246deg, #9c9c9c, #d1d1d1);}
 .btn-box:hover{
     background: rgba(255,175,75,1);
     background: -moz-linear-gradient(left, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 100%);
@@ -580,9 +589,9 @@
     /*border-radius: 16px;*/
 /*}*/
 .offline .bt_ordernow{
-    background-image: linear-gradient(246deg, #9c9c9c, #d1d1d1);
+    background: linear-gradient(246deg, #9c9c9c, #d1d1d1);
 }
-.offline .bt_ordernow:hover{background-image: linear-gradient(246deg, #d1d1d1, #9c9c9c);}
+/*.offline .bt_ordernow:hover{background-image: linear-gradient(246deg, #d1d1d1, #9c9c9c);}*/
 .bt_ordernow em{
     font-style: normal;
     position: absolute;
@@ -686,3 +695,37 @@
     /*font-size: 14px;*/
     /*line-height: 17px;*/
 /*}*/
+
+
+
+@media only screen and (max-width: 1599px){
+    .block .container{min-width: 1380px !important;}
+    .txt {
+        padding: 0 0 0 20px !important;
+    }
+    .txt h1{
+        letter-spacing: 0;
+        font-size: 30px;
+        line-height: 33px;
+    }
+    .rest-list ul li:first-child{
+        width: 36%;
+    }
+    .rest-list ul li{width: 16%;}
+    .rest-list ul li.third {
+        width: 14%;
+    }
+    .rest-list ul li:last-child {
+        padding: 0 0 0 12px;
+        width: 34%;
+    }
+}
+@media only screen and (max-width: 1399px){
+    .block .container{min-width: 1240px !important;}
+    .txt h1 {
+        font-size: 27px;
+    }
+    .text {
+        padding: 6px 0 0;
+    }
+}

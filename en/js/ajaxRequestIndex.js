@@ -3,7 +3,9 @@ var dataObject;   // DATA OBJECT CONTAIN INFORMATION ABOUT COMPANY, USER & USER 
 
 $(document).ready(function() {
 
+
     dataObject = localStorage.getItem("data_object_en");
+
 
     // EXCEPTION IF USER OBJECT NOT RECEIVED UN-DEFINED
     if (dataObject != undefined && dataObject != "" && dataObject != null){
@@ -19,13 +21,13 @@ $(document).ready(function() {
     else
     {
 
+
         dataObject = {
 
-
             'language': 'en',                  // USER LANGUAGE ENGLISH DESKTOP B2B
-            'company': '',                    // attributes are {company_id, company_name, company>address}
-            'user': ''                     // attributes are {user_id, name, email, contact}
-
+            'company': '',                     // attributes are {company_id, company_name, company>address}
+            'user': '',                        // attributes are {user_id, name, email, contact}
+            'rests_orders': null               // ARRAY OF MULTIPLE REST ORDERS
 
         };
 
@@ -142,7 +144,9 @@ function callBackRespForgetPassword(url,response)
     catch (exp)
     {
 
+
         errorHandlerServerResponse(url,"parsing error call back");
+
 
     }
 

@@ -18,7 +18,7 @@ function commonAjaxCall(url,data,callBcak)
 
             try {
 
-                var res = JSON.parse(response);
+                var res = response;
                 callBcak(url,res);
                 hideLoading();
 

@@ -47,7 +47,6 @@ $app = new \Slim\App();
 
 
 
-
 //  USER LOGIN FOR B2B
 $app->post('/b2b_user_login', function ($request, $response, $args)
 {
@@ -79,6 +78,8 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
             $company['company_id']          =   $company_id;
             $company['company_name']        =   $companyDB['name'];
             $company['company_address']     =   $companyDB['delivery_address'];
+            $company['company_discount']    =   $companyDB['discount'];
+            $company['discount_type']       =   $companyDB['discount_type'];
 
 
             $obj['company']                 =   $company;
@@ -107,7 +108,7 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
 
         // RESPONSE RETURN TO REST API CALL
         $response = $response->withStatus(202);
-        $response = $response->withJson(json_encode($obj));
+        $response = $response->withJson($obj);
         return $response;
     }
 
@@ -159,10 +160,387 @@ $app->post('/forgot_email', function ($request, $response, $args){
     }
 
     $response = $response->withStatus(202);
-    $response = $response->withJson(json_encode($msg));
+    $response = $response->withJson($msg);
     return $response;
 
 });
+
+
+//  GET ALL RESTAURANT AGAINST USER COMPANY
+$app->post('/get_all_restaurants', function ($request, $response, $args)
+{
+    try
+    {
+        DB::useDB('orderapp_b2b_wui');
+
+        $company_id = $request->getParam('company_id');
+
+
+        // CHECK COMPANY ORDERING IS OPEN OR CLOSED
+
+        $restaurantTimings = DB::query("select * from company_timing where company_id = '" . $company_id . "'");
+
+
+        // RESTAURANT AVAILABILITY ACCORDING TO TIME
+        $currentCompanyOpenStatus = false;
+        $delivery_time = null;
+        $delivery_time_str = null;
+
+
+
+        // CURRENT TIME OF ISRAEL
+        date_default_timezone_set("Asia/Jerusalem");
+        $currentTime = date("H:i");
+        $dayOfWeek   = date('l');
+
+
+        $today_timings = "";
+
+
+        foreach ($restaurantTimings as $singleTime) {
+
+
+            if ($singleTime['week_en'] == $dayOfWeek) {
+
+
+                if($singleTime['opening_time'] != "Closed") {
+
+
+                     $today_timings = $singleTime['opening_time'] . " - " . $singleTime['closing_time'];
+                     $openingTime = DateTime::createFromFormat('H:i', $singleTime['opening_time']);
+                     $closingTime = DateTime::createFromFormat('H:i', $singleTime['closing_time']);
+                     $currentTimes = DateTime::createFromFormat('H:i', $currentTime);
+
+                     // ESTIMATE DELIVERY TIME 1 HOUR LATER THEN CLOSING TIME
+
+                     $delivery_time = strtotime($singleTime['closing_time']) + 60*60;
+                     $delivery_time = date('H:i', $delivery_time);
+
+                    $delivery_time_end = strtotime($delivery_time) + 60*60;
+                    $delivery_time_end = date('H:i', $delivery_time_end);
+
+                    $delivery_time_str = $delivery_time." - ".$delivery_time_end;
+
+                    if ($currentTimes >= $openingTime && $currentTimes <= $closingTime) {
+
+
+                        $currentCompanyOpenStatus = true;
+
+                    }
+                    else {
+
+
+                        $currentCompanyOpenStatus = false;
+
+                    }
+
+                }
+                else
+                {
+                    $currentCompanyOpenStatus = false;
+                }
+
+
+                break;
+            }
+        }
+
+
+
+        $companyDetail = DB::queryFirstRow("select * from company where id = '$company_id'");
+
+
+        // GET ALL RESTAURANT ID'S ASSOCIATED WITH COMPANY
+
+        $rest_ids = DB::query("select rest_id from company_rest where company_id = '$company_id'");
+
+        $restaurants = Array();
+
+        $results = Array();
+
+
+
+        DB::useDB('orderapp_restaurants_b2b_wui');
+
+        // GET RESTAURANTS DETAIL ON THE BASIS OF ID FOR THIS COMPANY
+
+        $cnt = 0;
+
+        foreach ($rest_ids as $restt_id)
+        {
+
+            $rest =  DB::queryFirstRow("select * from restaurants where id = '" . $restt_id['rest_id'] . "'");
+
+            if (DB::count() > 0)
+            {
+                $results[$cnt] = $rest;
+                $cnt++;
+            }
+
+        }
+
+
+
+        $count = 0;
+
+        foreach ($results as $result) {
+
+
+            DB::useDB('orderapp_restaurants_b2b_wui');
+
+
+            // GET TAGS OF RESTAURANT i.e BURGER , PIZZA
+            $tagsIds = DB::query("select tag_id from restaurant_tags where restaurant_id = '" . $result['id'] . "'");
+
+            $tags = Array();
+            $count2 = 0;
+
+            foreach ($tagsIds as $id) {
+
+
+                DB::useDB('orderapp_restaurants_b2b_wui');
+                $tag = DB::queryFirstRow("select * from tags where id = '" . $id["tag_id"] . "'");
+                $tags[$count2] = $tag;
+                $count2++;
+            };
+
+
+            // GET GALLERY OF RESTAURANT
+
+            DB::useDB('orderapp_restaurants_b2b_wui');
+
+            $galleryImages = DB::query("select url from restaurant_gallery where restaurant_id = '" . $result['id'] . "'");
+
+
+
+            // RETRIEVING RESTAURANT TIMINGS i.e SUNDAY   STAT_TIME : 12:00  END_TIME 21:00;
+
+            DB::useDB('orderapp_b2b_wui');
+
+
+            // GET B2B PERCENTAGE DISCOUNT ON THIS ITEM
+
+            $in_time_discount = 0;
+
+            DB::useDB('orderapp_b2b_wui');
+            $percentage_discount = DB::queryFirstRow("select * from b2b_rest_discounts where rest_id = '" .  $result['id'] . "' AND company_id = '".$company_id."'");
+
+            if(DB::count() == 0)
+            {
+                // NO DISCOUNT FOUND
+                $percentage_discount = '0';
+
+            }
+            else{
+
+                $percentage_discount = $percentage_discount['discount_percent'];
+
+            }
+
+
+            DB::useDB('orderapp_restaurants_b2b_wui');
+            $city = DB::queryFirstRow("select * from cities where id = '" . $result['city_id'] . "'");
+
+
+            // CREATE DEFAULT RESTAURANT OBJECT;
+            $restaurant = [
+
+                "id"                   => $result["id"],                // RESTAURANT ID
+                "city_en"              => $city["name_en"],               // CITY NAME EN
+                "city_he"              => $city["name_he"],               // CITY NAME HE
+                "name_en"              => $result["name_en"],           // RESTAURANT NAME
+                "name_he"              => $result["name_he"],           // RESTAURANT NAME
+                "min_amount"           => $companyDetail['min_order'],  // COMPANY MINIMUM AMOUNT
+                "tags"                 => $tags,                        // RESTAURANT TAGS
+                "logo"                 => $result["logo"],              // RESTAURANT LOGO
+                "description_en"       => $result["description_en"],    // RESTAURANT DESCRIPTION
+                "description_he"       => $result["description_he"],    // RESTAURANT DESCRIPTION
+                "address_en"           => $result["address_en"],        // RESTAURANT ADDRESS
+                "address_he"           => $result["address_he"],        // RESTAURANT ADDRESS
+                "hechsher_en"          => $result["hechsher_en"],       // RESTAURANT HECHSHER
+                "hechsher_he"          => $result["hechsher_he"],       // RESTAURANT HECHSHER
+                "gallery"              => $galleryImages,               // RESTAURANT GALLERY
+                "rest_lat"             => $result["lat"],               // LATITUDE
+                "rest_lng"             => $result["lng"],               // LONGITUDE
+                "timings"              => $restaurantTimings,           // RESTAURANT WEEKLY TIMINGS
+                "today_timings"        => $today_timings,               // TODAY TIMINGS
+                "percentage_discount"  => $percentage_discount,         // B2B PERCENTAGE DISCOUNT
+            ];
+
+            $restaurants[$count] = $restaurant;
+            $count++;
+        }
+
+
+        $resp = [
+
+            "restaurants"           => $restaurants,
+            "company_open_status"   => $currentCompanyOpenStatus,
+            "appox_delivey_time"    => $delivery_time,               // APPOX DELIVERY TIME (1 HOUR AFTER ORDER CLOSED)
+            "delivery_time_str"     => $delivery_time_str            // i.e 10:45 - 11:45
+
+        ];
+
+
+        // RESPONSE RETURN TO REST API CALL
+        $response = $response->withStatus(202);
+        $response = $response->withJson($resp);
+        return $response;
+
+    }
+
+
+    catch(MeekroDBException $e) {
+
+        $response =  $response->withStatus(500);
+        $response =  $response->withHeader('Content-Type', 'text/html');
+        $response =  $response->write( $e->getMessage());
+        return $response;
+    }
+
+});
+
+
+
+
+//  GET ALL PAST ORDERS FOR LAST WEEKS
+$app->post('/get_all_past_orders', function ($request, $response, $args)
+{
+    try
+    {
+        DB::useDB('orderapp_b2b_wui');
+
+
+        $user_id = $request->getParam('user_id');
+        $filter = $request->getParam('filter');
+
+        if($filter == "last_week") {
+
+
+            $results = DB::query(" SELECT * FROM b2b_orders WHERE date BETWEEN CURDATE()-INTERVAL 1 WEEK AND CURDATE() AND user_id = $user_id AND order_status <> 'pending'");
+
+        }
+        else{
+
+            $start_date = $request->getParam('start_date');
+            $end_date = $request->getParam('end_date');
+
+            $start_date = DateTime::createFromFormat('m/d/Y', $start_date);
+            $end_date = DateTime::createFromFormat('m/d/Y', $end_date);
+
+            $start_date = $start_date->format('Y-m-d');
+            $end_date = $end_date->format('Y-m-d');
+
+
+            $results = DB::query(" SELECT * FROM b2b_orders WHERE date BETWEEN '$start_date'  AND  '$end_date' AND user_id = $user_id AND order_status <> 'pending'");
+        }
+
+
+        $ctn = 0;
+
+
+        foreach ($results as $result)
+        {
+
+            DB::useDB('orderapp_restaurants_b2b_wui');
+
+            $restaurant   =  DB::queryFirstRow("select name_en from restaurants where id = '" . $result['restaurant_id'] . "'");
+
+            $results[$ctn]['rest_name'] = $restaurant['name_en'];
+
+            DB::useDB('orderapp_b2b_wui');
+
+            $order_detail =  DB::query("select * from b2b_order_detail where order_id = '" . $result['id'] . "'");
+            $results[$ctn]['order_detail'] = $order_detail;
+
+            $ctn++;
+
+        }
+
+
+        // RESPONSE RETURN TO REST API CALL
+        $response = $response->withStatus(202);
+        $response = $response->withJson($results);
+        return $response;
+
+
+    }
+    catch(MeekroDBException $e) {
+
+
+        $response =  $response->withStatus(500);
+        $response =  $response->withHeader('Content-Type', 'text/html');
+        $response =  $response->write( $e->getMessage());
+        return $response;
+
+
+    }
+
+});
+
+
+
+//  GET ALL PAST ORDERS FOR LAST WEEKS
+$app->post('/get_all_pending_orders', function ($request, $response, $args)
+{
+    try
+    {
+        DB::useDB('orderapp_b2b_wui');
+
+
+        $user_id = $request->getParam('user_id');
+
+        $results  =  DB::query("select * from b2b_orders where user_id = $user_id AND order_status = 'pending' ");
+
+
+        $ctn = 0;
+
+
+        foreach ($results as $result)
+        {
+
+            DB::useDB('orderapp_restaurants_b2b_wui');
+
+            $restaurant   =  DB::queryFirstRow("select * from restaurants where id = '" . $result['restaurant_id'] . "'");
+
+            DB::useDB('orderapp_restaurants_b2b_wui');
+
+            $city = DB::queryFirstRow("select * from cities where id = '" . $restaurant['city_id'] . "'");
+
+            $restaurant['city_name'] = $city['name_en'];
+
+            $results[$ctn]['rest'] = $restaurant;
+
+            DB::useDB('orderapp_b2b_wui');
+
+            $order_detail =  DB::query("select * from b2b_order_detail where order_id = '" . $result['id'] . "'");
+            $results[$ctn]['order_detail'] = $order_detail;
+
+            $ctn++;
+
+        }
+
+
+        // RESPONSE RETURN TO REST API CALL
+        $response = $response->withStatus(202);
+        $response = $response->withJson($results);
+        return $response;
+
+
+    }
+    catch(MeekroDBException $e) {
+
+
+        $response =  $response->withStatus(500);
+        $response =  $response->withHeader('Content-Type', 'text/html');
+        $response =  $response->write( $e->getMessage());
+        return $response;
+
+
+    }
+
+});
+
 
 
 
@@ -183,7 +561,7 @@ $app->post('/error_report', function ($request, $response, $args){
     ob_end_clean();
 
     $response = $response->withStatus(202);
-    $response = $response->withJson(json_encode("true"));
+    $response = $response->withJson("true");
     return $response;
 
 });
@@ -207,7 +585,6 @@ $app->post('/save_category_image', function ($request, $response, $args)
         $data = $rests['image_url'];
     }
     $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $data));
-
 
 
     $menu_id = DB::queryFirstRow("select restaurant_id from menus where id = '".$menu_id."'");

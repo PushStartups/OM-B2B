@@ -22,7 +22,7 @@
 .baron__track {
     display: none;
     position: absolute;
-    top: 0;
+    top: 10px;
     right: 0;
     bottom: 0;
 }
@@ -51,7 +51,7 @@
     display: none;
 }
 #scrollable1{
-    max-height: 96vh; 
+    max-height: 96vh;
 }
 #scrollable3{
     height:85vh;
