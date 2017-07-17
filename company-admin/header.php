@@ -129,7 +129,9 @@ DB::query("set names utf8");
 <aside id="left-panel">
     <nav>
         <ul>
-
+            <li>
+                <a href="index.php" title="Add Restaurants"><i class="fa fa-lg fa-fw fa-plus"></i> <span class="menu-item-parent">Add Restaurants</span></a>
+            </li>
             <li>
                 <a href="b2b-orders.php" title="Orders"><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">Orders</span></a>
             </li>
@@ -139,11 +141,9 @@ DB::query("set names utf8");
 <!--            <li>-->
 <!--                <a href="delivery-timings.php" title="Delivery Timings"><i class="fa fa-lg fa-fw fa-key"></i> <span class="menu-item-parent">Delivery Timings</span></a>-->
 <!--            </li>-->
+
             <li>
-                <a href="index.php" title="Add Restaurants"><i class="fa fa-lg fa-fw fa-plus"></i> <span class="menu-item-parent">Add Restaurants</span></a>
-            </li>
-            <li>
-                <a href="company-detail.php" title="Company Detail"><i class="fa fa-lg fa-fw fa-plus"></i> <span class="menu-item-parent">Company Detail</span></a>
+                <a href="company-detail.php" title="Company Detail"><i class="fa fa-lg fa-fw fa-info"></i> <span class="menu-item-parent">Company Detail</span></a>
             </li>
             <li>
                 <a href="manage-users.php" title="Manage Users"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">Manage Users</span></a>

@@ -153,7 +153,8 @@ include "header.php";
 
                                         <br>
                                         <h3 align="center">Company Timings</h3><br>
-                                        <h6>*Please write "Closed" on textfield in case of close start and end timings.</h6>
+                                        <h6>*Please write "Closed" on textfield in case of close start and end timings.</h6><br>
+                                        <h6>*Delivery Time of Company is exactly after the 1 hour of close time(by default) you choose.</h6>
                                         <table id="" class="table table-striped table-bordered" width="100%">
 
                                             <thead>

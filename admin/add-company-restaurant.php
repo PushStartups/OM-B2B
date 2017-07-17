@@ -6,6 +6,7 @@ include "header.php";
 if(isset($_GET['companies_id']))
 {
     $companies_id = $_GET['companies_id'];
+    $_SESSION['add_company_id'] = $companies_id;
     $company_name = getCompanyName($companies_id);
 
     //$restaurants = getRestaurantsOfSpecificCompany($companies_id);
@@ -42,7 +43,7 @@ else
 
             <!-- col -->
             <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-                <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-briefcase "></i> <?=$company_name?> (Restaurant Limit : <?=$restaurant_limit?>) </h1>
+                <h2 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-briefcase "></i> <?=$company_name?> (Restaurant Limit : <?=$restaurant_limit?>) </h2>
             </div>
             <!-- end col -->
 
@@ -52,7 +53,7 @@ else
                 <?php if($hide == 0){ ?>
                 <a onclick="add_restaurant_tab()" style="float:right"  class="btn btn-lg bg-color-purple txt-color-white"><i class="fa-fw fa fa-plus "></i> Add Default Restaurants</a>
                 <?php } else { ?>
-                    <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><b>Restaurant Limit is Full </b></h1>
+                    <h2 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><b>Restaurant Limit is Full </b></h2>
 
                 <?php
                 } ?>

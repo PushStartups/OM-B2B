@@ -174,6 +174,7 @@ function edit_company(companies_id,urll)
 
         'company_deadline_time'                :  $('#company_deadline_time').val(),
         'week_en'                :  $('#week_en').val(),
+        'delivery_time'                :  $('#delivery_time').val(),
 
     };
 
