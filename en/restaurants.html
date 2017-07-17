@@ -275,8 +275,8 @@
                                                     <ul>
                                                         <li>
                                                             <label class="control control--checkbox">
-                                                                <input id="cb_milky2" type="checkbox">
-                                                                <div class="control__indicator"></div>Show Canceled orders  [1]
+                                                                <input id="cb_cancelled_past_orders" onchange="displayPastOrdersRequest()"  checked type="checkbox">
+                                                                <div class="control__indicator"></div><span id="cancelled_order_text"></span>
                                                             </label>
                                                         </li>
                                                     </ul>

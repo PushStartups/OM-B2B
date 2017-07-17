@@ -110,6 +110,8 @@
     font-size: 16px;
     line-height: 19px;
 }
+.list-holder{display: none;}
+.nav-item.active .list-holder{display: block;}
 .list:after{
     display: block;
     content: '';
