@@ -35,7 +35,7 @@ var db_tags  = null;               // CUISINE TAGS OF RESTAURNATS i.e MEAT, BURG
 
 
 
-var db_kashurt = null;             // KASHURT OF RESTAURANTS i.e Mehardin
+var db_kashrut = null;             // kashrut OF RESTAURANTS i.e Mehardin
 
 
 // AFTER DOCUMENTED LOADED
@@ -67,7 +67,7 @@ function responseListOfRestaurants(url,response) {
         delivery_time_str   = response.delivery_time_str;
         appox_delivey_time  = response.appox_delivey_time;
         db_tags             = response.db_tags;
-        db_kashurt          = response.db_kashrut;
+        db_kashrut          = response.db_kashrut;
 
         var str = '';
 
@@ -75,7 +75,7 @@ function responseListOfRestaurants(url,response) {
         {
 
             var tagString      =  fromTagsToString(listOfRestaurants[x]);
-            var kashurtString  =  fromKashrutToString(listOfRestaurants[x]);
+            var kashrutString  =  fromKashrutToString(listOfRestaurants[x]);
 
             // RESTAURANTS ORDERING ENABLE
 
@@ -183,7 +183,7 @@ function responseListOfRestaurants(url,response) {
             str += '<li>'+
                 '<label class="control control--checkbox">'+
                 '<input id="cb-tags-'+x+'" onclick="onFilterChange('+x+')" type="checkbox">'+
-                '<div class="control__indicator"></div>'+db_tags[x].name_en+
+                '<div class="control__indicator"></div>'+db_tags[x].name_en+' ['+db_tags[x].count+']'+
                 '</label>'+
                 '</li>';
 
@@ -194,19 +194,19 @@ function responseListOfRestaurants(url,response) {
 
         str = "";
 
-        for(var x = 0; x < db_kashurt.length ; x++)
+        for(var x = 0; x < db_kashrut.length ; x++)
         {
             str += '<li>'+
                 '<label class="control control--checkbox">'+
-                '<input id="cb-kashurt-'+x+'" onclick="onFilterChange('+x+')" type="checkbox">'+
-                '<div class="control__indicator"></div>'+db_kashurt[x].name_en+
+                '<input id="cb-kashrut-'+x+'" onclick="onFilterChange('+x+')" type="checkbox">'+
+                '<div class="control__indicator"></div>'+db_kashrut[x].name_en+' ['+db_kashrut[x].count+']'+
                 '</label>'+
                 '</li>';
 
         }
 
 
-        $('#kashurts').html(str);
+        $('#kashruts').html(str);
 
 
         $('.list-item').show();
@@ -274,11 +274,11 @@ function fromKashrutToString (restaurant)
             kashrut += ", "+restaurant.kashrut[i]['name_en'] ;
 
 
-        for (var x = 0; x < db_kashurt.length; x++) {
+        for (var x = 0; x < db_kashrut.length; x++) {
 
-            if ((restaurant.db_kashurt[i]['name_en']).toLowerCase() === db_kashurt[x].name_en.toLowerCase()) {
+            if ((restaurant.kashrut[i]['name_en']).toLowerCase() === db_kashrut[x].name_en.toLowerCase()) {
 
-                db_kashurt[x].count = parseInt(db_kashurt[x].count) + 1;
+                db_kashrut[x].count = parseInt(db_kashrut[x].count) + 1;
             }
         }
     }
