@@ -37,10 +37,10 @@ include "header.php";
                                 <div class="row">
 
                                     <div class="col-xs-3">
-                                        <input class="form-control" id="search_start_date" type="text" placeholder="Search Start Date">
+                                        <input class="form-control" id="search-start-date" type="text" placeholder="Search Start Date">
                                     </div>
                                     <div class="col-xs-3">
-                                        <input class="form-control" id="search_end_date"  type="text" placeholder="Search End Date">
+                                        <input class="form-control" id="search-end-date"  type="text" placeholder="Search End Date">
                                     </div>
                                 </div>
                             </div>
