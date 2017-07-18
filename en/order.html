@@ -142,7 +142,7 @@
                             </ul>
                             <ul>
                                 <li><a class="f white" href="#">About</a></li>
-                                <li><a class="f white active" href="#">HE</a></li>
+                                <!--<li><a class="f white active" href="#">HE</a></li>-->
                             </ul>
                         </nav>
                     </div>
@@ -175,7 +175,10 @@
                         </header>
                         <div class="row no-gutters">
                             <div class="col-xs-3">
-                                <aside id="sidebar">
+                                <div class="baron">
+                                    <div id="scrollable-sidebar" class="baron__scroller">
+
+                                        <aside id="sidebar">
                                     <ul class="add-list" id="category-side-menu">
 
                                         <!--<li><a href="#">Bandora Grill </a></li>-->
@@ -185,9 +188,17 @@
 
                                     </ul>
                                 </aside>
+                                    </div>
+                                    <div class="baron__track">
+                                        <div class="baron__bar add1"></div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-xs-9">
-                                <div id="contant">
+                                <div class="baron">
+                                    <div id="scrollable3" class="baron__scroller">
+
+                                        <div id="contant">
                                     <ul class="accordion multilevel-accordion" id="main-categories-items">
 
                                         <!--<li class="active">-->
@@ -244,6 +255,12 @@
 
                                     </ul>
                                 </div>
+
+                                    </div>
+                                    <div class="baron__track">
+                                        <div class="baron__bar add1"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -252,7 +269,7 @@
                             <header class="gray-header">
                                 <h2 class="f black light">Food Cart <span class="counter">0</span></h2>
                             </header>
-                            <div class="row" style="display: none;">
+                            <div class="row">
                                 <div class="col-xs-12">
                                     <div class="empty-cart">
                                         <img src="/en/images/Shopping-Cart-10.png" alt="cart">
@@ -261,7 +278,7 @@
                                 </div>
                             </div>
 
-                            <div class="baron scrollable4" >
+                            <div class="baron scrollable4" style="display: none;" >
                                 <div id="scrollable4" class="baron__scroller right">
                                     <div class="frame">
                                         <div class="order-item">
@@ -312,37 +329,30 @@
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="frame">
-                                            <div class="minimum-item add">
+                                           
+                                            <div class="minimum-item add" style="display: none">
                                                 <div class="row no-gutters">
                                                     <div class="col-xs-8">
                                                         <h3 class="title light">Sub Total</h3>
                                                     </div>
                                                     <div class="col-xs-4">
-                                                        <h3 class="nis light">60 NIS</h3>
+                                                        <h3 class="nis light"></h3>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="minimum-item add">
+                                           
+                                            <div class="minimum-item add" style="display:none;">
                                                 <div class="row no-gutters">
                                                     <div class="col-xs-8">
                                                         <h3 class="title light">Company Contribution</h3>
                                                     </div>
                                                     <div class="col-xs-4">
-                                                        <h3 class="nis light">-20 NIS</h3>
+                                                        <h3 class="nis light"></h3>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="minimum-item add">
-                                                <!--<div class="coupon">-->
-                                                <!--<label id="coupon-toggle" class="new-label">Coupon Code</label>-->
-                                                <!--<div class="coupon-box">-->
-                                                <!--<div class="wrap">-->
-                                                <!--<button id="submitCoupon" class="btn-coupon-submit" type="button"><img src="/en/images/icon011.png"></button>-->
-                                                <!--<input id="coupon-txt" type="text" placeholder="Type Coupon Code">-->
-                                                <!--</div>-->
-                                                <!--<span id="coupon-error" style="display: none" class="error">*incorrect code</span>-->
-                                                <!--</div>-->
-                                                <!--</div>-->
+                                           
                                                 <div class="row no-gutters">
                                                     <div class="col-xs-8">
                                                         <h3 class="title">Total Due</h3>
@@ -379,163 +389,74 @@
         <div class="modal-content  modal-md modal-lg">
 
             <div class="frame">
+                <div class="modal-header">
+                    <button class="close" aria-label="Close" type="button" data-dismiss="modal"><span class="f white" aria-hidden="true">×</span></button>
+                    <h1 id="itemPopUpTitle"></h1>
+                    <p id="itemPopUpDesc"></p>
+                </div>
                 <div class="baron">
-                    <div id="scrollable" class="baron__scroller right add">
-                        <div class="modal-header">
-                            <button class="close" aria-label="Close" type="button" data-dismiss="modal"><span class="f white" aria-hidden="true">×</span></button>
-                            <h1>Shawarma</h1>
-                            <p>Double Angus Sandwich: 300 grams of quality Angus entrecote meat with mayonaise, mustard, chimichuri, lettuce, and tomatoes</p>
-                        </div>
+                    <div id="scrollable2" class="baron__scroller">
                         <div class="modal-body">
-                            <div class="box-frame">
-                                <h3>Type of meat</h3>
-                                <div class="holder">
-                                    <ul class="control-group">
-                                        <li>
-                                            <label class="control control--radio">
-                                                <div class="chek-box-holder">
-                                                    <input type="radio" name="radio" checked="checked"/>
-                                                    <div class="control__indicator"></div>
-                                                </div>
-                                                <p>Meat</p>
-                                            </label>
-                                            <span class="error" style="display: none;">*Required field</span>
-                                        </li>
-                                        <li>
-                                            <label class="control control--radio">
-                                                <div class="chek-box-holder">
-                                                    <input type="radio" name="radio"/>
-                                                    <div class="control__indicator"></div>
-                                                </div>
-                                                <p>Veal</p>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="control control--radio">
-                                                <div class="chek-box-holder">
-                                                    <input type="radio" name="radio" />
-                                                    <div class="control__indicator"></div>
-                                                </div>
-                                                <p>Mix</p>
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
+
+                            <div class="box-frame" id="parent_type_one" style="display: none">
+
+                                <!--<h3>Type of meat</h3>-->
+                                <!--<div class="holder">-->
+                                    <!--<ul class="control-group">-->
+                                        <!--<li>-->
+                                            <!--<label class="control control&#45;&#45;radio">-->
+                                                <!--<div class="chek-box-holder">-->
+                                                    <!--<input type="radio" name="radio" checked="checked"/>-->
+                                                    <!--<div class="control__indicator"></div>-->
+                                                <!--</div>-->
+                                                <!--<p>Meat</p>-->
+                                            <!--</label>-->
+                                            <!--<span class="error" style="display: none;">*Required field</span>-->
+                                        <!--</li>-->
+                                        <!---->
+                                        <!--<li>-->
+                                            <!--<label class="control control&#45;&#45;radio">-->
+                                                <!--<div class="chek-box-holder">-->
+                                                    <!--<input type="radio" name="radio"/>-->
+                                                    <!--<div class="control__indicator"></div>-->
+                                                <!--</div>-->
+                                                <!--<p>Veal</p>-->
+                                            <!--</label>-->
+                                        <!--</li>-->
+                                        <!---->
+                                        <!--<li>-->
+                                            <!--<label class="control control&#45;&#45;radio">-->
+                                                <!--<div class="chek-box-holder">-->
+                                                    <!--<input type="radio" name="radio" />-->
+                                                    <!--<div class="control__indicator"></div>-->
+                                                <!--</div>-->
+                                                <!--<p>Mix</p>-->
+                                            <!--</label>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
+
                             </div>
-                            <div class="box-frame">
-                                <h3>Sauces</h3>
-                                <div class="holder">
-                                    <ul class="control-group">
-                                        <li>
-                                            <label class="control control--checkbox">
-                                                <div class="chek-box-holder">
-                                                    <input type="checkbox" checked="checked"/>
-                                                    <div class="control__indicator"></div>
-                                                </div>
-                                                <p>Humous</p>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="control control--checkbox">
-                                                <div class="chek-box-holder">
-                                                    <input type="checkbox"/>
-                                                    <div class="control__indicator"></div>
-                                                </div>
-                                                <p>Schug</p>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="control control--checkbox">
-                                                <div class="chek-box-holder">
-                                                    <input type="checkbox"/>
-                                                    <div class="control__indicator"></div>
-                                                </div>
-                                                <p>Ketchup</p>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="control control--checkbox">
-                                                <div class="chek-box-holder">
-                                                    <input type="checkbox" checked="checked"/>
-                                                    <div class="control__indicator"></div>
-                                                </div>
-                                                <p>Humous</p>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="control control--checkbox">
-                                                <div class="chek-box-holder">
-                                                    <input type="checkbox"/>
-                                                    <div class="control__indicator"></div>
-                                                </div>
-                                                <p>Schug</p>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="control control--checkbox">
-                                                <div class="chek-box-holder">
-                                                    <input type="checkbox"/>
-                                                    <div class="control__indicator"></div>
-                                                </div>
-                                                <p>Eggplant in mayonnaise</p>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="control control--checkbox">
-                                                <div class="chek-box-holder">
-                                                    <input type="checkbox" checked="checked"/>
-                                                    <div class="control__indicator"></div>
-                                                </div>
-                                                <p>Humous</p>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="control control--checkbox">
-                                                <div class="chek-box-holder">
-                                                    <input type="checkbox"/>
-                                                    <div class="control__indicator"></div>
-                                                </div>
-                                                <p>Schug</p>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="control control--checkbox">
-                                                <div class="chek-box-holder">
-                                                    <input type="checkbox"/>
-                                                    <div class="control__indicator"></div>
-                                                </div>
-                                                <p>Ketchup</p>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="control control--checkbox">
-                                                <div class="chek-box-holder">
-                                                    <input type="checkbox" checked="checked"/>
-                                                    <div class="control__indicator"></div>
-                                                </div>
-                                                <p>Humous</p>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="control control--checkbox">
-                                                <div class="chek-box-holder">
-                                                    <input type="checkbox"/>
-                                                    <div class="control__indicator"></div>
-                                                </div>
-                                                <p>Schug</p>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="control control--checkbox">
-                                                <div class="chek-box-holder">
-                                                    <input type="checkbox"/>
-                                                    <div class="control__indicator"></div>
-                                                </div>
-                                                <p>Ketchup</p>
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
+
+                            <div class="box-frame" id="parent_type_multiple_2">
+
+                                <!--<h3>Sauces</h3>-->
+                                <!--<div class="holder">-->
+                                    <!--<ul class="control-group">-->
+
+                                        <!--<li>-->
+                                            <!--<label class="control control&#45;&#45;checkbox">-->
+                                                <!--<div class="chek-box-holder">-->
+                                                    <!--<input type="checkbox" checked="checked"/>-->
+                                                    <!--<div class="control__indicator"></div>-->
+                                                <!--</div>-->
+                                                <!--<p>Humous</p>-->
+                                            <!--</label>-->
+                                        <!--</li>-->
+
+                                    <!--</ul>-->
+                                <!--</div>-->
+
                             </div>
                         </div>
                     </div>
@@ -550,13 +471,13 @@
                     <div class="col-xs-6">
                         <a class="link" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> Special Requests</a>
                         <div class="input-group show-box">
-                            <input class="form-control" type="text" placeholder="Special Requests">
+                            <input id="#special_request" class="form-control" type="text" placeholder="Special Requests">
                             <i class="fa fa-times" aria-hidden="true"></i>
 
                         </div>
                     </div>
                     <div class="col-xs-6">
-                        <h2 class="f black"> total 75 NIS</h2>
+                        <h2 class="f black" id="itemPopUpPrice"></h2>
                         <button class="btn-cart f white" type="button">add to cart</button>
                     </div>
                 </div>

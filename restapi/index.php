@@ -740,6 +740,53 @@ $app->post('/categories_with_items', function ($request, $response, $args)
 });
 
 
+// GET EXTRAS WITH SUBITEMS
+$app->post('/extras_with_subitems', function ($request, $response, $args) {
+
+    try {
+
+        DB::useDB(B2B_RESTAURANTS);
+
+        //GETTING ITEM_ID FROM CLIENT SIDE
+        $item_id = $request->getParam('itemId');
+
+        //GETTING EXTRAS OF ITEMS i,e ADDONS,SAUCES ETC
+        $extra = DB::query("select * from extras where item_id = '$item_id'");
+
+        $countExtra = 0;
+
+        foreach ($extra as $extras) {
+
+            //GETTING SUNITEMS OF EXTRAS i,e KETCHUP,AMERICAN FRIES
+            $subItems = DB::query("select * from subitems where extra_id = '" . $extras["id"] . "'");
+
+            $extra[$countExtra]['subitems'] = $subItems;
+
+            $countExtra++;
+
+        }
+        $data = [
+            "extra_with_subitems" => $extra                           // EXTRA AND ITEMS
+        ];
+
+
+        // RESPONSE RETURN TO REST API CALL
+        $response = $response->withStatus(202);
+        $response = $response->withJson($data);
+        return $response;
+    }
+    catch(MeekroDBException $e) {
+
+        $response =  $response->withStatus(500);
+        $response =  $response->withHeader('Content-Type', 'text/html');
+        $response =  $response->write( $e->getMessage());
+        return $response;
+    }
+
+});
+
+
+
 
 
 // CANCEL ORDER
