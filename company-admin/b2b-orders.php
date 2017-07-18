@@ -36,11 +36,11 @@ include "header.php";
                             <div class="form-group">
                                 <div class="row">
 
-                                    <div class="col-xs-4">
-                                        <input class="form-control" id="" type="text" placeholder="">
+                                    <div class="col-xs-3">
+                                        <input class="form-control" id="search_start_date" type="text" placeholder="Search Start Date">
                                     </div>
-                                    <div class="col-xs-4">
-                                        <input class="form-control" id=""  type="text" placeholder="">
+                                    <div class="col-xs-3">
+                                        <input class="form-control" id="search_end_date"  type="text" placeholder="Search End Date">
                                     </div>
                                 </div>
                             </div>
