@@ -25,9 +25,11 @@ $(document).ready(function() {
 
             'language': 'en',                  // USER LANGUAGE ENGLISH DESKTOP B2B
             'company': '',                     // attributes are {company_id, company_name, company_address}
-            'user': '',                        // attributes are {user_id, name, email, contact, discount}
-            'rests_orders': []                 // ARRAY OF MULTIPLE REST ORDERS
-
+            'user': '',                        // attributes are {user_id, name, email, contact, userDiscountFromCompany}
+            'rests_orders': [],                // ARRAY OF MULTIPLE REST ORDERS
+            'actual_total' : 0,                // ACTUAL TOTAL (BILL) WITHOUT ANY DISCOUNT AND COMPENSATION
+            'total_paid' : 0,                  // TOTAL AMOUNT PAID BY USER
+            "company_contribution" : 0         // AMOUNT CONTRIBUTED BY COMPANY
         };
 
     }

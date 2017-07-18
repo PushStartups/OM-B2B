@@ -69,25 +69,27 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
         if (DB::count() > 0)
         {
 
+
             $company_id         = $userDB['company_id'];
             $companyDB          = DB::queryFirstRow("select * from company where id = $company_id");
 
 
-            $user['user_id']                =   $userDB['id'];
-            $user['name']                   =   $userDB['name'];
-            $user['email']                  =   $userDB['smooch_id'];
-            $user['contact']                =   $userDB['contact'];
-            $user['discountFromCompany']    =   $userDB['discount'];
-            $company['company_id']          =   $company_id;
-            $company['company_name']        =   $companyDB['name'];
-            $company['company_address']     =   $companyDB['delivery_address'];
-            $company['company_discount']    =   $companyDB['discount'];
-            $company['discount_type']       =   $companyDB['discount_type'];
+            $user['user_id']                    =   $userDB['id'];
+            $user['name']                       =   $userDB['name'];
+            $user['email']                      =   $userDB['smooch_id'];
+            $user['contact']                    =   $userDB['contact'];
+            $user['userDiscountFromCompany']    =   $userDB['discount'];
+            $company['company_id']              =   $company_id;
+            $company['company_name']            =   $companyDB['name'];
+            $company['company_address']         =   $companyDB['delivery_address'];
+            $company['company_discount']        =   $companyDB['discount'];
+            $company['discount_type']           =   $companyDB['discount_type'];
 
 
             $obj['company']                 =   $company;
             $obj['user']                    =   $user;
             $obj['error']                   =   false;
+
 
         }
         else
