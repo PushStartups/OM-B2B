@@ -6,6 +6,7 @@ include "header.php";
 
 
     $companies_id   = $_SESSION['company_id'];
+    $_SESSION['add_company_id'] = $companies_id;
     $company_name = getCompanyName($companies_id);
 
     //$restaurants = getRestaurantsOfSpecificCompany($companies_id);
@@ -88,9 +89,36 @@ else
                                     <fieldset>
                                         <input name="authenticity_token" type="hidden">
                                         <div class="form-group">
+
+
                                             <label>Restaurant Name</label>
-                                            <input class="form-control" id="rest_name" name="rest_name" placeholder="Enter Restaurant Name" type="text">
-                                         
+                                            <select id="rest_name" name="rest_name[]" multiple="multiple" class="multiselect-ui form-control" required>
+                                                <?php
+
+
+                                                DB::useDB('orderapp_b2b_wui');
+                                                $rest_ids = DB::query("SELECT *  FROM company_rest WHERE company_id =  '$companies_id'");
+
+
+
+                                                foreach ($rest_ids as $r) {
+                                                    $row[] = $r['rest_id'];
+                                                }
+                                                DB::useDB('orderapp_restaurants_b2b_wui');
+                                                $qry1 = " select  * from  restaurants where id not in('" . implode("','", $row) . "') ";
+
+                                                $restaurant = db::query($qry1);
+
+                                                foreach($restaurant as $rest)
+                                                { ?>
+                                                    <option value="<?=$rest['id']?>"><?=$rest['name_en']?></option>;
+                                                    <?php
+                                                }
+                                                ?>
+
+
+
+                                            </select>
                                             <input type="hidden" value="<?=$companies_id?>" id="company_id" name="company_id">
                                             <input type="hidden"  id="restaurant_name" name="restaurant_name">
                                             <input type="hidden" value="<?=$_SERVER['REQUEST_URI']?>" id="url" name="url">
