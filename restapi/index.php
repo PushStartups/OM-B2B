@@ -936,6 +936,37 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
 });
 
 
+$app->post('/get_all_cards_info', function ($request, $response, $args){
+
+
+    $user_email = $request->getParam('user_email');
+
+    DB::useDB(B2B_DB);
+
+
+    //CHECK IF USER ALREADY EXIST, IF NO CREATE USER
+    $getUser = DB::queryFirstRow("select id,smooch_id from b2b_users where smooch_id = '" . $user_email . "'");
+
+    DB::useDB(B2B_DB);
+    $cards = DB::query("select id,card_mask from user_credit_cards WHERE user_id = '".$getUser['id']."'");
+
+
+    if(DB::count() == 0) {
+
+        $response = $response->withStatus(202);
+        $response = $response->withJson('null');
+        return $response;
+
+    }
+
+    $response = $response->withStatus(202);
+    $response = $response->withJson($cards);
+    return $response;
+
+
+
+});
+
 // CANCEL ORDER
 $app->post('/cancel_order', function ($request, $response, $args)
 {
