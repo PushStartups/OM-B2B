@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Orderapp | Order from restaurants online</title>
+    <link rel="icon" href="/en/images/favicon.png" type="image/png" sizes="32x32">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/en/css/style-en.css">
+    <link rel="stylesheet" type="text/css" href="/en/css/generic.css">
+    <link rel="stylesheet" type="text/css" href="/en/css/baron.css">
+    <link rel="stylesheet" type="text/css" href="/en/css/order.css">
+
+    <!--SITE SEO CONTENT-->
+    <!-- Google Analytics -->
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-89656592-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+    <!-- End Google Analytics -->
+    <!-- Facebook Pixel Code -->
+
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            }; if (!f._fbq) f._fbq = n;
+            n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+        }(window,
+            document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '2198328787059300'); // Insert your pixel ID here.
+        fbq('track', 'PageView');
+    </script>
+
+    <noscript>
+        <img height="1" width="1" style="display:none"
+             src="https://www.facebook.com/tr?id=2198328787059300&ev=PageView&noscript=1" />
+    </noscript>
+
+    <!-- DO NOT MODIFY -->
+    <!-- End Facebook Pixel Code -->
+    <!-- Facebook/Twitter Open Graph -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@orderappteam" />
+    <meta property="og:url" content="http://orderapp.com" />
+    <meta property="og:title" content="OrderApp - Order delivery online today." />
+    <meta property="og:description" content="OrderApp is the easiest solution for ordering takeaway from restaurants.
+          We remove the phone call and give you the option of live chat or digital menu." />
+
+
+    <!-- Hotjar Tracking Code for orderapp.com -->
+    <script>
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:532682,hjsv:5};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!--SITE SEO CONTENT CLOSED-->
+
+
+</head>
+
+
+<body>
+
+
+
+<script>
+
+
+    if (location.protocol != 'https:')
+    {
+        location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+    }
+
+
+    var dataObject = localStorage.getItem("data_object_en");
+
+
+    // EXCEPTION IF USER OBJECT NOT RECEIVED UN-DEFINED
+    if (dataObject == undefined || dataObject == "" || dataObject == null){
+
+
+        window.location.href = '/';
+
+    }
+
+
+</script>
+
+
+<div style="display: none" id="Loader_bg">
+    <img id="loader" class="loader-css" src="/en/images/loader.gif" >
+</div>
+
+
+<div id="wrapper">
+    <section class="jumbotron-fluid">
+        <div id="header" class="orang_gradient_ltr">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-4 pull-left">
+                        <div class="logo">
+                            <a href="#">
+                                <div class="logo-img">
+                                    <img src="/en/images/logo.png" alt="images description">
+                                </div>
+                                <h2 class="f white light"> CHOOSE YOUR RESTAURANT <p class="comment f white"><span class="f white">Choose your restaurant</span> > Choose your menu</p></h2>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 pull-right">
+                        <nav id="nav">
+                            <ul class="bt-sm">
+                                <li>
+                                    <a href="#">
+                                        <img class="icon-user" src="/en/images/ic_profile01.png">
+                                        <span id="name_company">test, testcompany <em>500 NIS</em></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li><a class="f white" href="#">About</a></li>
+                                <!--<li><a class="f white active" href="#">HE</a></li>-->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <a class="btn-back" href="#"><img src="/en/images/icon01.png"></a>
+        </div>
+    </section>
+    <section class="block">
+        <div class="jumbtron-fluid">
+            <div class="parent-bottom" style="/*position: relative;*/width:100%;height:100%;">
+                <img src="/en/images/left_bottom.png">
+                <img src="/en/images/right_bottom-new.png" style="left: auto; right: 0; margin: 0; width: 60%; height: 90vh; top:10px;"/>
+            </div>
+            <div class="container">
+                <div class="row no-gutters">
+                    <div class="col-xs-9">
+                        <header class="header-box">
+                            <div class="row no-gutters">
+                                <div class="col-xs-11" id="rest-name-cat"><h2 class="f white light">Bandora</h2>
+                                    <p class="f white">Derech Rabin 15, Beit Shemesh</p>
+                                    <ul>
+                                        <!--<li><img class="img" src="/en/images/watch-icon.png">delivery time 11:00</li>-->
+                                        <li><img class="img add" src="/en/images/motorbike-small.png">Delivery Time 11:00-11:15</li>
+                                        <li><a class="tel" href="tel:0500000000"><img class="img" src="/en/images/phone-icon.png">050-000-0000</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-1"><a class="alert-img" href="#"><img src="/en/images/info-icon.png"></a></div>
+                            </div>
+                        </header>
+                        <div class="row no-gutters">
+                            <div class="col-xs-3">
+                                <div class="baron">
+                                    <div id="scrollable-sidebar" class="baron__scroller">
+
+                                        <aside id="sidebar">
+                                    <ul class="add-list" id="category-side-menu">
+
+                                        <!--<li><a href="#">Bandora Grill </a></li>-->
+                                        <!--<li><a href="#">Bandora Salad</a></li>-->
+                                        <!--<li><a href="#">Bandora Chummus </a></li>-->
+                                        <!--<li><a href="#">Bandora Drinks </a></li>-->
+
+                                    </ul>
+                                </aside>
+                                    </div>
+                                    <div class="baron__track">
+                                        <div class="baron__bar add1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-9">
+                                <div class="baron">
+                                    <div id="scrollable3" class="baron__scroller">
+
+                                        <div id="contant">
+                                    <ul class="accordion multilevel-accordion" id="main-categories-items">
+
+                                        <!--<li class="active">-->
+                                        <!--<a href="#" class="opener">-->
+                                        <!--<h3 class="light">Bandora Grill</h3>-->
+                                        <!--</a>-->
+                                        <!--<div class="slide">-->
+                                        <!--<div class="add-row discount" data-toggle="modal" data-target="#my-order">-->
+                                        <!--<div class="row">-->
+                                        <!--<div class="col-xs-8">-->
+                                        <!--<h4>Shawarma</h4>-->
+                                        <!--<p>Double Angus Sandwich: 300 grams of quality Angus entrecote meat with mayon…</p>-->
+                                        <!--</div>-->
+                                        <!--<div class="col-xs-4 pull-right">-->
+                                        <!--<div class="price-holder">-->
+                                        <!--<span class="new-dis"><i class="fa fa-tag" aria-hidden="true"></i> 30 NIS</span>-->
+                                        <!--<span class="price">33 NIS </span>-->
+                                        <!--</div>-->
+                                        <!--<img class="img-plus" src="/en/images/plus-icon.png">-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="add-row">-->
+                                        <!--<div class="row">-->
+                                        <!--<div class="col-xs-8">-->
+                                        <!--<h4>Super Spicy Bandora</h4>-->
+                                        <!--<p>Bandora Supreme: Pieces of veal/spring chicken shawarma, grilled onion, spicy</p>-->
+                                        <!--</div>-->
+                                        <!--<div class="col-xs-4 pull-right">-->
+                                        <!--<div class="price-holder">-->
+                                        <!--<span class="price">33 NIS </span>-->
+                                        <!--</div>-->
+                                        <!--<img class="img-plus" src="/en/images/plus-icon.png">-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="add-row">-->
+                                        <!--<div class="row">-->
+                                        <!--<div class="col-xs-8">-->
+                                        <!--<h4>Beef Kabab</h4>-->
+                                        <!--<p>Kebab: a mix of ground meat with grilled vegetables</p>-->
+                                        <!--</div>-->
+                                        <!--<div class="col-xs-4 pull-right">-->
+                                        <!--<div class="price-holder">-->
+                                        <!--<span class="price">33 NIS </span>-->
+                                        <!--</div>-->
+                                        <!--<img class="img-plus" src="/en/images/plus-icon.png">-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <!--</li>-->
+                                        <!---->
+
+                                    </ul>
+                                </div>
+
+                                    </div>
+                                    <div class="baron__track">
+                                        <div class="baron__bar add1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="cart-holder">
+                            <header class="gray-header">
+                                <h2 class="f black light">Food Cart <span class="counter">0</span></h2>
+                            </header>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="empty-cart">
+                                        <img src="/en/images/Shopping-Cart-10.png" alt="cart">
+                                        <h3 class="light">Your cart is empty</h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="baron scrollable4" style="display: none;" >
+                                <div id="scrollable4" class="baron__scroller right">
+                                    <div class="frame">
+                                        <div class="order-item">
+                                            <div class="row no-gutters">
+                                                <div class="col-xs-2">
+                                                </div>
+                                                <div class="col-xs-10">
+                                                    <div class="row no-gutters">
+                                                        <div class="col-xs-9">
+                                                            <p class="f black">Shawarma</p>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <p class="f black amount">30 NIS</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row no-gutters">
+                                                <div class="col-xs-2">
+                                                    <div class="btn-arrow">
+                                                        <a href="#" class="btn-up">
+                                                            <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                                        </a>
+                                                        <span class="count f black">2</span>
+                                                        <a href="#" class="btn-down">
+                                                            <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <p>Veal, Pita, Addons: French Fries, Sauces: Chummus, Amba</p>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <a class="remove" href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="baron__track">
+                                    <div class="baron__bar"></div>
+                                </div>
+
+                            </div>
+
+                            <div class="wrap">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="frame">
+                                           
+                                            <div class="minimum-item add" style="display: none">
+                                                <div class="row no-gutters">
+                                                    <div class="col-xs-8">
+                                                        <h3 class="title light">Sub Total</h3>
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <h3 class="nis light"></h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           
+                                            <div class="minimum-item add" style="display:none;">
+                                                <div class="row no-gutters">
+                                                    <div class="col-xs-8">
+                                                        <h3 class="title light">Company Contribution</h3>
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <h3 class="nis light"></h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="minimum-item add">
+                                           
+                                                <div class="row no-gutters">
+                                                    <div class="col-xs-8">
+                                                        <h3 class="title">Total Due</h3>
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <h3 class="nis">0 NIS</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="img-frame">
+                                                <a href="#"><img src="/en/images/cards-icon.png"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="info-card">
+                                    <button class="btn-submit" onclick="window.location.href='confirm-order.html'" type="button">place order</button>
+                                    <!--<div class="tooltip-popup popup"><p class="f black">Your cart is empty</p></div>-->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<div class="modal fade" id="my-order" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog my-popup">
+        <div class="modal-content  modal-md modal-lg">
+
+            <div class="frame">
+                <div class="modal-header">
+                    <button class="close" aria-label="Close" type="button" data-dismiss="modal"><span class="f white" aria-hidden="true">×</span></button>
+                    <h1 id="itemPopUpTitle"></h1>
+                    <p id="itemPopUpDesc"></p>
+                </div>
+                <div class="baron">
+                    <div id="scrollable2" class="baron__scroller">
+                        <div class="modal-body">
+
+                            <div class="box-frame" id="parent_type_one" style="display: none">
+
+                                <!--<h3>Type of meat</h3>-->
+                                <!--<div class="holder">-->
+                                    <!--<ul class="control-group">-->
+                                        <!--<li>-->
+                                            <!--<label class="control control&#45;&#45;radio">-->
+                                                <!--<div class="chek-box-holder">-->
+                                                    <!--<input type="radio" name="radio" checked="checked"/>-->
+                                                    <!--<div class="control__indicator"></div>-->
+                                                <!--</div>-->
+                                                <!--<p>Meat</p>-->
+                                            <!--</label>-->
+                                            <!--<span class="error" style="display: none;">*Required field</span>-->
+                                        <!--</li>-->
+                                        <!---->
+                                        <!--<li>-->
+                                            <!--<label class="control control&#45;&#45;radio">-->
+                                                <!--<div class="chek-box-holder">-->
+                                                    <!--<input type="radio" name="radio"/>-->
+                                                    <!--<div class="control__indicator"></div>-->
+                                                <!--</div>-->
+                                                <!--<p>Veal</p>-->
+                                            <!--</label>-->
+                                        <!--</li>-->
+                                        <!---->
+                                        <!--<li>-->
+                                            <!--<label class="control control&#45;&#45;radio">-->
+                                                <!--<div class="chek-box-holder">-->
+                                                    <!--<input type="radio" name="radio" />-->
+                                                    <!--<div class="control__indicator"></div>-->
+                                                <!--</div>-->
+                                                <!--<p>Mix</p>-->
+                                            <!--</label>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
+
+                            </div>
+
+                            <div class="box-frame" id="parent_type_multiple_2">
+
+                                <!--<h3>Sauces</h3>-->
+                                <!--<div class="holder">-->
+                                    <!--<ul class="control-group">-->
+
+                                        <!--<li>-->
+                                            <!--<label class="control control&#45;&#45;checkbox">-->
+                                                <!--<div class="chek-box-holder">-->
+                                                    <!--<input type="checkbox" checked="checked"/>-->
+                                                    <!--<div class="control__indicator"></div>-->
+                                                <!--</div>-->
+                                                <!--<p>Humous</p>-->
+                                            <!--</label>-->
+                                        <!--</li>-->
+
+                                    <!--</ul>-->
+                                <!--</div>-->
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="baron__track">
+                        <div class="baron__bar add"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row no-gutters">
+                    <div class="col-xs-6">
+                        <a class="link" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> Special Requests</a>
+                        <div class="input-group show-box">
+                            <input id="#special_request" class="form-control" type="text" placeholder="Special Requests">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <h2 class="f black" id="itemPopUpPrice"></h2>
+                        <button class="btn-cart f white" type="button">add to cart</button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="/en/js/jquery.accordion.js"></script>
+<script src="/en/js/baron.js"></script>
+<script src="/en/js/commonAjaxCall.js"></script>
+<script src="/en/js/ajaxRequestOrder.js"></script>
+
+<script>
+
+
+    window.onload = function() {
+        window.dima = baron({
+            root: '.baron',
+            scroller: '.baron__scroller',
+            bar: '.baron__bar'
+        }).autoUpdate();
+    };
+
+
+    $(document).ready(function(){
+        $(".link").click(function () {
+            $(".show-box").show();
+            $(".link").hide();
+        });
+    });
+
+    $(document).ready(function(){
+        $(".fa-times").click(function () {
+            $(".show-box").hide();
+            $(".link").show();
+        });
+    });
+
+
+    $('body').on('click', '#my-order', function(e) {
+
+        if(e.target.id == 'my-order')
+        {
+            $('#my-order').modal('hide');
+        }
+
+    });
+
+
+</script>
+
+</body>
+</html>

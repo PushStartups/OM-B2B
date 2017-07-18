@@ -20,14 +20,13 @@ $(document).ready(function() {
     }
     else
     {
-
-
+        
         dataObject = {
 
             'language': 'en',                  // USER LANGUAGE ENGLISH DESKTOP B2B
-            'company': '',                     // attributes are {company_id, company_name, company>address}
+            'company': '',                     // attributes are {company_id, company_name, company_address}
             'user': '',                        // attributes are {user_id, name, email, contact}
-            'rests_orders': null               // ARRAY OF MULTIPLE REST ORDERS
+            'rests_orders': []                 // ARRAY OF MULTIPLE REST ORDERS
 
         };
 

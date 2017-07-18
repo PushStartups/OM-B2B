@@ -77,6 +77,7 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
             $user['name']                   =   $userDB['name'];
             $user['email']                  =   $userDB['smooch_id'];
             $user['contact']                =   $userDB['contact'];
+            $user['discount']               =   $userDB['discount'];
             $company['company_id']          =   $company_id;
             $company['company_name']        =   $companyDB['name'];
             $company['company_address']     =   $companyDB['delivery_address'];
@@ -573,10 +574,51 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
 $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
 {
     DB::useDB(B2B_RESTAURANTS);
+
+    $company_id = $request->getParam('company_id');
+
+    DB::useDB(B2B_DB);
+    $company_restaurants = DB::query("select  rest_id from company_rest where company_id = '$company_id'");
+
     try{
+        DB::useDB(B2B_RESTAURANTS);
         $db_restaurant_tags = DB::query("select * from tags");
 
+
+        $ctn = 0;
+        foreach ($db_restaurant_tags as $tag)
+        {
+            $count = 0;
+            foreach ($company_restaurants as $company_restaurant)
+            {
+                DB::useDB(B2B_RESTAURANTS);
+                $result = DB::queryFirstRow("select COUNT(*) as count from restaurant_tags where restaurant_id = '".$company_restaurant['rest_id']."' AND tag_id = '".$tag['id']."' ");
+                $count  = $count + $result['count'];
+            }
+
+            $db_restaurant_tags[$ctn]['count'] = $count;
+            $ctn++;
+        }
+
+
+        DB::useDB(B2B_RESTAURANTS);
         $db_restaurant_kashrut = DB::query("select * from kashrut");
+        $ctn1 = 0;
+        foreach ($db_restaurant_kashrut as $kashrut)
+        {
+            $count1 = 0;
+            foreach ($company_restaurants as $company_restaurant)
+            {
+                DB::useDB(B2B_RESTAURANTS);
+                $result1 = DB::queryFirstRow("select COUNT(*) as count from restaurant_kashrut where restaurant_id = '".$company_restaurant['rest_id']."' AND kashrut_id = '".$kashrut['id']."' ");
+                $count1  = $count1 + $result1['count'];
+            }
+
+            $db_restaurant_kashrut[$ctn1]['count'] = $count1;
+            $ctn1++;
+        }
+
+
 
         $resp = [
             "db_tags"               => $db_restaurant_tags,          //
@@ -601,6 +643,151 @@ $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
 
 
 });
+
+//  WEB HOOK GET DATA OF CATEGORIES WITH ITEMS
+
+$app->post('/categories_with_items', function ($request, $response, $args)
+{
+
+    try {
+
+        $id = $request->getParam('restaurantId');
+        $company_id = $request->getParam('company_id');
+
+        // GET MENUS FOR RESTAURANT i.e LUNCH
+        $menu = DB::queryFirstRow("select * from menus where restaurant_id = '" . $id . "'");
+
+        // GET CATEGORIES OF RESTAURANT i.e ANGUS SALAD , ANGUS BURGER
+        $categories = DB::query("select * from categories where menu_id = '" . $menu['id'] . "'");
+
+        $count2 = 0;
+        foreach ($categories as $category) {
+
+            $items = DB::query("select * from items where category_id = '" . $category["id"] . "'");
+
+            $count3 = 0;
+            // CHECK FOR ITEMS PRICE ZERO
+            foreach ($items as $item) {
+                if ($item['price'] == 0) {
+                    $extras = DB::query("select * from extras where item_id = '" . $item["id"] . "' AND type = 'One' AND price_replace=1");
+                    // EXTRAS WITH TYPE OME AND PRICE REPLACE 1
+
+                    foreach ($extras as $extra) {
+                        $subItems = DB::query("select * from subitems where extra_id = '" . $extra["id"] . "'");
+                        $lowestPrice = $subItems[0]['price'];
+                        foreach ($subItems as $subitem) {
+                            if ($subitem['price'] < $lowestPrice) {
+                                $lowestPrice = $subitem['price'];
+                            }
+                        }
+
+                        $items[$count3]['price'] = $lowestPrice;
+
+                    }
+                    //break;
+                }
+                $count3++;
+            }
+
+
+            $categories[$count2]['items'] = $items;
+            $count2++;
+        }
+
+
+        // GET B2B PERCENTAGE DISCOUNT ON THIS ITEM
+
+        DB::useDB('orderapp_b2b_wui');
+        $percentage_discount = DB::queryFirstRow("select * from b2b_rest_discounts where rest_id = '" . $id . "' AND company_id = '".$company_id."'");
+
+        if(DB::count() == 0)
+        {
+            // NO DISCOUNT FOUND
+            $percentage_discount = '0';
+
+        }
+        else{
+
+            $percentage_discount = $percentage_discount['discount_percent'];
+
+        }
+
+        // CREATE DEFAULT OBJECT FOR ITEMS AND CATEGORIES;
+        $data = [
+
+            "menu_name_en" => $menu['name_en'],                        // MENU NAME EN
+            "menu_name_he" => $menu['name_he'],                        // MENU NAME HE
+            "categories_items" => $categories,                         // CATEGORIES AND ITEMS
+            "percentage_discount" => $percentage_discount              // PERCENTAGE DISCOUNT OF RESTAURANT
+
+        ];
+
+
+        // RESPONSE RETURN TO REST API CALL
+        $response = $response->withStatus(202);
+        $response = $response->withJson($data);
+        return $response;
+
+    }
+    catch(MeekroDBException $e) {
+
+        $response =  $response->withStatus(500);
+        $response =  $response->withHeader('Content-Type', 'text/html');
+        $response =  $response->write( $e->getMessage());
+        return $response;
+    }
+
+});
+
+
+// GET EXTRAS WITH SUBITEMS
+$app->post('/extras_with_subitems', function ($request, $response, $args) {
+
+    try {
+
+        DB::useDB(B2B_RESTAURANTS);
+
+        //GETTING ITEM_ID FROM CLIENT SIDE
+        $item_id = $request->getParam('itemId');
+
+        //GETTING EXTRAS OF ITEMS i,e ADDONS,SAUCES ETC
+        $extra = DB::query("select * from extras where item_id = '$item_id'");
+
+        $countExtra = 0;
+
+        foreach ($extra as $extras) {
+
+            //GETTING SUNITEMS OF EXTRAS i,e KETCHUP,AMERICAN FRIES
+            $subItems = DB::query("select * from subitems where extra_id = '" . $extras["id"] . "'");
+
+            $extra[$countExtra]['subitems'] = $subItems;
+
+            $countExtra++;
+
+        }
+        $data = [
+            "extra_with_subitems" => $extra                           // EXTRA AND ITEMS
+        ];
+
+
+        // RESPONSE RETURN TO REST API CALL
+        $response = $response->withStatus(202);
+        $response = $response->withJson($data);
+        return $response;
+    }
+    catch(MeekroDBException $e) {
+
+        $response =  $response->withStatus(500);
+        $response =  $response->withHeader('Content-Type', 'text/html');
+        $response =  $response->write( $e->getMessage());
+        return $response;
+    }
+
+});
+
+
+
+
 
 // CANCEL ORDER
 $app->post('/cancel_order', function ($request, $response, $args)
