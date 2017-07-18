@@ -47,6 +47,8 @@ var selectedItemPrice = 0;  // SELECTED ITEM PRICE AFTER CALCULATION
 var foodCartData  = null; // FOOD CART OBJECT
 
 
+var tempDiscountFromCompanyCal = 0; // TEMPORARY VARIABLE FOR COMPANY COMPENSATION
+
 
 $(document).ready(function() {
 
@@ -716,6 +718,8 @@ function generateTotalUpdateFoodCart()
 
     var total = 0;
 
+    tempDiscountFromCompanyCal = dataObject.user.userDiscountFromCompany;
+
     for(var x=0; x<dataObject.rests_orders[selectedRestIndex].order_detail.length ;x++)
     {
 
@@ -879,8 +883,8 @@ function generateTotalUpdateFoodCart()
     }
 
 
-    // userObject.total = total;
-    // userObject.totalWithoutDiscount  = total;
+       dataObject.total_paid = total;
+       dataObject.actual_total  = total;
 }
 
 
@@ -960,37 +964,39 @@ function updateCartElements()
 
         $('#nested-section').html(str);
 
-        //
-        // if ( convertFloat(userObject.total) > convertFloat(userObject.discount) )
-        // {
-        //     userObject.total = convertFloat(convertFloat(userObject.total) - convertFloat(userObject.discount));
-        //     userObject.discount = 0;
-        //
-        // }
-        // else
-        // {
-        //     userObject.discount = convertFloat(convertFloat(userObject.discount) - convertFloat(userObject.total));
-        //     userObject.total = 0;
-        // }
 
-        //
-        // $('#totalAmount').html(userObject.total + " NIS");
-        //
-        //
-        // $('#totalAmountWithoutDiscount').html(userObject.totalWithoutDiscount + " NIS");
-        //
-        //
-        // var min_temp =  userObject.discount +' NIS';
-        //
-        //
-        //
-        // $('#discountValue').html(min_temp);
-        //
-        //
-        //
-        //
-        //
-        //
+        if ( convertFloat(dataObject.total_paid) > convertFloat(tempDiscountFromCompanyCal) )
+        {
+
+            dataObject.total_paid = convertFloat(convertFloat(dataObject.total_paid) - convertFloat(tempDiscountFromCompanyCal));
+            dataObject.company_contribution = tempDiscountFromCompanyCal;
+            tempDiscountFromCompanyCal = 0;
+
+        }
+        else
+        {
+
+           tempDiscountFromCompanyCal = convertFloat(convertFloat(tempDiscountFromCompanyCal) - convertFloat(dataObject.total_paid));
+            dataObject.company_contribution = dataObject.total_paid;
+            dataObject.total_paid = 0;
+
+        }
+
+
+        $('#total_paid').html(dataObject.total_paid + " NIS");
+
+
+        $('#cc_parent').show();
+
+
+        $('#company_contribution').html(dataObject.company_contribution + " NIS");
+
+
+        $('#st_parent').show();
+
+
+        $('#actual_total').html(dataObject.actual_total + " NIS");
+
 
 
         $('.col-second').css("visibility","visible");
@@ -1018,6 +1024,197 @@ function updateCartElements()
     // }
 
 }
+
+
+
+// USER WANT TO INCREASE THE QUANTITY OF ITEMS FROM ORDER
+
+function onQtyIncreaseButtonClicked(index) {
+
+
+    // UPDATE ITEM MAIN
+    userObject.orders[foodCartData[index].orderIndex].qty = convertFloat(userObject.orders[foodCartData[index].orderIndex].qty) + 1;
+
+    // INCREASE THE QTY OF SUB ITEMS ONE TYPE
+    for(var x=0;x<userObject.orders[foodCartData[index].orderIndex].subItemsOneType.length;x++)
+    {
+        for (var key in userObject.orders[foodCartData[index].orderIndex].subItemsOneType[x])
+        {
+            if(userObject.orders[foodCartData[index].orderIndex].subItemsOneType[x][key] != null) {
+
+                userObject.orders[foodCartData[index].orderIndex].subItemsOneType[x][key].qty =
+                    convertFloat(userObject.orders[foodCartData[index].orderIndex].subItemsOneType[x][key].qty) + 1;
+            }
+        }
+    }
+
+    // INCREASE THE QTY OF SUB ITEMS MULTIPLE TYPE
+    for(var x=0;x<userObject.orders[foodCartData[index].orderIndex].multiItemsOneType.length;x++)
+    {
+        for (var key in userObject.orders[foodCartData[index].orderIndex].multiItemsOneType[x])
+        {
+            if(userObject.orders[foodCartData[index].orderIndex].multiItemsOneType[x][key] != null) {
+
+                userObject.orders[foodCartData[index].orderIndex].multiItemsOneType[x][key].qty =
+                    (convertFloat(userObject.orders[foodCartData[index].orderIndex].multiItemsOneType[x][key].qty) + 1);
+            }
+        }
+    }
+
+    foodCartData[index].qty = convertFloat(foodCartData[index].qty) + 1;
+
+    userObject.totalWithoutDiscount = convertFloat(convertFloat(userObject.totalWithoutDiscount) + convertFloat(foodCartData[index].price));
+    userObject.total = userObject.totalWithoutDiscount;
+
+    userObject.discount = discountDefault;
+
+
+    if ( convertFloat(userObject.total) > convertFloat(userObject.discount) )
+    {
+        userObject.total = convertFloat(convertFloat(userObject.total) - convertFloat(userObject.discount));
+        userObject.discount = 0;
+
+    }
+    else
+    {
+        userObject.discount = convertFloat(convertFloat(userObject.discount) - convertFloat(userObject.total));
+        userObject.total = 0;
+    }
+
+
+    $('#totalAmount').html(userObject.total + " NIS");
+
+
+    var min_temp = '<p>'+userObject.discount +' NIS</p>';
+
+    $('#minAmount').html(min_temp);
+
+
+
+    var itemCountId = "#count"+index;
+
+    $(itemCountId).html(foodCartData[index].qty.toString());
+
+    $('.badge').html(parseInt($('.badge').html()) + 1);
+
+    var leftBtnId = "#left-btn"+index;
+
+    $(leftBtnId).attr("src","/en/img/ic_reduce.png");
+
+
+    generateTotalUpdateFoodCart();
+    updateCartElements();
+
+}
+
+
+// USER WANT TO DECREASE THE QUANTITY OR REMOVE OF ITEMS FROM ORDER
+
+function onQtyDecreasedButtonClicked(index) {
+
+
+    var orders = dataObject.rests_orders[selectedRestIndex].order_detail;
+
+    // UPDATE ITEM MAIN
+
+    // DECREASE QUANTITY
+    if(convertFloat(orders[foodCartData[index].orderIndex].qty) != 1)
+    {
+
+        orders[foodCartData[index].orderIndex].qty = convertFloat(orders[foodCartData[index].orderIndex].qty) - 1;
+
+        // DECREASE THE QTY OF SUB ITEMS ONE TYPE
+        for(var x=0;x< orders[foodCartData[index].orderIndex].subItemsOneType.length;x++)
+        {
+            for (var key in orders[foodCartData[index].orderIndex].subItemsOneType[x])
+            {
+                if(userObject.orders[foodCartData[index].orderIndex].subItemsOneType[x][key] != null) {
+
+
+                    orders[foodCartData[index].orderIndex].subItemsOneType[x][key].qty =
+                        convertFloat(userObject.orders[foodCartData[index].orderIndex].subItemsOneType[x][key].qty) -  1;
+
+                }
+
+            }
+
+        }
+
+        // DECREASE THE QTY OF SUB ITEMS MULTIPLE TYPE
+        for(var x=0;x<orders[foodCartData[index].orderIndex].multiItemsOneType.length;x++)
+        {
+            for (var key in orders[foodCartData[index].orderIndex].multiItemsOneType[x])
+            {
+                if(orders[foodCartData[index].orderIndex].multiItemsOneType[x][key] != null) {
+
+                   orders[foodCartData[index].orderIndex].multiItemsOneType[x][key].qty =
+                        (convertFloat(userObject.orders[foodCartData[index].orderIndex].multiItemsOneType[x][key].qty) - 1);
+                }
+            }
+        }
+
+
+    }
+
+
+    if(foodCartData.length != 0 && foodCartData[index] != undefined  && (convertFloat(foodCartData[index].qty) != 1))
+    {
+
+        foodCartData[index].qty = convertFloat(foodCartData[index].qty) - 1;
+
+        dataObject.actual_total = convertFloat(convertFloat(dataObject.actual_total) - convertFloat(foodCartData[index].price));
+        dataObject.total_paid = dataObject.actual_total;
+
+        tempDiscountFromCompanyCal = dataObject.user.userDiscountFromCompany;
+
+
+        if ( convertFloat(dataObject.total_paid) > convertFloat(tempDiscountFromCompanyCal) )
+        {
+            dataObject.total_paid = convertFloat(convertFloat(dataObject.total_paid) - convertFloat(tempDiscountFromCompanyCal));
+            dataObject.company_contribution = tempDiscountFromCompanyCal;
+            tempDiscountFromCompanyCal = 0;
+
+        }
+        else
+        {
+            tempDiscountFromCompanyCal = convertFloat(convertFloat(tempDiscountFromCompanyCal) - convertFloat(dataObject.total_paid));
+            dataObject.company_contribution = dataObject.total_paid;
+            dataObject.total_paid = 0;
+
+        }
+
+
+        $('#totalAmount').html("Remaining Balance "+userObject.total + " NIS");
+
+        var min_temp = '<p>Remaining Balance +'+ userObject.discount +' NIS</p>';
+
+        $('#minAmount').html(min_temp);
+
+
+        var itemCountId = "#count"+index;
+        $(itemCountId).html(foodCartData[index].qty.toString());
+
+        $('.badge').html(parseInt($('.badge').html()) - 1);
+
+        if(foodCartData[index].qty == 1)
+        {
+
+            var leftBtnId = "#left-btn"+index;
+            $(leftBtnId).attr("src","/en/img/ic_cancel.png");
+
+        }
+    }
+
+
+    $('#totalAmount').html("Remaining Balance "+userObject.total + " NIS");
+
+
+    generateTotalUpdateFoodCart();
+    updateCartElements();
+}
+
+
+
 
 
 
