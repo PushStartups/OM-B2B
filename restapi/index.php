@@ -979,7 +979,7 @@ $app->post('/is_hide_payment', function ($request, $response, $args)
 
     // RESPONSE RETURN TO REST API CALL
     $response = $response->withStatus(202);
-    $response = $response->withJson(json_encode($companyDetail['hide_payment']));
+    $response = $response->withJson($companyDetail['hide_payment']);
     return $response;
 
 
