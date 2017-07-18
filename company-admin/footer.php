@@ -111,6 +111,7 @@ you can add as many as you like
 <script src="js/custom/add-company-rest.js"></script>
 <script  type="text/javascript" src="js/custom/bootstrap-multiselect.js"></script>
 <script src="js/custom/company-detail.js"></script>
+<script src="js/custom/insert_b2b_orders_date.js"></script>
 <script type="text/javascript">
     hideLoading();
 </script>
@@ -348,11 +349,33 @@ you can add as many as you like
         });
 
 
-    $("#search-start-date").datepicker({
+    //USER EMAIL
+    var user_email = new Array();
+    <?php
+    DB::useDB('orderapp_b2b_wui');
+    $arr1 = DB::query("select * from b2b_users");
+    foreach($arr1 as $tag_name ){ ?>
+    user_email.push("<?php echo $tag_name['smooch_id']; ?>");
+    <?php } ?>
+
+
+    $( "#search-user-email").autocomplete({
+        source: user_email,
+        select: function (event, ui) {
+            globalTag = ui.item.label;
+
+            document.getElementById("hidden_email").value = ui.item.label;
+
+        },
+    });
+
+
+
+    $("#search_start_date").datepicker({
         dateFormat: 'yy-mm-dd'
     });
 
-    $("#search-end-date").datepicker({
+    $("#search_end_date").datepicker({
         dateFormat: 'yy-mm-dd'
 
     });
