@@ -53,9 +53,10 @@
 #scrollable1{
     max-height: 96vh;
 }
+#scrollable-sidebar,
 #scrollable3{
     height:85vh;
-    background: #f7f7f7;
+    /*background: #f7f7f7;*/
 }
 .scrollable6,
 .scrollable4{
@@ -68,3 +69,7 @@
 }
 .baron__bar.add,
 .baron__bar.add1 {background: rgba(0, 0, 0, 0.3);}
+#scrollable2 {
+    overflow-y: scroll;
+    max-height: 60vh !important;
+}
