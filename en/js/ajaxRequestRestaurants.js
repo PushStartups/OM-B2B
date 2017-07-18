@@ -50,7 +50,8 @@ $(document).ready(function() {
 
     dataObject = JSON.parse(localStorage.getItem("data_object_en"));
 
-    $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+dataObject.user.discount+" NIS</em>");
+    $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+dataObject.user.userDiscountFromCompany+" NIS</em>");
+
 
     commonAjaxCall("/restapi/index.php/get_db_tags_and_kashrut",{"company_id":dataObject.company.company_id}, responseDBAllTagsKashrut);
 
@@ -133,6 +134,8 @@ function responseListOfRestaurants(url,response) {
         delivery_time_str   = response.delivery_time_str;
         appox_delivey_time  = response.appox_delivey_time;
 
+
+        dataObject.company.delivery_time = delivery_time_str;
 
         var str = '';
 

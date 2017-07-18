@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Orderapp | Order from restaurants online</title>
+    <link rel="icon" href="images/favicon.png" type="image/png" sizes="32x32">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style-en.css">
+    <link rel="stylesheet" type="text/css" href="css/generic.css">
+    <link rel="stylesheet" type="text/css" href="css/baron.css">
+    <link rel="stylesheet" type="text/css" href="css/confirm-order.css">
+</head>
+<body>
+<div id="wrapper">
+    <section class="jumbotron-fluid">
+        <div id="header" class="orang_gradient_ltr">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-5 pull-left">
+                        <div class="logo">
+                            <a href="#">
+                                <div class="logo-img">
+                                    <img src="images/logo.png" alt="images description">
+                                </div>
+                                <h2 class="f white light"> CHOOSE YOUR RESTAURANT <p class="comment f white"><span class="f white">Choose your restaurant</span> > <span class="f white">Choose your menu</span> > Order Information</p></h2>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 pull-right">
+                        <nav id="nav">
+                            <ul class="bt-sm">
+                                <li>
+                                    <a href="#">
+                                        <img class="icon-user" src="images/ic_profile01.png">
+                                        <span id="name_company">test, testcompany <em>500 NIS</em></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li><a class="f white" href="#">About</a></li>
+                                <li><a class="f white active" href="#">HE</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <a class="btn-back" href="#"><img src="images/icon01.png"></a>
+        </div>
+    </section>
+    <section class="block">
+        <div class="jumbtron-fluid">
+            <div class="parent-bottom" style="/*position: relative;*/width:100%;height:100%;">
+                <img src="images/left_bottom.png">
+                <img src="images/right_bottom-new.png" style="left: auto; right: 0; margin: 0; width: 60%; height: 90vh; top:10px;"/>
+            </div>
+            <div class="container">
+            <div class="row no-gutters">
+                <div class="col-xs-9">
+                    <header class="header-box">
+                        <div class="row no-gutters">
+                            <div class="col-xs-11" id="rest-name-cat"><h2 class="f white light">Bandora</h2>
+                                <p class="f white">Derech Rabin 15, Beit Shemesh</p>
+                                <ul>
+                                    <li><a class="tel" href="tel:0500000000"><img class="img" src="images/phone-icon.png">050-000-0000</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-1"><a class="alert-img" href="#"><img src="images/info-icon.png"></a></div>
+                        </div>
+                    </header>
+                    <div class="row no-gutters">
+                        <div class="col-xs-12">
+                            <div class="order-info">
+                                <ul>
+                                    <li>
+                                        <h2>PickUp frome Derech Rabin 15, Beit Shemeshat  </h2>
+                                        <div class="dropdown new">
+
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Select Time
+                                            </button>
+
+                                            <div class="dropdown-menu dropdown scrollable-menu" aria-labelledby="dropdownMenuButton">
+
+                                                <a class="dropdown-item" href="#">12:00-12:45</a>
+                                                <a class="dropdown-item" href="#">12:00-12:45</a>
+                                                <a class="dropdown-item" href="#">12:00-12:45</a>
+                                                <a class="dropdown-item" href="#">12:00-12:45</a>
+                                                <a class="dropdown-item" href="#">12:00-12:45</a>
+                                                <a class="dropdown-item" href="#">12:00-12:45</a>
+
+                                            </div>
+                                            <span style="color: red;font-size: 13px; margin-top: 5px" id="error-delivery"></span>
+                                        </div>
+                                        <div class="checkbox-holder">
+                                            <label class="control control--checkbox">
+                                                <div class="chek-box-holder">
+                                                    <input type="checkbox"/>
+                                                    <div class="control__indicator"></div>
+                                                </div>
+                                                <p>I'll PickUp frome Derech Rabin 15, Beit Shemesh</p>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <h2>Payment 30 NIS with Card No. <div style="display: inline-block; vertical-align: top; margin: -5px 0 0;" class="dropdown new">
+
+                                            <button style="margin: 5px 0 -5px;" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                *** *** 2589
+                                            </button>
+
+                                            <div class="dropdown-menu dropdown scrollable-menu" aria-labelledby="dropdownMenuButton">
+
+                                                <a class="dropdown-item" href="#">*** *** 2589</a>
+
+                                            </div>
+                                            <span style="color: red;font-size: 13px; margin-top: 5px" id="error-delivery"></span>
+                                        </div></h2>
+
+                                        <a class="btn-link" href="#">Use a different Credit card</a>
+                                        <div class="show-txt" style="display: none">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <div class="field-box">
+                                                        <div class="row no-gutters">
+                                                            <div class="col-xs-10">
+                                                                <input class="form-control" type="text" placeholder="Dvora Choen">
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="error-tooltip">
+                                                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                                            <p class="f black">Fals User Name</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="field-box">
+                                                        <div class="row no-gutters">
+                                                            <div class="col-xs-10">
+                                                                <input class="form-control" type="text" placeholder="25035628542">
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-5">
+                                                    <div class="field-box">
+                                                        <div class="row no-gutters">
+                                                            <div class="col-xs-10">
+                                                                <input class="form-control" type="text" placeholder="11/12/2017">
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <img class="edit add" src="images/ic_calender.png">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3">
+                                                    <div class="field-box">
+                                                        <div class="row no-gutters">
+                                                            <div class="col-xs-7">
+                                                                <input class="form-control" type="text" placeholder="533">
+                                                            </div>
+                                                            <div class="col-xs-5">
+                                                                <img class="edit" src="images/cvs-icon.png">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="btn-holder">
+                                                <button type="button" class="btn-add-submit hover f black">Use this card</button>
+                                                <button type="button" class="btn-add-submit f black add">Cancle</button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <button type="button" class="btn-order-now"><h2 class="f white">confirm order</h2></button>
+                            </div>
+                            <div class="txt-block" style="display: none">
+                                <h2>Dvora, PushStartups, We are on the way <br> Estimated arrival 12:30-12:45</h2>
+                                <div class="btn-holder-new">
+                                    <button type="button" class="btn-new-submit"><h2 class="f white">Add an Order</h2></button>
+                                    <button type="button" class="btn-new-submit hover"><h2 class="f white">Tracking orders</h2></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="cart-holder">
+                        <header class="gray-header">
+                            <h2 class="f black light">Food Cart <span class="counter">0</span></h2>
+                        </header>
+                        <div class="row" style="display: none;">
+                            <div class="col-xs-12">
+                                <div class="empty-cart">
+                                    <img src="images/Shopping-Cart-10.png" alt="cart">
+                                    <h3 class="light">Your cart is empty</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="baron scrollable4" >
+                            <div id="scrollable4" class="baron__scroller right">
+                                <div class="frame">
+                                    <div class="order-item">
+                                        <div class="row no-gutters">
+                                            <div class="col-xs-2">
+                                            </div>
+                                            <div class="col-xs-10">
+                                                <div class="row no-gutters">
+                                                    <div class="col-xs-9">
+                                                        <p class="f black">Shawarma</p>
+                                                    </div>
+                                                    <div class="col-xs-3">
+                                                        <p class="f black amount">30 NIS</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row no-gutters">
+                                            <div class="col-xs-2">
+                                                <div class="btn-arrow">
+                                                    <a href="#" class="btn-up">
+                                                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                                    </a>
+                                                    <span class="count f black">2</span>
+                                                    <a href="#" class="btn-down">
+                                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-8">
+                                                <p>Veal, Pita, Addons: French Fries, Sauces: Chummus, Amba</p>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <a class="remove" href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="baron__track">
+                                <div class="baron__bar"></div>
+                            </div>
+
+                        </div>
+
+                        <div class="wrap">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="frame">
+                                        <div class="minimum-item add border">
+                                            <div class="row no-gutters">
+                                                <div class="col-xs-8">
+                                                    <h3 class="title light">Sub Total</h3>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <h3 class="nis light">60 NIS</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="minimum-item add">
+                                            <div class="row no-gutters">
+                                                <div class="col-xs-8">
+                                                    <h3 class="title light">Company Contribution</h3>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <h3 class="nis light">-20 NIS</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="minimum-item add">
+                                            <!--<div class="coupon">-->
+                                            <!--<label id="coupon-toggle" class="new-label">Coupon Code</label>-->
+                                            <!--<div class="coupon-box">-->
+                                            <!--<div class="wrap">-->
+                                            <!--<button id="submitCoupon" class="btn-coupon-submit" type="button"><img src="images/icon011.png"></button>-->
+                                            <!--<input id="coupon-txt" type="text" placeholder="Type Coupon Code">-->
+                                            <!--</div>-->
+                                            <!--<span id="coupon-error" style="display: none" class="error">*incorrect code</span>-->
+                                            <!--</div>-->
+                                            <!--</div>-->
+                                            <div class="row no-gutters">
+                                                <div class="col-xs-8">
+                                                    <h3 class="title">Total Due</h3>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <h3 class="nis">0 NIS</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="img-frame">
+                                            <a href="#"><img src="images/cards-icon.png"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info-card">
+                                <button class="btn-submit" onclick="window.location.href='confirm-order.html'" type="button">place order</button>
+                                <!--<div class="tooltip-popup popup"><p class="f black">Your cart is empty</p></div>-->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/baron.js"></script>
+
+<script>
+
+    window.onload = function() {
+        window.dima = baron({
+            root: '.baron',
+            scroller: '.baron__scroller',
+            bar: '.baron__bar'
+        }).autoUpdate();
+    };
+
+    $(document).ready(function(){
+        $(".btn-link").click(function () {
+            $(".show-txt").show();
+            $(".btn-link").hide();
+        });
+    });
+    $(document).ready(function(){
+        $(".btn-add-submit.add").click(function () {
+            $(".show-txt").hide();
+            $(".btn-link").show();
+        });
+    });
+
+    $(document).ready(function(){
+        $(".btn-order-now").click(function () {
+            $(".txt-block").show();
+            $(".order-info").hide();
+        });
+    });
+    $(document).ready(function(){
+        $(".btn-new-submit").click(function () {
+            $(".txt-block").hide();
+            $(".order-info").show();
+        });
+    });
+
+
+
+
+</script>
+
+</body>
+</html>

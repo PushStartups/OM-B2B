@@ -136,12 +136,12 @@
                                 <li>
                                     <a href="#">
                                         <img class="icon-user" src="/en/images/ic_profile01.png">
-                                        <span id="name_company">test, testcompany <em>500 NIS</em></span>
+                                        <span id="name_company"></span>
                                     </a>
                                 </li>
                             </ul>
                             <ul>
-                                <li><a class="f white" href="#">About</a></li>
+                                <li  data-toggle="modal" data-target="#about"><a class="f white" href="#">About</a></li>
                                 <!--<li><a class="f white active" href="#">HE</a></li>-->
                             </ul>
                         </nav>
@@ -162,12 +162,12 @@
                     <div class="col-xs-9">
                         <header class="header-box">
                             <div class="row no-gutters">
-                                <div class="col-xs-11" id="rest-name-cat"><h2 class="f white light">Bandora</h2>
-                                    <p class="f white">Derech Rabin 15, Beit Shemesh</p>
+                                <div class="col-xs-11" id="rest-name-cat"><h2 class="f white light" id="rest-title"></h2>
+                                    <p class="f white" id="rest-address"></p>
                                     <ul>
                                         <!--<li><img class="img" src="/en/images/watch-icon.png">delivery time 11:00</li>-->
-                                        <li><img class="img add" src="/en/images/motorbike-small.png">Delivery Time 11:00-11:15</li>
-                                        <li><a class="tel" href="tel:0500000000"><img class="img" src="/en/images/phone-icon.png">050-000-0000</a></li>
+                                        <li><img class="img add" src="/en/images/motorbike-small.png" ><span class="f white" id="delivery_time"></span></li>
+                                        <li><a class="tel" href="#"><img class="img" src="/en/images/phone-icon.png"><span class="f white" id="contact"></span></a></li>
                                     </ul>
                                 </div>
                                 <div class="col-xs-1"><a class="alert-img" href="#"><img src="/en/images/info-icon.png"></a></div>
@@ -376,7 +376,7 @@
                                     </div>
                                 </div>
                                 <div class="info-card">
-                                    <button class="btn-submit" onclick="window.location.href='confirm-order.html'" type="button">place order</button>
+                                    <button class="btn-submit" onclick="OnOrderNowClicked()" type="button">place order</button>
                                     <!--<div class="tooltip-popup popup"><p class="f black">Your cart is empty</p></div>-->
                                 </div>
                             </div>
@@ -495,6 +495,51 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+
+
+<div class="modal fade in mypopup" id="about" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="text-align: center;">
+
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+            <h2> ORDERAPP, ORDER FAST </h2>
+            <p>
+                OrderApp is revolutionizing the online ordering experience.<br>
+                We ease all the pain involved in the ordering process. For restaurants, we are a flowing source of manageable orders. For users, we are an easy ordering platform with a timely delivery to your door.<br>
+                <br>
+                *Powered by Push Startups
+            </p>
+
+            <!-- SOCIAL LINKS FOR ORDER APP -->
+            <div class="social-icons">
+                <ul>
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/theorderapp/"><img src="/en/images/fb.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://twitter.com/OrderAppTeam"><img src="/en/images/tw.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://plus.google.com/106974163137537901922"><img src="/en/images/gp.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/theorderapp/"><img src="/en/images/insta.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.pinterest.com/orderapp/"><img src="/en/images/pin.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/orderapp-team-4a886510b"><img src="/en/images/link.png"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
