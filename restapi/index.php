@@ -77,7 +77,7 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
             $user['name']                   =   $userDB['name'];
             $user['email']                  =   $userDB['smooch_id'];
             $user['contact']                =   $userDB['contact'];
-            $user['discount']               =   $userDB['discount'];
+            $user['discountFromCompany']    =   $userDB['discount'];
             $company['company_id']          =   $company_id;
             $company['company_name']        =   $companyDB['name'];
             $company['company_address']     =   $companyDB['delivery_address'];

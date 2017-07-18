@@ -267,9 +267,10 @@
                     <div class="col-xs-3">
                         <div class="cart-holder">
                             <header class="gray-header">
-                                <h2 class="f black light">Food Cart <span class="counter">0</span></h2>
+                                <h2 class="f black light">Food Cart <span class="counter badge" >0</span></h2>
                             </header>
-                            <div class="row">
+
+                            <div class="row col-one">
                                 <div class="col-xs-12">
                                     <div class="empty-cart">
                                         <img src="/en/images/Shopping-Cart-10.png" alt="cart">
@@ -278,44 +279,50 @@
                                 </div>
                             </div>
 
-                            <div class="baron scrollable4" style="display: none;" >
+                            <div class="baron scrollable4 col-second" style="visibility: hidden;" >
                                 <div id="scrollable4" class="baron__scroller right">
-                                    <div class="frame">
-                                        <div class="order-item">
-                                            <div class="row no-gutters">
-                                                <div class="col-xs-2">
-                                                </div>
-                                                <div class="col-xs-10">
-                                                    <div class="row no-gutters">
-                                                        <div class="col-xs-9">
-                                                            <p class="f black">Shawarma</p>
-                                                        </div>
-                                                        <div class="col-xs-3">
-                                                            <p class="f black amount">30 NIS</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row no-gutters">
-                                                <div class="col-xs-2">
-                                                    <div class="btn-arrow">
-                                                        <a href="#" class="btn-up">
-                                                            <i class="fa fa-angle-up" aria-hidden="true"></i>
-                                                        </a>
-                                                        <span class="count f black">2</span>
-                                                        <a href="#" class="btn-down">
-                                                            <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-8">
-                                                    <p>Veal, Pita, Addons: French Fries, Sauces: Chummus, Amba</p>
-                                                </div>
-                                                <div class="col-xs-2">
-                                                    <a class="remove" href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="frame" id="nested-section">
+
+
+
+                                        <!--<div class="order-item">-->
+                                            <!--<div class="row no-gutters">-->
+                                                <!--<div class="col-xs-2">-->
+                                                <!--</div>-->
+                                                <!--<div class="col-xs-10">-->
+                                                    <!--<div class="row no-gutters">-->
+                                                        <!--<div class="col-xs-9">-->
+                                                            <!--<p class="f black">Shawarma</p>-->
+                                                        <!--</div>-->
+                                                        <!--<div class="col-xs-3">-->
+                                                            <!--<p class="f black amount">30 NIS</p>-->
+                                                        <!--</div>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="row no-gutters">-->
+                                                <!--<div class="col-xs-2">-->
+                                                    <!--<div class="btn-arrow">-->
+                                                        <!--<a href="#" class="btn-up">-->
+                                                            <!--<i class="fa fa-angle-up" aria-hidden="true"></i>-->
+                                                        <!--</a>-->
+                                                        <!--<span class="count f black">2</span>-->
+                                                        <!--<a href="#" class="btn-down">-->
+                                                            <!--<i class="fa fa-angle-down" aria-hidden="true"></i>-->
+                                                        <!--</a>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-xs-8">-->
+                                                    <!--<p>Veal, Pita, Addons: French Fries, Sauces: Chummus, Amba</p>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-xs-2">-->
+                                                    <!--<a class="remove" href="#"><i class="fa fa-times" aria-hidden="true"></i></a>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+
+
+
                                     </div>
 
                                 </div>
@@ -457,6 +464,9 @@
                                     <!--</ul>-->
                                 <!--</div>-->
 
+
+
+
                             </div>
                         </div>
                     </div>
@@ -471,14 +481,14 @@
                     <div class="col-xs-6">
                         <a class="link" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> Special Requests</a>
                         <div class="input-group show-box">
-                            <input id="#special_request" class="form-control" type="text" placeholder="Special Requests">
+                            <input id="special_request" class="form-control" type="text" placeholder="Special Requests">
                             <i class="fa fa-times" aria-hidden="true"></i>
 
                         </div>
                     </div>
                     <div class="col-xs-6">
                         <h2 class="f black" id="itemPopUpPrice"></h2>
-                        <button class="btn-cart f white" type="button">add to cart</button>
+                        <button onclick="addUserOrder()" class="btn-cart f white" type="button">add to cart</button>
                     </div>
                 </div>
             </div>

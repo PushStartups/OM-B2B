@@ -405,13 +405,21 @@
 .box-frame{
     overflow: hidden;
 }
-.box-frame h3{
+.box-frame .heading-holder{
     background: #fff9f3;
-    margin: 0;
     padding: 3px 8px;
-    font-weight: 300;
+    overflow: hidden;
     border-bottom: solid 1px #ff7f00;
 
+}
+.box-frame .heading-holder .error{
+    font-size: 20px;
+    line-height: 23px;
+    font-weight: 300;
+}
+.box-frame h3{
+    margin: 0;
+    font-weight: 300;
 }
 .control-group{
     letter-spacing: -5px;
