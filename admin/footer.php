@@ -130,6 +130,7 @@ you can add as many as you like
 <script src="js/custom/sweetalert.min.js"></script>
 <script src="js/custom/add-new-city.js"></script>
 <script src="js/custom/user-edit.js"></script>
+<script src="js/custom/insert_b2b_orders_date.js"></script>
 
 
 <script type="text/javascript">
