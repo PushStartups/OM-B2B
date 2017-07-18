@@ -373,6 +373,7 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
                 "city_he"              => $city["name_he"],             // CITY NAME HE
                 "name_en"              => $result["name_en"],           // RESTAURANT NAME
                 "name_he"              => $result["name_he"],           // RESTAURANT NAME
+                "contact"              => $result["contact"],           // RESTAURANT CONTACT
                 "min_amount"           => $companyDetail['min_order'],  // COMPANY MINIMUM AMOUNT
                 "tags"                 => $tags,                        // RESTAURANT TAGS
                 "kashrut"              => $kashrut,                     // RESTAURANT KASHRUT
@@ -400,7 +401,7 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
 
         $db_restaurant_kashrut = DB::query("select * from kashrut");
 
-        
+
         $resp = [
 
             "restaurants"           => $restaurants,
@@ -788,7 +789,154 @@ $app->post('/extras_with_subitems', function ($request, $response, $args) {
 });
 
 
+//  STORE USER ORDER IN DATABASE
+$app->post('/b2b_add_order', function ($request, $response, $args) {
 
+
+    DB::useDB(B2B_DB);
+    // GET ORDER RESPONSE FROM USER (CLIENT SIDE)
+    $data_object = $request->getParam('b2b_user_order');
+
+
+    $user_id = null;
+    $smooch_id = $data_object['email'];
+    $todayDate = Date("d/m/Y");
+    $today = date("Y-m-d");
+
+
+    //CHECK IF USER ALREADY EXIST, IF NO CREATE USER
+    $getUser = DB::queryFirstRow("select id,smooch_id from b2b_users where smooch_id = '" . $data_object['email'] . "'");
+
+
+    $discount = $data_object['discount'];
+
+
+
+
+    // CREATE A NEW ORDER AGAINST USER
+    DB::useDB(B2B_DB);
+    DB::insert('b2b_orders', array(
+
+        'user_id'                       => $data_object['user']['user_id'],
+        'company_id'                    => $data_object['company']['company_id'],
+        'total'                         => $data_object['total_paid'],
+        'actual_total'                  => $data_object['actual_total'],
+        'discount'                      => $data_object['discount'],
+        'company_contribution'          => $data_object['company_contribution'],
+        'transaction_id'                => $data_object['trans_id'],
+        "date"                          => DB::sqleval("NOW()")
+    ));
+
+    $orderId = DB::insertId();
+
+
+    //GET COMPANY NAME
+    DB::useDB(B2B_DB);
+    $getCompanyName = DB::queryFirstRow("select * from company where id = '" . $data_object['company']['company_id'] . "'");
+    $data_object['company']['discount_type'] = $getCompanyName['discount_type'];
+
+
+    // ORDER TRACCER
+
+    try {
+
+
+        //  traccer($orderId, $data_object['name'], $data_object['contact'], $data_object['restaurantAddress'], $data_object['deliveryAddress'], $data_object['rest_lat'], $data_object['rest_lng'], $getCompanyName['lat'], $getCompanyName['lng']);
+
+
+    }
+    catch (Exception $exception)
+    {
+
+    }
+
+
+    // LAST INSERTED ORDER ID
+    foreach($data_object['rests_orders'][0]['order_detail'] as $orders)
+    {
+        try{
+            // ADD ORDER DETAIL AGAINST USER
+            DB::useDB(B2B_DB);
+            DB::insert('b2b_order_detail', array(
+
+                'order_id' => $orderId,
+                'qty' => $orders['qty'],
+                'item' => $orders['name'],
+                'sub_total' => $orders['price'],
+                'sub_items' => $orders['detail']
+            ));
+        }
+        catch(MeekroDBException $e) {
+
+            $response =  $response->withStatus(500);
+            $response =  $response->withHeader('Content-Type', 'text/html');
+            $response =  $response->write( $e->getMessage());
+            return $response;
+        }
+
+    }
+
+
+    // SEND EMAIL TO KITCHEN
+
+    email_for_kitchen($data_object, $orderId, $todayDate);
+
+    ob_end_clean();
+
+
+    email_for_mark2($data_object, $orderId, $todayDate);
+
+    ob_end_clean();
+
+    // SEND ADMIN COPY EMAIL ORDER SUMMARY
+
+    email_order_summary_hebrew_admin($data_object, $orderId, $todayDate);
+
+    ob_end_clean();
+
+
+    // CLIENT EMAIL
+    // EMAIL ORDER SUMMARY
+    //
+    if ($data_object['language'] == 'en') {
+
+        email_order_summary_english($data_object, $orderId, $todayDate);
+    }
+    else
+    {
+
+        email_order_summary_hebrew($data_object, $orderId, $todayDate);
+    }
+
+
+    ob_end_clean();
+
+
+    $delivery_time  = date('H:i:s');
+
+    $delivery_time = strtotime($delivery_time) + 60*60;
+
+    $delivery_time = date('H:i:s',$delivery_time);
+
+
+    createBringgTask($data_object, $todayDate, $delivery_time) ;
+
+
+    ob_end_clean();
+
+
+    DB::useDB('orderapp_b2b');
+
+
+    DB::query("UPDATE b2b_users SET date = '$today', discount = '$discount'  WHERE smooch_id = '$smooch_id'");
+    //DB::query("UPDATE b2b_users SET discount = '$discount'  WHERE id = '$user_id'");
+
+
+    // RESPONSE RETURN TO REST API CALL
+    $response = $response->withStatus(202);
+    $response = $response->withJson(json_encode('success'));
+    return $response;
+});
 
 
 // CANCEL ORDER
