@@ -87,12 +87,7 @@ $_SESSION['search_end_date'] = "";
                                 <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                                 <h2>B2B Order Detail </h2>
                             </header>
-                            <div align="center">
-                                <br>
-                                <a href="b2bOrderDetail.csv" download="b2bOrderDetail.csv"  class="btn-lg btn-primary m-t-10" > Print CSV Report</a>
-                                <br>
-                                <br>
-                            </div>
+
                             <!-- widget div-->
                             <div>
                                 <!-- widget edit box -->
@@ -155,6 +150,13 @@ $_SESSION['search_end_date'] = "";
                                             $restaurant_name = $rest['name_en'];
                                             $arr[] = "";
                                             ?>
+
+                                            <tr>
+                                                <a href="b2bOrderDetail.csv" download="b2bOrderDetail.csv"  class="btn-lg btn-primary m-t-10" > Print CSV Report</a>
+
+                                            </tr>
+
+
                                             <tr>
                                                 <td><?=$order['id']?></td>
                                                 <?php  $arr[0] = $order['id'];  ?>
