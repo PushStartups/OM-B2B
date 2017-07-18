@@ -443,4 +443,10 @@ DB::update('company_timing', array(
 
 }
 
+
+$week_en = $_POST['week_en'];
+$delivery_time = $_POST['delivery_time'];
+
+DB::query("UPDATE company_timing set  delivery_timing = '$delivery_time' where company_id = '$company_id' and week_en = '$week_en' ");
+
 echo json_encode($_POST['discount_type']);

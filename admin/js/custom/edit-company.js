@@ -163,6 +163,23 @@ $('#password').bind('input', function() {
 // });
 
 
+$('#delivery_time').bind('input', function() {
+
+    if(!this.value.match(/^([0-1]?[0-9]|2[0-3])(:[0-5][0-9])?$/))
+    {
+        document.getElementById('error_delivery_time').innerHTML = "Match Format HH:MM";
+
+        return false;
+    }
+    else
+    {
+        document.getElementById('error_delivery_time').innerHTML = "";
+
+    }
+
+});
+
+
 function delete_company(company_id)
 {
     $(function(){
@@ -250,6 +267,7 @@ function edit_company(companies_id,urll)
     var saturday_start_time     =  $('#saturday_start_time').val();
     var saturday_end_time       =  $('#saturday_end_time').val();
 
+    var delivery_time                  = $('#delivery_time').val();
 
 
     if(name == "")
@@ -348,6 +366,12 @@ function edit_company(companies_id,urll)
     // }
 
 
+
+    if(delivery_time == "")
+    {
+        $('#error_delivery_time').html('Required*');
+        return;
+    }
 
 
 
@@ -498,6 +522,9 @@ function edit_company(companies_id,urll)
         'saturday_end_time'       :  $('#saturday_end_time').val(),
         'lat'       :  $('#lat').val(),
         'lng'       :  $('#lng').val(),
+
+        'week_en'                :  $('#week_en').val(),
+        'delivery_time'                :  $('#delivery_time').val(),
     };
 
 

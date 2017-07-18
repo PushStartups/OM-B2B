@@ -3,10 +3,21 @@ include "header.php";
 ?>
 <div id="main" role="main">
     <?php
+
     if(isset($_GET['id']))
     {
         $companies_id = $_GET['id'];
         $edit_company = getSpecificCompanies($companies_id);
+
+
+        date_default_timezone_set("Asia/Jerusalem");
+        $day = date('l');
+        DB::useDB('orderapp_b2b_wui');
+
+        $getDay = DB::queryFirstRow("select * from company_timing where week_en = '$day' and company_id = '$companies_id' ");
+
+        $delivery_time = $getDay['delivery_timing'];
+
 
         $timings = getSpecificCompanyTiming($companies_id);
 
@@ -231,6 +242,13 @@ include "header.php";
                                             <label>Notes</label>
                                             <textarea class="form-control" id="notes" name="notes" placeholder="Enter notes" ><?php echo $edit_company['notes']?></textarea>
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_notes"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Delivery Time <span style="color: #E77317;">(<?=$getDay['week_en'];?>)</span></label>
+                                            <input class="form-control" id="delivery_time" name="delivery_time" type="text"  value="<?=$delivery_time;?>">
+                                            <input class="form-control" id="week_en" name="week_en" type="hidden" value="<?=$getDay['week_en'];?>">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_delivery_time"></span>
                                         </div>
 
 

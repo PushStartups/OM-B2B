@@ -91,6 +91,22 @@ $('#company_deadline_time').bind('input', function() {
 
 });
 
+$('#delivery_time').bind('input', function() {
+
+    if(!this.value.match(/^([0-1]?[0-9]|2[0-3])(:[0-5][0-9])?$/))
+    {
+        document.getElementById('error_delivery_time').innerHTML = "Match Format HH:MM";
+
+        return false;
+    }
+    else
+    {
+        document.getElementById('error_delivery_time').innerHTML = "";
+
+    }
+
+});
+
 
 
 function edit_company(companies_id,urll)
@@ -105,6 +121,8 @@ function edit_company(companies_id,urll)
     var contact_email                  =  $('#contact_email').val();
 
     var company_deadline_time          = $('#company_deadline_time').val();
+
+    var delivery_time                  = $('#delivery_time').val();
 
 
     if(registered_company_number == "")
@@ -152,6 +170,12 @@ function edit_company(companies_id,urll)
     if(company_deadline_time == "")
     {
         $('#error_company_deadline_time').html('Required*');
+        return;
+    }
+
+    if(delivery_time == "")
+    {
+        $('#error_delivery_time').html('Required*');
         return;
     }
 

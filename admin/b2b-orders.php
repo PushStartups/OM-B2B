@@ -32,34 +32,34 @@ $_SESSION['search_end_date'] = "";
 
             </div>
             <div class ="row">
-                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+                <div class="col-xs-12">
                     <form  method="post" enctype="multipart/form-data">
                         <fieldset>
 
                             <div class="form-group">
-                                <select class="form-control"  onchange="search_company(this.value);">
-                                    <option value=""  selected disabled> Select Company</option>
-                                    <?php
-                                    DB::useDB('orderapp_b2b_wui');
-                                    $company = DB::query("select * from company");
-                                    foreach($company as $companies){  ?>
-                                        <option value=<?=$companies['id']?>><?=$companies['name']?></option>
-                                    <?php } ?>
+                                <div class="row">
+                                <div class="col-xs-3">
+                                    <select class="form-control"  onchange="search_company(this.value);">
+                                        <option value=""  selected disabled> Select Company</option>
+                                        <?php
+                                        DB::useDB('orderapp_b2b_wui');
+                                        $company = DB::query("select * from company");
+                                        foreach($company as $companies){  ?>
+                                            <option value=<?=$companies['id']?>><?=$companies['name']?></option>
+                                        <?php } ?>
 
-                                </select>
-                            </div>
-
-
-                            <div class="form-group">
-                                <input class="form-control" id="search-user-email" type="text" placeholder="Search User Email"><br>
-                            </div>
-
-                            <div class="form-group">
-                                <input class="form-control" id="search-start-date" type="text" placeholder="Search Start Date"><br>
-                            </div>
-
-                            <div class="form-group">
-                                <input class="form-control" id="search-end-date"  type="text" placeholder="Search End Date"><br>
+                                    </select>
+                                </div>
+                                <div class="col-xs-3">
+                                    <input class="form-control" id="search-user-email" type="text" placeholder="Search User Email">
+                                </div>
+                                <div class="col-xs-3">
+                                    <input class="form-control" id="search-start-date" type="text" placeholder="Search Start Date">
+                                </div>
+                                <div class="col-xs-3">
+                                    <input class="form-control" id="search-end-date"  type="text" placeholder="Search End Date">
+                                </div>
+                                </div>
                             </div>
 
                         </fieldset>
@@ -106,7 +106,7 @@ $_SESSION['search_end_date'] = "";
                                     <?php  $file = fopen("b2bOrderDetail.csv","w");
                                     $list = array
                                     (
-                                        "Order ID,User Email,Company,Restaurant Name,Payable Amount,Purchasing Amount,Today's Remaining Balance,Payment,Refund,Transaction ID,Date Completed"
+                                        "Order ID,User Email,Company,Restaurant Name,Total Paid,SubTotal,Today's Remaining Balance,Company Contribution,Payment,Refund,Transaction ID,Date Completed"
                                     );
                                     foreach ($list as $line)
                                     {
@@ -126,9 +126,10 @@ $_SESSION['search_end_date'] = "";
                                             <th data-hide="phone, tablet">Company</th>
                                             <th data-hide="phone, tablet">Restaurant Name</th>
 
-                                            <th data-hide="phone, tablet">Payable Amount</th>
-                                            <th data-hide="phone, tablet">Purchasing Amount</th>
+                                            <th data-hide="phone, tablet">Total Paid</th>
+                                            <th data-hide="phone, tablet">SubTotal</th>
                                             <th data-hide="phone,tablet">Today's Remaining Balance</th>
+                                            <th data-hide="phone,tablet">Company Contribution</th>
                                             <th data-hide="phone,tablet">Payment</th>
 
                                             <th data-hide="phone, tablet">Refund</th>
@@ -176,20 +177,25 @@ $_SESSION['search_end_date'] = "";
                                                 <td><?=$order['discount']." NIS"?></td>
                                                 <?php  $arr[6] = $order['discount'];   $discount  = $discount + $order['discount']; ?>
 
+
+                                                <td><?=$order['company_contribution']." NIS"?></td>
+                                                <?php  $arr[7] = $order['company_contribution']; ?>
+
+
                                                 <td><?=$order['payment_info']?></td>
-                                                <?php  $arr[7] = $order['payment_info'];  ?>
+                                                <?php  $arr[8] = $order['payment_info'];  ?>
 
                                                 <td><?=$refundAmount." NIS"?></td>
-                                                <?php  $arr[8] = $refundAmount."NIS";  ?>
+                                                <?php  $arr[9] = $refundAmount."NIS";  ?>
 
                                                 <?php if(empty($order['transaction_id'])) { $order['transaction_id'] = "N/A"; }?>
                                                 <td><?=$order['transaction_id']?></td>
-                                                <?php  $arr[9] = $order['transaction_id'];  ?>
+                                                <?php  $arr[10] = $order['transaction_id'];  ?>
 
 
 
                                                 <td><?=$order['date']?></td>
-                                                <?php  $arr[10] = $order['date'];  ?>
+                                                <?php  $arr[11] = $order['date'];  ?>
 
                                                 <td><a href="b2b-order-detail.php?order_id=<?=$order['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-info"></i> More Detail </button></a></td>
                                             </tr>
@@ -209,7 +215,7 @@ $_SESSION['search_end_date'] = "";
 
                                         fclose($file);
 
-                                            ?>
+                                        ?>
 
 
                                         </tbody>

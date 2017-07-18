@@ -9,6 +9,7 @@ $company               =    getSpecificCompanies($company_id);
 date_default_timezone_set("Asia/Jerusalem");
 $day = date('l');
 DB::useDB('orderapp_b2b_wui');
+
 $getDay = DB::queryFirstRow("select * from company_timing where week_en = '$day' and company_id = '$company_id' ");
 $ordering_deadline_time = $getDay['closing_time'];
 
@@ -129,7 +130,7 @@ $delivery_time = $getDay['delivery_timing'];
                                         <div class="form-group">
                                             <label>Delivery Time</label>
                                             <input class="form-control" id="delivery_time" name="delivery_time" type="text"  value="<?=$delivery_time;?>">
-
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_delivery_time"></span>
                                         </div>
 
 
