@@ -245,7 +245,7 @@ include "header.php";
                                         </div>
 
                                         <div class="form-group">
-                                            <label>Delivery Time <span style="color: #E77317;">(<?=$getDay['week_en'];?>)</span></label>
+                                            <label>Delivery Time </label>
                                             <input class="form-control" id="delivery_time" name="delivery_time" type="text"  value="<?=$delivery_time;?>">
                                             <input class="form-control" id="week_en" name="week_en" type="hidden" value="<?=$getDay['week_en'];?>">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_delivery_time"></span>

@@ -87,7 +87,12 @@ $_SESSION['search_end_date'] = "";
                                 <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                                 <h2>B2B Order Detail </h2>
                             </header>
-
+                            <div align="center">
+                                <br>
+                                <a href="b2bOrderDetail.csv" download="b2bOrderDetail.csv"  class="btn-lg btn-primary m-t-10" > Print CSV Report</a>
+                                <br>
+                                <br>
+                            </div>
                             <!-- widget div-->
                             <div>
                                 <!-- widget edit box -->
@@ -151,11 +156,6 @@ $_SESSION['search_end_date'] = "";
                                             $arr[] = "";
                                             ?>
 
-                                            <tr>
-                                                <a href="b2bOrderDetail.csv" download="b2bOrderDetail.csv"  class="btn-lg btn-primary m-t-10" > Print CSV Report</a>
-
-                                            </tr>
-
 
                                             <tr>
                                                 <td><?=$order['id']?></td>
@@ -180,7 +180,8 @@ $_SESSION['search_end_date'] = "";
                                                 <?php  $arr[6] = $order['discount'];   $discount  = $discount + $order['discount']; ?>
 
 
-                                                <td><?=$order['company_contribution']." NIS"?></td>
+                                                <?php if(empty($order['company_contribution'])) { $order['company_contribution'] = "N/A"; }?>
+                                                <td><?=$order['company_contribution']?></td>
                                                 <?php  $arr[7] = $order['company_contribution']; ?>
 
 
@@ -194,10 +195,9 @@ $_SESSION['search_end_date'] = "";
                                                 <td><?=$order['transaction_id']?></td>
                                                 <?php  $arr[10] = $order['transaction_id'];  ?>
 
-
-
                                                 <td><?=$order['date']?></td>
                                                 <?php  $arr[11] = $order['date'];  ?>
+
 
                                                 <td><a href="b2b-order-detail.php?order_id=<?=$order['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-info"></i> More Detail </button></a></td>
                                             </tr>
@@ -208,7 +208,7 @@ $_SESSION['search_end_date'] = "";
 
                                         $list = array
                                         (
-                                            ",,,Total :, $totall , $actual_total , $discount  "
+                                            ",,,Total :, $totall NIS , $actual_total NIS , $discount NIS  "
                                         );
                                         foreach ($list as $line)
                                         {
