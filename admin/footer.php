@@ -151,6 +151,7 @@ you can add as many as you like
             },
             dataType: "json",
             success: function (response) {
+                $("#cool").hide();
                 $("#target-content").html(response);
                 hideLoading();
             }

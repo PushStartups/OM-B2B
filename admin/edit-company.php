@@ -151,8 +151,8 @@ include "header.php";
                                         <div style="display:none" class="form-group">
                                             <div id="map" class="map_canvas"></div>
                                         </div>
-                                        <input type="hidden" id="lat" name="lat">
-                                        <input type="hidden" id="lng" name="lng">
+                                        <input type="hidden" id="lat" name="lat" value="<?=$edit_company['lat'];?>">
+                                        <input type="hidden" id="lng" name="lng" value="<?=$edit_company['lng'];?>">
                                         <div class="form-group">
                                             <label>Delivery Address</label>
                                             <input class="form-control" id="area_en" name="area_en" value="<?=$edit_company['delivery_address'];?>"  type="text">
@@ -245,7 +245,7 @@ include "header.php";
                                         </div>
 
                                         <div class="form-group">
-                                            <label>Delivery Time <span style="color: #E77317;">(<?=$getDay['week_en'];?>)</span></label>
+                                            <label>Delivery Time </label>
                                             <input class="form-control" id="delivery_time" name="delivery_time" type="text"  value="<?=$delivery_time;?>">
                                             <input class="form-control" id="week_en" name="week_en" type="hidden" value="<?=$getDay['week_en'];?>">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_delivery_time"></span>
