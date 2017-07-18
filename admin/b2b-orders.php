@@ -127,7 +127,7 @@ $_SESSION['search_end_date'] = "";
 
                                             <th>Action</th>
                                         </tr>
-                                        </thead>
+                                        </thead> 
 
                                         <tbody id="target-content">
 
