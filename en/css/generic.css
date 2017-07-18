@@ -749,3 +749,10 @@ img.bg {
 @media only screen and (max-width: 1435px){
     #header .container{padding: 0 0 0 60px;}
 }
+
+@media only screen and (max-width: 1599px){
+    .block .container{min-width: 1380px !important;}
+}
+@media only screen and (max-width: 1399px){
+    .block .container{min-width: 1240px !important;}
+}

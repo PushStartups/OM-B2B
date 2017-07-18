@@ -720,7 +720,6 @@
 
 
 @media only screen and (max-width: 1599px){
-    .block .container{min-width: 1380px !important;}
     .txt {
         padding: 0 0 0 20px !important;
     }
@@ -742,7 +741,6 @@
     }
 }
 @media only screen and (max-width: 1399px){
-    .block .container{min-width: 1240px !important;}
     .txt h1 {
         font-size: 27px;
     }
