@@ -10,7 +10,7 @@ function checkAdminSession() {
 
 }
 
-function getSpecificUsers($user_id)
+function getSpecificUser($user_id)
 {
 
     DB::useDB('orderapp_b2b_wui');
