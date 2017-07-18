@@ -333,7 +333,7 @@ you can add as many as you like
 
     var pausecontent = new Array();
     <?php
-
+    DB::useDB('orderapp_restaurants_b2b_wui');
     $arr = DB::query("select * from restaurants");
     foreach($arr as $name ){ ?>
     pausecontent.push("<?php echo $name['name_en']; ?>");
@@ -346,6 +346,21 @@ you can add as many as you like
 
             },
         });
+
+
+    $("#search-start-date").datepicker({
+        dateFormat: 'yy-mm-dd'
+    });
+
+    $("#search-end-date").datepicker({
+        dateFormat: 'yy-mm-dd'
+
+    });
+
+</script>
+
+
+<script type="text/javascript">
 
 </script>
 

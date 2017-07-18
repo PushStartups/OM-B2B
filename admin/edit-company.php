@@ -151,8 +151,8 @@ include "header.php";
                                         <div style="display:none" class="form-group">
                                             <div id="map" class="map_canvas"></div>
                                         </div>
-                                        <input type="hidden" id="lat" name="lat">
-                                        <input type="hidden" id="lng" name="lng">
+                                        <input type="hidden" id="lat" name="lat" value="<?=$edit_company['lat'];?>">
+                                        <input type="hidden" id="lng" name="lng" value="<?=$edit_company['lng'];?>">
                                         <div class="form-group">
                                             <label>Delivery Address</label>
                                             <input class="form-control" id="area_en" name="area_en" value="<?=$edit_company['delivery_address'];?>"  type="text">

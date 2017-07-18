@@ -38,27 +38,27 @@ $_SESSION['search_end_date'] = "";
 
                             <div class="form-group">
                                 <div class="row">
-                                <div class="col-xs-3">
-                                    <select class="form-control"  onchange="search_company(this.value);">
-                                        <option value=""  selected disabled> Select Company</option>
-                                        <?php
-                                        DB::useDB('orderapp_b2b_wui');
-                                        $company = DB::query("select * from company");
-                                        foreach($company as $companies){  ?>
-                                            <option value=<?=$companies['id']?>><?=$companies['name']?></option>
-                                        <?php } ?>
+                                    <div class="col-xs-3">
+                                        <select class="form-control"  onchange="search_company(this.value);">
+                                            <option value=""  selected disabled> Select Company</option>
+                                            <?php
+                                            DB::useDB('orderapp_b2b_wui');
+                                            $company = DB::query("select * from company");
+                                            foreach($company as $companies){  ?>
+                                                <option value=<?=$companies['id']?>><?=$companies['name']?></option>
+                                            <?php } ?>
 
-                                    </select>
-                                </div>
-                                <div class="col-xs-3">
-                                    <input class="form-control" id="search-user-email" type="text" placeholder="Search User Email">
-                                </div>
-                                <div class="col-xs-3">
-                                    <input class="form-control" id="search-start-date" type="text" placeholder="Search Start Date">
-                                </div>
-                                <div class="col-xs-3">
-                                    <input class="form-control" id="search-end-date"  type="text" placeholder="Search End Date">
-                                </div>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <input class="form-control" id="search-user-email" type="text" placeholder="Search User Email">
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <input class="form-control" id="search-start-date" type="text" placeholder="Search Start Date">
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <input class="form-control" id="search-end-date"  type="text" placeholder="Search End Date">
+                                    </div>
                                 </div>
                             </div>
 
@@ -87,12 +87,7 @@ $_SESSION['search_end_date'] = "";
                                 <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                                 <h2>B2B Order Detail </h2>
                             </header>
-                            <div align="center">
-                                <br>
-                                <a href="b2bOrderDetail.csv" download="b2bOrderDetail.csv"  class="btn-lg btn-primary m-t-10" > Print CSV Report</a>
-                                <br>
-                                <br>
-                            </div>
+
                             <!-- widget div-->
                             <div>
                                 <!-- widget edit box -->
@@ -103,16 +98,7 @@ $_SESSION['search_end_date'] = "";
                                 <!-- widget content -->
                                 <div class="widget-body no-padding">
 
-                                    <?php  $file = fopen("b2bOrderDetail.csv","w");
-                                    $list = array
-                                    (
-                                        "Order ID,User Email,Company,Restaurant Name,Total Paid,SubTotal,Today's Remaining Balance,Company Contribution,Payment,Refund,Transaction ID,Date Completed"
-                                    );
-                                    foreach ($list as $line)
-                                    {
-                                        fputcsv($file,explode(',',$line));
-                                    }
-                                    ?>
+
 
                                     <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
 
@@ -141,9 +127,23 @@ $_SESSION['search_end_date'] = "";
 
                                             <th>Action</th>
                                         </tr>
-                                        </thead>
+                                        </thead> 
 
                                         <tbody id="target-content">
+
+                                        <tr>
+                                            <td></td><td></td><td></td><td></td><td></td><td style="width: 100%; padding:20px"><a href="b2bOrderDetail.csv" download="b2bOrderDetail.csv"  class="btn-lg btn-primary m-t-10" > Print CSV Report</a>
+                                            </td> <td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                        <?php  $file = fopen("b2bOrderDetail.csv","w");
+                                        $list = array
+                                        (
+                                            "Order ID,User Email,Company,Restaurant Name,Total Paid,SubTotal,Today's Remaining Balance,Company Contribution,Payment,Refund,Transaction ID,Date Completed"
+                                        );
+                                        foreach ($list as $line)
+                                        {
+                                            fputcsv($file,explode(',',$line));
+                                        }
+                                        ?>
                                         <?php $orders = getAllB2BOrders();
                                         $i = 1;
                                         $totall = 0; $actual_total = 0 ; $discount = 0;
@@ -155,7 +155,6 @@ $_SESSION['search_end_date'] = "";
                                             $restaurant_name = $rest['name_en'];
                                             $arr[] = "";
                                             ?>
-
 
                                             <tr>
                                                 <td><?=$order['id']?></td>
@@ -180,8 +179,7 @@ $_SESSION['search_end_date'] = "";
                                                 <?php  $arr[6] = $order['discount'];   $discount  = $discount + $order['discount']; ?>
 
 
-                                                <?php if(empty($order['company_contribution'])) { $order['company_contribution'] = "N/A"; }?>
-                                                <td><?=$order['company_contribution']?></td>
+                                                <td><?=$order['company_contribution']." NIS"?></td>
                                                 <?php  $arr[7] = $order['company_contribution']; ?>
 
 
@@ -195,9 +193,10 @@ $_SESSION['search_end_date'] = "";
                                                 <td><?=$order['transaction_id']?></td>
                                                 <?php  $arr[10] = $order['transaction_id'];  ?>
 
+
+
                                                 <td><?=$order['date']?></td>
                                                 <?php  $arr[11] = $order['date'];  ?>
-
 
                                                 <td><a href="b2b-order-detail.php?order_id=<?=$order['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-info"></i> More Detail </button></a></td>
                                             </tr>
@@ -208,7 +207,7 @@ $_SESSION['search_end_date'] = "";
 
                                         $list = array
                                         (
-                                            ",,,Total :, $totall NIS , $actual_total NIS , $discount NIS  "
+                                            ",,,Total :, $totall , $actual_total , $discount  "
                                         );
                                         foreach ($list as $line)
                                         {
