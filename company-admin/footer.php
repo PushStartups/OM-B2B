@@ -20,9 +20,9 @@ you can add as many as you like
 <script data-pace-options='{ "restartOnRequestAfter": true }' src="js/plugin/pace/pace.min.js"></script>
 
 <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyC1lQDoUmh5UiXrGzkjQQjnl5FxujHvsZc"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/geocomplete/1.7.0/jquery.geocomplete.js"></script>
+<script src="js/custom/customap.js"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyC1lQDoUmh5UiXrGzkjQQjnl5FxujHvsZc&callback=initMap"></script>
+<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/geocomplete/1.7.0/jquery.geocomplete.js"></script>-->
 <script>
     if (!window.jQuery) {
         document.write('<script src="js/libs/jquery-2.1.1.min.js"><\/script>');
@@ -43,7 +43,6 @@ you can add as many as you like
 <script src="js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script>
 
 <!-- BOOTSTRAP JS -->
-<script src="js/bootstrap/bootstrap.min.js"></script>
 
 <!-- CUSTOM NOTIFICATION -->
 <script src="js/notification/SmartNotification.min.js"></script>
@@ -110,7 +109,7 @@ you can add as many as you like
 <script src="js/custom/sweetalert-dev.js"></script>
 <script src="js/custom/sweetalert.min.js"></script>
 <script src="js/custom/add-company-rest.js"></script>
-<script src="js/custom/bootstrap-multiselect.js"></script>
+<script  type="text/javascript" src="js/custom/bootstrap-multiselect.js"></script>
 <script src="js/custom/company-detail.js"></script>
 <script type="text/javascript">
     hideLoading();
@@ -129,6 +128,34 @@ you can add as many as you like
 //                types: ["geocode", "establishment"],
 //            }
 //        );
+        $('.multiselect-ui').multiselect({
+            onChange: function(option, checked) {
+                // Get selected options.
+                var selectedOptions = $('.multiselect-ui option:selected');
+
+                if (selectedOptions.length >= rest_limit) {
+                    // Disable all other checkboxes.
+                    var nonSelectedOptions = $('.multiselect-ui option').filter(function() {
+                        return !$(this).is(':selected');
+                    });
+
+                    nonSelectedOptions.each(function() {
+                        var input = $('input[value="' + $(this).val() + '"]');
+                        input.prop('disabled', true);
+                        input.parent('li').addClass('disabled');
+                    });
+                }
+                else {
+                    // Enable all checkboxes.
+                    $('.multiselect-ui option').each(function() {
+                        var input = $('input[value="' + $(this).val() + '"]');
+                        input.prop('disabled', false);
+                        input.parent('li').addClass('disabled');
+                    });
+                }
+            },
+            maxHeight: '300',
+        });
         pageSetUp();
 
 
@@ -319,51 +346,7 @@ you can add as many as you like
 
             },
         });
-    $(document).ready(function() {
 
-        $('.multiselect-ui').multiselect({
-
-            onChange: function(option, checked) {
-                // Get selected options.
-                var selectedOptions = $('.multiselect-ui option:selected');
-
-                if (selectedOptions.length >= rest_limit) {
-                    // Disable all other checkboxes.
-                    var nonSelectedOptions = $('.multiselect-ui option').filter(function() {
-                        return !$(this).is(':selected');
-                    });
-
-                    nonSelectedOptions.each(function() {
-                        var input = $('input[value="' + $(this).val() + '"]');
-                        input.prop('disabled', true);
-                        input.parent('li').addClass('disabled');
-                    });
-                }
-                else {
-                    // Enable all checkboxes.
-                    $('.multiselect-ui option').each(function() {
-                        var input = $('input[value="' + $(this).val() + '"]');
-                        input.prop('disabled', false);
-                        input.parent('li').addClass('disabled');
-                    });
-                }
-            },
-            maxHeight: '300',
-        });
-//        var last_valid_selection = null;
-//        alert(rest_limit);
-//        $('#rest_name').change(function(event) {
-//
-//            if ($(this).val().length > rest_limit) {
-//                alert('You can only choose' + rest_limit + 'restaurants');
-//
-//               this.checked = false;
-//            } else {
-//                last_valid_selection = $(this).val();
-//            }
-//        });
-
-    });
 </script>
 
 </body>
