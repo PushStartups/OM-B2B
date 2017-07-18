@@ -42,6 +42,9 @@ include "header.php";
                                     <div class="col-xs-3">
                                         <input class="form-control" id="search-end-date"  type="text" placeholder="Search End Date">
                                     </div>
+                                    <div class="col-xs-3">
+                                        <button type="button" class="btn-lg btn-primary m-t-10" style="padding: 2px 16px;">Search</button>
+                                    </div>
                                 </div>
                             </div>
 
