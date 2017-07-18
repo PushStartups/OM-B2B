@@ -46,6 +46,17 @@ $result = DB::query($sql);
 
 
 $output = "";
+$output .= '<tr><td></td><td></td><td></td><td></td><td></td><td style="width: 100%; padding:20px"><a href="ajax/b2bOrderDetaill.csv" download="b2bOrderDetaill.csv"  class="btn-lg btn-primary m-t-10" > Print CSV Report</a>
+                                            </td> <td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>';
+$file = fopen("b2bOrderDetaill.csv","w");
+$list = array
+(
+    "Order ID,User Email"
+);
+foreach ($list as $line)
+{
+    fputcsv($file,explode(',',$line));
+}
 foreach($result as $order) {
 
     $refundAmount = getTotalRefundAmountB2B($order['id']);
@@ -53,11 +64,12 @@ foreach($result as $order) {
     $rest = DB::queryFirstRow("select * from restaurants where id = '".$order['restaurant_id']."' ");
     $restaurant_name = $rest['name_en'];
 
-
+    $arr[] = "";
     $output .= '<tr>';
     $output .= '<td>' . $order['id'] . '</td>';
+    $arr[0] = $order['id'];
     $output .= '<td>' . $order['email'] . '</td>';
-
+    $arr[1] = $order['email'];
     $output .= '<td>' . $order['company_name'] . '</td>';
     $output .= '<td>' .  $restaurant_name.'</td>';
 
@@ -78,6 +90,8 @@ foreach($result as $order) {
 
     $output .= '<td><a href="b2b-order-detail.php?order_id=' . $order['id'] . '"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-info"></i> More Detail </button></a></td>';
     $output .= '</tr>';
-}
+    fputcsv($file,$arr);
 
+}
+fclose($file);
 echo json_encode($output);
