@@ -66,6 +66,7 @@ foreach($result as $order) {
     $output .= '<td>' . $order['actual_total'] . " NIS" . '</td>';
 
     $output .= '<td>' . $order['discount'] . " NIS" . '</td>';
+    $output .= '<td>' . $order['company_contribution'] . " NIS" . '</td>';
     $output .= '<td>' .  $order['payment_info'].'</td>';
     $output .= '<td>' . $refundAmount . " NIS" . '</td>';
     if (empty($order['transaction_id'])) {
