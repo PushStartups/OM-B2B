@@ -39,7 +39,7 @@ $_SESSION['search_end_date'] = "";
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <select class="form-control" id="company_id" onchange="search_company(this.value);">
+                                        <select class="form-control" id="company_id" >
                                             <option value=""  selected disabled> Select Company</option>
                                             <?php
                                             DB::useDB('orderapp_b2b_wui');
