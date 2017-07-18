@@ -967,6 +967,24 @@ $app->post('/get_all_cards_info', function ($request, $response, $args){
 
 });
 
+
+//  CHECK HIDE PAYMENT OPTION FOR COMPANY
+$app->post('/is_hide_payment', function ($request, $response, $args)
+{
+
+    DB::useDB(B2B_DB);
+
+    $company_id = $request->getParam('company_id');
+    $companyDetail = DB::queryFirstRow("select * from company where id = '$company_id'");
+
+    // RESPONSE RETURN TO REST API CALL
+    $response = $response->withStatus(202);
+    $response = $response->withJson(json_encode($companyDetail['hide_payment']));
+    return $response;
+
+
+});
+
 // CANCEL ORDER
 $app->post('/cancel_order', function ($request, $response, $args)
 {
