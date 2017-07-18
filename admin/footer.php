@@ -374,68 +374,27 @@ you can add as many as you like
     user_email.push("<?php echo $tag_name['smooch_id']; ?>");
     <?php } ?>
 
+
     $( "#search-user-email").autocomplete({
         source: user_email,
         select: function (event, ui) {
-            addLoading();
-            $.ajax({
-                type: "POST",
-                url: "ajax/user_email_search.php",
-                data: {
-                    user_email    :  ui.item.label,
-                },
-                dataType: "json",
-                success: function (response) {
-                    $("#target-content").html(response);
-                    hideLoading();
-                }
-            });
+            globalTag = ui.item.label;
+
+            document.getElementById("hidden_email").value = ui.item.label;
 
         },
     });
 
-    $("#search-start-date").datepicker({
-        dateFormat: 'yy-mm-dd',
-        onSelect: function(selected,evnt) {
-            //alert(selected);
-            addLoading();
-            $.ajax({
-                type: "POST",
-                url: "ajax/start_date_search.php",
-                data: {
-                    start_date   :  selected,
-                },
-                dataType: "json",
-                success: function (response) {
-                    $("#target-content").html(response);
-                    hideLoading();
-                }
-            });
-        }
+
+
+    $("#search_start_date").datepicker({
+        dateFormat: 'yy-mm-dd'
     });
 
-    $("#search-end-date").datepicker({
-        dateFormat: 'yy-mm-dd',
-        onSelect: function(selected) {
-
-            addLoading();
-            $.ajax({
-                type: "POST",
-                url: "ajax/end_date_search.php",
-                data: {
-                    end_date   :  selected,
-                },
-                dataType: "json",
-                success: function (response) {
-                    $("#target-content").html(response);
-                    hideLoading();
-                }
-            });
-
-        }
+    $("#search_end_date").datepicker({
+        dateFormat: 'yy-mm-dd'
 
     });
-
 
 
 

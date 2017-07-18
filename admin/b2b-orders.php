@@ -39,7 +39,7 @@ $_SESSION['search_end_date'] = "";
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <select class="form-control"  onchange="search_company(this.value);">
+                                        <select class="form-control" id="company_id" onchange="search_company(this.value);">
                                             <option value=""  selected disabled> Select Company</option>
                                             <?php
                                             DB::useDB('orderapp_b2b_wui');
@@ -49,15 +49,24 @@ $_SESSION['search_end_date'] = "";
                                             <?php } ?>
 
                                         </select>
+                                        <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_company_id"></span>
+
                                     </div>
                                     <div class="col-xs-3">
                                         <input class="form-control" id="search-user-email" type="text" placeholder="Search User Email">
+                                        <input class="form-control" id="hidden_email" type="hidden" >
+                                        <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_search_email"></span>
                                     </div>
-                                    <div class="col-xs-3">
-                                        <input class="form-control" id="search-start-date" type="text" placeholder="Search Start Date">
+                                    <div class="col-xs-2">
+                                        <input class="form-control" id="search_start_date" type="text" placeholder="Search Start Date">
+                                        <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_search_start_date"></span>
                                     </div>
-                                    <div class="col-xs-3">
-                                        <input class="form-control" id="search-end-date"  type="text" placeholder="Search End Date">
+                                    <div class="col-xs-2">
+                                        <input class="form-control" id="search_end_date"  type="text" placeholder="Search End Date">
+                                        <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_search_end_date"></span>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <button  onclick="insert_b2b_orders_date('<?=$_SERVER['REQUEST_URI']?>')"  type="button" class="btn-lg btn-primary m-t-10" style="padding: 2px 16px;">Search</button>
                                     </div>
                                 </div>
                             </div>
