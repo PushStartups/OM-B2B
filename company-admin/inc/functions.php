@@ -10,6 +10,12 @@ function checkAdminSession() {
 
 }
 
+function getSpecificUsers($user_id)
+{
+
+    DB::useDB('orderapp_b2b_wui');
+    return $user = DB::queryFirstRow("select * from b2b_users  where id = '$user_id' ");
+}
 
 
 
