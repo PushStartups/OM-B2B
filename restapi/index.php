@@ -810,7 +810,7 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
 
     $discount = $data_object['discount'];
 
-    $user_id  = $getUser['id'];
+
 
 
     // CREATE A NEW ORDER AGAINST USER
