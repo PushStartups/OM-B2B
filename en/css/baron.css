@@ -62,7 +62,14 @@
 .scrollable4{
     position: relative;}
 #scrollable4{
-    max-height:35vh;
+    max-height:45vh;
+}
+.list-item.slide .baron__track{
+    right:4px;
+    top:0;
+}
+#scrollable-item{
+    max-height:25vh;
 }
 #scrollable5{
     max-height:60vh;

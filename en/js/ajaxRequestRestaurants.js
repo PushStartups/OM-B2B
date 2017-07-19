@@ -834,8 +834,9 @@ function onOrderNowClicked(index)
 
     var orderObject  = {
 
-        selectedRestaurant : listOfRestaurants[index],
-        order_detail : null
+        'selectedRestaurant' : listOfRestaurants[index],
+        'order_detail' : null,
+        'foodCartData' : null
 
     };
 

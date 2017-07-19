@@ -278,8 +278,9 @@
     vertical-align: middle;
     border-radius: 50%;
     font-size: 20px;
-    line-height: 27px;
+    line-height: 23px;
     font-weight: 300;
+    color: #000;
     text-align: center;
 }
 .empty-cart{
@@ -577,9 +578,10 @@
     overflow: hidden;
     text-align: left;
     font-weight: 400;
-    padding: 0 0 5px;
+    padding: 10px 0 5px;
     border-bottom: 1px solid #C9C9C9;
 }
+.order-item:first-child{padding: 0 0 5px;}
 .order-item p{margin: 0 0 4px;}
 .btn-arrow{
     overflow: hidden;

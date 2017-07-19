@@ -277,7 +277,9 @@
     /*!*text-overflow: ellipsis;*!*/
 /*}*/
 
-
+.list-item.slide{
+    position: relative;
+}
 .view-order .txt-box p .arrow .fa-angle-down{
     font-size: 20px;
     line-height: 25px;

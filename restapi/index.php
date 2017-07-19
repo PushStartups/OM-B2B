@@ -4,6 +4,7 @@ require      'vendor/autoload.php';
 require      'PHPMailer/PHPMailerAutoload.php';
 require_once 'inc/initDb.php';
 
+
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use Mailgun\Mailgun;
@@ -40,12 +41,12 @@ else
 }
 
 
+
 // SERVER URL TO UPLOAD CONTENT
-
-
 
 // SLIM INITIALIZATION
 $app = new \Slim\App();
+
 
 
 
@@ -132,6 +133,8 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
 
 
 
+
+
 //  SEND CREDENTIAL DETAIL BACK TO USER IN CASE OF FORGET PASSWORD
 $app->post('/forgot_email', function ($request, $response, $args){
 
@@ -169,6 +172,9 @@ $app->post('/forgot_email', function ($request, $response, $args){
     return $response;
 
 });
+
+
+
 
 
 //  GET ALL RESTAURANT AGAINST USER COMPANY
@@ -435,6 +441,8 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
 
 
 
+
+
 //  GET ALL PAST ORDERS FOR LAST WEEKS
 $app->post('/get_all_past_orders', function ($request, $response, $args)
 {
@@ -512,6 +520,8 @@ $app->post('/get_all_past_orders', function ($request, $response, $args)
 
 
 
+
+
 //  GET ALL PAST ORDERS FOR LAST WEEKS
 $app->post('/get_all_pending_orders', function ($request, $response, $args)
 {
@@ -572,6 +582,9 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
     }
 
 });
+
+
+
 
 // CANCEL ORDER
 $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
@@ -646,6 +659,8 @@ $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
 
 
 });
+
+
 
 //  WEB HOOK GET DATA OF CATEGORIES WITH ITEMS
 
@@ -743,6 +758,7 @@ $app->post('/categories_with_items', function ($request, $response, $args)
 });
 
 
+
 // GET EXTRAS WITH SUBITEMS
 $app->post('/extras_with_subitems', function ($request, $response, $args) {
 
@@ -789,29 +805,415 @@ $app->post('/extras_with_subitems', function ($request, $response, $args) {
 });
 
 
+
+// ADD NEW CARD AGAINST USER
+
+$app->post('/store_credit_card_info', function ($request, $response, $args){
+
+    $card_no        = $request->getParam('card_no');
+    $expiry         = $request->getParam('expiry');
+    $cvv            = $request->getParam('cvv');
+    $email          = $request->getParam('user_email');
+
+    $rest = "Error";
+    $cgConf['tid']='8804324';
+    $cgConf['amount']= 0;
+    $cgConf['user']='pushstart';
+    $cgConf['password']='OE2@38sz';
+    $cgConf['cg_gateway_url']="https://cgpay5.creditguard.co.il/xpo/Relay";
+
+    $poststring = 'user='.$cgConf['user'];
+    $poststring .= '&password='.$cgConf['password'];
+
+    /*Build Ashrait XML to post*/
+    $poststring.='&int_in=<ashrait>
+							<request>
+							<language>ENG</language>
+							<command>doDeal</command>
+							<requestId/>
+							<version>1000</version>
+							<doDeal>
+								<terminalNumber>'.$cgConf['tid'].'</terminalNumber>
+								<authNumber/>
+								<transactionCode>Phone</transactionCode>
+								<transactionType>Debit</transactionType>
+								<total>'.$cgConf['amount'].'</total>
+								<creditType>RegularCredit</creditType>
+								<cardNo>'.$card_no.'</cardNo>
+								<cvv>'.$cvv.'</cvv>
+								<cardExpiration>'.$expiry.'</cardExpiration>
+								<validation>Token</validation>
+								<numberOfPayments/>
+								<customerData>
+									<userData1>'.$email.'</userData1>
+									<userData2/>
+									<userData3/>
+									<userData4/>
+									<userData5/>
+								</customerData>
+								<currency>ILS</currency>
+								<firstPayment/>
+								<periodicalPayment/>
+								<user>Push</user>	
+										
+							</doDeal>
+						</request>
+					</ashrait>';
+
+
+    //init curl connection
+    if( function_exists( "curl_init" )) {
+        $CR = curl_init();
+        curl_setopt($CR, CURLOPT_URL, $cgConf['cg_gateway_url']);
+        curl_setopt($CR, CURLOPT_POST, 1);
+        curl_setopt($CR, CURLOPT_FAILONERROR, true);
+        curl_setopt($CR, CURLOPT_POSTFIELDS, $poststring);
+        curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($CR, CURLOPT_FAILONERROR,true);
+
+
+        //actual curl execution perfom
+        $result = curl_exec( $CR );
+        $error = curl_error ( $CR );
+
+        // on error - die with error message
+        if( !empty( $error )) {
+            die($error);
+        }
+
+        curl_close($CR);
+
+        $xml  = simplexml_load_string((string) $result);
+
+        $dom = new DOMDocument;
+        $dom->loadXML($result);
+
+
+        if($xml->response->result[0] == 000)
+        {
+
+            $cardId      = $dom->getElementsByTagName('cardId');
+            $mask        = $dom->getElementsByTagName('cardMask');
+
+
+            DB::useDB(B2B_DB);
+
+
+            $getUser = DB::queryFirstRow("select id,smooch_id from b2b_users where smooch_id = '" . $email . "'");
+
+
+            $card_id =  $cardId->item(0)->nodeValue;
+
+
+            $tempp = DB::queryFirstRow("select id,card_mask from user_credit_cards WHERE card_id = '$card_id'");
+
+
+            if(DB::count() == 0) {
+
+                DB::insert('user_credit_cards', array(
+
+                    'user_id' => $getUser['id'],
+                    'card_id' => $cardId->item(0)->nodeValue,
+                    'card_mask' => $mask->item(0)->nodeValue,
+                    'cvv' => $cvv,
+                    'expiration' => $expiry
+
+                ));
+
+            }
+
+            $cards = DB::query("select id,card_mask from user_credit_cards WHERE user_id = '".$getUser['id']."'");
+            $data = [
+
+                "success" => true,  // SUCCESS
+                "cards"  => $cards
+            ];
+
+            $response = $response->withStatus(202);
+            $response = $response->withJson($data);
+            return $response;
+
+        }
+        else{
+
+            $data = [
+
+                "success" => false,  // SUCCESS FALSE WRONG CODE
+                "error"   => (string) $xml->response->message[0]
+
+            ];
+
+            $response = $response->withStatus(202);
+            $response = $response->withJson($data);
+            return $response;
+        }
+    }
+
+
+});
+
+
+
+//  CREDIT GUARD ACCEPT USER'PAYMENTS
+
+$app->post('/stripe_payment_request', function ($request, $response, $args) {
+
+    try {
+
+        $order_data   = $request->getParam('order_data');
+
+        $email = $order_data['user']['email'];
+
+
+        DB::useDB(B2B_DB);
+
+        $getUser = DB::queryFirstRow("select id,smooch_id from b2b_users where smooch_id = '$email'");
+
+        if (DB::count() == 0) {
+
+
+             // ERROR B2B USER NOT EXISTS
+
+            $response =  $response->withStatus(500);
+            $response =  $response->withHeader('Content-Type', 'text/html');
+            $response =  $response->write("B2B User Not Exist");
+            return $response;
+
+        }
+        else {
+
+            // IF USER ALREADY EXIST IN DATABASE
+            $user_id = $getUser['id'];
+
+        }
+
+
+
+        $cId = $order_data['selectedCardId'];
+
+        $card = DB::queryFirstRow("select * from user_credit_cards where id = $cId");
+
+
+        if ($order_data['language'] == 'en') {
+
+
+            $result = stripePaymentRequest(($order_data['total_paid'] * 100), $user_id, $email, $card['card_id'], $card['expiration'], $card['cvv']);
+
+
+        }
+        else {
+
+
+            $result = stripePaymentRequestHE(($order_data['total_paid'] * 100), $user_id, $email, $card['card_id'], $card['expiration'], $card['cvv']);
+
+
+        }
+
+
+        // RESPONSE RETURN TO REST API CALL
+        $response = $response->withStatus(202);
+        $response = $response->withJson($result);
+        return $response;
+    }
+    catch(MeekroDBException $e) {
+
+        $response =  $response->withStatus(500);
+        $response =  $response->withHeader('Content-Type', 'text/html');
+        $response =  $response->write( $e->getMessage());
+        return $response;
+    }
+
+
+});
+
+
+
+// SUPPORT METHODS
+// STRIPE API PAYMENT REQUEST
+// AMOUNT DIVIDED BY 100 FROM API
+
+function  stripePaymentRequest($amount, $user_id, $email ,$creditCardNo, $expDate, $cvv)
+{
+    $rest = "Error";
+    $cgConf['tid']='8804324';
+    $cgConf['amount']=$amount;
+    $cgConf['user']='pushstart';
+    $cgConf['password']='OE2@38sz';
+    $cgConf['cg_gateway_url']="https://cgpay5.creditguard.co.il/xpo/Relay";
+
+    $poststring = 'user='.$cgConf['user'];
+    $poststring .= '&password='.$cgConf['password'];
+
+    /*Build Ashrait XML to post*/
+    $poststring.='&int_in=<ashrait>
+							<request>
+							<language>ENG</language>
+							<command>doDeal</command>
+							<requestId/>
+							<version>1000</version>
+							<doDeal>
+								<terminalNumber>'.$cgConf['tid'].'</terminalNumber>
+								<authNumber/>
+								<transactionCode>Phone</transactionCode>
+								<transactionType>Debit</transactionType>
+								<total>'.$cgConf['amount'].'</total>
+								<creditType>RegularCredit</creditType>';
+
+
+
+    $poststring .= '<cardId>'.$creditCardNo.'</cardId>';
+
+
+    $poststring .=	'<cvv>'.$cvv.'</cvv>
+								<cardExpiration>'.$expDate.'</cardExpiration>
+								<validation>AutoComm</validation>
+								<numberOfPayments/>
+								<customerData>
+									<userData1>'.$email.'</userData1>
+									<userData2/>
+									<userData3/>
+									<userData4/>
+									<userData5/>
+								</customerData>
+								<currency>ILS</currency>
+								<firstPayment/>
+								<periodicalPayment/>
+								<user>Push</user>	
+								
+								<invoice>
+
+									<invoiceCreationMethod>wait</invoiceCreationMethod>
+									
+									<invoiceDate/>
+									
+									<invoiceSubject> Order# '.$user_id.'</invoiceSubject>
+									
+									<invoiceDiscount/>
+									
+									<invoiceDiscountRate/>
+									
+									<invoiceItemCode>'.$user_id.'</invoiceItemCode>
+									
+									<invoiceItemDescription> Food Order </invoiceItemDescription>
+									
+									<invoiceItemQuantity>1</invoiceItemQuantity>
+									
+									<invoiceItemPrice>'.$amount.'</invoiceItemPrice>
+									
+									<invoiceTaxRate/>
+									
+									<invoiceComments/>
+									
+									<companyInfo>OrderApp</companyInfo>
+									
+									<sendMail>1</sendMail>
+									
+									<mailTo>'.$email.'</mailTo>
+									
+									<isItemPriceWithTax>0</isItemPriceWithTax>
+									
+									<ccDate>'.date("Y-m-d").'</ccDate>
+									
+									<invoiceSignature/>
+									
+									<invoiceType>receipt</invoiceType>
+									
+									<DocNotMaam/>
+									
+								</invoice>	
+								
+							</doDeal>
+						</request>
+					</ashrait>';
+
+
+    //init curl connection
+    if( function_exists( "curl_init" )) {
+        $CR = curl_init();
+        curl_setopt($CR, CURLOPT_URL, $cgConf['cg_gateway_url']);
+        curl_setopt($CR, CURLOPT_POST, 1);
+        curl_setopt($CR, CURLOPT_FAILONERROR, true);
+        curl_setopt($CR, CURLOPT_POSTFIELDS, $poststring);
+        curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($CR, CURLOPT_FAILONERROR,true);
+
+
+        //actual curl execution perfom
+        $result = curl_exec( $CR );
+        $error = curl_error ( $CR );
+
+        // on error - die with error message
+        if( !empty( $error )) {
+            die($error);
+        }
+
+        curl_close($CR);
+
+        $xml  = simplexml_load_string((string) $result);
+
+        if($xml->response->result[0] == 000)
+        {
+            $rest = [
+
+                "response" => 'success',
+                "trans_id" => (string) $xml->response->tranId[0]
+            ];
+
+        }
+        else{
+
+            $rest = [
+
+                "response" =>  (string) $xml->response->message[0]
+
+            ];
+
+        }
+
+    }
+
+    return $rest;
+
+}
+
+
+//  ADD USER ORDER TO SERVER
+
+
+
 //  STORE USER ORDER IN DATABASE
 $app->post('/b2b_add_order', function ($request, $response, $args) {
 
 
     DB::useDB(B2B_DB);
+
     // GET ORDER RESPONSE FROM USER (CLIENT SIDE)
     $user_order = $request->getParam('b2b_user_order');
 
+    $user_id    = null;
+    $smooch_id  = $user_order['user']['email'];
 
-    $user_id = null;
-    $smooch_id = $user_order['user']['email'];
-    $todayDate = Date("d/m/Y");
+
+    date_default_timezone_set("Asia/Jerusalem");
+    $todayDate  = Date("d/m/Y");
     $today = date("Y-m-d");
+
 
 
     //CHECK IF USER ALREADY EXIST, IF NO CREATE USER
     $getUser = DB::queryFirstRow("select * from b2b_users where smooch_id = '" . $user_order['user']['email'] . "'");
-    $discount = $getUser['discount'];
+
+
+    $discount = $getUser['discount'] - $user_order['company_contribution'];
 
 
 
     // CREATE A NEW ORDER AGAINST USER
     DB::useDB(B2B_DB);
+
+
     DB::insert('b2b_orders', array(
 
         'user_id'                       => $user_order['user']['user_id'],
@@ -820,40 +1222,35 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
         'actual_total'                  => $user_order['actual_total'],
         'discount'                      => $user_order['discount'],
         'company_contribution'          => $user_order['company_contribution'],
-        'transaction_id'                => $user_order['trans_id'],
-        "date"                          => DB::sqleval("NOW()")
+        'transaction_id'                => $user_order['transactionId'],
+        'restaurant_id'                 => $user_order['rests_orders'][0]['selectedRestaurant']['id'],
+        "date"                          => DB::sqleval("NOW()"),
+        "rest_order_object"             => json_encode($user_order),
+        "payment_info"                  => $user_order['payment_option']
     ));
+
 
     $orderId = DB::insertId();
 
 
     //GET COMPANY NAME
     DB::useDB(B2B_DB);
+
     $getCompanyName = DB::queryFirstRow("select * from company where id = '" . $user_order['company']['company_id'] . "'");
     $user_order['company']['discount_type'] = $getCompanyName['discount_type'];
 
 
-    // ORDER TRACCER
-
-    try {
-
-
-        //  traccer($orderId, $user_order['name'], $user_order['contact'], $user_order['restaurantAddress'], $user_order['deliveryAddress'], $user_order['rest_lat'], $user_order['rest_lng'], $getCompanyName['lat'], $getCompanyName['lng']);
-
-
-    }
-    catch (Exception $exception)
-    {
-
-    }
-
 
     // LAST INSERTED ORDER ID
-    foreach($user_order['rests_orders'][0]['order_detail'] as $orders)
+    foreach($user_order['rests_orders'][0]['foodCartData'] as $orders)
     {
         try{
+
+
             // ADD ORDER DETAIL AGAINST USER
             DB::useDB(B2B_DB);
+
+
             DB::insert('b2b_order_detail', array(
 
                 'order_id' => $orderId,
@@ -861,7 +1258,10 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
                 'item' => $orders['name'],
                 'sub_total' => $orders['price'],
                 'sub_items' => $orders['detail']
+
             ));
+
+
         }
         catch(MeekroDBException $e) {
 
@@ -869,64 +1269,54 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
             $response =  $response->withHeader('Content-Type', 'text/html');
             $response =  $response->write( $e->getMessage());
             return $response;
+
         }
 
     }
 
 
-    // SEND EMAIL TO KITCHEN
+    // EMAIL ORDER SUMMERY
 
     email_for_kitchen($user_order, $orderId, $todayDate);
-
     ob_end_clean();
 
 
-    email_for_mark2($user_order, $orderId, $todayDate);
-
-    ob_end_clean();
-
-    // SEND ADMIN COPY EMAIL ORDER SUMMARY
-
-    email_order_summary_hebrew_admin($user_order, $orderId, $todayDate);
-
-    ob_end_clean();
-
-
-    // CLIENT EMAIL
-    // EMAIL ORDER SUMMARY
-    //
-    if ($user_order['language'] == 'en') {
-
-        email_order_summary_english($user_order, $orderId, $todayDate);
-    }
-    else
-    {
-
-        email_order_summary_hebrew($user_order, $orderId, $todayDate);
-    }
-
-
-    ob_end_clean();
-
-
-    $delivery_time  = date('H:i:s');
-
-    $delivery_time = strtotime($delivery_time) + 60*60;
-
-    $delivery_time = date('H:i:s',$delivery_time);
+//    // EMAIL FOR LEDGER
+//
+//    email_for_mark2($user_order, $orderId, $todayDate);
+//    ob_end_clean();
+//
+//
+//    // SEND ADMIN COPY EMAIL ORDER SUMMARY
+//
+//    email_order_summary_hebrew_admin($user_order, $orderId, $todayDate);
+//    ob_end_clean();
+//
+//
+//    // CLIENT EMAIL
+//    // EMAIL ORDER SUMMARY
+//    //
+//    if ($user_order['language'] == 'en') {
+//
+//
+//        email_order_summary_english($user_order, $orderId, $todayDate);
+//
+//    }
+//    else
+//    {
+//
+//        email_order_summary_hebrew($user_order, $orderId, $todayDate);
+//
+//    }
+//
+//    ob_end_clean();
 
 
-    createBringgTask($user_order, $todayDate, $delivery_time) ;
 
 
-    ob_end_clean();
+    DB::useDB(B2B_DB);
 
-
-    DB::useDB('orderapp_b2b');
-
-
-    DB::query("UPDATE b2b_users SET date = '$today', discount = '$discount'  WHERE smooch_id = '$smooch_id'");
-    //DB::query("UPDATE b2b_users SET discount = '$discount'  WHERE id = '$user_id'");
+    DB::query("UPDATE b2b_users SET date = '$today', discount = '$discount'  WHERE  smooch_id = '$smooch_id'");
 
 
     // RESPONSE RETURN TO REST API CALL
@@ -934,6 +1324,11 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
     $response = $response->withJson(json_encode('success'));
     return $response;
 });
+
+
+
+
+// GET ALL USER CREDIT CARDS AVAILABLE
 
 
 $app->post('/get_all_cards_info', function ($request, $response, $args){
@@ -2297,19 +2692,19 @@ function email_for_kitchen($user_order,$orderId,$todayDate)
     $mailbody = '';
 
     // USER NAME
-    $mailbody .=  $user_order['name'].' : שֵׁם';
+    $mailbody .=  $user_order['user']['name'].' : שֵׁם';
     $mailbody .= '<br>';
     $mailbody .= '<br>';
 
 
-    $mailbody .=  $user_order['company_name'].' : שם החברה';
+    $mailbody .=  $user_order['company']['company_name'].' : שם החברה';
     $mailbody .= '<br>';
     $mailbody .= '<br>';
 
 
     $mailbody .= ' :  הזמנה';
 
-    foreach($user_order['cartData'] as $t)
+    foreach($user_order['rests_orders'][0]['foodCartData']  as $t)
     {
 
         $mailbody .= '<br>';
@@ -2351,7 +2746,7 @@ function email_for_kitchen($user_order,$orderId,$todayDate)
     }
 
 
-    $mailbody .= $user_order['totalWithoutDiscount'].' : סך כל החשבון ללא דיסקונט';
+    $mailbody .= $user_order['actual_total'].' : סך כל החשבון ללא דיסקונט';
     $mailbody .= '<br>';
     $mailbody .= '<br>';
 
@@ -2391,7 +2786,7 @@ function email_for_kitchen($user_order,$orderId,$todayDate)
 
     //Send HTML or Plain Text email
     $mail->isHTML(false);
-    $mail->Subject = " הזמנה חדשה ".substr($user_order['contact'], -4) . " #" . $user_order['restaurantTitleHe'];
+    $mail->Subject = " הזמנה חדשה ".substr($user_order['user']['contact'], -4) . " #" . $user_order['rests_orders'][0]['selectedRestaurant']['name_he'];
     $mail->Body = $mailbody;
     $mail->AltBody = "OrderApp";
 
