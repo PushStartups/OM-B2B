@@ -87,9 +87,9 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
             $company['discount_type']           =   $companyDB['discount_type'];
 
 
-            $obj['company']                 =   $company;
-            $obj['user']                    =   $user;
-            $obj['error']                   =   false;
+            $obj['company']                 	=   $company;
+            $obj['user']                    	=   $user;
+            $obj['error']                   	=   false;
 
 
         }
@@ -1281,35 +1281,35 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
     ob_end_clean();
 
 
-//    // EMAIL FOR LEDGER
-//
-//    email_for_mark2($user_order, $orderId, $todayDate);
-//    ob_end_clean();
-//
-//
-//    // SEND ADMIN COPY EMAIL ORDER SUMMARY
-//
-//    email_order_summary_hebrew_admin($user_order, $orderId, $todayDate);
-//    ob_end_clean();
-//
-//
-//    // CLIENT EMAIL
-//    // EMAIL ORDER SUMMARY
-//    //
-//    if ($user_order['language'] == 'en') {
-//
-//
-//        email_order_summary_english($user_order, $orderId, $todayDate);
-//
-//    }
-//    else
-//    {
-//
-//        email_order_summary_hebrew($user_order, $orderId, $todayDate);
-//
-//    }
-//
-//    ob_end_clean();
+    // EMAIL FOR LEDGER
+
+    //email_for_mark2($user_order, $orderId, $todayDate);
+    //ob_end_clean();
+
+
+    // SEND ADMIN COPY EMAIL ORDER SUMMARY
+
+    email_order_summary_hebrew_admin($user_order, $orderId, $todayDate);
+    ob_end_clean();
+
+
+    // CLIENT EMAIL
+    // EMAIL ORDER SUMMARY
+    //
+    if ($user_order['language'] == 'en') {
+
+
+        email_order_summary_english($user_order, $orderId, $todayDate);
+
+    }
+    else
+    {
+
+        email_order_summary_hebrew($user_order, $orderId, $todayDate);
+
+    }
+
+    ob_end_clean();
 
 
 
@@ -1980,15 +1980,13 @@ function email_order_summary_english($user_order,$orderId,$todayDate)
     $mailbody .= '</tr>';
     $mailbody .= '<tr style="font-size: 12px; padding: 10px" >';
     $mailbody .= '<td> '.$todayDate.' &nbsp; Order ID # '.$orderId.'</td>';
-    $mailbody .= '<td style="text-align: right">'.$user_order['Cash_Card'].'</td>';
+    $mailbody .= '<td style="text-align: right">'.$user_order['payment_option'].'</td>';
     $mailbody .= '</tr>';
     $mailbody .= '</table>';
     $mailbody .= '</div>';
-
-
     $mailbody .= '<div  style="padding: 10px 30px 0px 30px;" >';
 
-    foreach($user_order['cartData'] as $t) {
+    foreach($user_order['rests_orders'][0]['foodCartData'] as $t) {
 
         $mailbody .= '<table style="width: 100%; color:black; padding: 30px 0; border-bottom: 1px solid #D3D3D3" >';
 
@@ -2040,7 +2038,7 @@ function email_order_summary_english($user_order,$orderId,$todayDate)
     {
         $mailbody .= '<tr style="font-size: 18px;  font-weight: bold" >';
         $mailbody .= '<td style="padding: 5px 0" > Sub total  </td>';
-        $mailbody .= '<td style="text-align: right; white-space: nowrap"> <span style="color: #FF864C;" >'.$user_order['totalWithoutDiscount'].' NIS</span></td>';
+        $mailbody .= '<td style="text-align: right; white-space: nowrap"> <span style="color: #FF864C;" >'.$user_order['actual_total'].' NIS</span></td>';
         $mailbody .= '</tr>';
 
     }
@@ -2075,37 +2073,37 @@ function email_order_summary_english($user_order,$orderId,$todayDate)
     $mailbody .= '</tr>';
     $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080" >';
     $mailbody .= '<td style="padding: 10px 0" > <img style="width: 20px" src="http://dev.orderapp.com/restapi/images/ic_user.png" ></td>';
-    $mailbody .= '<td style="text-align: left; white-space: nowrap"> '.$user_order['name'].' </td>';
+    $mailbody .= '<td style="text-align: left; white-space: nowrap"> '.$user_order['user']['name'].' </td>';
     $mailbody .= '</tr>';
     $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080" >';
     $mailbody .= '<td style="padding: 10px 0" > <img style="width: 20px" src="http://dev.orderapp.com/restapi/images/ic_phone.png" ></td>';
-    $mailbody .= '<td style="text-align: left; white-space: nowrap"> '.$user_order['contact'].' </td>';
+    $mailbody .= '<td style="text-align: left; white-space: nowrap"> '.$user_order['user']['contact'].' </td>';
     $mailbody .= '</tr>';
     //COMPANY INFO
     $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080" >';
     $mailbody .= '<td style="padding: 10px 0" > <img style="width: 20px" src="http://dev.orderapp.com/restapi/images/ic_company.png" ></td>';
-    $mailbody .= '<td style="text-align: left; white-space: nowrap"> '.$user_order['company_name'].' </td>';
+    $mailbody .= '<td style="text-align: left; white-space: nowrap"> '.$user_order['company']['company_name'].' </td>';
     $mailbody .= '</tr>';
     //COMPANY INFO ENDS
 
     $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080" >';
     $mailbody .= '<td style="padding: 10px 0; text-align: center" > <img style=" height: 24px" src="http://dev.orderapp.com/restapi/images/ic_location.png" ></td>';
 
-    $mailbody .= '<td style="text-align: left; white-space: nowrap"> Deliver At : '.$user_order['delivery_address'].'</td>';
+    $mailbody .= '<td style="text-align: left; white-space: nowrap"> Deliver At : '.$user_order['comapny']['company_address'].'</td>';
 
 
 
     $mailbody .= '</tr>';
     $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080" >';
     $mailbody .= '<td style="padding: 10px 0" > <img style="width: 20px" src="http://dev.orderapp.com/restapi/images/ic_email.png" ></td>';
-    $mailbody .= '<td style="text-align: left; white-space: nowrap"> '.$user_order['email'].' </td>';
+    $mailbody .= '<td style="text-align: left; white-space: nowrap"> '.$user_order['user']['email'].' </td>';
     $mailbody .= '</tr>';
     $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080" >';
     $mailbody .= '<td style="padding: 10px 0" > <img style=" width: 20px" src="http://dev.orderapp.com/restapi/images/ic_card.png" ></td>';
-    $mailbody .= '<td style="text-align: left; white-space: nowrap"> '.$user_order['Cash_Card'].' </td>';
+    $mailbody .= '<td style="text-align: left; white-space: nowrap"> '.$user_order['payment_option'].' </td>';
     $mailbody .= '</tr>';
     $mailbody .= '</table>';
-    $mailbody .= '<h4 style="padding: 5px 27px;">* Use by end of '.$user_order['company_name'].' orderding time</h4>';
+    $mailbody .= '<h4 style="padding: 5px 27px;">* Use by end of '.$user_order['company']['company_name'].' orderding time</h4>';
 
     $mailbody .= '</div>';
     $mailbody .= '</div>';
@@ -2132,7 +2130,7 @@ function email_order_summary_english($user_order,$orderId,$todayDate)
 
 
 //To address and name
-    $mail->addAddress($user_order['email']);     // SEND EMAIL TO USER
+    $mail->addAddress($user_order['user']['email']);     // SEND EMAIL TO USER
     $mail->AddCC(EMAIL);
     $mail->AddCC("brina@orderapp.com");
     $mail->AddBCC("oded@orderapp.com");
@@ -2375,7 +2373,7 @@ function email_order_summary_hebrew_admin($user_order,$orderId,$todayDate)
     $mailbody  .= '<td style="text-align: right;" >  סיכום הזמנה <img style="padding-top: 10px; width: 20px" src="http://dev.orderapp.com/restapi/images/bag.png" ></td>';
     $mailbody  .= '</tr>';
     $mailbody  .= '<tr style="font-size: 12px; padding: 10px" >';
-    $mailbody  .= '<td>'.$user_order['Cash_Card_he'].'</td>';
+    $mailbody  .= '<td>'.$user_order['payment_option'].'</td>';
     $mailbody  .= '<td style="text-align: right" dir="rtl">';
     $mailbody  .=  '&nbsp;'.$todayDate.'&nbsp;';
     $mailbody  .= 'מספר הזמנה #';
@@ -2386,7 +2384,7 @@ function email_order_summary_hebrew_admin($user_order,$orderId,$todayDate)
     $mailbody  .= '<div  style="padding: 10px 30px 0px 30px;" >';
 
 
-    foreach($user_order['cartData'] as $t) {
+    foreach($user_order['rests_orders'][0]['foodCartData']  as $t) {
 
         $mailbody.='<table style="width: 100%; color:black; padding: 30px 0; border-bottom: 1px solid #D3D3D3" >';
         $mailbody.='<tr style="font-size: 18px; padding: 10px; font-weight: bold" >';
@@ -2444,10 +2442,9 @@ function email_order_summary_hebrew_admin($user_order,$orderId,$todayDate)
     else
     {
         $mailbody .= '<tr style="font-size: 18px;  font-weight: bold">';
-        $mailbody .= '<td style=" white-space: nowrap"> <span style="color: #FF864C;" >'.$user_order['totalWithoutDiscount'].' ש"ח '.'</span></td>';
+        $mailbody .= '<td style=" white-space: nowrap"> <span style="color: #FF864C;" >'.$user_order['actual_total'].' ש"ח '.'</span></td>';
         $mailbody .= '<td style="padding: 5px 0; text-align: right; " > סיכום ביניים </td>';
         $mailbody .= '</tr>';
-
 
     }
 
@@ -2464,17 +2461,17 @@ function email_order_summary_hebrew_admin($user_order,$orderId,$todayDate)
     $mailbody .= '<td colspan="2" style="padding: 10px 0; text-align: right" dir="rtl" > מידע ללקוחות   </td>';
     $mailbody .= '</tr>';
     $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080">';
-    $mailbody .= '<td style="text-align: right; white-space: nowrap"> '.$user_order['name'].' </td>';
+    $mailbody .= '<td style="text-align: right; white-space: nowrap"> '.$user_order['user']['name'].' </td>';
     $mailbody .= '<td style="padding: 10px 0"><img style="width: 20px" src="http://dev.orderapp.com/restapi/images/ic_user.png"></td>';
     $mailbody .= '</tr>';
     $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080">';
-    $mailbody .= '<td style="text-align: right; white-space: nowrap"> '.$user_order['contact'].' </td>';
+    $mailbody .= '<td style="text-align: right; white-space: nowrap"> '.$user_order['user']['contact'].' </td>';
     $mailbody .= '<td style="padding: 10px 0"><img style="width: 20px" src="http://dev.orderapp.com/restapi/images/ic_phone.png"></td>';
     $mailbody .= '</tr>';
 
     //COMPANY INFO
     $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080">';
-    $mailbody .= '<td style="text-align: right; white-space: nowrap"> '.$user_order['company_name'].' </td>';
+    $mailbody .= '<td style="text-align: right; white-space: nowrap"> '.$user_order['company']['company_name'].' </td>';
     $mailbody .= '<td style="padding: 10px 0"><img style="width: 20px" src="http://dev.orderapp.com/restapi/images/ic_company.png"></td>';
     $mailbody .= '</tr>';
     //COMPANY INFO ENDS
@@ -2484,17 +2481,17 @@ function email_order_summary_hebrew_admin($user_order,$orderId,$todayDate)
     $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080">';
 
     //COMPANY ADDRESS
-    $mailbody .= '<td style="text-align: right; white-space: nowrap" dir="rtl"> לספק ב : '.$user_order['delivery_address'].'</td>';
+    $mailbody .= '<td style="text-align: right; white-space: nowrap" dir="rtl"> לספק ב : '.$user_order['company']['company_address'].'</td>';
 
 
     $mailbody .=  '<td style="padding: 10px 0; text-align: center"> <img style="height: 24px" src="http://dev.orderapp.com/restapi/images/ic_location.png" ></td>';
     $mailbody .=  '</tr>';
     $mailbody .=  '<tr style="font-size: 12px; padding: 5px 10px; color: #808080">';
-    $mailbody .=  '<td style="text-align: right; white-space: nowrap">'.$user_order['email'].'</td>';
+    $mailbody .=  '<td style="text-align: right; white-space: nowrap">'.$user_order['user']['email'].'</td>';
     $mailbody .=  '<td style="padding: 10px 0;"><img style="width: 20px" src="http://dev.orderapp.com/restapi/images/ic_email.png" ></td>';
     $mailbody .=  '</tr>';
     $mailbody .=  '<tr style="font-size: 12px; padding: 5px 10px; color: #808080">';
-    $mailbody .=  '<td style="text-align: right; white-space: nowrap">'.$user_order['Cash_Card_he'].'</td>';
+    $mailbody .=  '<td style="text-align: right; white-space: nowrap">'.$user_order['payment_option'].'</td>';
     $mailbody .=  '<td style="padding: 10px 0;" > <img style=" width: 20px" src="http://dev.orderapp.com/restapi/images/ic_card.png" ></td>';
     $mailbody .=  '</tr>';
     $mailbody .=  '</table>';
@@ -2531,7 +2528,7 @@ function email_order_summary_hebrew_admin($user_order,$orderId,$todayDate)
 
     //Send HTML or Plain Text email
     $mail->isHTML(false);
-    $mail->Subject = 'עסק'." ".$user_order['restaurantTitleHe']." הזמנה חדשה # "."  ".$orderId;
+    $mail->Subject = 'עסק'." ".['rests_orders'][0]['selectedRestaurant']['name_he']." הזמנה חדשה # "."  ".$orderId;
     $mail->Body = $mailbody;
     $mail->AltBody = "OrderApp";
 
