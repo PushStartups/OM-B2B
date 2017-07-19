@@ -38,20 +38,20 @@ $_SESSION['search_end_date'] = "";
 
                             <div class="form-group">
                                 <div class="row">
-<!--                                    <div class="col-xs-3">-->
-<!--                                        <select class="form-control" id="company_id" >-->
-<!--                                            <option value=""  selected disabled> Select Company</option>-->
-<!--                                            --><?php
-//                                            DB::useDB('orderapp_b2b_wui');
-//                                            $company = DB::query("select * from company");
-//                                            foreach($company as $companies){  ?>
-<!--                                                <option value=--><?//=$companies['id']?><!-->--><?//=$companies['name']?><!--</option>-->
-<!--                                            --><?php //} ?>
-<!---->
-<!--                                        </select>-->
-<!--                                        <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_company_id"></span>-->
-<!---->
-<!--                                    </div>-->
+                                    <div class="col-xs-3">
+                                        <select class="form-control" id="company_id" style="color: black;" >
+                                            <option value=""  selected disabled> Select Company</option>
+                                            <?php
+                                            DB::useDB('orderapp_b2b_wui');
+                                            $company = DB::query("select * from company");
+                                            foreach($company as $companies){  ?>
+                                                <option value="<?=$companies['id']?><?=$companies['name']?>"></option>
+                                            <?php } ?>
+
+                                        </select>
+                                        <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_company_id"></span>
+
+                                    </div>
                                     <div class="col-xs-3">
                                         <input class="form-control" id="search-user-email" type="text" placeholder="Search User Email">
                                         <input class="form-control" id="hidden_email" type="hidden" >
