@@ -45,7 +45,7 @@ $_SESSION['search_end_date'] = "";
                                             DB::useDB('orderapp_b2b_wui');
                                             $company = DB::query("select * from company");
                                             foreach($company as $companies){  ?>
-                                                <option value="<?=$companies['id']?><?=$companies['name']?>"></option>
+                                                <option value="<?=$companies['id']?>" ><?=$companies['name']?></option>
                                             <?php } ?>
 
                                         </select>
