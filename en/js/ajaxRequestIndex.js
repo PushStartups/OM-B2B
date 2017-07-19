@@ -29,9 +29,11 @@ $(document).ready(function() {
             'rests_orders': [],                // ARRAY OF MULTIPLE REST ORDERS
             'actual_total' : 0,                // ACTUAL TOTAL (BILL) WITHOUT ANY DISCOUNT AND COMPENSATION
             'total_paid' : 0,                  // TOTAL AMOUNT PAID BY USER
-            "company_contribution" : 0         // AMOUNT CONTRIBUTED BY COMPANY
-
-
+            "company_contribution" : 0,        // AMOUNT CONTRIBUTED BY COMPANY
+            "payment_option" : 'CASH',         // PAYMENT OPTION CASH / CARD  DEFAULT CASH
+            "discount": 0,                     // COMPANY DISCOUNT
+            "selectedCardId" : null,           // SELECTED CARD ID BY USER FROM EXISTING CARDS
+            "transactionId" : ""               // TRANSACTION ID RECEIVED FROM CREDIT GUARD ON CARD PAYMENT ( REUQIRED IN CASE OF CANCEL ORDERS)
         };
 
     }

@@ -99,8 +99,11 @@ function callBackGetCategoriesWithItems(url,response) {
 
     allCategoriesWithItemsResp = response.categories_items;
 
+
     percentage_discount = response.percentage_discount;
 
+
+    dataObject.discount = percentage_discount;
 
     try {
 
@@ -1337,13 +1340,15 @@ function OnOrderNowClicked() {
 
     if(foodCartData.length != 0) {
 
+
         generateTotalUpdateFoodCart();
 
 
+        dataObject.rests_orders[selectedRestIndex].foodCartData = foodCartData;
+
+
         localStorage.setItem("data_object_en", JSON.stringify(dataObject));
-
-
-        localStorage.setItem("food_card_en", JSON.stringify(foodCartData));
+        localStorage.setItem("tempDiscountFromCompanyCal", tempDiscountFromCompanyCal);
 
 
         window.location.href = '/en/confirm-order';
