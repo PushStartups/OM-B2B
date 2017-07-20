@@ -959,12 +959,11 @@ $app->post('/store_credit_card_info', function ($request, $response, $args){
                 $bug = "Unknown Error occured, Please try again!";
             }
 
-
-
+            
             $data = [
 
                 "success" => false,  // SUCCESS FALSE WRONG CODE
-                "error"   => $bug 
+                "error"   => $bug
 
             ];
 
