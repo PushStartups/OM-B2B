@@ -53,13 +53,10 @@ $(document).ready(function() {
     dataObject = JSON.parse(localStorage.getItem("data_object_en"));
 
 
-    $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+dataObject.user.userDiscountFromCompany+" NIS</em>");
-
-
     track = localStorage.getItem("order_on_way");
 
 
-    commonAjaxCall("/restapi/index.php/get_db_tags_and_kashrut",{"company_id":dataObject.company.company_id}, responseDBAllTagsKashrut);
+    commonAjaxCall("/restapi/index.php/get_db_tags_and_kashrut",{"company_id":dataObject.company.company_id, "user_id" : dataObject.user.user_id}, responseDBAllTagsKashrut);
 
 });
 
@@ -111,6 +108,13 @@ function responseDBAllTagsKashrut(url, response) {
         $('#kashruts').html(str);
 
         $('.list-item').show();
+
+
+        dataObject.user.userDiscountFromCompany = response.user_discount;
+
+
+        $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+dataObject.user.userDiscountFromCompany+" NIS</em>");
+
 
         // REQUEST ALL RESTAURANTS FROM SERVER
         commonAjaxCall("/restapi/index.php/get_all_restaurants", {"company_id":dataObject.company.company_id}, responseListOfRestaurants);
@@ -320,14 +324,14 @@ function responseListOfRestaurants(url,response) {
         if(track == "track")
         {
             $('#rest-list-active').removeClass("active");
-            $('#past-list-active').addClass("active");
-            $('#panel42').addClass("active");
+            $('#pending-list-active').addClass("active");
+            $('#panel43').addClass("active");
             $('#panel41').removeClass("active");
 
 
             localStorage.setItem("order_on_way","");
 
-            commonAjaxCall("/restapi/index.php/get_all_past_orders", {"user_id": dataObject.user.user_id,"filter" : "last_week"}, responsePastOrders);
+            commonAjaxCall("/restapi/index.php/get_all_pending_orders", {"user_id": dataObject.user.user_id}, responsePendingOrders);
 
         }
 

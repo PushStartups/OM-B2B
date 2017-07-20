@@ -387,7 +387,7 @@ function onItemSelectedCallBack(url,response)
 
                 oneTypeStr +=
 
-                    '<div class="holder">' +'<div class="heading-holder"><h3 class="pull-left">' + extras.extra_with_subitems[x].name_en + '</h3><span  style="padding-left: 20px" class="error pull-left"  id="errorOneType-' + x +'"></span></div>' +
+                    '<div class="holder">' +'<div class="heading-holder"><h3 class="pull-left">' + extras.extra_with_subitems[x].name_en + '</h3><span  style="padding-left: 20px" class="error pull-left"  id="errorOneType-' + oneTypeSubItems.length +'"></span></div>' +
                     '<div class="holder">' +
                     '<ul class="control-group">';
 
@@ -554,7 +554,7 @@ function onOneTypeExtraSubItemSelected(extraIndex, subItemIndex, oneTypeIndex , 
 
 
     // REMOVE ERROR MESSAGES ON SELECTION
-    $('#errorOneType-'+extraIndex).html("");
+    $('#errorOneType-'+oneTypeIndex).html("");
 
     // SUB ITEM OBJECT
 

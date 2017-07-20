@@ -162,10 +162,10 @@ function updateCartElements()
                 '</div> ' +
                 '<div class="col-xs-10"> ' +
                 '<div class="row no-gutters">' +
-                '<div class="col-xs-9">'+
+                '<div class="col-xs-8">'+
                 '<p class="f black">' + foodCartData[x].name + '</p>'+
                 '</div>'+
-                '<div class="col-xs-3">'+
+                '<div class="col-xs-4">'+
                 '<p class="f black amount">' + foodCartData[x].price  + ' NIS</p>'+
                 '</div>'+
                 '</div>'+
