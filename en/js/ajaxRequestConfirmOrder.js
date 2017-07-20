@@ -47,10 +47,6 @@ $(document).ready(function() {
     $('#name').val(dataObject.user.name);
 
 
-    $('#card-message').html('Payment '+dataObject.total_paid+' NIS Card No.');
-
-    $('#cash-message').html('Payment '+dataObject.total_paid+' NIS with Cash');
-
     commonAjaxCall("/restapi/index.php/get_all_cards_info", {"user_email": dataObject.user.email}, user_cards_callback);
 
 });
@@ -258,6 +254,9 @@ function updateCartElements()
 
     $('.badge').html(countItems);
 
+    $('#card-message').html('Payment '+dataObject.total_paid+' NIS Card No.');
+
+    $('#cash-message').html('Payment '+dataObject.total_paid+' NIS with Cash');
 
 }
 
