@@ -101,6 +101,29 @@
 
     }
 
+    document.onreadystatechange = function () {
+
+        var state = document.readyState;
+
+        if (state == 'interactive') {
+
+
+            addLoading();
+
+        }
+        else if (state == 'complete') {
+
+
+            setTimeout(function(){
+
+                hideLoading();
+
+
+            },10);
+
+        }
+    }
+
 
 </script>
 
@@ -117,14 +140,29 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xs-6 pull-left">
+                        <!--<div class="logo">-->
+                            <!--<a href="#">-->
+                                <!--<div class="logo-img">-->
+                                    <!--<img src="/en/images/logo.png" alt="images description">-->
+                                <!--</div>-->
+                                <!--<h2 class="f white light"> CHOOSE YOUR RESTAURANT <p class="comment f white"><span class="f white">Choose your restaurant</span> > <span class="f white">Choose your menu</span> > Order Information</p></h2>-->
+                            <!--</a>-->
+                        <!--</div>-->
+
                         <div class="logo">
                             <a href="#">
                                 <div class="logo-img">
                                     <img src="/en/images/logo.png" alt="images description">
                                 </div>
-                                <h2 class="f white light"> CHOOSE YOUR RESTAURANT <p class="comment f white"><span class="f white">Choose your restaurant</span> > <span class="f white">Choose your menu</span> > Order Information</p></h2>
+                                <h2 class="f white light"> CHOOSE YOUR RESTAURANT </h2>
                             </a>
+                            <ul class="breadcrumbs">
+                                <li><a onclick="backListener()" href="#"><p class="comment f white">Choose your restaurant</p></a></li>
+                                <li><a onclick="goToOrderPage()" href="#"><p class="comment f white"> > Choose your menu</p></a></li>
+                                <li><p class="comment f white"> > Order Information</p></li>
+                            </ul>
                         </div>
+
                     </div>
                     <div class="col-xs-4 pull-right">
                         <nav id="nav">
@@ -144,7 +182,7 @@
                     </div>
                 </div>
             </div>
-            <a class="btn-back" href="#"><img src="/en/images/icon01.png"></a>
+            <a class="btn-back" onclick="goToOrderPage()" href="#"><img src="/en/images/icon01.png"></a>
         </div>
     </section>
     <section class="block">
@@ -174,33 +212,20 @@
 
                                         <li>
 
-                                            <div class="checkbox-holder">
-                                                <label class="control control--radio">
-                                                    <div class="chek-box-holder">
-                                                        <input type="radio" id="cash-cb" checked/>
-                                                        <div class="control__indicator"></div>
-                                                    </div>
-                                                    <h2  style="line-height: 20px;">CASH</h2>
-                                                </label>
-                                            </div>
-
-                                        </li>
-                                        <li>
-
                                             <div>
-                                                <div class="checkbox-holder" style="display: inline-block; vertical-align: middle; width: 29%;">
+                                                <div class="checkbox-holder" style="display: inline-block; vertical-align: middle; width: 62%;">
                                                     <label class="control control--radio">
                                                         <div class="chek-box-holder">
                                                             <input type="radio" id="card-cb"/>
                                                             <div class="control__indicator"></div>
                                                         </div>
-                                                        <h2  style="line-height: 20px;">Credit Card</h2>
+                                                        <h2  style="line-height: 20px;" id="card-message"></h2>
                                                     </label>
                                                 </div>
 
                                                 <div style="visibility: hidden; display: inline-block; vertical-align: middle; margin: 3px 0 0;" class="dropdown new" id="card_list_parent">
 
-                                                    <button style="margin: 5px 0 -5px;" class="btn btn-secondary dropdown-toggle" type="button" id="choose_card" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <button style="margin: -2px 0 -5px;" class="btn btn-secondary dropdown-toggle" type="button" id="choose_card" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     </button>
 
                                                     <div class="dropdown-menu dropdown scrollable-menu" id="cards_list" aria-labelledby="dropdownMenuButton">
@@ -252,27 +277,32 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-xs-5">
-                                                        <div class="field-box">
+                                                    <div class="col-xs-9">
+                                                        <div class="row no-gutters">
+                                                            <div class="col-xs-4">
+                                                                <label style="color: #797979; font-size: 16px; line-height: 19px; display: block; margin: 7px 0 0; font-weight: 400;">Expiration Date</label>
+                                                            </div>
 
-                                                            <div class="row no-gutters">
+                                                            <div class="col-xs-8">
+                                                                <div class="field-box">
 
-                                                                <div class="col-xs-10">
-                                                                    <input class="form-control" id="month" type="text" placeholder="MM">
-                                                                    <input class="form-control" id="year" type="text" placeholder="YY">
+                                                                    <div class="row no-gutters">
+
+                                                                        <div class="col-xs-6 add-border">
+                                                                            <input class="form-control" id="month" type="text" placeholder="MM">
+                                                                        </div>
+                                                                        <div class="col-xs-6">
+                                                                            <input class="form-control" id="year" type="text" placeholder="YY">
+                                                                        </div>
+
+
+                                                                        <div class="error-tooltip" id="error-month-year" style="display: none">
+                                                                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                                                            <p class="f black" id="error-month-year-text">* Required Field</p>
+                                                                        </div>
+
+                                                                    </div>
                                                                 </div>
-
-
-                                                                <div class="error-tooltip" id="error-month-year" style="display: none">
-                                                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                                                                    <p class="f black" id="error-month-year-text">* Required Field</p>
-                                                                </div>
-
-                                                                <div class="col-xs-2">
-                                                                    <img class="edit add" src="/en/images/ic_calender.png">
-                                                                </div>
-
-
                                                             </div>
                                                         </div>
                                                     </div>
@@ -306,16 +336,31 @@
                                                 </div>
                                             </div>
                                         </li>
+
+                                        <li>
+
+                                            <div class="checkbox-holder">
+                                                <label class="control control--radio">
+                                                    <div class="chek-box-holder">
+                                                        <input type="radio" id="cash-cb" checked/>
+                                                        <div class="control__indicator"></div>
+                                                    </div>
+                                                    <h2  style="line-height: 20px;" id="cash-message"></h2>
+                                                </label>
+                                            </div>
+
+                                        </li>
+
                                     </ul>
                                     <button onclick="onOrderNowClicked()" type="button" class="btn-order-now"><h2 class="f white">confirm order</h2></button>
                                 </div>
 
 
                                 <div class="txt-block" style="display: none">
-                                    <h2>Dvora, PushStartups, We are on the way <br> Estimated arrival 12:30-12:45</h2>
+                                    <h2 id="order_complete_message"></h2>
                                     <div class="btn-holder-new">
-                                        <button type="button" class="btn-new-submit"><h2 class="f white">Add an Order</h2></button>
-                                        <button type="button" class="btn-new-submit hover"><h2 class="f white">Tracking orders</h2></button>
+                                        <button type="button" onclick="gotoRestListPage(null)" class="btn-new-submit"><h2 class="f white">Add an Order</h2></button>
+                                        <button type="button" onclick="gotoRestListPage('track')" class="btn-new-submit hover"><h2 class="f white">Tracking orders</h2></button>
                                     </div>
                                 </div>
 
@@ -508,25 +553,10 @@
 
     $(document).ready(function(){
         $(".btn-add-submit.add").click(function () {
+
             $(".show-txt").hide();
             $(".btn-link").show();
-        });
-    });
 
-
-
-    $(document).ready(function(){
-        $(".btn-order-now").click(function () {
-//            $(".txt-block").show();
-//            $(".order-info").hide();
-        });
-    });
-
-
-    $(document).ready(function(){
-        $(".btn-new-submit").click(function () {
-            $(".txt-block").hide();
-            $(".order-info").show();
         });
     });
 
@@ -546,7 +576,7 @@
 
         $('#cash-cb').prop('checked', false);
 
-        if(user_cards == null) {
+        if(user_cards == null || user_cards == "null") {
 
             $('#card-option').show();
         }
@@ -561,6 +591,43 @@
     });
 
 
+    
+    function gotoRestListPage(message) {
+
+        var company_name   =   dataObject.company.company_name;
+        company_name       =   company_name.replace(/\s/g, '');
+
+        localStorage.setItem("data_object_en", JSON.stringify(dataObject));
+
+        localStorage.setItem("order_on_way", message);
+
+
+        window.location.href = '/en/'+company_name+'/restaurants';
+    }
+
+    function goToOrderPage() {
+
+
+        var company_name     =   dataObject.company.company_name;
+        company_name         =   company_name.replace(/\s/g, '');
+
+        var restaurant_name  =    dataObject.rests_orders[selectedRestIndex].selectedRestaurant.name_en;
+        restaurant_name      =    restaurant_name.replace(/\s/g, '');
+
+        window.location.href = '/en/'+company_name+"/"+restaurant_name+'/order';
+
+    }
+
+    function backListener() {
+
+        var company_name   =   dataObject.company.company_name;
+        company_name       =   company_name.replace(/\s/g, '');
+
+        localStorage.setItem("data_object_en", JSON.stringify(dataObject));
+
+
+        window.location.href = '/en/'+company_name+'/restaurants';
+    }
 
 
 </script>

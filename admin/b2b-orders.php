@@ -205,6 +205,7 @@ $_SESSION['search_end_date'] = "";
                                                 <td><?=$order['total']." NIS"?></td>
                                                 <?php  $arr[4] = $order['total'];   $totall  = $totall + $order['total']; ?>
 
+
                                                 <td><?=$order['actual_total']." NIS"?></td>
                                                 <?php  $arr[5] = $order['actual_total'];   $actual_total  = $actual_total + $order['actual_total']; ?>
 

@@ -1,3 +1,10 @@
+#wrapper{
+    position: fixed;
+    height: 100%;
+    top:0;
+    left:0;
+    right:0;
+}
 .logo a h2{margin: -9px 0 0;}
 .block {
     margin: -73px auto 0;

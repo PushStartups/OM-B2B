@@ -1,6 +1,9 @@
 var dataObject = null;   // DATA OBJECT CONTAIN INFORMATION ABOUT COMPANY, USER & USER ORDER
 
 
+var keepLoaderUntilPageLoad   =  true;
+
+
 // DATA OBJECT rest_orders array containing following Order Object
 
 // dataObject.rests_orders
@@ -53,10 +56,8 @@ var tempDiscountFromCompanyCal = 0; // TEMPORARY VARIABLE FOR COMPANY COMPENSATI
 $(document).ready(function() {
 
 
-    addLoading();
-
-
     dataObject = JSON.parse(localStorage.getItem("data_object_en"));
+
 
 
     // INITIALIZING ORDER DETAIL POPUP
@@ -110,10 +111,14 @@ function callBackGetCategoriesWithItems(url,response) {
         for(var x=0;x<allCategoriesWithItemsResp.length;x++)
         {
 
-            categorySideMenu += '<li><a href="#">'+allCategoriesWithItemsResp[x].name_en+'</a></li>';
+            categorySideMenu += '<li onclick="openTabCategories('+x+')" ><a href="#">'+allCategoriesWithItemsResp[x].name_en+'</a></li>';
 
-            str +=  '<li>'+
-                '<a href="#" class="opener">'+
+            str +=  '';
+
+            str += '<li class="accordin-header active" id="acc-'+x+'">';
+
+
+            str += '<a href="#" class="opener">'+
                 '<h3 class="light">'+allCategoriesWithItemsResp[x].name_en+'</h3>'+
                 '</a>';
 
@@ -160,16 +165,80 @@ function callBackGetCategoriesWithItems(url,response) {
 
         initAccordion();
 
+
+
+        foodCartData = dataObject.rests_orders[selectedRestIndex].foodCartData;
+
+
+        if (foodCartData == undefined || foodCartData == "" || foodCartData == null){
+
+
+            foodCartData = null;
+
+
+        }
+        else {
+
+            generateTotalUpdateFoodCart();
+            updateCartElements();
+        }
+
+
+        setTimeout(function(){
+
+            keepLoaderUntilPageLoad = false;
+            hideLoading();
+
+
+        },500);
+
     }
     catch (exp)
     {
 
 
         errorHandlerServerResponse(url,"parsing error call back");
-        hideLoading();
+
+        setTimeout(function(){
+
+            keepLoaderUntilPageLoad = false;
+            hideLoading();
+
+
+        },500);
 
 
     }
+
+}
+
+
+function openTabCategories(index) {
+
+    var id = '#acc-'+index;
+
+    $(id).addClass('active');
+
+    initAccordion();
+
+
+    var autoScroll = false;
+    var scrollTop = 0;
+    var scrollTopDiff = 0;
+
+    var container = $('#scrollable3');
+    var scrollTo = $(id);
+
+    setTimeout(function(){
+
+        // Or you can animate the scrolling:
+        container.animate({
+
+            scrollTop: ((scrollTo.offset().top - container.offset().top + container.scrollTop() - 20 ))
+
+        },400)
+
+    }, 300);
 
 }
 
@@ -264,7 +333,7 @@ function onItemSelectedCallBack(url,response)
 
                             temp += '<li onclick="onOneTypeExtraSubItemSelected(' + x + ',' + y + ',' + oneTypeSubItems.length + ',this)"> ' +
                                 '<label class="control control--radio"> <div class="chek-box-holder">' +
-                                '<input type="radio" name="radio" id="radio-id-' + x + y + '" /> ' +
+                                '<input type="radio" class="radio-one-type-'+x+'" name="radio-' + x + y + '" id="radio-id-' + x + y + '" /> ' +
                                 '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_en + '  (' + extras.extra_with_subitems[x].subitems[y].price + ') </p> </label> </li>';
 
                         }
@@ -272,7 +341,7 @@ function onItemSelectedCallBack(url,response)
 
                             temp += '<li onclick="onOneTypeExtraSubItemSelected(' + x + ',' + y + ',' + oneTypeSubItems.length + ',this)"> ' +
                                 '<label class="control control--radio"> <div class="chek-box-holder">' +
-                                '<input type="radio" name="radio" id="radio-id-' + x + y + '" /> ' +
+                                '<input type="radio" class="radio-one-type-'+x+'" name="radio-' + x + y + '" id="radio-id-' + x + y + '" /> ' +
                                 '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_en + ' </p> </label> </li>';
 
 
@@ -295,7 +364,7 @@ function onItemSelectedCallBack(url,response)
 
                             temp += '<li onclick="onOneTypeExtraSubItemSelected(' + x + ',' + y + ',' + oneTypeSubItems.length + ',this)"> ' +
                                 '<label class="control control--radio"> <div class="chek-box-holder">' +
-                                '<input type="radio" name="radio" id="radio-id-' + x + y + '"  /> ' +
+                                '<input type="radio" class="radio-one-type-'+x+'" name="radio' + x + y + '"  id="radio-id-' + x + y + '"  /> ' +
                                 '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_en + '  (' + extras.extra_with_subitems[x].subitems[y].price + ') </p> </label> </li>';
 
 
@@ -303,7 +372,7 @@ function onItemSelectedCallBack(url,response)
                         else {
                             temp += '<li onclick="onOneTypeExtraSubItemSelected(' + x + ',' + y + ',' + oneTypeSubItems.length + ',this)"> ' +
                                 '<label class="control control--radio"> <div class="chek-box-holder">' +
-                                '<input type="radio" name="radio" id="radio-id-' + x + y + '"  /> ' +
+                                '<input type="radio" class="radio-one-type-'+x+'" name="radio' + x + y + '"  id="radio-id-' + x + y + '"  /> ' +
                                 '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_en + ' </p> </label> </li>';
 
                         }
@@ -317,15 +386,15 @@ function onItemSelectedCallBack(url,response)
                 minx_holder.push(minX);
                 miny_holder.push(minY);
 
-                oneTypeStr += '<h3>' + extras.extra_with_subitems[x].name_en + '</h3>' +
+                oneTypeStr +=
+
+                    '<div class="holder">' +'<div class="heading-holder"><h3 class="pull-left">' + extras.extra_with_subitems[x].name_en + '</h3><span class="error pull-right"  id="errorOneType-' + x +'"></span></div>' +
                     '<div class="holder">' +
                     '<ul class="control-group">';
 
                 oneTypeStr += temp;
 
                 oneTypeStr += '</div></ul>';
-                oneTypeStr += '<span class="error" id="errorOneType"></span>';
-
 
                 if (minSubItemName == "") {
                     // CREATE SUB ITEM DEFAULT OBJECT AND PUSH IN ONE TYPE ARRAY EMPTY AS DEFAULT
@@ -476,8 +545,14 @@ function onItemSelectedCallBack(url,response)
 function onOneTypeExtraSubItemSelected(extraIndex, subItemIndex, oneTypeIndex , e) {
 
 
+    $('.radio-one-type-'+extraIndex).prop('checked', false);
+    $('#radio-id-'+extraIndex+subItemIndex).prop('checked', true);
+
+
+
+
     // REMOVE ERROR MESSAGES ON SELECTION
-    $('#errorOneType').html("");
+    $('#errorOneType-'+extraIndex).html("");
 
     // SUB ITEM OBJECT
 
@@ -658,25 +733,10 @@ function addUserOrder()
         {
 
             // IF ONE TYPE SUB ITEM NULL
-            if(oneTypeSubItems[x][key] == null)
+            if(oneTypeSubItems[x][key] == null || oneTypeSubItems[x][key] == "" )
             {
 
-                $('#errorOneType').html("please select one!");
-
-                setTimeout(function(){
-
-                    var container = $('.baron__scroller'),
-                        scrollTo = $('#errorOneType');
-
-                    // Or you can animate the scrolling:
-                    container.animate({
-
-                        scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
-
-                    },500)
-
-                }, 300);
-
+                $('#errorOneType-'+x).html("please select one!");
 
                 return;
             }
@@ -852,7 +912,7 @@ function generateTotalUpdateFoodCart()
 
             for (var key in order.multiItemsOneType[y])
             {
-                if(order.multiItemsOneType[y][key] != null)
+                if(order.multiItemsOneType[y][key] != null && order.multiItemsOneType[y][key] != "")
                 {
                     if(convertFloat(order.multiItemsOneType[y][key].subItemPrice) != 0)
                     {
@@ -924,7 +984,7 @@ function updateCartElements()
         for (var x = 0; x < foodCartData.length; x++)
         {
 
-            countItems = countItems +  foodCartData[x].qty;
+            countItems = countItems +  parseInt(foodCartData[x].qty);
 
 
             str +=  '<div class="order-item"> ' +
@@ -933,10 +993,10 @@ function updateCartElements()
                 '</div> ' +
                 '<div class="col-xs-10"> ' +
                 '<div class="row no-gutters">' +
-                '<div class="col-xs-9">'+
+                '<div class="col-xs-8">'+
                 '<p class="f black">' + foodCartData[x].name + '</p>'+
                 '</div>'+
-                '<div class="col-xs-3">'+
+                '<div class="col-xs-4">'+
                 '<p class="f black amount">' + foodCartData[x].price  + ' NIS</p>'+
                 '</div>'+
                 '</div>'+
@@ -1027,6 +1087,22 @@ function updateCartElements()
 
         $('.col-second').css("visibility","hidden");
         $('.col-one').show();
+
+
+        $('#total_paid').html("0  NIS");
+
+
+        $('#cc_parent').hide();
+
+
+        $('#company_contribution').html("0 NIS");
+
+
+        $('#st_parent').hide();
+
+
+        $('#actual_total').html("0 NIS");
+
 
     }
 

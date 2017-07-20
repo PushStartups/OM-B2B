@@ -33,7 +33,7 @@ function initAccordion() {
 			opener:'.opener',
 			slider:'.slide',
 			animSpeed: 300,
-			collapsible:true,
+			collapsible:false,
 			event:'click'
 		},opt);
 
@@ -49,13 +49,18 @@ function initAccordion() {
 				opener.bind(options.event, function(e){
 					if(!slider.is(':animated')) {
 						if(item.hasClass(options.activeClass)) {
+
 							if(options.collapsible) {
-								slider.slideUp(options.animSpeed, function(){
+
+									slider.slideUp(options.animSpeed, function(){
 									hideSlide(slider);
 									item.removeClass(options.activeClass);
-								});
+
+									});
 							}
-						} else {
+
+						}
+						else {
 							// show active
 							var levelItems = item.siblings('.'+options.activeClass);
 							var sliderElements = levelItems.find(options.slider);

@@ -107,6 +107,28 @@
 
     }
 
+    document.onreadystatechange = function () {
+
+        var state = document.readyState;
+
+        if (state == 'interactive') {
+
+
+            addLoading();
+
+        }
+        else if (state == 'complete') {
+
+
+            setTimeout(function(){
+
+                hideLoading();
+
+            },100);
+
+        }
+    }
+
 
 </script>
 
@@ -122,15 +144,28 @@
         <div id="header" class="orang_gradient_ltr">
             <div class="container">
                 <div class="row">
-                    <div class="col-xs-4 pull-left">
+                    <div class="col-xs-5 pull-left">
+                        <!--<div class="logo">-->
+                            <!--<a href="#">-->
+                                <!--<div class="logo-img">-->
+                                    <!--<img src="/en/images/logo.png" alt="images description">-->
+                                <!--</div>-->
+                                <!--<h2 class="f white light"> CHOOSE YOUR RESTAURANT <p class="comment f white">Choose your restaurant</p></h2>-->
+                            <!--</a>-->
+                        <!--</div>-->
+
                         <div class="logo">
                             <a href="#">
                                 <div class="logo-img">
                                     <img src="/en/images/logo.png" alt="images description">
                                 </div>
-                                <h2 class="f white light"> CHOOSE YOUR RESTAURANT <p class="comment f white">Choose your restaurant</p></h2>
+                                <h2 class="f white light"> CHOOSE YOUR RESTAURANT </h2>
                             </a>
+                            <ul class="breadcrumbs">
+                                <li><p class="comment f white">Choose your restaurant</p></li>
+                            </ul>
                         </div>
+
                     </div>
                     <div class="col-xs-4 pull-right">
                         <nav id="nav">
@@ -172,7 +207,7 @@
                         <aside id="sidebar">
 
                             <ul class="nav nav-tabs md-pills pills-secondary flex-column" role="tablist">
-                                <li class="nav-item active">
+                                <li class="nav-item active" id="rest-list-active">
                                     <a class="nav-link view-link" data-toggle="tab" href="#panel41" role="tab"><h3>View all restaurant</h3></a>
                                     <div class="list-holder">
                                         <h3 class="view-link f black"></h3>
@@ -204,7 +239,7 @@
                                                 <div class="list-item slide" style="display: none">
 
                                                     <div class="baron">
-                                                        <div id="scrollable-item" class="baron__scroller">
+                                                        <div id="scrollable-item2" class="baron__scroller">
                                                             <ul id="kashruts">
                                                                 <!--<li>-->
                                                                 <!--<label class="control control&#45;&#45;checkbox">-->
@@ -229,7 +264,7 @@
 
                                 <!--PAST ORDERS TAB-->
 
-                                <li class="nav-item">
+                                <li class="nav-item" id="past-list-active">
                                     <a onclick="displayPastOrdersRequest()" class="nav-link view" data-toggle="tab" href="#panel42" role="tab"><h3>View past orders</h3></a>
                                     <div class="list-holder">
                                         <h3 class="view-link f black"></h3>
@@ -1093,7 +1128,14 @@ ERROR DISPLAY POPUP
         $("#po-detail-popup").fadeOut();
     })
 
+
+
+
 </script>
+
+
+
+
 
 </body>
 </html>

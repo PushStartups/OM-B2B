@@ -8,10 +8,12 @@ var tempDiscountFromCompanyCal = 0;
 
 var user_cards  = null;
 
+
+var keepLoaderUntilPageLoad   =  true;
+
+
 $(document).ready(function() {
 
-
-    addLoading();
 
     dataObject = JSON.parse(localStorage.getItem("data_object_en"));
 
@@ -45,6 +47,10 @@ $(document).ready(function() {
     $('#name').val(dataObject.user.name);
 
 
+    $('#card-message').html('Payment '+dataObject.total_paid+' NIS Card No.');
+
+    $('#cash-message').html('Payment '+dataObject.total_paid+' NIS with Cash');
+
     commonAjaxCall("/restapi/index.php/get_all_cards_info", {"user_email": dataObject.user.email}, user_cards_callback);
 
 });
@@ -53,8 +59,6 @@ $(document).ready(function() {
 
 function user_cards_callback(url,response)
 {
-
-    addLoading();
 
     try {
         var resp = response;
@@ -88,8 +92,11 @@ function user_cards_callback(url,response)
                 str += '<a onclick="cardSelected(' + x + ')" class="dropdown-item" href="#">' + resp[x].card_mask + '</a>';
             }
 
+
             $('#choose_card').html(resp[(resp.length-1)].card_mask);
             $("#cards_list").html(str);
+
+            dataObject.selectedCardId = resp[x].id;
 
             $('#card-cb').prop('checked', true);
             $('#cash-cb').prop('checked', false);
@@ -98,13 +105,27 @@ function user_cards_callback(url,response)
 
         updateCartElements();
 
+        setTimeout(function(){
+
+            keepLoaderUntilPageLoad = false;
+            hideLoading();
+
+
+        },500);
+
     }
     catch (exp)
     {
 
 
         errorHandlerServerResponse(url,"parsing error call back");
-        hideLoading();
+        setTimeout(function(){
+
+            keepLoaderUntilPageLoad = false;
+            hideLoading();
+
+
+        },500);
 
 
     }
@@ -136,7 +157,7 @@ function updateCartElements()
         for (var x = 0; x < foodCartData.length; x++)
         {
 
-            countItems = countItems +  foodCartData[x].qty;
+            countItems = countItems +  parseInt(foodCartData[x].qty);
 
 
             str +=  '<div class="order-item"> ' +
@@ -487,7 +508,10 @@ function processOrderCallBack(url, response)
 
     try {
 
-        alert(response);
+        $('#order_complete_message').html( dataObject.user.name+' '+dataObject.company.company_name +' We are on the way estimated arrival '+ dataObject.company.delivery_time);
+
+         $(".txt-block").show();
+         $(".order-info").hide();
 
     }
     catch (exp)

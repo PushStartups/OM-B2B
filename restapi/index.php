@@ -3,6 +3,7 @@
 require      'vendor/autoload.php';
 require      'PHPMailer/PHPMailerAutoload.php';
 require_once 'inc/initDb.php';
+require_once 'functions.php';
 
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
@@ -457,7 +458,7 @@ $app->post('/get_all_past_orders', function ($request, $response, $args)
         if($filter == "last_week") {
 
 
-            $results = DB::query(" SELECT * FROM b2b_orders WHERE date BETWEEN CURDATE()-INTERVAL 1 WEEK AND CURDATE() AND user_id = $user_id AND order_status <> 'pending'");
+            $results = DB::query(" SELECT * FROM b2b_orders WHERE date > DATE_SUB( NOW( ) , INTERVAL 1 WEEK )  AND user_id = $user_id AND order_status <> 'pending'");
 
         }
         else{
@@ -532,7 +533,7 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
 
         $user_id = $request->getParam('user_id');
 
-        $results  =  DB::query("select * from b2b_orders where user_id = $user_id AND order_status = 'pending' ");
+        $results  =  DB::query("select * from b2b_orders where user_id = '$user_id' AND order_status = 'pending' ");
 
 
         $ctn = 0;
@@ -973,7 +974,7 @@ $app->post('/stripe_payment_request', function ($request, $response, $args) {
         if (DB::count() == 0) {
 
 
-             // ERROR B2B USER NOT EXISTS
+            // ERROR B2B USER NOT EXISTS
 
             $response =  $response->withStatus(500);
             $response =  $response->withHeader('Content-Type', 'text/html');
@@ -1164,9 +1165,30 @@ function  stripePaymentRequest($amount, $user_id, $email ,$creditCardNo, $expDat
         }
         else{
 
+            if((string) $xml->response->message[0] == "Card id was not found.")
+            {
+                $bug = "Card Invalid";
+            }
+            else if((string) $xml->response->message[0] == "Incorrect control number.")
+            {
+                $bug =  "Card Number Is Invalid";
+            }
+            else if((string) $xml->response->message[0] == "Incorrect CVV/ID.")
+            {
+                $bug =  "CVV is invalid";
+            }
+
+            else if((string) $xml->response->message[0] == "An XML field or an INT_IN parameter is too short/ long.")
+            {
+                $bug =  "Expiration Date or Card Number is invalid";
+            }
+            else{
+                $bug = "Unknown Error occured, Please try again!";
+            }
+
             $rest = [
 
-                "response" =>  (string) $xml->response->message[0]
+                "response" =>  $bug
 
             ];
 
@@ -1385,6 +1407,104 @@ $app->post('/cancel_order', function ($request, $response, $args)
 {
     DB::useDB(B2B_DB);
     $order_id = $request->getParam('order_id');
+
+
+
+
+    DB::useDB(B2B_DB);
+    $rest_object = DB::queryFirstRow("select * from b2b_orders  WHERE  id = '$order_id'");
+    $day = date('l');
+
+
+    DB::useDB(B2B_DB);
+    $delivery_timing = DB::queryFirstRow("select delivery_timing from company_timing where company_id =  '".$rest_object['company_id']."' and week_en = '$day'");
+
+    //CHECK THE CANCEL ORDER TIME IS WITHIN 30 MINUTES
+    date_default_timezone_set("Asia/Jerusalem");
+    $to_time = strtotime(date('H:i:s'));
+    $from_time = strtotime($delivery_timing['delivery_timing'].":00");
+
+    $delivery_time =  intval(abs($to_time - $from_time) / 60);
+
+
+    // CANCEL THE ORDER
+    if($delivery_time >= 30) {
+
+        // CREATE A NEW ORDER AGAINST USER
+        DB::useDB(B2B_DB);
+        DB::query("UPDATE b2b_orders SET order_status = 'cancelled'  WHERE  id = '$order_id'");
+
+
+
+
+        $todayDate = Date("d/m/Y");
+        $today = date("Y-m-d");
+
+
+        $user_order = json_decode($rest_object['rest_order_object']);
+
+
+        $company_contribution = $user_order->company_contribution;
+
+
+        DB::useDB(B2B_DB);
+        $user = DB::queryFirstRow("select * from b2b_users  WHERE  id = '" . $rest_object['user_id'] . "'");
+        $remaining_discount = $company_contribution + $user['discount'];
+
+
+        //UPDATE THE DISCOUNT OF USE AFTER CANCLLING ORDER
+        DB::useDB(B2B_DB);
+        DB::query("UPDATE b2b_users SET discount = '$remaining_discount'  WHERE  id = '".$user['id']."'");
+
+
+        // EMAIL ORDER SUMMERY
+
+        //email_for_kitchen_cancel($user_order, $orderId, $todayDate);
+        //ob_end_clean();
+
+
+        // EMAIL FOR LEDGER
+
+        //email_for_mark2($user_order, $orderId, $todayDate);
+        //ob_end_clean();
+
+
+        // SEND ADMIN COPY EMAIL ORDER SUMMARY
+
+        //email_order_summary_hebrew_admin($user_order, $orderId, $todayDate);
+        // ob_end_clean();
+
+
+        // CLIENT EMAIL
+        // EMAIL ORDER SUMMARY
+
+
+        if ($user_order->language == "en") {
+
+
+            email_order_summary_english_cancel($user_order, $order_id, $todayDate, $remaining_discount);
+
+        } else {
+
+            //  email_order_summary_hebrew($user_order, $orderId, $todayDate);
+
+        }
+
+        ob_end_clean();
+
+        // RESPONSE RETURN TO REST API CALL
+        $response = $response->withStatus(202);
+        $response = $response->withJson('true');
+        return $response;
+    }
+    // USER CANCEL THE ORDER AFTER THE 30 MINUTES OF ORDER TIME
+    else{
+
+        // RESPONSE RETURN TO REST API CALL
+        $response = $response->withStatus(202);
+        $response = $response->withJson('false');
+        return $response;
+    }
 
 });
 
@@ -1976,7 +2096,7 @@ function email_order_summary_english($user_order,$orderId,$todayDate)
     $mailbody .= '<table style="width: 100%; color: white; padding: 30px" >';
     $mailbody .= '<tr style="font-size: 30px; padding: 10px" >';
     $mailbody .= '<td > <img style="padding-top: 10px; width: 20px" src="http://dev.orderapp.com/restapi/images/bag.png" > Order Summary </td>';
-    $mailbody .= '<td style="text-align: right">'.$user_order['total'].' NIS</td>';
+    $mailbody .= '<td style="text-align: right">'.$user_order['total_paid'].' NIS</td>';
     $mailbody .= '</tr>';
     $mailbody .= '<tr style="font-size: 12px; padding: 10px" >';
     $mailbody .= '<td> '.$todayDate.' &nbsp; Order ID # '.$orderId.'</td>';
@@ -2029,7 +2149,7 @@ function email_order_summary_english($user_order,$orderId,$todayDate)
     {
         $mailbody .= '<tr style="font-size: 18px;  font-weight: bold" >';
         $mailbody .= '<td style="padding: 5px 0" > Total </td>';
-        $mailbody .= '<td style="text-align: right; white-space: nowrap"> <span style="color: #FF864C;" >'.$user_order['total'].' NIS</span></td>';
+        $mailbody .= '<td style="text-align: right; white-space: nowrap"> <span style="color: #FF864C;" >'.$user_order['total_paid'].' NIS</span></td>';
         $mailbody .= '</tr>';
 
 
@@ -2089,7 +2209,7 @@ function email_order_summary_english($user_order,$orderId,$todayDate)
     $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080" >';
     $mailbody .= '<td style="padding: 10px 0; text-align: center" > <img style=" height: 24px" src="http://dev.orderapp.com/restapi/images/ic_location.png" ></td>';
 
-    $mailbody .= '<td style="text-align: left; white-space: nowrap"> Deliver At : '.$user_order['comapny']['company_address'].'</td>';
+    $mailbody .= '<td style="text-align: left; white-space: nowrap"> Deliver At : '.$user_order['company']['company_address'].'</td>';
 
 
 
@@ -2138,7 +2258,7 @@ function email_order_summary_english($user_order,$orderId,$todayDate)
 
 //Send HTML or Plain Text email
     $mail->isHTML(false);
-    $mail->Subject = 'Biz '.$user_order['restaurantTitle'].' Order# '.$orderId;
+    $mail->Subject = 'Biz '.$user_order['rests_orders'][0]['selectedRestaurant']['name_en'].' Order# '.$orderId;
     $mail->Body = $mailbody;
     $mail->AltBody = "OrderApp";
 
@@ -2369,7 +2489,7 @@ function email_order_summary_hebrew_admin($user_order,$orderId,$todayDate)
     $mailbody  .= '<div style="background-image: url(http://dev.orderapp.com/restapi/images/header.png); background-repeat: no-repeat; background-position: center; background-size: cover;" >';
     $mailbody  .= '<table style="width: 100%; color: white; padding: 30px">';
     $mailbody  .= '<tr style="font-size: 30px; padding: 10px">';
-    $mailbody  .= '<td dir="rtl" style="text-align: left">'.$user_order['total'].' ש"ח'.'</td>';
+    $mailbody  .= '<td dir="rtl" style="text-align: left">'.$user_order['total_paid'].' ש"ח'.'</td>';
     $mailbody  .= '<td style="text-align: right;" >  סיכום הזמנה <img style="padding-top: 10px; width: 20px" src="http://dev.orderapp.com/restapi/images/bag.png" ></td>';
     $mailbody  .= '</tr>';
     $mailbody  .= '<tr style="font-size: 12px; padding: 10px" >';
@@ -2434,7 +2554,7 @@ function email_order_summary_hebrew_admin($user_order,$orderId,$todayDate)
     {
 
         $mailbody .= '<tr style="font-size: 18px;  font-weight: bold">';
-        $mailbody .= '<td style=" white-space: nowrap"> <span style="color: #FF864C;" dir="rtl">'.$user_order['total'].' ש"ח '.'</span></td>';
+        $mailbody .= '<td style=" white-space: nowrap"> <span style="color: #FF864C;" dir="rtl">'.$user_order['total_paid'].' ש"ח '.'</span></td>';
         $mailbody .= '<td style="padding: 5px 0; text-align: right; " > סה"כ </td>';
         $mailbody .= '</tr>';
 
@@ -2699,7 +2819,6 @@ function email_for_mark2($user_order,$orderId,$todayDate)
 }
 
 
-
 // ADMIN EMAIL
 // EMAIL ORDER SUMMARY HEBREW VERSION FOR ADMIN
 function email_for_kitchen($user_order,$orderId,$todayDate)
@@ -2766,7 +2885,7 @@ function email_for_kitchen($user_order,$orderId,$todayDate)
     $mailbody .= '<br>';
 
 
-    $mailbody .= $user_order['total'].' : סה"כ';
+    $mailbody .= $user_order['total_paid'].' : סה"כ';
     $mailbody .= '<br>';
     $mailbody .= '<br>';
 
@@ -2817,3 +2936,5 @@ function email_for_kitchen($user_order,$orderId,$todayDate)
     }
 
 }
+
+

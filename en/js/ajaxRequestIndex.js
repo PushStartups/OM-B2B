@@ -1,5 +1,7 @@
 var dataObject;   // DATA OBJECT CONTAIN INFORMATION ABOUT COMPANY, USER & USER ORDER
 
+var keepLoaderUntilPageLoad = true;
+
 
 $(document).ready(function() {
 

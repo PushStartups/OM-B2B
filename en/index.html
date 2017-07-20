@@ -89,6 +89,32 @@
         location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
     }
 
+    document.onreadystatechange = function () {
+
+        var state = document.readyState;
+
+        if (state == 'interactive') {
+
+
+            addLoading();
+
+        }
+        else if (state == 'complete') {
+
+
+            setTimeout(function(){
+
+
+                keepLoaderUntilPageLoad = false;
+                hideLoading();
+
+
+            },10);
+
+        }
+    }
+
+
 </script>
 
 
@@ -365,6 +391,7 @@
         // Your code here
 
     });
+
 
 
 
