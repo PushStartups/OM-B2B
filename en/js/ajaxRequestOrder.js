@@ -388,7 +388,7 @@ function onItemSelectedCallBack(url,response)
 
                 oneTypeStr +=
 
-                    '<div class="holder">' +'<div class="heading-holder"><h3 class="pull-left">' + extras.extra_with_subitems[x].name_en + '</h3><span class="error pull-right"  id="errorOneType-' + x +'"></span></div>' +
+                    '<div class="holder">' +'<div class="heading-holder"><h3 class="pull-left">' + extras.extra_with_subitems[x].name_en + '</h3><span  style="padding-left: 20px" class="error pull-left"  id="errorOneType-' + x +'"></span></div>' +
                     '<div class="holder">' +
                     '<ul class="control-group">';
 
@@ -443,7 +443,7 @@ function onItemSelectedCallBack(url,response)
                     var multiTypeItemSet = [];
 
 
-                    multipleTypeStr += '<div class="heading-holder"><h3 class="pull-left">' + extras.extra_with_subitems[x].name_en + '</h3><span class="error pull-right"  id="errorMultipleType-' + x +'"></span></div>' +
+                    multipleTypeStr += '<div class="heading-holder"><h3 class="pull-left">' + extras.extra_with_subitems[x].name_en + '</h3><span class="error pull-left" style="padding-left: 20px"  id="errorMultipleType-' + x +'"></span></div>' +
                         '<div class="holder">' +
                         '<ul class="control-group">';
 

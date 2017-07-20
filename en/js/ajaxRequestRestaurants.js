@@ -843,7 +843,7 @@ function responsePendingOrders(url, response) {
 
 
                 '<div class="footer-box">'+
-                '<button class="f white btn-order" type="button"><img src="/en/images/plus.png"> Add an Order</button>'+
+                '<button class="f white btn-order" onclick="addOrder('+x+')" type="button"><img src="/en/images/plus.png"> Add an Order</button>'+
                 '<a class="btn-link" href="#">'+
                 '<p  id="cancel-order-open-'+x+'" class="cancel-order-open">Cancel Order</p>'+
                 '</a>'+
@@ -909,3 +909,60 @@ function onOrderNowClicked(index)
 
 }
 
+
+function requestCancelOrder()
+{
+    var current_index = parseInt($(".cancle-order").attr('current-index'));
+
+    var order_id = pending_orders_object[current_index].id;
+
+    commonAjaxCall("/restapi/index.php/cancel_order", {"order_id": order_id}, cancelOrderResponseRequest);
+
+}
+
+
+function cancelOrderResponseRequest(url,response) {
+
+    try {
+
+       if(response == "true")
+       {
+
+           $('.cancle-order').hide();
+
+           past_orders_object = null;
+            pending_orders_object = null;
+            displayPendingOrdersRequest();
+
+       }
+       else {
+
+           $('#message-cancel').css("color","red");
+
+       }
+
+    }
+    catch (exp)
+    {
+
+        errorHandlerServerResponse(url,"parsing error call back");
+
+    }
+
+}
+function addOrder(index) {
+
+
+    for(var x=0;x<listOfRestaurants.length;x++)
+    {
+
+        if(listOfRestaurants[x].id == pending_orders_object[index].rest.id)
+        {
+
+            onOrderNowClicked(x);
+            break;
+        }
+
+    }
+
+}
