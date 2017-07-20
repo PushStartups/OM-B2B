@@ -773,3 +773,8 @@
 }
 
 
+@media screen and ( max-height: 849px ){
+    .cart-holder .wrap{
+        bottom: 17px;
+    }
+}
