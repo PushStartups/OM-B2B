@@ -1,6 +1,12 @@
 <?php
 include "header.php";
 ?>
+
+<style>
+    .csv_hide{
+        display: none;
+    }
+</style>
     <!-- MAIN PANEL -->
     <div id="main" role="main">
 
@@ -73,6 +79,20 @@ include "header.php";
                 <div class="row">
                     <!-- NEW WIDGET START -->
                     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="row" id="order_detail">
+                            <div class="col-xs-4"></div>
+                            <div class="col-xs-4" style="margin: 15px;">
+                                <a href="b2bCompanyOrderDetail.csv" download="b2bCompanyOrderDetail.csv"  class="btn-lg btn-primary m-t-10" > Print CSV Report</a>
+                            </div>
+                            <div class="col-xs-4"></div>
+                        </div>
+                        <div class="row csv_hide" id="order_detail_search">
+                            <div class="col-xs-4"></div>
+                            <div class="col-xs-4" style="margin: 15px;">
+                                <a href="ajax/b2bCompanyOrderDetailSearch.csv" download="b2bCompanyOrderDetailSearch.csv"  class="btn-lg btn-primary m-t-10" > Print CSV Report</a>
+                            </div>
+                            <div class="col-xs-4"></div>
+                        </div>
                         <!-- Widget ID (each widget will need unique ID)-->
                         <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
 
@@ -81,12 +101,7 @@ include "header.php";
                                 <h2><?=$_SESSION['company_name']?> Company Order Detail </h2>
                             </header>
 
-                            <div align="center">
-                                <br>
-                                <a href="b2bCompanyOrderDetail.csv" download="b2bCompanyOrderDetail.csv"  class="btn-lg btn-primary m-t-10" > Print CSV Report</a>
-                                <br>
-                                <br>
-                            </div>
+
                             <!-- widget div-->
                             <div>
                                 <!-- widget edit box -->
@@ -100,7 +115,7 @@ include "header.php";
                                     <?php  $file = fopen("b2bCompanyOrderDetail.csv","w");
                                     $list = array
                                     (
-                                        "Order ID,User Email,Company,Restaurant Name,Total Paid,SubTotal,Today's Remaining Balance,Company Contribution,Payment,Order Status,Transaction ID,Date Completed"
+                                        "Order ID,User Email,Company,Restaurant Name,Total Paid,SubTotal,Discount,Company Contribution,Payment,Order Status,Transaction ID,Date Completed"
                                     );
                                     foreach ($list as $line)
                                     {
@@ -121,7 +136,7 @@ include "header.php";
                                             <th data-hide="phone, tablet">Restaurant Name</th>
                                             <th data-hide="phone, tablet">Total Paid</th>
                                             <th data-hide="phone, tablet">SubTotal</th>
-                                            <th data-hide="phone,tablet">Todays's Remaining Balance</th>
+                                            <th data-hide="phone,tablet">Discount</th>
 
                                             <th data-hide="phone,tablet">Company Contribution</th>
                                             <th data-hide="phone,tablet">Payment</th>
@@ -144,11 +159,11 @@ include "header.php";
                                         $i = 1;
                                         $totall = 0; $actual_total = 0 ; $discount = 0;
 
-                                        DB::useDB('orderapp_b2b');
+                                        DB::useDB('orderapp_b2b_wui');
                                         $orders = DB::query("select o.*, c.name as company_name, u.smooch_id as email from b2b_orders as o inner join company as c on o.company_id = c.id  inner join b2b_users as u on o.user_id = u.id  where o.company_id = '".$_SESSION['company_id']."' order by o.id DESC");
                                         foreach ($orders as $order)
                                         {
-                                            //$refundAmount =   getTotalRefundAmountB2B($order['id']);
+                                            $refundAmount =   getTotalRefundAmountB2B($order['id']);
                                             DB::useDB('orderapp_restaurants_b2b_wui');
                                             $rest = DB::queryFirstRow("select * from restaurants where id = '".$order['restaurant_id']."' ");
                                             $restaurant_name = $rest['name_en'];
@@ -175,7 +190,6 @@ include "header.php";
 
                                                 <td><?=$order['discount']." NIS"?></td>
                                                 <?php  $arr[6] = $order['discount'];   $discount  = $discount + $order['discount']; ?>
-
 
                                                 <?php if(empty($order['company_contribution'])) { $order['company_contribution'] = "N/A"; }?>
                                                 <td><?=$order['company_contribution']?></td>
@@ -204,7 +218,7 @@ include "header.php";
 
                                         $list = array
                                         (
-                                            ",,Total :, $totall NIS, $actual_total NIS, $discount NIS  "
+                                            ",,,Total :, $totall NIS, $actual_total NIS, $discount NIS  "
                                         );
                                         foreach ($list as $line)
                                         {

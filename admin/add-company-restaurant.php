@@ -12,11 +12,11 @@ if(isset($_GET['companies_id']))
     //$restaurants = getRestaurantsOfSpecificCompany($companies_id);
 }
 
-DB::useDB('orderapp_b2b_wui');
+DB::useDB(B2B_DB);
 $r = DB::queryFirstRow("select * from company where id = '$companies_id'");
 $restaurant_limit = $r['limit_of_restaurants'];
 
-DB::useDB('orderapp_b2b_wui');
+DB::useDB(B2B_DB);
 $restaurants  = DB::query("select * from company_rest where company_id = '$companies_id'");
 $rest_count = DB::count();
 
@@ -94,7 +94,7 @@ else
                                                 <?php
 
 
-                                                DB::useDB('orderapp_b2b_wui');
+                                                DB::useDB(B2B_DB);
                                                 $rest_ids = DB::query("SELECT *  FROM company_rest WHERE company_id =  '$companies_id'");
 
 
@@ -102,7 +102,7 @@ else
                                                 foreach ($rest_ids as $r) {
                                                     $row[] = $r['rest_id'];
                                                 }
-                                                DB::useDB('orderapp_restaurants_b2b_wui');
+                                                DB::useDB(B2B_RESTAURANTS);
                                                 $qry1 = " select  * from  restaurants where id not in('" . implode("','", $row) . "') ";
 
                                                 $restaurant = db::query($qry1);
@@ -173,7 +173,7 @@ else
 
                                     foreach($restaurants as $restaurant)
                                     {
-                                        DB::useDB('orderapp_restaurants_b2b_wui');
+                                        DB::useDB(B2B_RESTAURANTS);
                                         $rest = DB::queryFirstRow("select * from restaurants where id = '".$restaurant['rest_id']."'");
                                         ?>
                                         <tr>

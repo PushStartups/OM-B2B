@@ -30,6 +30,7 @@ $('#company_id').bind('input', function() {
 function insert_b2b_orders_date(url)
 {
 
+
     var search_start_date                   =  $('#search_start_date').val();
     var search_end_date              =  $('#search_end_date').val();
     var hidden_email              =  $('#hidden_email').val();
@@ -83,6 +84,8 @@ function insert_b2b_orders_date(url)
         success:function(data)
         {
             hideLoading();
+            $('#order_detail').hide();
+            $('#order_detail_search').show();
             $("#target-content").html(data);
         }
     });

@@ -3,7 +3,7 @@ require_once '../inc/initDb.php';
 DB::query("set names utf8");
 
 
-DB::useDB('orderapp_b2b_wui');
+DB::useDB(B2B_DB);
 
 DB::insert('company', array(
     "name"              =>  $_POST['name'],
@@ -200,7 +200,7 @@ else
 
 
 
-DB::useDB('orderapp_b2b_wui');
+DB::useDB(B2B_DB);
 DB::insert('company_timing', array(
     "company_id"                    =>  $company_id,
     "week_en"                       =>  "Monday",
@@ -212,7 +212,7 @@ DB::insert('company_timing', array(
     "delivery_timing"               =>  $mon_delivery_time
 ));
 
-DB::useDB('orderapp_b2b_wui');
+DB::useDB(B2B_DB);
 DB::insert('company_timing', array(
     "company_id"                    =>  $company_id,
     "week_en"                       =>  "Tuesday",
@@ -224,7 +224,7 @@ DB::insert('company_timing', array(
     "delivery_timing"               =>  $tue_delivery_time
 
 ));
-DB::useDB('orderapp_b2b_wui');
+DB::useDB(B2B_DB);
 DB::insert('company_timing', array(
     "company_id"                    =>  $company_id,
     "week_en"                       =>  "Wednesday",
@@ -236,7 +236,7 @@ DB::insert('company_timing', array(
     "delivery_timing"               =>  $wed_delivery_time
 ));
 
-DB::useDB('orderapp_b2b_wui');
+DB::useDB(B2B_DB);
 DB::insert('company_timing', array(
     "company_id"                    =>  $company_id,
     "week_en"                       =>  "Thursday",
@@ -249,7 +249,7 @@ DB::insert('company_timing', array(
 ));
 
 
-DB::useDB('orderapp_b2b_wui');
+DB::useDB(B2B_DB);
 DB::insert('company_timing', array(
     "company_id"                    =>  $company_id,
     "week_en"                       =>  "Friday",
@@ -262,7 +262,7 @@ DB::insert('company_timing', array(
 ));
 
 
-DB::useDB('orderapp_b2b_wui');
+DB::useDB(B2B_DB);
 DB::insert('company_timing', array(
     "company_id"                    =>  $company_id,
     "week_en"                       =>  "Saturday",
@@ -275,7 +275,7 @@ DB::insert('company_timing', array(
 ));
 
 
-DB::useDB('orderapp_b2b_wui');
+DB::useDB(B2B_DB);
 DB::insert('company_timing', array(
     "company_id"                    =>  $company_id,
     "week_en"                       =>  "Sunday",

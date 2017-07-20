@@ -85,7 +85,7 @@ include "header.php";
 
                                         <tbody id="content">
                                         <?php
-                                        DB::useDB('orderapp_b2b_wui');
+                                        DB::useDB(B2B_DB);
                                         $users = DB::query("select * from b2b_users");
                                         foreach ($users as $user)
                                         {

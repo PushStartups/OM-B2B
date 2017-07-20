@@ -35,7 +35,7 @@ if(($_SESSION['search_end_date'] != "") && ($_SESSION['search_start_date'] != ""
 }
 
 
-DB::useDB('orderapp_b2b_wui');
+DB::useDB(B2B_DB);
 $query = "select o.*, c.name as company_name, u.smooch_id as email from b2b_orders as o inner join company as c on o.company_id = c.id  inner join b2b_users as u on o.user_id = u.id";
 
 $sql = $query;
@@ -60,7 +60,7 @@ foreach ($list as $line)
 foreach($result as $order) {
 
     $refundAmount = getTotalRefundAmountB2B($order['id']);
-    DB::useDB('orderapp_restaurants_b2b_wui');
+    DB::useDB(B2B_RESTAURANTS);
     $rest = DB::queryFirstRow("select * from restaurants where id = '".$order['restaurant_id']."' ");
     $restaurant_name = $rest['name_en'];
 

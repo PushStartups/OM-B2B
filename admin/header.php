@@ -5,7 +5,6 @@ require_once 'inc/functions.php';
 require_once 'inc/constants.php';
 checkAdminSession();
 DB::query("set names utf8");
-
 ?>
 
 <!DOCTYPE html>
