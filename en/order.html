@@ -89,6 +89,30 @@
 <script>
 
 
+    document.onreadystatechange = function () {
+
+        var state = document.readyState;
+
+        if (state == 'interactive') {
+
+
+            addLoading();
+
+        }
+        else if (state == 'complete') {
+
+
+            setTimeout(function(){
+
+                hideLoading();
+
+
+            },10);
+
+        }
+    }
+
+
     if (location.protocol != 'https:')
     {
         location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
@@ -121,14 +145,28 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xs-5 pull-left">
+                        <!--<div class="logo">-->
+                            <!--<a href="#">-->
+                                <!--<div class="logo-img">-->
+                                    <!--<img src="/en/images/logo.png" alt="images description">-->
+                                <!--</div>-->
+                                <!--<h2 class="f white light"> CHOOSE YOUR RESTAURANT <p class="comment f white"><span class="f white">Choose your restaurant</span> > Choose your menu</p></h2>-->
+                            <!--</a>-->
+                        <!--</div>-->
+
                         <div class="logo">
                             <a href="#">
                                 <div class="logo-img">
                                     <img src="/en/images/logo.png" alt="images description">
                                 </div>
-                                <h2 class="f white light"> CHOOSE YOUR RESTAURANT <p class="comment f white"><span class="f white">Choose your restaurant</span> > Choose your menu</p></h2>
+                                <h2 class="f white light"> CHOOSE YOUR RESTAURANT </h2>
                             </a>
+                            <ul class="breadcrumbs">
+                                <li><a onclick="backListener()" href="#"><p class="comment f white">Choose your restaurant</p></a></li>
+                                <li><p class="comment f white"> > Choose your menu</p></li>
+                            </ul>
                         </div>
+
                     </div>
                     <div class="col-xs-4 pull-right">
                         <nav id="nav">
@@ -148,7 +186,7 @@
                     </div>
                 </div>
             </div>
-            <a class="btn-back" href="#"><img src="/en/images/icon01.png"></a>
+            <a onclick="backListener()" class="btn-back" href="#"><img src="/en/images/icon01.png"></a>
         </div>
     </section>
     <section class="block">
@@ -544,7 +582,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="/en/js/jquery.accordion.js"></script>
+<script src="/en/js/jquery.accordion.custom.js"></script>
 <script src="/en/js/baron.js"></script>
 <script src="/en/js/commonAjaxCall.js"></script>
 <script src="/en/js/ajaxRequestOrder.js"></script>
@@ -584,6 +622,19 @@
         }
 
     });
+
+
+    function backListener() {
+
+        var company_name   =   dataObject.company.company_name;
+        company_name       =   company_name.replace(/\s/g, '');
+
+        localStorage.setItem("data_object_en", JSON.stringify(dataObject));
+
+
+        window.location.href = '/en/'+company_name+'/restaurants';
+    }
+
 
 
 </script>
