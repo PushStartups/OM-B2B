@@ -67,11 +67,11 @@ function initAccordion() {
 							item.addClass(options.activeClass);
 							showSlide(slider).hide().slideDown(options.animSpeed);
 
-							// collapse others
-							sliderElements.slideUp(options.animSpeed, function(){
-								levelItems.removeClass(options.activeClass);
-								hideSlide(sliderElements);
-							});
+							// // collapse others
+							// sliderElements.slideUp(options.animSpeed, function(){
+							// 	levelItems.removeClass(options.activeClass);
+							// 	hideSlide(sliderElements);
+							// });
 						}
 					}
 					e.preventDefault();

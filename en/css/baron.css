@@ -68,6 +68,7 @@
     right:4px;
     top:0;
 }
+#scrollable-item2,
 #scrollable-item{
     max-height:25vh;
 }
@@ -75,7 +76,7 @@
     max-height:60vh;
 }
 .baron__bar.add,
-.baron__bar.add1 {background: rgba(0, 0, 0, 0.3);}
+.baron__bar.add1 {background: rgba(204, 204, 204, 0.3);}
 #scrollable2 {
     overflow-y: scroll;
     max-height: 60vh !important;

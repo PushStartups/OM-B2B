@@ -54,10 +54,11 @@ function addLoading(){
 // HIDE LOADING ON AJAX CALLS
 function hideLoading(){
 
+    if(!keepLoaderUntilPageLoad) {
 
+        $("#Loader_bg").css("display", "none");
 
-    $("#Loader_bg").css("display" , "none");
-
+    }
 
 }
 

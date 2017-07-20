@@ -34,9 +34,7 @@ img.bg {
 
 }
 #wrapper{
-    overflow: hidden;
     position: relative;
-    height: 100%;
     /*background: url("../images/bg-body.png") no-repeat;*/
     /*background-size: 100% 100%;*/
 }
@@ -59,17 +57,17 @@ img.bg {
     padding-right: 0;
     padding-left: 0;
 }
+
 .logo{
     display: inline-block;
     vertical-align: top;
-    padding: 0 0 0 60px;
 }
 .logo .logo-img{
     width: 50px;
     height: 40px;
     margin:0 11px 0 0;
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: top;
 }
 .logo a{
     display:block;
@@ -85,20 +83,76 @@ img.bg {
     letter-spacing: 0.3px;
     margin: 0 !important;
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: top;
 }
-.logo a h2 .comment{
+.logo .comment{
     text-transform: none;
     letter-spacing: 0;
     margin: 0;
     font-size: 14px;
     line-height: 17px;
+    font-weight: 300;
 }
-.logo a h2 .comment span{
+.logo a .comment{
+    color: #fff;
     text-decoration: none;
     line-height: 17px;
     border-bottom: 1px solid #fff;
 }
+.breadcrumbs{
+    padding: 0;
+    margin: -11px 0 0 65px;
+    list-style: none;
+    letter-spacing:-5px;
+    overflow: hidden;
+}
+.breadcrumbs li{
+    display: inline-block;
+    vertical-align: middle;
+    letter-spacing:0;
+    padding: 0 4px 0 0;
+}
+
+/*.logo{*/
+    /*display: inline-block;*/
+    /*vertical-align: top;*/
+    /*padding: 0 0 0 20px;*/
+/*}*/
+/*.logo .logo-img{*/
+    /*width: 50px;*/
+    /*height: 40px;*/
+    /*margin:0 11px 0 0;*/
+    /*display: inline-block;*/
+    /*vertical-align: middle;*/
+/*}*/
+/*.logo a{*/
+    /*display:block;*/
+    /*height:100%;*/
+/*}*/
+/*.logo a img{*/
+    /*display:block;*/
+    /*width:100%;*/
+    /*height: auto;*/
+    /*margin:0 auto;*/
+/*}*/
+/*.logo a h2 {*/
+    /*letter-spacing: 0.3px;*/
+    /*margin: 0 !important;*/
+    /*display: inline-block;*/
+    /*vertical-align: middle;*/
+/*}*/
+/*.logo a h2 .comment{*/
+    /*text-transform: none;*/
+    /*letter-spacing: 0;*/
+    /*margin: 0;*/
+    /*font-size: 14px;*/
+    /*line-height: 17px;*/
+/*}*/
+/*.logo a h2 .comment span{*/
+    /*text-decoration: none;*/
+    /*line-height: 17px;*/
+    /*border-bottom: 1px solid #fff;*/
+/*}*/
 #nav{
     position:relative;
     z-index: 999;
@@ -167,9 +221,9 @@ img.bg {
 }
 #header  .container {
     background: none;
-    width: 80vw !important;
-    min-width: 1280px !important;
     padding: 0 !important;
+    width: 80vw !important;
+    min-width: 1470px !important;
 }
 .block .container {
     width: 80vw !important;
@@ -757,8 +811,13 @@ img.bg {
 }
 
 @media only screen and (max-width: 1599px){
+    #header  .container,
     .block .container{min-width: 1380px !important;}
 }
 @media only screen and (max-width: 1399px){
+    #header  .container,
     .block .container{min-width: 1240px !important;}
+}
+@media only screen and (max-width: 1299px){
+    .logo{padding: 0 0 0 60px;}
 }

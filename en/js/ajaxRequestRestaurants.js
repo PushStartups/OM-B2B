@@ -10,7 +10,6 @@ var listOfRestaurants = null;    // LIST OF ALL RESTAURANTS RECEIVED FROM SERVER
                                  // address_en,address_he,hechsher_en,hechsher_he,gallery,rest_lat,rest_lng,timings,today_timings,percentage_discount,}}
 
 
-
 var company_open_status;         // BUSINESS ORDERING IS OPEN OR CLOSED NOW
 
 
@@ -41,16 +40,22 @@ var db_tags  = null;               // CUISINE TAGS OF RESTAURNATS i.e MEAT, BURG
 var db_kashrut = null;             // kashrut OF RESTAURANTS i.e Mehardin
 
 
+var track  = null;
+
+
+var keepLoaderUntilPageLoad   =  true;
+
+
 // AFTER DOCUMENTED LOADED
 $(document).ready(function() {
-
-
-    addLoading();
 
 
     dataObject = JSON.parse(localStorage.getItem("data_object_en"));
 
     $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+dataObject.user.userDiscountFromCompany+" NIS</em>");
+
+
+    track = localStorage.getItem("order_on_way");
 
 
     commonAjaxCall("/restapi/index.php/get_db_tags_and_kashrut",{"company_id":dataObject.company.company_id}, responseDBAllTagsKashrut);
@@ -59,8 +64,6 @@ $(document).ready(function() {
 
 function responseDBAllTagsKashrut(url, response) {
 
-
-    addLoading();
 
     try {
 
@@ -124,7 +127,6 @@ function responseDBAllTagsKashrut(url, response) {
 
 function responseListOfRestaurants(url,response) {
 
-    addLoading();
 
     try {
 
@@ -226,7 +228,7 @@ function responseListOfRestaurants(url,response) {
                         '<img src="' + listOfRestaurants[x].logo + '" alt="images description">' +
                         '</div>' +
                         '<div class="txt">' +
-                        '<h1 class="light">' + listOfRestaurants[x].name_en + '</h1>' +
+                        '<h1 style="cursor: pointer" onclick="onOrderNowClicked('+x+')" class="light">' + listOfRestaurants[x].name_en + '</h1>' +
                         '<p><em class="f black">Kashrut</em> ' + kashrutString + ' </p>' +
                         '</div>' +
                         '</li>' +
@@ -314,23 +316,40 @@ function responseListOfRestaurants(url,response) {
         $('#rest-list').html(str);
 
 
+        if(track == "track")
+        {
+            $('#rest-list-active').removeClass("active");
+            $('#past-list-active').addClass("active");
+            $('#panel42').addClass("active");
+            $('#panel41').removeClass("active");
+
+
+            localStorage.setItem("order_on_way","");
+
+            commonAjaxCall("/restapi/index.php/get_all_past_orders", {"user_id": dataObject.user.user_id,"filter" : "last_week"}, responsePastOrders);
+
+        }
+
+
+        keepLoaderUntilPageLoad = false;
         hideLoading();
+
 
 
     }
     catch (exp)
     {
 
-        errorHandlerServerResponse(url,"parsing error call back");
+        keepLoaderUntilPageLoad = false;
         hideLoading();
+
+        errorHandlerServerResponse(url,"parsing error call back");
 
     }
 
 
 
-
 }
-
 
 
 
@@ -455,17 +474,20 @@ function responsePastOrders(url,response) {
                         '</div>' +
                         '</li>' +
                         '<li class="last add">' +
-                        '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button">Reorder</button></div>' +
+                        '<div class="btn-box"><button class="bt_ordernow" onclick="requestReOrder('+x+')" data-toggle="modal" type="button">Reorder</button></div>' +
                         '<div class="text add">';
 
 
+
                     if (response[x].order_detail.length <= 2) {
+
 
                         for (var y = 0; y < response[x].order_detail.length; y++) {
 
                             str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
 
                         }
+
                     }
                     else {
 
@@ -521,7 +543,7 @@ function responsePastOrders(url,response) {
                             '</div>' +
                             '</li>' +
                             '<li class="last add">' +
-                            '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button">Reorder</button></div>' +
+                            '<div class="btn-box"><button class="bt_ordernow" onclick="requestReOrder('+x+')"  data-toggle="modal" type="button">Reorder</button></div>' +
                             '<div class="text add">';
 
 
@@ -737,6 +759,27 @@ function hideShowMoreInfo(index) {
 
 
 
+
+function requestReOrder(index) {
+
+
+    dataObject = JSON.parse(past_orders_object[index].rest_order_object);
+
+    localStorage.setItem("data_object_en", JSON.stringify(dataObject));
+
+
+    var company_name     =   dataObject.company.company_name;
+    company_name         =   company_name.replace(/\s/g, '');
+
+    var restaurant_name  =    listOfRestaurants[index].name_en;
+    restaurant_name      =    restaurant_name.replace(/\s/g, '');
+
+    window.location.href = '/en/'+company_name+"/"+restaurant_name+'/order';
+
+}
+
+
+
 // DISPLAY PENDING ORDERS ON THE WAY
 
 function displayPendingOrdersRequest() {
@@ -800,7 +843,7 @@ function responsePendingOrders(url, response) {
 
 
                 '<div class="footer-box">'+
-                '<button class="f white btn-order" type="button"><img src="/en/images/plus.png"> Add an Order</button>'+
+                '<button class="f white btn-order" onclick="addOrder('+x+')" type="button"><img src="/en/images/plus.png"> Add an Order</button>'+
                 '<a class="btn-link" href="#">'+
                 '<p  id="cancel-order-open-'+x+'" class="cancel-order-open">Cancel Order</p>'+
                 '</a>'+
@@ -866,3 +909,60 @@ function onOrderNowClicked(index)
 
 }
 
+
+function requestCancelOrder()
+{
+    var current_index = parseInt($(".cancle-order").attr('current-index'));
+
+    var order_id = pending_orders_object[current_index].id;
+
+    commonAjaxCall("/restapi/index.php/cancel_order", {"order_id": order_id}, cancelOrderResponseRequest);
+
+}
+
+
+function cancelOrderResponseRequest(url,response) {
+
+    try {
+
+       if(response == "true")
+       {
+
+           $('.cancle-order').hide();
+
+           past_orders_object = null;
+            pending_orders_object = null;
+            displayPendingOrdersRequest();
+
+       }
+       else {
+
+           $('#message-cancel').css("color","red");
+
+       }
+
+    }
+    catch (exp)
+    {
+
+        errorHandlerServerResponse(url,"parsing error call back");
+
+    }
+
+}
+function addOrder(index) {
+
+
+    for(var x=0;x<listOfRestaurants.length;x++)
+    {
+
+        if(listOfRestaurants[x].id == pending_orders_object[index].rest.id)
+        {
+
+            onOrderNowClicked(x);
+            break;
+        }
+
+    }
+
+}

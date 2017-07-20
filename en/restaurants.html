@@ -107,6 +107,28 @@
 
     }
 
+    document.onreadystatechange = function () {
+
+        var state = document.readyState;
+
+        if (state == 'interactive') {
+
+
+            addLoading();
+
+        }
+        else if (state == 'complete') {
+
+
+            setTimeout(function(){
+
+                hideLoading();
+
+            },100);
+
+        }
+    }
+
 
 </script>
 
@@ -122,15 +144,28 @@
         <div id="header" class="orang_gradient_ltr">
             <div class="container">
                 <div class="row">
-                    <div class="col-xs-4 pull-left">
+                    <div class="col-xs-5 pull-left">
+                        <!--<div class="logo">-->
+                            <!--<a href="#">-->
+                                <!--<div class="logo-img">-->
+                                    <!--<img src="/en/images/logo.png" alt="images description">-->
+                                <!--</div>-->
+                                <!--<h2 class="f white light"> CHOOSE YOUR RESTAURANT <p class="comment f white">Choose your restaurant</p></h2>-->
+                            <!--</a>-->
+                        <!--</div>-->
+
                         <div class="logo">
                             <a href="#">
                                 <div class="logo-img">
                                     <img src="/en/images/logo.png" alt="images description">
                                 </div>
-                                <h2 class="f white light"> CHOOSE YOUR RESTAURANT <p class="comment f white">Choose your restaurant</p></h2>
+                                <h2 class="f white light"> CHOOSE YOUR RESTAURANT </h2>
                             </a>
+                            <ul class="breadcrumbs">
+                                <li><p class="comment f white">Choose your restaurant</p></li>
+                            </ul>
                         </div>
+
                     </div>
                     <div class="col-xs-4 pull-right">
                         <nav id="nav">
@@ -172,7 +207,7 @@
                         <aside id="sidebar">
 
                             <ul class="nav nav-tabs md-pills pills-secondary flex-column" role="tablist">
-                                <li class="nav-item active">
+                                <li class="nav-item active" id="rest-list-active">
                                     <a class="nav-link view-link" data-toggle="tab" href="#panel41" role="tab"><h3>View all restaurant</h3></a>
                                     <div class="list-holder">
                                         <h3 class="view-link f black"></h3>
@@ -204,7 +239,7 @@
                                                 <div class="list-item slide" style="display: none">
 
                                                     <div class="baron">
-                                                        <div id="scrollable-item" class="baron__scroller">
+                                                        <div id="scrollable-item2" class="baron__scroller">
                                                             <ul id="kashruts">
                                                                 <!--<li>-->
                                                                 <!--<label class="control control&#45;&#45;checkbox">-->
@@ -229,7 +264,7 @@
 
                                 <!--PAST ORDERS TAB-->
 
-                                <li class="nav-item">
+                                <li class="nav-item" id="past-list-active">
                                     <a onclick="displayPastOrdersRequest()" class="nav-link view" data-toggle="tab" href="#panel42" role="tab"><h3>View past orders</h3></a>
                                     <div class="list-holder">
                                         <h3 class="view-link f black"></h3>
@@ -303,7 +338,7 @@
                                         </ul>
                                     </div>
                                 </li>
-                                <li class="nav-item" onclick="displayPendingOrdersRequest()">
+                                <li class="nav-item" id="pending-list-active" onclick="displayPendingOrdersRequest()">
                                     <a  class="nav-link motorbike" data-toggle="tab" href="#panel43" role="tab"><h3>View orders on the way</h3></a>
                                 </li>
                             </ul>
@@ -638,13 +673,20 @@ ERROR DISPLAY POPUP
 
 
 
-<div current-index = "" class="cancle-order popup" style="display: none; height: 200px;">
+
+<div current-index = "" id="cancel-order" class="cancle-order popup" style="display: none; height: 200px;">
+
     <h4>Are you sure that you want to <br>cancel the order?</h4>
+
     <div class="btn-holder">
-        <button class="btn-cancle" type="button"><p class="f white">Dont Cancle</p></button>
-        <button class="btn-cancle hover" type="button"><p>Cancle</p></button>
+
+        <button class="btn-cancle" type="button" onclick="$('.cancle-order').hide()"><p class="f white">Dont Cancel</p></button>
+        <button class="btn-cancle hover" onclick="requestCancelOrder()" type="button"><p>Cancel</p></button>
+
     </div>
-    <p>You can cancel an order up to half an hour <br>before Delivery time</p>
+
+    <p id="message-cancel">You can cancel an order up to half an hour <br>before Delivery time</p>
+
 </div>
 
 
@@ -786,6 +828,8 @@ ERROR DISPLAY POPUP
 
 
         $("#po-detail-popup").fadeOut();
+        $('#message-cancel').css("color","#797979");
+
 
         if(!$(".cancle-order").is(':hidden'))
         {
@@ -820,7 +864,7 @@ ERROR DISPLAY POPUP
             try {
 
                 var index = $(that).attr('id');
-                index = index.replace('cancel-order-open','');
+                index = index.replace('cancel-order-open-','');
 
 
                 var current_index = $(".cancle-order").attr('current-index');
@@ -1086,14 +1130,25 @@ ERROR DISPLAY POPUP
     });
 
 
-    $(document).click(function () {
 
-        $(".cancle-order").fadeOut();
+    $(document).click(function(event) {
+
+        if(!$(event.target).closest('#cancel-order').length) {
+
+            $(".cancle-order").fadeOut();
+        }
+
         $("#rests-dt-mn").fadeOut();
         $("#po-detail-popup").fadeOut();
     })
 
+
+
 </script>
+
+
+
+
 
 </body>
 </html>
