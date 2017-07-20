@@ -383,8 +383,7 @@ function onItemSelectedCallBack(url,response)
                 }
 
 
-                minx_holder.push(minX);
-                miny_holder.push(minY);
+
 
                 oneTypeStr +=
 
@@ -424,6 +423,9 @@ function onItemSelectedCallBack(url,response)
                     subItem[extras.extra_with_subitems[x].name_en] = temp;
 
                     oneTypeSubItems.push(subItem);
+
+                    minx_holder.push(minX);
+                    miny_holder.push(minY);
 
                 }
 
@@ -1027,8 +1029,15 @@ function updateCartElements()
             }
             else {
 
-                str += '<p>' + foodCartData[x].detail +'</p>';
+                if(foodCartData[x].detail != "") {
 
+                    str += '<p>' + foodCartData[x].detail + '</p>';
+
+                }
+                else {
+
+                    str += '<p>No detail</p>';
+                }
             }
 
 

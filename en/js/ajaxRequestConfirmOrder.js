@@ -96,7 +96,7 @@ function user_cards_callback(url,response)
             $('#choose_card').html(resp[(resp.length-1)].card_mask);
             $("#cards_list").html(str);
 
-            dataObject.selectedCardId = resp[x].id;
+            dataObject.selectedCardId = resp[(resp.length-1)].id;
 
             $('#card-cb').prop('checked', true);
             $('#cash-cb').prop('checked', false);
@@ -198,10 +198,14 @@ function updateCartElements()
                     str += '<p>' + foodCartData[x].detail + ' special request : ' + foodCartData[x].specialRequest + '</p>';
                 }
             }
+            if(foodCartData[x].detail != "") {
+
+                str += '<p>' + foodCartData[x].detail + '</p>';
+
+            }
             else {
 
-                str += '<p>' + foodCartData[x].detail +'</p>';
-
+                str += '<p>No detail</p>';
             }
 
 
@@ -263,7 +267,8 @@ function addNewCard() {
 
     $('#error-user-name').hide();
     $('#error-card-number').hide();
-    $('#error-month-year').hide();
+    $('#dropdownMenuButton').removeClass('add-error');
+    $('#dropdownMenuButton2').removeClass('add-error');
     $('#error-cvv').hide();
 
 
@@ -295,21 +300,21 @@ function addNewCard() {
 
 
     // MONTH SHOULD NOT BE EMPTY
-    if ($('#month').val() == "") {
+    if ($('#dropdownMenuButton').html() == "MM") {
 
-        $('#error-month-year').show();
-        $('#error-month-year-text').html("*Card Expiry(MM) Required");
 
+       $('#dropdownMenuButton').addClass('add-error');
         return;
+
     }
 
-    // MONTH SHOULD NOT BE EMPTY
-    if ($('#year').val() == "") {
+    // YEAR SHOULD NOT BE EMPTY
+    if ($('#dropdownMenuButton2').html() == "YY") {
 
-        $('#error-month-year').show();
-        $('#error-month-year-text').html("*Card Expiry(YY) Required");
 
+        $('#dropdownMenuButton2').addClass('add-error');
         return;
+
     }
 
     // CVV SHOULD NOT BE EMPTY
@@ -322,7 +327,7 @@ function addNewCard() {
     }
 
 
-    var exp = $('#month').val() + $('#year').val();
+    var exp = $('#dropdownMenuButton').html() + $('#dropdownMenuButton2').html();
 
 
     commonAjaxCall("/restapi/index.php/store_credit_card_info", {"user_email": dataObject.user.email,"card_no":$('#card_no').val(),"expiry":exp,"cvv":$('#cvv').val()}, addNewCardCallBack);
@@ -392,12 +397,14 @@ function onCancel() {
 
     $('#card_no').val("");
     $('#cvv').val("");
-    $('#year').val("");
-    $('#month').val("");
+    $('#dropdownMenuButton2').html("YY");
+    $('#dropdownMenuButton').html("MM");
+
 
     $('#error-user-name').hide();
     $('#error-card-number').hide();
-    $('#error-month-year').hide();
+    $('#dropdownMenuButton').removeClass('add-error');
+    $('#dropdownMenuButton2').removeClass('add-error');
     $('#error-cvv').hide();
 
     $('#card-errors').html('');
