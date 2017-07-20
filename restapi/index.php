@@ -938,33 +938,59 @@ $app->post('/store_credit_card_info', function ($request, $response, $args){
         }
         else{
             $bug = "";
-            if((string) $xml->response->message[0] == "Card id was not found.")
+            if($xml->response->result[0] == 001)
             {
-                $bug = "Card Invalid";
+                $bug = "The card is blocked, confiscate it. The card is blocked, confiscate it.";
             }
-            else if((string) $xml->response->message[0] == "Incorrect control number.")
+            else if($xml->response->result[0] == 002)
             {
-                $bug =  "Card Number Is Invalid";
+                $bug = "The card is stolen, confiscate it. The card is stolen, confiscate it";
             }
-            else if((string) $xml->response->message[0] == "Incorrect CVV/ID.")
+            else if($xml->response->result[0] == 004)
             {
-                $bug =  "CVV is invalid";
+                $bug = "Refusal by credit company.";
             }
-
-            else if((string) $xml->response->message[0] == "An XML field or an INT_IN parameter is too short/ long.")
+            else if($xml->response->result[0] == 005)
             {
-                $bug =  "Expiration Date or Card Number is invalid";
+                $bug = "The card is forged, confiscate it.";
             }
-            else{
+            else if($xml->response->result[0] == 006)
+            {
+                $bug = "Incorrect CVV/ID.";
+            }
+            else if($xml->response->result[0] == 007)
+            {
+                $bug = "Incorrect CAVV/ECI/UCAF";
+            }
+//            else if($xml->response->result[0] == 009)
+//            {
+//                $bug = "No communication. Please try again or contact System Administration";
+//            }
+            else if($xml->response->result[0] == 012)
+            {
+                $bug = "This card is not permitted for foreign currency transactions";
+            }
+            else if($xml->response->result[0] == 017)
+            {
+                $bug = "Last 4 digits were not entered (W field).";
+            }
+            else if($xml->response->result[0] == 036)
+            {
+                $bug = "Expired card";
+            }
+            else
+            {
                 $bug = "Unknown Error occured, Please try again!";
             }
-            
+
+
 
 
             $data = [
 
-                "success" => false,  // SUCCESS FALSE WRONG CODE
-                "error"   => $bug
+                "success"       => false,  // SUCCESS FALSE WRONG CODE
+                "error"         => $bug,
+                "extra_info"    => (string) $xml->response->message[0].$xml->response->result[0]
 
             ];
 
@@ -1188,22 +1214,62 @@ function  stripePaymentRequest($amount, $user_id, $email ,$creditCardNo, $expDat
         }
         else{
 
-            if((string) $xml->response->message[0] == "Card id was not found.")
-            {
-                $bug = "Card Invalid";
-            }
-            else if((string) $xml->response->message[0] == "Incorrect control number.")
-            {
-                $bug =  "Card Number Is Invalid";
-            }
-            else if((string) $xml->response->message[0] == "Incorrect CVV/ID.")
-            {
-                $bug =  "CVV is invalid";
-            }
+//            if((string) $xml->response->message[0] == "Card id was not found.")
+//            {
+//                $bug = "Card Invalid";
+//            }
+//            else if((string) $xml->response->message[0] == "Incorrect control number.")
+//            {
+//                $bug =  "Card Number Is Invalid";
+//            }
+//            else if((string) $xml->response->message[0] == "Incorrect CVV/ID.")
+//            {
+//                $bug =  "CVV is invalid";
+//            }
+//
+//            else if((string) $xml->response->message[0] == "An XML field or an INT_IN parameter is too short/ long.")
+//            {
+//                $bug =  "Expiration Date or Card Number is invalid";
+//            }
+//            else{
+//                $bug = "Unknown Error occured, Please try again!";
+//            }
 
-            else if((string) $xml->response->message[0] == "An XML field or an INT_IN parameter is too short/ long.")
+            if($xml->response->result[0] == 001)
             {
-                $bug =  "Expiration Date or Card Number is invalid";
+                $bug = "The card is blocked, confiscate it. The card is blocked, confiscate it.";
+            }
+            else if($xml->response->result[0] == 002)
+            {
+                $bug = "The card is stolen, confiscate it. The card is stolen, confiscate it";
+            }
+            else if($xml->response->result[0] == 004)
+            {
+                $bug = "Refusal by credit company.";
+            }
+            else if($xml->response->result[0] == 005)
+            {
+                $bug = "The card is forged, confiscate it.";
+            }
+            else if($xml->response->result[0] == 006)
+            {
+                $bug = "Incorrect CVV/ID.";
+            }
+            else if($xml->response->result[0] == 007)
+            {
+                $bug = "Incorrect CAVV/ECI/UCAF";
+            }
+            else if($xml->response->result[0] == 012)
+            {
+                $bug = "This card is not permitted for foreign currency transactions";
+            }
+            else if($xml->response->result[0] == 017)
+            {
+                $bug = "Last 4 digits were not entered (W field).";
+            }
+            else if($xml->response->result[0] == 036)
+            {
+                $bug = "Expired card";
             }
             else{
                 $bug = "Unknown Error occured, Please try again!";
