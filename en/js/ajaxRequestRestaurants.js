@@ -52,6 +52,7 @@ $(document).ready(function() {
 
     dataObject = JSON.parse(localStorage.getItem("data_object_en"));
 
+
     $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+dataObject.user.userDiscountFromCompany+" NIS</em>");
 
 

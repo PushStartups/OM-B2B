@@ -646,6 +646,17 @@
     line-height: 20px;
     padding: 4px;
 }
+.drop .dropdown-menu{
+    width: 100%;
+    min-width: 100%;
+}
+.btn-secondary.new-btn{
+    width: 100%;
+}
+.btn-secondary.add-error{
+    border-color: #FF0000;
+}
+/*.btn-secondary.new-btn:after{margin: 0;}*/
 .btn-secondary:after{
     content: "\f107";
     font-family: FontAwesome;
