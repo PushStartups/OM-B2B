@@ -593,6 +593,7 @@ $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
     DB::useDB(B2B_RESTAURANTS);
 
     $company_id = $request->getParam('company_id');
+    $user_id = $request->getParam('user_id');
 
     DB::useDB(B2B_DB);
     $company_restaurants = DB::query("select  rest_id from company_rest where company_id = '$company_id'");
@@ -635,11 +636,13 @@ $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
             $ctn1++;
         }
 
-
+        DB::useDB(B2B_DB);
+        $userDB = DB::queryFirstRow("select * from b2b_users where id = '$user_id'");
 
         $resp = [
-            "db_tags"               => $db_restaurant_tags,          //
-            "db_kashrut"            => $db_restaurant_kashrut
+            "db_tags"                       => $db_restaurant_tags,          //
+            "db_kashrut"                    => $db_restaurant_kashrut,
+            "user_discount"                 => $userDB['discount']
 
         ];
         // RESPONSE RETURN TO REST API CALL
@@ -818,7 +821,7 @@ $app->post('/store_credit_card_info', function ($request, $response, $args){
 
     $rest = "Error";
     $cgConf['tid']='8804324';
-    $cgConf['amount']= 0;
+    $cgConf['amount']= 1;
     $cgConf['user']='pushstart';
     $cgConf['password']='OE2@38sz';
     $cgConf['cg_gateway_url']="https://cgpay5.creditguard.co.il/xpo/Relay";
@@ -843,7 +846,7 @@ $app->post('/store_credit_card_info', function ($request, $response, $args){
 								<cardNo>'.$card_no.'</cardNo>
 								<cvv>'.$cvv.'</cvv>
 								<cardExpiration>'.$expiry.'</cardExpiration>
-								<validation>Token</validation>
+								<validation>AutoComm</validation>
 								<numberOfPayments/>
 								<customerData>
 									<userData1>'.$email.'</userData1>
@@ -938,48 +941,43 @@ $app->post('/store_credit_card_info', function ($request, $response, $args){
         }
         else{
             $bug = "";
-            if($xml->response->result[0] == 001)
+            if($xml->response->result[0] == "001")
             {
                 $bug = "The card is blocked, confiscate it. The card is blocked, confiscate it.";
             }
-            else if($xml->response->result[0] == 002)
+            else if($xml->response->result[0] == "002")
             {
                 $bug = "The card is stolen, confiscate it. The card is stolen, confiscate it";
             }
-            else if($xml->response->result[0] == 004)
+            else if($xml->response->result[0] == "004")
             {
                 $bug = "Refusal by credit company.";
             }
-            else if($xml->response->result[0] == 005)
+            else if($xml->response->result[0] == "005")
             {
                 $bug = "The card is forged, confiscate it.";
             }
-            else if($xml->response->result[0] == 006)
+            else if($xml->response->result[0] == "006")
             {
                 $bug = "Incorrect CVV/ID.";
             }
-            else if($xml->response->result[0] == 007)
+            else if($xml->response->result[0] == "007")
             {
                 $bug = "Incorrect CAVV/ECI/UCAF";
             }
-//            else if($xml->response->result[0] == 009)
-//            {
-//                $bug = "No communication. Please try again or contact System Administration";
-//            }
-            else if($xml->response->result[0] == 012)
+            else if($xml->response->result[0] == "012")
             {
                 $bug = "This card is not permitted for foreign currency transactions";
             }
-            else if($xml->response->result[0] == 017)
+            else if($xml->response->result[0] == "017")
             {
                 $bug = "Last 4 digits were not entered (W field).";
             }
-            else if($xml->response->result[0] == 036)
+            else if($xml->response->result[0] == "036")
             {
                 $bug = "Expired card";
             }
-            else
-            {
+            else{
                 $bug = "Unknown Error occured, Please try again!";
             }
 
@@ -1235,39 +1233,39 @@ function  stripePaymentRequest($amount, $user_id, $email ,$creditCardNo, $expDat
 //                $bug = "Unknown Error occured, Please try again!";
 //            }
 
-            if($xml->response->result[0] == 001)
+            if($xml->response->result[0] == "001")
             {
                 $bug = "The card is blocked, confiscate it. The card is blocked, confiscate it.";
             }
-            else if($xml->response->result[0] == 002)
+            else if($xml->response->result[0] == "002")
             {
                 $bug = "The card is stolen, confiscate it. The card is stolen, confiscate it";
             }
-            else if($xml->response->result[0] == 004)
+            else if($xml->response->result[0] == "004")
             {
                 $bug = "Refusal by credit company.";
             }
-            else if($xml->response->result[0] == 005)
+            else if($xml->response->result[0] == "005")
             {
                 $bug = "The card is forged, confiscate it.";
             }
-            else if($xml->response->result[0] == 006)
+            else if($xml->response->result[0] == "006")
             {
                 $bug = "Incorrect CVV/ID.";
             }
-            else if($xml->response->result[0] == 007)
+            else if($xml->response->result[0] == "007")
             {
                 $bug = "Incorrect CAVV/ECI/UCAF";
             }
-            else if($xml->response->result[0] == 012)
+            else if($xml->response->result[0] == "012")
             {
                 $bug = "This card is not permitted for foreign currency transactions";
             }
-            else if($xml->response->result[0] == 017)
+            else if($xml->response->result[0] == "017")
             {
                 $bug = "Last 4 digits were not entered (W field).";
             }
-            else if($xml->response->result[0] == 036)
+            else if($xml->response->result[0] == "036")
             {
                 $bug = "Expired card";
             }
@@ -1277,7 +1275,8 @@ function  stripePaymentRequest($amount, $user_id, $email ,$creditCardNo, $expDat
 
             $rest = [
 
-                "response" =>  $bug
+                "response" =>  $bug,
+                "extra_info"    => (string) $xml->response->message[0].$xml->response->result[0]
 
             ];
 
