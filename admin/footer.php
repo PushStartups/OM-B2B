@@ -369,7 +369,7 @@ you can add as many as you like
     //USER EMAIL
     var user_email = new Array();
     <?php
-    DB::useDB('orderapp_b2b_wui');
+    DB::useDB(B2B_DB);
     $arr1 = DB::query("select * from b2b_users");
     foreach($arr1 as $tag_name ){ ?>
     user_email.push("<?php echo $tag_name['smooch_id']; ?>");
@@ -404,7 +404,7 @@ you can add as many as you like
 
     var tags = new Array();
     <?php
-    DB::useDB('orderapp_restaurants_b2b_wui');
+    DB::useDB(B2B_RESTAURANTS);
     $arr1 = DB::query("select * from tags");
     foreach($arr1 as $tag_name ){ ?>
     tags.push("<?php echo $tag_name['name_en']; ?>");
@@ -422,7 +422,7 @@ you can add as many as you like
     // TAGS HE AUTOCOMPLETE
     var tags_he = new Array();
     <?php
-    DB::useDB('orderapp_restaurants_b2b_wui');
+    DB::useDB(B2B_RESTAURANTS);
     $arr1 = DB::query("select * from tags");
     foreach($arr1 as $tag_name ){ ?>
     tags_he.push("<?php echo $tag_name['name_he']; ?>");
@@ -438,7 +438,7 @@ you can add as many as you like
     // ADD REST COMPANY DISCOUNT >>>> company name
   var compnay_disc = new Array();
     <?php
-    DB::useDB('orderapp_b2b_wui');
+    DB::useDB(B2B_DB);
     $arr11 = DB::query("select * from company");
     foreach($arr11 as $company_name ){ ?>
     compnay_disc.push("<?php echo $company_name['name']; ?>");
@@ -453,7 +453,7 @@ you can add as many as you like
     // ADD REST COMPANY DISCOUNT >>>>> restaurant name
   var rest_name = new Array();
     <?php
-    DB::useDB('orderapp_restaurants_b2b_wui');
+    DB::useDB(B2B_RESTAURANTS);
     $arr12 = DB::query("select * from restaurants");
     foreach($arr12 as $restaurant_name ){ ?>
     rest_name.push("<?php echo $restaurant_name['name_en']; ?>");

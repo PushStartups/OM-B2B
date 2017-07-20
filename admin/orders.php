@@ -93,7 +93,7 @@ include "header.php";
 										}
 										DB::useDB('orderapp_user');
 										$users            =     DB::queryFirstRow("select * from users where id = '".$user_order['user_id']."'");
-										DB::useDB('orderapp_restaurants');
+                                        DB::useDB(B2B_RESTAURANTS);
 										$restaurants  = 	DB::queryFirstRow("select * from restaurants where id = '".$user_order['restaurant_id']."' ");
 
 									?>

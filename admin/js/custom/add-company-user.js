@@ -157,7 +157,6 @@ function delete_user_db(user_id,url)
                         success:function(data)
                         {
                             hideLoading();
-                            alert("User deleted successfully");
                             window.location.href = url ;
                         }
                     });

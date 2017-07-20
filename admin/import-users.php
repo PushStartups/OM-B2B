@@ -16,19 +16,19 @@ if(isset($_POST["Import"])){
 
             if($counter != 0)
             {
-                DB::useDB('orderapp_b2b_wui');
+                DB::useDB(B2B_DB);
                 $last_id = DB::queryFirstRow("SELECT max(id) FROM b2b_users");
                 $last_user_id = $last_id['id'];
                 $company_id = $getData[4];
 
-                DB::useDB('orderapp_b2b_wui');
+                DB::useDB(B2B_DB);
                 $company = DB::queryFirstRow("SELECT * FROM company where id = '$company_id'");
                 $discount = $company['discount'];
 
 
                 $last_user_id++;
                 $password = $getData[1].rand(100,9999);
-                DB::useDB('orderapp_b2b_wui');
+                DB::useDB(B2B_DB);
                 DB::insert('b2b_users', array(
                     "smooch_id"         => $getData[0],
                     "name"              => $getData[1],

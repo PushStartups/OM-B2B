@@ -69,6 +69,8 @@ function insert_b2b_orders_date(url)
         success:function(data)
         {
             hideLoading();
+            $('#order_detail').hide();
+            $('#order_detail_search').show();
             $("#target-content").html(data);
         }
     });

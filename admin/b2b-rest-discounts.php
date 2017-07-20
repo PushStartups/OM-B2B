@@ -76,14 +76,14 @@ include "header.php";
                                         <tbody>
                                         <?php
                                         //  DB::query("select brd.*,c.name,r.name_en from b2b_rest_discounts as brd inner join restaurants as r on brd.rest_id = r.id  inner join company as c on brd.company_id = c.id");
-                                        DB::useDB('orderapp_b2b_wui');
+                                        DB::useDB(B2B_DB);
                                         $b2bRestDiscounts = DB::query("select * from b2b_rest_discounts");
                                         //$b2bRestDiscounts = getAllB2BRestDiscounts();
                                         foreach ($b2bRestDiscounts as $companies)
                                         {
-                                            DB::useDB('orderapp_b2b_wui');
+                                            DB::useDB(B2B_DB);
                                             $company = DB::queryFirstRow("select * from company     where id = '".$companies['company_id']."'");
-                                            DB::useDB('orderapp_restaurants_b2b_wui');
+                                            DB::useDB(B2B_RESTAURANTS);
                                             $restaurant = DB::queryFirstRow("select * from restaurants where id = '".$companies['rest_id']."'");
 
 

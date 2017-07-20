@@ -8,4 +8,7 @@ DB::$user = 'root';
 DB::$password = 'orderapp';
 DB::$dbName = 'orderapp_restaurants_b2b_wui';
 
+define("B2B_DB","orderapp_b2b_wui");
+define("B2B_RESTAURANTS","orderapp_restaurants_b2b_wui");
+
 ?>

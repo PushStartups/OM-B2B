@@ -16,7 +16,7 @@ include "header.php";
 
         </div>
 
-        <?php DB::useDB('orderapp_b2b');
+        <?php DB::useDB(B2B_DB);
         $timings = DB::query("select * from delivery_timings where company_id = '$company_id'");
 
         ?>

@@ -1,6 +1,12 @@
 <?php
 include "header.php";
 ?>
+
+<style>
+    .DTTT_container{
+        display: none;
+    }
+</style>
     <!-- MAIN PANEL -->
     <div id="main" role="main">
 
@@ -66,7 +72,7 @@ include "header.php";
                                     <?php  $file = fopen("b2bCompanyUserOrderDetail.csv","w");
                                     $list = array
                                     (
-                                        "Order ID,User Email,Company,Total Paid,SubTotal,Today's Remaining Balance,Company Contribution,Transaction ID,Date Completed"
+                                        "Order ID,User Email,Company,Restaurant Name,Total Paid,SubTotal,Discount,Company Contribution,Payment,Order Status,Transaction ID,Date Completed"
                                     );
                                     foreach ($list as $line)
                                     {
@@ -84,11 +90,14 @@ include "header.php";
                                             <th >User Email</th>
 
                                             <th data-hide="phone, tablet">Company</th>
-
+                                            <th data-hide="phone, tablet">Restaurant Name</th>
                                             <th data-hide="phone, tablet">Total Paid</th>
                                             <th data-hide="phone, tablet">SubTotal</th>
-                                            <th data-hide="phone,tablet">Todays's Remaining Balance</th>
+                                            <th data-hide="phone,tablet">Discount</th>
+
                                             <th data-hide="phone,tablet">Company Contribution</th>
+                                            <th data-hide="phone,tablet">Payment</th>
+                                            <th data-hide="phone,tablet">Order Status</th>
 
 
                                             <th data-hide="phone, tablet">Transaction ID</th>
@@ -106,11 +115,14 @@ include "header.php";
                                         $i = 1;
                                         $totall = 0; $actual_total = 0 ; $discount = 0;
 
-                                        DB::useDB('orderapp_b2b');
+                                        DB::useDB('orderapp_b2b_wui');
                                         $orders = DB::query("select o.*, c.name as company_name, u.smooch_id as email from b2b_orders as o inner join company as c on o.company_id = c.id  inner join b2b_users as u on o.user_id = u.id  where o.company_id = '".$_SESSION['company_id']."' and o.user_id = '".$_GET['id']."' order by o.id DESC");
                                         foreach ($orders as $order)
                                         {
                                             $refundAmount =   getTotalRefundAmountB2B($order['id']);
+                                            DB::useDB('orderapp_restaurants_b2b_wui');
+                                            $rest = DB::queryFirstRow("select * from restaurants where id = '".$order['restaurant_id']."' ");
+                                            $restaurant_name = $rest['name_en'];
                                             $arr[] = "";
                                             ?>
                                             <tr>
@@ -122,6 +134,9 @@ include "header.php";
 
                                                 <td><?=$order['company_name']?></td>
                                                 <?php  $arr[2] = $order['company_name'];  ?>
+
+                                                <td><?=$restaurant_name?></td>
+                                                <?php  $arr[3] = $restaurant_name;  ?>
 
                                                 <td><?=$order['total']." NIS"?></td>
                                                 <?php  $arr[4] = $order['total'];   $totall  = $totall + $order['total']; ?>
@@ -136,12 +151,19 @@ include "header.php";
                                                 <td><?=$order['company_contribution']?></td>
                                                 <?php  $arr[7] = $order['company_contribution']; ?>
 
+                                                <td><?=$order['payment_info']?></td>
+                                                <?php  $arr[8] = $order['payment_info'];  ?>
+
+                                                <td><?=$order['order_status']?></td>
+                                                <?php  $arr[9] = $order['order_status'];  ?>
+
+
                                                 <?php if(empty($order['transaction_id'])) { $order['transaction_id'] = "N/A"; }?>
                                                 <td><?=$order['transaction_id']?></td>
-                                                <?php  $arr[8] = $order['transaction_id'];  ?>
+                                                <?php  $arr[10] = $order['transaction_id'];  ?>
 
                                                 <td><?=$order['date']?></td>
-                                                <?php  $arr[9] = $order['date'];  ?>
+                                                <?php  $arr[11] = $order['date'];  ?>
 
                                                 <td><a href="b2b-order-detail.php?order_id=<?=$order['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-info"></i> Detail </button></a></td>
                                             </tr>
@@ -151,7 +173,7 @@ include "header.php";
 
                                         $list = array
                                         (
-                                            ",,Total :, $totall NIS, $actual_total NIS, $discount NIS "
+                                            ",,,Total :, $totall NIS, $actual_total NIS, $discount NIS "
                                         );
                                         foreach ($list as $line)
                                         {

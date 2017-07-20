@@ -5,7 +5,7 @@ require_once 'inc/functions.php';
 require_once 'inc/constants.php';
 checkAdminSession();
 DB::query("set names utf8");
-
+DB::useDB(B2B_RESTAURANTS);
 ?>
 
 <!DOCTYPE html>

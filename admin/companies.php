@@ -86,7 +86,7 @@ include "header.php";
 
                                         date_default_timezone_set("Asia/Jerusalem");
                                         $day = date('l');
-                                        DB::useDB('orderapp_b2b_wui');
+                                        DB::useDB(B2B_DB);
                                         $getDay = DB::queryFirstRow("select * from company_timing where week_en = '$day' and company_id = '".$companies['id']."' ");
                                         $ordering_deadline_time = $getDay['closing_time'];
                                         ?>

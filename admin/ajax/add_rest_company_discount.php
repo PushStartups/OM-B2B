@@ -10,13 +10,12 @@ $restrnt_id = DB::queryFirstRow("select id from restaurants where name_en = '$re
 $restaurant_id   = $restrnt_id['id'];
 
 
-DB::useDB('orderapp_b2b_wui');
+DB::useDB(B2B_DB);
 
         $compny_id = DB::queryFirstRow("select id from company where name = '$company'");
         $company_id   = $compny_id['id'];
 
-
-DB::useDB('orderapp_b2b_wui');
+DB::useDB(B2B_DB);
 DB::insert('b2b_rest_discounts', array(
     "discount_percent"              =>  $_POST['discount'],
     "rest_id"               =>  $restaurant_id,

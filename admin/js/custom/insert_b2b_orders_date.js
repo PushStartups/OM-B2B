@@ -19,21 +19,22 @@ $('#search-user-email').bind('input', function() {
     document.getElementById('error_search_email').innerHTML = "";
 
 });
-//
-// $('#company_id').bind('input', function() {
-//
-//     document.getElementById('error_company_id').innerHTML = "";
-//
-// });
+
+$('#company_id').bind('input', function() {
+
+    document.getElementById('error_company_id').innerHTML = "";
+
+});
 
 
 function insert_b2b_orders_date(url)
 {
 
+
     var search_start_date                   =  $('#search_start_date').val();
     var search_end_date              =  $('#search_end_date').val();
     var hidden_email              =  $('#hidden_email').val();
-    // var company_id              =  $('#company_id').val();
+    var company_id              =  $('#company_id').val();
 
 
     if(hidden_email == "")
@@ -53,12 +54,12 @@ function insert_b2b_orders_date(url)
         $('#error_search_end_date').html('Required');
         return;
     }
-    //
-    // if(company_id == "")
-    // {
-    //     $('#error_company_id').html('Required');
-    //     return;
-    // }
+
+    if(company_id == "")
+    {
+        $('#error_company_id').html('Required');
+        return;
+    }
 
 
 
@@ -68,7 +69,7 @@ function insert_b2b_orders_date(url)
             'search_start_date'                    :  $('#search_start_date').val(),
             'search_end_date'               :  $('#search_end_date').val(),
             'search-user-email'               :  $('#search-user-email').val(),
-            // 'company_id'               :  $('#company_id').val()
+             'company_id'               :  $('#company_id').val()
         };
 
 
@@ -83,6 +84,8 @@ function insert_b2b_orders_date(url)
         success:function(data)
         {
             hideLoading();
+            $('#order_detail').hide();
+            $('#order_detail_search').show();
             $("#target-content").html(data);
         }
     });

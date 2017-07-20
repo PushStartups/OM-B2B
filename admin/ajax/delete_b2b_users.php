@@ -5,7 +5,7 @@ require_once '../inc/initDb.php';
 $id = $_POST['user_id'];
 
 
-DB::useDB('orderapp_b2b_wui');
+DB::useDB(B2B_DB);
 
 DB::delete('b2b_orders', "user_id=%d", $id);
 DB::delete('b2b_users', "id=%d", $id);

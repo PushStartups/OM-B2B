@@ -103,7 +103,7 @@ include "header.php";
                                             <select id="company_id" class="form-control">
                                                 <option value=""  selected disabled> Select Company</option>
                                                 <?php
-                                                DB::useDB('orderapp_b2b_wui');
+                                                 DB::useDB(B2B_DB);
                                                 $company = DB::query("select * from company");
                                                 foreach($company as $companies){  ?>
                                                     <option value=<?=$companies['id']?>><?=$companies['name']?></option>

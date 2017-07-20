@@ -5,6 +5,11 @@ $_SESSION['search_company'] = "";
 $_SESSION['search_start_date'] = "";
 $_SESSION['search_end_date'] = "";
 ?>
+<style>
+    .csv_hide{
+        display: none;
+    }
+</style>
     <!-- MAIN PANEL -->
     <div id="main" role="main">
 
@@ -38,20 +43,20 @@ $_SESSION['search_end_date'] = "";
 
                             <div class="form-group">
                                 <div class="row">
-<!--                                    <div class="col-xs-3">-->
-<!--                                        <select class="form-control" id="company_id" >-->
-<!--                                            <option value=""  selected disabled> Select Company</option>-->
-<!--                                            --><?php
-//                                            DB::useDB('orderapp_b2b_wui');
-//                                            $company = DB::query("select * from company");
-//                                            foreach($company as $companies){  ?>
-<!--                                                <option value=--><?//=$companies['id']?><!-->--><?//=$companies['name']?><!--</option>-->
-<!--                                            --><?php //} ?>
-<!---->
-<!--                                        </select>-->
-<!--                                        <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_company_id"></span>-->
-<!---->
-<!--                                    </div>-->
+                                    <div class="col-xs-3">
+                                        <select class="form-control" id="company_id" style="color: black;" >
+                                            <option value=""  selected disabled> Select Company</option>
+                                            <?php
+                                            DB::useDB(B2B_DB);
+                                            $company = DB::query("select * from company");
+                                            foreach($company as $companies){  ?>
+                                                <option value="<?=$companies['id']?>" ><?=$companies['name']?></option>
+                                            <?php } ?>
+
+                                        </select>
+                                        <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_company_id"></span>
+
+                                    </div>
                                     <div class="col-xs-3">
                                         <input class="form-control" id="search-user-email" type="text" placeholder="Search User Email">
                                         <input class="form-control" id="hidden_email" type="hidden" >
@@ -89,12 +94,29 @@ $_SESSION['search_end_date'] = "";
                 <div class="row">
                     <!-- NEW WIDGET START -->
                     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="row" id="order_detail">
+                            <div class="col-xs-4"></div>
+                            <div class="col-xs-4" style="margin: 15px;">
+                                <a href="b2bOrderDetail.csv" download="b2bOrderDetail.csv"  class="btn-lg btn-primary m-t-10" > Print CSV Report</a>
+                            </div>
+                            <div class="col-xs-4"></div>
+                        </div>
+                        <div class="row csv_hide" id="order_detail_search">
+                            <div class="col-xs-4"></div>
+                            <div class="col-xs-4" style="margin: 15px;">
+                                <a href="ajax/b2bOrderDetailSearch.csv" download="b2bOrderDetailSearch.csv"  class="btn-lg btn-primary m-t-10" > Print CSV Report</a>
+                            </div>
+                            <div class="col-xs-4"></div>
+                        </div>
                         <!-- Widget ID (each widget will need unique ID)-->
                         <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+
 
                             <header>
                                 <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                                 <h2>B2B Order Detail </h2>
+
+
                             </header>
 
                             <!-- widget div-->
@@ -102,6 +124,7 @@ $_SESSION['search_end_date'] = "";
                                 <!-- widget edit box -->
                                 <div class="jarviswidget-editbox">
                                     <!-- This area used as dropdown edit box -->
+
                                 </div>
                                 <!-- end widget edit box -->
                                 <!-- widget content -->
@@ -110,6 +133,7 @@ $_SESSION['search_end_date'] = "";
 
 
                                     <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+
 
                                         <thead>
 
@@ -123,11 +147,11 @@ $_SESSION['search_end_date'] = "";
 
                                             <th data-hide="phone, tablet">Total Paid</th>
                                             <th data-hide="phone, tablet">SubTotal</th>
-                                            <th data-hide="phone,tablet">Today's Remaining Balance</th>
+                                            <th data-hide="phone,tablet">Discount</th>
                                             <th data-hide="phone,tablet">Company Contribution</th>
                                             <th data-hide="phone,tablet">Payment</th>
+                                            <th data-hide="phone,tablet">Order Status</th>
 
-                                            <th data-hide="phone, tablet">Refund</th>
                                             <th data-hide="phone, tablet">Transaction ID</th>
 
 
@@ -136,17 +160,17 @@ $_SESSION['search_end_date'] = "";
 
                                             <th>Action</th>
                                         </tr>
-                                        </thead> 
+                                        </thead>
 
                                         <tbody id="target-content">
 
-                                        <tr>
-                                            <td></td><td></td><td></td><td></td><td></td><td style="width: 100%; padding:20px"><a href="b2bOrderDetail.csv" download="b2bOrderDetail.csv"  class="btn-lg btn-primary m-t-10" > Print CSV Report</a>
-                                            </td> <td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                        <!--                                        <tr>-->
+                                        <!--                                            <td></td><td></td><td></td><td></td><td></td><td style="width: 100%; padding:20px"><a href="b2bOrderDetail.csv" download="b2bOrderDetail.csv"  class="btn-lg btn-primary m-t-10" > Print CSV Report</a>-->
+                                        <!--                                            </td> <td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>-->
                                         <?php  $file = fopen("b2bOrderDetail.csv","w");
                                         $list = array
                                         (
-                                            "Order ID,User Email,Company,Restaurant Name,Total Paid,SubTotal,Today's Remaining Balance,Company Contribution,Payment,Refund,Transaction ID,Date Completed"
+                                            "Order ID,User Email,Company,Restaurant Name,Total Paid,SubTotal,Today's Remaining Balance,Company Contribution,Payment,Order Status,Transaction ID,Date Completed"
                                         );
                                         foreach ($list as $line)
                                         {
@@ -159,7 +183,7 @@ $_SESSION['search_end_date'] = "";
                                         foreach ($orders as $order)
                                         {
                                             $refundAmount =   getTotalRefundAmountB2B($order['id']);
-                                            DB::useDB('orderapp_restaurants_b2b_wui');
+                                            DB::useDB(B2B_RESTAURANTS);
                                             $rest = DB::queryFirstRow("select * from restaurants where id = '".$order['restaurant_id']."' ");
                                             $restaurant_name = $rest['name_en'];
                                             $arr[] = "";
@@ -181,6 +205,7 @@ $_SESSION['search_end_date'] = "";
                                                 <td><?=$order['total']." NIS"?></td>
                                                 <?php  $arr[4] = $order['total'];   $totall  = $totall + $order['total']; ?>
 
+
                                                 <td><?=$order['actual_total']." NIS"?></td>
                                                 <?php  $arr[5] = $order['actual_total'];   $actual_total  = $actual_total + $order['actual_total']; ?>
 
@@ -195,17 +220,21 @@ $_SESSION['search_end_date'] = "";
                                                 <td><?=$order['payment_info']?></td>
                                                 <?php  $arr[8] = $order['payment_info'];  ?>
 
-                                                <td><?=$refundAmount." NIS"?></td>
-                                                <?php  $arr[9] = $refundAmount."NIS";  ?>
+                                                <td><?=$order['order_status']?></td>
+                                                <?php  $arr[9] = $order['order_status'];  ?>
+
+
+                                                <!--                                                <td>--><?//=$refundAmount." NIS"?><!--</td>-->
+                                                <!--                                                --><?php // $arr[10] = $refundAmount."NIS";  ?>
 
                                                 <?php if(empty($order['transaction_id'])) { $order['transaction_id'] = "N/A"; }?>
                                                 <td><?=$order['transaction_id']?></td>
-                                                <?php  $arr[10] = $order['transaction_id'];  ?>
+                                                <?php  $arr[11] = $order['transaction_id'];  ?>
 
 
 
                                                 <td><?=$order['date']?></td>
-                                                <?php  $arr[11] = $order['date'];  ?>
+                                                <?php  $arr[12] = $order['date'];  ?>
 
                                                 <td><a href="b2b-order-detail.php?order_id=<?=$order['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-info"></i> More Detail </button></a></td>
                                             </tr>
