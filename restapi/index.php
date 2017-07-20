@@ -937,11 +937,34 @@ $app->post('/store_credit_card_info', function ($request, $response, $args){
 
         }
         else{
+            $bug = "";
+            if((string) $xml->response->message[0] == "Card id was not found.")
+            {
+                $bug = "Card Invalid";
+            }
+            else if((string) $xml->response->message[0] == "Incorrect control number.")
+            {
+                $bug =  "Card Number Is Invalid";
+            }
+            else if((string) $xml->response->message[0] == "Incorrect CVV/ID.")
+            {
+                $bug =  "CVV is invalid";
+            }
+
+            else if((string) $xml->response->message[0] == "An XML field or an INT_IN parameter is too short/ long.")
+            {
+                $bug =  "Expiration Date or Card Number is invalid";
+            }
+            else{
+                $bug = "Unknown Error occured, Please try again!";
+            }
+            
+
 
             $data = [
 
                 "success" => false,  // SUCCESS FALSE WRONG CODE
-                "error"   => (string) $xml->response->message[0]
+                "error"   => $bug
 
             ];
 
