@@ -964,7 +964,7 @@ $app->post('/store_credit_card_info', function ($request, $response, $args){
             $data = [
 
                 "success" => false,  // SUCCESS FALSE WRONG CODE
-                "error"   => $bug
+                "error"   => $bug 
 
             ];
 
