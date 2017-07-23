@@ -255,9 +255,9 @@ function responseListOfRestaurants(url,response) {
 
                         '<time class="time">' +
 
-                        '<div  id="rl-dt-ma-' + x + '"  style="cursor: pointer" class="rl-dt-ma-popup">' +
+                        '<div>' +
                         '<img class="bike" src="/en/images/motorbike-delivery.png">' +
-                        '<p id="show-popup">Next Delivery ' + appox_delivey_time + '</p>' +
+                        '<p>Next Delivery ' + appox_delivey_time + '</p>' +
                         '</div>' +
                         '</time>' +
                         '</li>' +
