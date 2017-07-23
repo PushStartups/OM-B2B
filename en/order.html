@@ -159,7 +159,7 @@
                                 <div class="logo-img">
                                     <img src="/en/images/logo.png" alt="images description">
                                 </div>
-                                <h2 class="f white light"> CHOOSE YOUR RESTAURANT </h2>
+                                <h2 class="f white light"> choose your menu </h2>
                             </a>
                             <ul class="breadcrumbs">
                                 <li><a onclick="backListener()" href="#"><p class="comment f white">Choose your restaurant</p></a></li>
@@ -176,6 +176,10 @@
                                         <img class="icon-user" src="/en/images/ic_profile01.png">
                                         <span id="name_company"></span>
                                     </a>
+                                    <div class="dropdown-nav" id="dropdown-nav" style="display: none;">
+                                        <h3 id="user_name"></h3>
+                                        <a onclick="localStorage.setItem('data_object_en', ''); window.location.href='/'" href="#">Disconnect</a>
+                                    </div>
                                 </li>
                             </ul>
                             <ul>
@@ -208,7 +212,7 @@
                                         <li><a class="tel" href="#"><img class="img" src="/en/images/phone-icon.png"><span class="f white" id="contact"></span></a></li>
                                     </ul>
                                 </div>
-                                <div class="col-xs-1"><a class="alert-img" href="#"><img src="/en/images/info-icon.png"></a></div>
+                                <div class="col-xs-1"><a class="alert-img" data-toggle="modal" data-target="#popup-info" href="#"><img src="/en/images/info-icon.png"></a></div>
                             </div>
                         </header>
                         <div class="row no-gutters">
@@ -373,7 +377,7 @@
                             <div class="wrap">
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <div class="frame">
+                                        <div class="frame" style="background: #fff;">
                                            
                                             <div class="minimum-item add" style="display: none" id="st_parent">
                                                 <div class="row no-gutters">
@@ -580,6 +584,63 @@
 </div>
 
 
+
+<!-- popup two -->
+<div class="modal fade"  id="popup-info" role="dialog">
+    <div class="modal-dialog modal-md mypopup info">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+            <div class="row no-gutters">
+                <div class="col-md-6 col-sm-6 col-xs-6 first-col text-center" id="rest-detail">
+
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6 second-col">
+
+                    <div class="baron">
+
+                        <div id="scrollable-add1" class="baron__scroller right add">
+                            <div class="add-row first">
+                                <span class="title">Opening Hours</span>
+
+
+                                <!--RESTAURANT TIMINGS FROM SERVER-->
+                                <table class="table" id="time-detail">
+
+                                </table>
+                            </div>
+
+                            <div class="add-row first">
+                                <span class="title title3">Gallery</span>
+                                <div id="menu-carousel" class="carousel slide" data-ride="carousel">
+
+
+                                    <!--GALLERY IMAGES FROM SERVER-->
+                                    <div class="carousel-inner" role="listbox" id="gallery-images">
+
+                                    </div>
+
+                                    <a class="left carousel-control" href="#menu-carousel" role="button" data-slide="prev">
+                                        <span class="sr-only">Previous</span>
+                                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                    </a>
+                                    <a class="right carousel-control" href="#menu-carousel" role="button" data-slide="next">
+                                        <span class="sr-only">Next</span>
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="baron__track">
+                            <div class="baron__bar add"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="/en/js/jquery.accordion.custom.js"></script>
@@ -634,6 +695,33 @@
 
         window.location.href = '/en/'+company_name+'/restaurants';
     }
+
+    $('#name_company').click(function(e){
+
+        if($("#dropdown-nav").is(':visible'))
+        {
+            $('#dropdown-nav').hide();
+        }
+        else {
+
+            $('#dropdown-nav').show();
+
+        }
+
+        e.stopPropagation();
+
+    });
+
+    $(document).click(function(e){
+
+        if(!(document.getElementById('dropdown-nav').contains(e.target)))
+        {
+            $('#dropdown-nav').hide();
+
+        }
+
+    });
+
 
 
 

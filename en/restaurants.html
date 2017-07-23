@@ -176,8 +176,8 @@
                                         <span id="name_company"></span>
                                     </a>
                                     <div class="dropdown-nav" id="dropdown-nav" style="display: none;">
-                                        <h3>Hey test, Nice to meet you :)</h3>
-                                        <a onclick="clearLocalStorage()" href="#">Disconnect</a>
+                                        <h3 id="user_name"></h3>
+                                        <a onclick="localStorage.setItem('data_object_en', ''); window.location.href='/'" href="#">Disconnect</a>
                                     </div>
                                 </li>
                             </ul>
@@ -693,26 +693,37 @@ ERROR DISPLAY POPUP
 
 
 
-<div current-index = "" class="time-popup popup" id="rests-dt-mn"  style="display: none;">
+<!--<div current-index = "" class="time-popup popup" id="rests-dt-mn"  style="display: none;">-->
 
-    <div class="header">
-        <p class="f black" style="text-transform: uppercase;">Delivery Time for today</p>
-    </div>
-    <table>
-        <tr>
-            <td class="f black" id="dt-str"></td>
-            <td id="min_order_amount"></td>
-        </tr>
-    </table>
-</div>
+    <!--<div class="header">-->
+        <!--<p class="f black" style="text-transform: uppercase;">Delivery Time for today</p>-->
+    <!--</div>-->
+    <!--<table>-->
+        <!--<tr>-->
+            <!--<td class="f black" id="dt-str"></td>-->
+            <!--<td id="min_order_amount"></td>-->
+        <!--</tr>-->
+    <!--</table>-->
+<!--</div>-->
 
 
 
 <div current-index = "" id="po-detail-popup" class="time-popup popup" style="display: none;">
 
     <div class="header">
-        <table id="cart-items">
-        </table>
+
+        <div class="baron">
+            <div id="scrollable-cart-items" class="baron__scroller">
+
+                <table id="cart-items">
+                </table>
+
+            </div>
+            <div class="baron__track">
+                <div class="baron__bar add1"></div>
+            </div>
+        </div>
+
     </div>
 
     <table>
@@ -1143,6 +1154,34 @@ ERROR DISPLAY POPUP
         $("#rests-dt-mn").fadeOut();
         $("#po-detail-popup").fadeOut();
     })
+
+
+    $('#name_company').click(function(e){
+
+        if($("#dropdown-nav").is(':visible'))
+        {
+            $('#dropdown-nav').hide();
+        }
+        else {
+
+            $('#dropdown-nav').show();
+
+        }
+
+        e.stopPropagation();
+
+    });
+
+    $(document).click(function(e){
+
+        if(!(document.getElementById('dropdown-nav').contains(e.target)))
+        {
+            $('#dropdown-nav').hide();
+
+        }
+
+    });
+
 
 
 

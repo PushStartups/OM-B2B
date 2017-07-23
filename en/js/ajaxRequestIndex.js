@@ -1,8 +1,6 @@
 var dataObject;   // DATA OBJECT CONTAIN INFORMATION ABOUT COMPANY, USER & USER ORDER
 
-
 var keepLoaderUntilPageLoad = true;
-
 
 
 $(document).ready(function() {
@@ -14,14 +12,12 @@ $(document).ready(function() {
     // EXCEPTION IF USER OBJECT NOT RECEIVED UN-DEFINED
     if (dataObject != undefined && dataObject != "" && dataObject != null){
 
-
         dataObject = JSON.parse(localStorage.getItem("data_object_en"));
 
         var company_name   =   dataObject.company.company_name;
         company_name       =   company_name.replace(/\s/g, '');
 
         window.location.href = '/en/'+company_name+'/restaurants';
-
 
     }
     else
@@ -39,16 +35,12 @@ $(document).ready(function() {
             "payment_option" : 'CASH',         // PAYMENT OPTION CASH / CARD  DEFAULT CASH
             "discount": 0,                     // COMPANY DISCOUNT
             "selectedCardId" : null,           // SELECTED CARD ID BY USER FROM EXISTING CARDS
-            "transactionId" : "",              // TRANSACTION ID RECEIVED FROM CREDIT GUARD ON CARD PAYMENT ( REUQIRED IN CASE OF CANCEL ORDERS)
-            "platform_info" : "",              // PLATFORM INFO OF USER ( ANDROID , IOS , WEB )
-            "browser_info" : ""                // BROWSER INFO
+            "transactionId" : ""               // TRANSACTION ID RECEIVED FROM CREDIT GUARD ON CARD PAYMENT ( REUQIRED IN CASE OF CANCEL ORDERS)
         };
-
 
     }
 
 });
-
 
 
 // PASSWORD VERIFICATION FROM SERVER
@@ -64,8 +56,6 @@ function verifyUserPassword() {
         commonAjaxCall("/restapi/index.php/b2b_user_login", {"user_name": user_name, "password": password}, responseUserNamePasswordVerification);
 
     }
-
-
 }
 
 
@@ -123,7 +113,6 @@ function responseUserNamePasswordVerification(url,response) {
 
 function submitEmailForPasswordRecovery(){
 
-
     if(errorCheck("forgetPasswordForm")) // IF NO GENERAL ERROR EXISTS REQUEST SERVER FOR FORGET PASSWORD REQUEST
     {
 
@@ -133,7 +122,6 @@ function submitEmailForPasswordRecovery(){
         commonAjaxCall("/restapi/index.php/forgot_email", {"email": email}, callBackRespForgetPassword);
 
     }
-
 }
 
 function callBackRespForgetPassword(url,response)
@@ -158,7 +146,6 @@ function callBackRespForgetPassword(url,response)
             $('#email-sent-message').show();
             $('#email-error-message').hide();
         }
-
 
     }
     catch (exp)

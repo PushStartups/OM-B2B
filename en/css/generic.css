@@ -84,6 +84,7 @@ img.bg {
     margin: 0 !important;
     display: inline-block;
     vertical-align: top;
+    text-transform: uppercase;
 }
 .logo .comment{
     text-transform: none;
@@ -431,6 +432,7 @@ img.bg {
     overflow: hidden;
     margin: 0 0 20px;
     border-bottom: 4px solid #ff7f00;
+    position: relative;
 }
 .time-popup h3{text-transform: uppercase;}
 .time-popup h3,
@@ -818,6 +820,6 @@ img.bg {
     #header  .container,
     .block .container{min-width: 1240px !important;}
 }
-@media only screen and (max-width: 1299px){
+@media only screen and (max-width: 1330px){
     .logo{padding: 0 0 0 60px;}
 }

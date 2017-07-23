@@ -81,3 +81,10 @@
     overflow-y: scroll;
     max-height: 60vh !important;
 }
+#scrollable-cart-items {
+    max-height: 11vh;
+}
+#scrollable.add1{
+    max-height:80vh;
+}
+#scrollable-pragraph{max-height: 22vh;}

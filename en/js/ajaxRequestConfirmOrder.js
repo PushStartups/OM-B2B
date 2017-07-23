@@ -38,6 +38,9 @@ $(document).ready(function() {
     $("#rest-address").html(dataObject.rests_orders[selectedRestIndex].selectedRestaurant.address_en);
 
 
+    $('#user_name').html(dataObject.user.name+", Nice to meet you :)");
+
+
     $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+dataObject.user.userDiscountFromCompany+" NIS</em>");
 
 
@@ -45,6 +48,9 @@ $(document).ready(function() {
 
 
     $('#name').val(dataObject.user.name);
+
+
+    displayRestDetail();
 
 
     commonAjaxCall("/restapi/index.php/get_all_cards_info", {"user_email": dataObject.user.email}, user_cards_callback);
@@ -156,22 +162,30 @@ function updateCartElements()
             countItems = countItems +  parseInt(foodCartData[x].qty);
 
 
-            str +=  '<div class="order-item"> ' +
+            str +=  '<div class="order-item add"> ' +
                 '<div class="row no-gutters">' +
                 ' <div class="col-xs-2"> ' +
+
+                '<div class="btn-arrow new-add">'+
+                '<a href="#"  class="btn-up"  id="left-btn'+x+'" onclick="onQtyIncreaseButtonClicked(' + x + ')" class="left-btn"><i class="fa fa-angle-up" aria-hidden="true"></i></a>'+
+                '<span id="count'+x+'" class="count f black">' + foodCartData[x].qty.toString() + '</span>' +
+                '<a href="#" class="btn-down" onclick="onQtyDecreasedButtonClicked(' + x + ')" class="increase-btn"><i class="fa fa-angle-down" aria-hidden="true"></i></a>' +
+                '</div>'+
+
                 '</div> ' +
                 '<div class="col-xs-10"> ' +
                 '<div class="row no-gutters">' +
-                '<div class="col-xs-8">'+
-                '<p class="f black">' + foodCartData[x].name + '</p>'+
+                '<div class="col-xs-7">'+
+                '<p class="f black" style="min-width: 120px; white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis;">' + foodCartData[x].name + '</p>'+
                 '</div>'+
-                '<div class="col-xs-4">'+
+                '<div class="col-xs-5">'+
+                '<a class="remove new" onclick="removeItem(' + x + ')" href="#"><i class="fa fa-times" aria-hidden="true"></i></a>'+
                 '<p class="f black amount">' + foodCartData[x].price  + ' NIS</p>'+
                 '</div>'+
                 '</div>'+
                 '</div>'+
                 '</div>'+
-                '<div class="row no-gutters">'+
+                '<div class="row no-gutters hide-row">'+
                 '<div class="col-xs-2">'+
                 '<div class="btn-arrow">'+
                 '<a href="#"  class="btn-up"  id="left-btn'+x+'" class="left-btn"><i class="fa fa-angle-up" aria-hidden="true"></i></a>'+
@@ -259,6 +273,92 @@ function updateCartElements()
     $('#cash-message').html('Payment '+dataObject.total_paid+' NIS with Cash');
 
 }
+
+
+
+
+
+
+// RESTAURANT DETAIL POPUP
+
+function displayRestDetail() {
+
+
+    var selectedRest = dataObject.rests_orders[selectedRestIndex].selectedRestaurant;
+
+    // SETTING RESTAURANT DETAILS
+
+    var temp =  '<div class="img-frame">'+
+        '<a href="#"><img src="'+ selectedRest.logo +'" alt="logo-img"></a>'+
+        '</div>'+
+        '<h2>'+ selectedRest.name_en +'</h2>'+
+        '<p class="f white">'+ selectedRest.address_en +'</p>'+
+        '<span class="cart f white">Minimum Order '+ selectedRest.min_amount +' NIS</span>'+
+        '<div class="wrap">'+
+        '<div class="baron">'+
+        '<div id="scrollable-pragraph" class="baron__scroller">'+
+        '<p class="f white">'+ selectedRest.description_en +'</p>'+
+        '</div>'+
+        '<div class="baron__track">'+
+        '<div class="baron__bar add"></div>'+
+        '</div>'+
+        '</div>'+
+        '<img class="mobile-sec" src="/en/images/delivery line.png">';
+
+    $('#rest-detail').html(temp);
+
+
+
+    // SETTING TIMING OF CURRENT RESTAURANT
+
+    temp = '';
+
+    for (i = 0; i < selectedRest.timings.length; i++)
+    {
+
+        temp += '<tr><td>'+ selectedRest.timings[i].week_en +'</td>'+
+            '<td>'+ selectedRest.timings[i].opening_time + ' - ' + selectedRest.timings[i].closing_time +'</td></tr>';
+
+    }
+
+    $('#time-detail').html(temp);
+
+
+
+    // SETTING GALLERY IMAGES
+
+    temp = '';
+
+    for (i = 0; i < selectedRest.gallery.length; i++)
+    {
+
+        if (i == 0)
+            temp = '<div class="item active">';
+        else
+            temp += '<div class="item">';
+
+        temp += '<img src="'+ selectedRest.gallery[i].url +'" alt="Chania" width="50%">'+
+            '</div>';
+
+    }
+
+    $('#gallery-images').html(temp);
+
+
+
+    // SETTING MINIMUM ORDER
+
+    temp = '<p>Minimum Order '+ selectedRest.min_amount +' NIS</p>';
+
+    $('#min-order').html(temp);
+
+
+
+}
+
+
+
+
 
 
 function addNewCard() {
