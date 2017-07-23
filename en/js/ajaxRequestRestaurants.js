@@ -152,7 +152,6 @@ function responseListOfRestaurants(url,response) {
         {
 
             var kashrutString  =  fromKashrutToString(listOfRestaurants[x]);
-            var tagsString     =  fromTagsToString(listOfRestaurants[x]);
 
 
             var isShow = false;
@@ -236,7 +235,7 @@ function responseListOfRestaurants(url,response) {
                         '</div>' +
                         '<div class="txt">' +
                         '<h1 style="cursor: pointer" onclick="onOrderNowClicked('+x+')" class="light">' + listOfRestaurants[x].name_en + '</h1>' +
-                        '<p><em class="f black">Kashrut</em> ' + kashrutString+'<br>'+tagsString +'</p>' +
+                        '<p><em class="f black">Kashrut</em> ' + kashrutString + ' </p>' +
                         '</div>' +
                         '</li>' +
                         '<li>' +
@@ -379,29 +378,6 @@ function fromKashrutToString (restaurant)
 
     return kashrut;
 }
-
-
-
-// CONVERT ALL RESTAUTANT TAGS TO STRING
-function fromTagsToString (restaurant)
-{
-    var tags = "";
-
-    for (var i=0 ; i < restaurant.tags.length ; i++)
-    {
-
-        if ( i == 0)
-            tags += restaurant.tags[i]['name_en'];
-
-        else
-            tags += ", "+restaurant.tags[i]['name_en'] ;
-
-
-    }
-
-    return tags;
-}
-
 
 
 
@@ -837,7 +813,7 @@ function responsePendingOrders(url, response) {
 
     try {
 
-        var str = '<h2 class="light">19/06/17</h2>';
+         var str = '<h2 class="light"></h2>';
 
 
         for(var x=0;x<response.length;x++) {
