@@ -86,6 +86,8 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
             $company['company_address']         =   $companyDB['delivery_address'];
             $company['company_discount']        =   $companyDB['discount'];
             $company['discount_type']           =   $companyDB['discount_type'];
+            $company['lat']                     =   $companyDB['lat'];
+            $company['lng']                     =   $companyDB['lng'];
 
 
             $obj['company']                 	=   $company;
@@ -1336,7 +1338,9 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
         'restaurant_id'                 => $user_order['rests_orders'][0]['selectedRestaurant']['id'],
         "date"                          => DB::sqleval("NOW()"),
         "rest_order_object"             => json_encode($user_order),
-        "payment_info"                  => $user_order['payment_option']
+        "payment_info"                  => $user_order['payment_option'],
+        "platform_info"                 => $user_order['platform_info'],
+        "browser_info"                  => $user_order['browser_info'],
     ));
 
 
