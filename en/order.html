@@ -418,8 +418,8 @@
                                     </div>
                                 </div>
                                 <div class="info-card">
-                                    <button class="btn-submit" onclick="OnOrderNowClicked()" type="button">place order</button>
-                                    <!--<div class="tooltip-popup popup"><p class="f black">Your cart is empty</p></div>-->
+                                    <button class="btn-submit" id="btn-submit" onclick="OnOrderNowClicked()" type="button">place order</button>
+                                    <div style="display: none;" class="tooltip-popup popup" id="empty-tooltip"><p class="f black">Your cart is empty</p></div>
                                 </div>
                             </div>
 
@@ -720,10 +720,13 @@
 
         }
 
+        if(!(document.getElementById('btn-submit').contains(e.target)))
+        {
+            $('#empty-tooltip').hide();
+
+        }
+
     });
-
-
-
 
 </script>
 

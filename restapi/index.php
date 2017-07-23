@@ -460,7 +460,7 @@ $app->post('/get_all_past_orders', function ($request, $response, $args)
         if($filter == "last_week") {
 
 
-            $results = DB::query(" SELECT * FROM b2b_orders WHERE date > DATE_SUB( NOW( ) , INTERVAL 1 WEEK )  AND user_id = $user_id AND order_status <> 'pending' AND ignore_old_reorder = 'false'");
+            $results = DB::query(" SELECT * FROM b2b_orders WHERE date > DATE_SUB( NOW( ) , INTERVAL 1 WEEK )  AND user_id = $user_id AND order_status <> 'pending'");
 
         }
         else{
@@ -475,7 +475,7 @@ $app->post('/get_all_past_orders', function ($request, $response, $args)
             $end_date = $end_date->format('Y-m-d');
 
 
-            $results = DB::query(" SELECT * FROM b2b_orders WHERE date BETWEEN '$start_date'  AND  '$end_date' AND user_id = $user_id AND order_status <> 'pending' AND ignore_old_reorder = 'false'");
+            $results = DB::query(" SELECT * FROM b2b_orders WHERE date BETWEEN '$start_date'  AND  '$end_date' AND user_id = $user_id AND order_status <> 'pending'");
         }
 
 
@@ -495,14 +495,6 @@ $app->post('/get_all_past_orders', function ($request, $response, $args)
 
             $order_detail =  DB::query("select * from b2b_order_detail where order_id = '" . $result['id'] . "'");
             $results[$ctn]['order_detail'] = $order_detail;
-
-
-            $date = explode(" ",$result['date']);
-            $date = DateTime::createFromFormat('Y-m-d',$date[0]);
-            $date = $date->format('d/m/y');
-
-            $results[$ctn]['date'] = $date;
-
 
             $ctn++;
 
@@ -543,7 +535,7 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
 
         $user_id = $request->getParam('user_id');
 
-        $results  =  DB::query("select * from b2b_orders where user_id = '$user_id' AND order_status = 'pending' ");
+        $results  =  DB::query("select * from b2b_orders where user_id = '$user_id' AND order_status = 'pending' order by id DESC ");
 
 
         $ctn = 0;
@@ -1348,7 +1340,6 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
         "payment_info"                  => $user_order['payment_option'],
         "platform_info"                 => $user_order['platform_info'],
         "browser_info"                  => $user_order['browser_info'],
-        "ignore_old_reorder"            => "false",
     ));
 
 

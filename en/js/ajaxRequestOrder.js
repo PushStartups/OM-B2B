@@ -1516,26 +1516,31 @@ function removeItem(index) {
 // USER CLICKED ORDER NOW
 function OnOrderNowClicked() {
 
-
-    if(foodCartData.length != 0) {
-
-
+    if(foodCartData != null && foodCartData.length != 0 ) {
         generateTotalUpdateFoodCart();
 
+        if (convertFloat(userObject.total) < convertFloat(minOrderLimit) && (!ignoreMinOrderLimit)) {
+            $("#minAmount").css("color", "red");
+        }
+        else {
 
-        dataObject.rests_orders[selectedRestIndex].foodCartData = foodCartData;
+            userObject.subTotal = userObject.total;
 
+            localStorage.setItem("USER_OBJECT", JSON.stringify(userObject));
+            localStorage.setItem("FOOD_CARD_DATA", JSON.stringify(foodCartData));
 
-        localStorage.setItem("data_object_en", JSON.stringify(dataObject));
-        localStorage.setItem("tempDiscountFromCompanyCal", tempDiscountFromCompanyCal);
-
-
-        window.location.href = '/en/confirm-order';
+            $("#minAmount").css("color", "black");
+            window.location.href = '/en/confirm-order';
+        }
 
     }
+    else {
 
+        $('#empty-tooltip').show();
 
+    }
 }
+
 
 
 function convertFloat(num)
