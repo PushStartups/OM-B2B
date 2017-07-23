@@ -18,8 +18,14 @@ function commonAjaxCall(url,data,callBcak)
 
             try {
 
+
                 var res = response;
-                callBcak(url,res);
+
+                if(callBcak != null)
+                {
+                    callBcak(url,res);
+                }
+
                 hideLoading();
 
             }
@@ -33,7 +39,11 @@ function commonAjaxCall(url,data,callBcak)
         error: function (jqXHR, textStatus, errorThrown) {
 
 
-            errorHandlerServerResponse(url,"No Response From Server");
+            if(callBcak != null)
+            {
+                errorHandlerServerResponse(url,"No Response From Server");
+            }
+
             hideLoading();
         }
 
@@ -48,17 +58,21 @@ function addLoading(){
     $("#Loader_bg").css("display" , "block");
 
 
+
 }
+
 
 
 // HIDE LOADING ON AJAX CALLS
 function hideLoading(){
+
 
     if(!keepLoaderUntilPageLoad) {
 
         $("#Loader_bg").css("display", "none");
 
     }
+
 
 }
 
@@ -69,10 +83,9 @@ function errorHandlerServerResponse(url,message) {
     // THROW ERROR TO USER
     $('#error-info-popup').modal('show');
 
-    // GENERATE EMAIL FOR ADMIN AGAINST ISSUE
 
-    commonAjaxCall("/restapi/index.php/error_report", {"host": window.location.hostname, "url": url, "message" : message},empty);
+    // GENERATE EMAIL FOR ADMIN AGAINST ISSUE
+    commonAjaxCall("/restapi/index.php/error_report", {"host": window.location.hostname, "url": url, "message" : message}, null);
+
 
 }
-
-function empty(response) {};
