@@ -419,7 +419,7 @@
                                 </div>
                                 <div class="info-card">
                                     <button class="btn-submit" id="btn-submit" onclick="OnOrderNowClicked()" type="button">place order</button>
-                                    <div style="display: none;" class="tooltip-popup popup" id="empty-tooltip"><p class="f black">Your cart is empty</p></div>
+                                    <div style="display: none;" class="tooltip-popup popup" id="empty-tooltip"><p class="f black"></p></div>
                                 </div>
                             </div>
 
@@ -588,8 +588,9 @@
 <!-- popup two -->
 <div class="modal fade"  id="popup-info" role="dialog">
     <div class="modal-dialog modal-md mypopup info">
+        <button type="button" class="close" data-dismiss="modal"><span class="f white" aria-hidden="true">×</span></button>
         <div class="modal-content">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+
             <div class="row no-gutters">
                 <div class="col-md-6 col-sm-6 col-xs-6 first-col text-center" id="rest-detail">
 

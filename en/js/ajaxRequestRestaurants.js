@@ -116,6 +116,10 @@ function responseDBAllTagsKashrut(url, response) {
 
         $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+dataObject.user.userDiscountFromCompany+" NIS</em>");
 
+        $("#name2").html('Hi '+dataObject.user.name+", "+dataObject.company.company_name);
+
+        $("#name3").html('Hi '+dataObject.user.name+", "+dataObject.company.company_name);
+
 
         // REQUEST ALL RESTAURANTS FROM SERVER
         commonAjaxCall("/restapi/index.php/get_all_restaurants", {"company_id":dataObject.company.company_id}, responseListOfRestaurants);
@@ -482,85 +486,22 @@ function responsePastOrders(url,response) {
 
 
         var cancelled_orders_count = 0;
+        var emptylist = true;
 
-        for(var x=0;x<response.length;x++)
-        {
+            for (var x = 0; x < response.length; x++) {
 
 
-            // IF COMPANY ORDERING OPEN ALLOW REORDERING
-            if(company_open_status) {
-
-                // DELIVERED ORDERS
-
-                if (response[x].order_status == 'delivered') {
-                    str += '<li>' +
-                        '<ul>' +
-                        '<li class="new-first">' +
-                        '<div class="img-circle">' +
-                        '<img src="/en/images/logo-img.png" alt="images description">' +
-                        '</div>' +
-                        '<div class="txt">' +
-                        '<h1>' + response[x].rest_name + '</h1>' +
-                        '<div class="order received"><i class="fa fa-check-circle" aria-hidden="true"></i> <p>Order received</p></div>' +
-                        '<p>Order from date <em class="f black">'+response[x].date+'</em><br> in the amount of <em class="f black">' + response[x]['actual_total'] + ' NIS</em></p>' +
-                        '</div>' +
-                        '</li>' +
-                        '<li class="last add">' +
-                        '<div class="btn-box"><button class="bt_ordernow" onclick="requestReOrder('+x+')" data-toggle="modal" type="button">Reorder</button></div>' +
-                        '<div class="text add">';
+                // IF COMPANY ORDERING OPEN ALLOW REORDERING
+                if (company_open_status) {
 
 
 
-                    if (response[x].order_detail.length <= 2) {
 
+                    // DELIVERED ORDERS
 
-                        for (var y = 0; y < response[x].order_detail.length; y++) {
+                    if (response[x].order_status == 'delivered') {
 
-                            str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
-
-                        }
-
-                    }
-                    else {
-
-                        for (var y = 0; y < 2; y++) {
-
-                            str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
-
-                        }
-
-                    }
-
-                    if (response[x].order_detail.length > 2) {
-
-                        str += '<div id="more-info-' + x + '" style="display: none">';
-
-                        for (var y = 2; y < response[x].order_detail.length; y++) {
-
-                            str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
-
-                        }
-
-                        str += '</div>';
-                        str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">more info</a>';
-                    }
-
-
-                    str += '</div>' +
-                        '</li>' +
-                        '</ul>' +
-                        '</li>';
-
-                }
-
-                // CANCELED ORDERS
-
-                else {
-
-                    cancelled_orders_count++;
-
-                    if($("#cb_cancelled_past_orders").is(':checked')) {
-
+                        emptylist = false;
 
                         str += '<li>' +
                             '<ul>' +
@@ -570,22 +511,24 @@ function responsePastOrders(url,response) {
                             '</div>' +
                             '<div class="txt">' +
                             '<h1>' + response[x].rest_name + '</h1>' +
-                            '<div class="order canceled"><i class="fa fa-times-circle" aria-hidden="true"></i> <p>Cancelled</p></div>' +
+                            '<div class="order received"><i class="fa fa-check-circle" aria-hidden="true"></i> <p>Order received</p></div>' +
                             '<p>Order from date <em class="f black">' + response[x].date + '</em><br> in the amount of <em class="f black">' + response[x]['actual_total'] + ' NIS</em></p>' +
                             '</div>' +
                             '</li>' +
                             '<li class="last add">' +
-                            '<div class="btn-box"><button class="bt_ordernow" onclick="requestReOrder('+x+')"  data-toggle="modal" type="button">Reorder</button></div>' +
+                            '<div class="btn-box"><button class="bt_ordernow" onclick="requestReOrder(' + x + ')" data-toggle="modal" type="button">Reorder</button></div>' +
                             '<div class="text add">';
 
 
                         if (response[x].order_detail.length <= 2) {
+
 
                             for (var y = 0; y < response[x].order_detail.length; y++) {
 
                                 str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
 
                             }
+
                         }
                         else {
 
@@ -616,84 +559,89 @@ function responsePastOrders(url,response) {
                             '</li>' +
                             '</ul>' +
                             '</li>';
+
                     }
 
-                }
-            }
+                    // CANCELED ORDERS
 
-
-
-            // IF COMPANY ORDERING CLOSED  DO NOT ALLOW REORDERING
-
-            else {
-
-                if (response[x].order_status == 'delivered') {
-                    str += '<li class="offline">' +
-                        '<ul>' +
-                        '<li class="new-first">' +
-                        '<div class="img-circle">' +
-                        '<img src="/en/images/logo-img.png" alt="images description">' +
-                        '</div>' +
-                        '<div class="txt">' +
-                        '<h1>' + response[x].rest_name + '</h1>' +
-                        '<div class="order received"><i class="fa fa-check-circle" aria-hidden="true"></i> <p>Order received</p></div>' +
-                        '<p>Order from date <em class="f black">'+response[x].date+'</em><br> in the amount of <em class="f black">' + response[x]['actual_total'] + ' NIS</em></p>' +
-                        '</div>' +
-                        '</li>' +
-                        '<li class="last add">' +
-                        '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button">Reorder</button></div>' +
-                        '<div class="text add">';
-
-
-                    if (response[x].order_detail.length <= 2) {
-
-                        for (var y = 0; y < response[x].order_detail.length; y++) {
-
-                            str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
-
-                        }
-                    }
                     else {
 
-                        for (var y = 0; y < 2; y++) {
 
-                            str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
 
+
+                        if ($("#cb_cancelled_past_orders").is(':checked')) {
+
+                            cancelled_orders_count++;
+                            emptylist = false;
+
+                            str += '<li>' +
+                                '<ul>' +
+                                '<li class="new-first">' +
+                                '<div class="img-circle">' +
+                                '<img src="/en/images/logo-img.png" alt="images description">' +
+                                '</div>' +
+                                '<div class="txt">' +
+                                '<h1>' + response[x].rest_name + '</h1>' +
+                                '<div class="order canceled"><i class="fa fa-times-circle" aria-hidden="true"></i> <p>Cancelled</p></div>' +
+                                '<p>Order from date <em class="f black">' + response[x].date + '</em><br> in the amount of <em class="f black">' + response[x]['actual_total'] + ' NIS</em></p>' +
+                                '</div>' +
+                                '</li>' +
+                                '<li class="last add">' +
+                                '<div class="btn-box"><button class="bt_ordernow" onclick="requestReOrder(' + x + ')"  data-toggle="modal" type="button">Reorder</button></div>' +
+                                '<div class="text add">';
+
+
+                            if (response[x].order_detail.length <= 2) {
+
+                                for (var y = 0; y < response[x].order_detail.length; y++) {
+
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+
+                                }
+                            }
+                            else {
+
+                                for (var y = 0; y < 2; y++) {
+
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+
+                                }
+
+                            }
+
+                            if (response[x].order_detail.length > 2) {
+
+                                str += '<div id="more-info-' + x + '" style="display: none">';
+
+                                for (var y = 2; y < response[x].order_detail.length; y++) {
+
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+
+                                }
+
+                                str += '</div>';
+                                str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">more info</a>';
+                            }
+
+
+                            str += '</div>' +
+                                '</li>' +
+                                '</ul>' +
+                                '</li>';
                         }
 
                     }
-
-                    if (response[x].order_detail.length > 2) {
-
-                        str += '<div id="more-info-' + x + '" style="display: none">';
-
-                        for (var y = 2; y < response[x].order_detail.length; y++) {
-
-                            str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
-
-                        }
-
-                        str += '</div>';
-                        str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">more info</a>';
-                    }
-
-
-                    str += '</div>' +
-                        '</li>' +
-                        '</ul>' +
-                        '</li>';
-
                 }
 
-                // CANCELED ORDERS
+
+
+                // IF COMPANY ORDERING CLOSED  DO NOT ALLOW REORDERING
 
                 else {
 
-                    cancelled_orders_count++;
+                    if (response[x].order_status == 'delivered') {
 
-                    if($("#cb_cancelled_past_orders").is(':checked')) {
-
-
+                        emptylist = false;
 
                         str += '<li class="offline">' +
                             '<ul>' +
@@ -703,7 +651,7 @@ function responsePastOrders(url,response) {
                             '</div>' +
                             '<div class="txt">' +
                             '<h1>' + response[x].rest_name + '</h1>' +
-                            '<div class="order canceled"><i class="fa fa-times-circle" aria-hidden="true"></i> <p>Cancelled</p></div>' +
+                            '<div class="order received"><i class="fa fa-check-circle" aria-hidden="true"></i> <p>Order received</p></div>' +
                             '<p>Order from date <em class="f black">' + response[x].date + '</em><br> in the amount of <em class="f black">' + response[x]['actual_total'] + ' NIS</em></p>' +
                             '</div>' +
                             '</li>' +
@@ -751,18 +699,101 @@ function responsePastOrders(url,response) {
                             '</li>';
 
                     }
+
+                    // CANCELED ORDERS
+
+                    else {
+
+
+
+                        if ($("#cb_cancelled_past_orders").is(':checked')) {
+
+                            cancelled_orders_count++;
+                            emptylist = false;
+
+                            str += '<li class="offline">' +
+                                '<ul>' +
+                                '<li class="new-first">' +
+                                '<div class="img-circle">' +
+                                '<img src="/en/images/logo-img.png" alt="images description">' +
+                                '</div>' +
+                                '<div class="txt">' +
+                                '<h1>' + response[x].rest_name + '</h1>' +
+                                '<div class="order canceled"><i class="fa fa-times-circle" aria-hidden="true"></i> <p>Cancelled</p></div>' +
+                                '<p>Order from date <em class="f black">' + response[x].date + '</em><br> in the amount of <em class="f black">' + response[x]['actual_total'] + ' NIS</em></p>' +
+                                '</div>' +
+                                '</li>' +
+                                '<li class="last add">' +
+                                '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button">Reorder</button></div>' +
+                                '<div class="text add">';
+
+
+                            if (response[x].order_detail.length <= 2) {
+
+                                for (var y = 0; y < response[x].order_detail.length; y++) {
+
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+
+                                }
+                            }
+                            else {
+
+                                for (var y = 0; y < 2; y++) {
+
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+
+                                }
+
+                            }
+
+                            if (response[x].order_detail.length > 2) {
+
+                                str += '<div id="more-info-' + x + '" style="display: none">';
+
+                                for (var y = 2; y < response[x].order_detail.length; y++) {
+
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+
+                                }
+
+                                str += '</div>';
+                                str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">more info</a>';
+                            }
+
+
+                            str += '</div>' +
+                                '</li>' +
+                                '</ul>' +
+                                '</li>';
+
+                        }
+                    }
+
                 }
+            }
+
+
+            str += '<li class="last-row"></li>';
+
+            if(emptylist == true)
+            {
+                $('#past-orders').hide();
+                $('#empty-past-orders').show();
 
             }
-        }
+            else {
+
+                $('#past-orders').html(str);
+                $('#past-orders').show();
+                $('#empty-past-orders').hide();
+
+            }
 
 
-        str +=  '<li class="last-row"></li>';
+
 
 
         $('#cancelled_order_text').html("Show Canceled orders ["+cancelled_orders_count+"]");
-
-        $('#past-orders').html(str);
         past_orders_object = response;
 
     }
@@ -839,12 +870,14 @@ function responsePendingOrders(url, response) {
 
     try {
 
-         var str = '<h2 class="light"></h2>';
 
+         var str = '<h2 class="light"></h2>';
+         var emptyList = true;
 
         for(var x=0;x<response.length;x++) {
 
 
+            emptyList = false;
             str +=
 
                 '<div class="view-order">'+
@@ -898,7 +931,21 @@ function responsePendingOrders(url, response) {
 
 
         pending_orders_object = response;
-        $('#pending-orders').html(str);
+
+
+        if(emptyList == false)
+        {
+            $('#pending-orders').html(str);
+            $('#pending-orders').show();
+            $('#empty-pending-orders').hide();
+            $('#change-status-ow').addClass('active');
+        }
+        else {
+
+            $('#pending-orders').hide();
+            $('#empty-pending-orders').show();
+            $('#change-status-ow').removeClass('active');
+        }
 
     }
     catch (exp)

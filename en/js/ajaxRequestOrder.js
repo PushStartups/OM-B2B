@@ -149,14 +149,25 @@ function callBackGetCategoriesWithItems(url,response) {
                     '</div>' +
                     '<div class="col-xs-4 pull-right">' +
                     '<div class="price-holder">' +
-                    '<span class="new-dis"><i class="fa fa-tag" aria-hidden="true"></i>'+ allCategoriesWithItemsResp[x].items[y].price+' NIS</span>' +
-                    '<span class="price">'+oldPrice+' NIS </span>' +
-                    '</div>' +
-                    '<img class="img-plus" src="/en/images/plus-icon.png">' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>';
+                    '<span class="new-dis"><i class="fa fa-tag" aria-hidden="true"></i>'+ allCategoriesWithItemsResp[x].items[y].price+' NIS</span>';
+
+                    if(allCategoriesWithItemsResp[x].items[y].price == oldPrice)
+                    {
+                        str += '<span class="price" style="display: none">'+oldPrice+' NIS </span>';
+                    }
+                    else {
+
+                        str += '<span class="price">'+oldPrice+' NIS </span>';
+
+                    }
+
+                str += '</div>' +
+                '<img class="img-plus" src="/en/images/plus-icon.png">' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+
 
             }
 
@@ -1517,25 +1528,38 @@ function removeItem(index) {
 function OnOrderNowClicked() {
 
 
-    if(foodCartData != null && foodCartData.length != 0) {
-
-
-        generateTotalUpdateFoodCart();
-
-
-        dataObject.rests_orders[selectedRestIndex].foodCartData = foodCartData;
-
-
-        localStorage.setItem("data_object_en", JSON.stringify(dataObject));
-        localStorage.setItem("tempDiscountFromCompanyCal", tempDiscountFromCompanyCal);
-
-
-        window.location.href = '/en/confirm-order';
+    if(dataObject.actual_total < dataObject.rests_orders[selectedRestIndex].selectedRestaurant.min_amount)
+    {
+        $('#empty-tooltip').html('Minimum Order Amount '+dataObject.rests_orders[selectedRestIndex].selectedRestaurant.min_amount+"NIS");
+        $('#empty-tooltip').show();
 
     }
     else {
 
-        $('#empty-tooltip').show();
+        if (foodCartData != null && foodCartData.length != 0) {
+
+
+            generateTotalUpdateFoodCart();
+
+
+            dataObject.rests_orders[selectedRestIndex].foodCartData = foodCartData;
+
+
+            localStorage.setItem("data_object_en", JSON.stringify(dataObject));
+            localStorage.setItem("tempDiscountFromCompanyCal", tempDiscountFromCompanyCal);
+
+
+            window.location.href = '/en/confirm-order';
+
+            $('#empty-tooltip').hide();
+
+        }
+        else {
+
+            $('#empty-tooltip').html('Your cart is empty');
+            $('#empty-tooltip').show();
+
+        }
 
     }
 

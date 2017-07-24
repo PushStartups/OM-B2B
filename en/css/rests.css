@@ -209,6 +209,7 @@
     border-top: 1px solid #cacaca;
 }
 .rest-list li:first-child{border: none;}
+.rest-list.add-style > .last-row{border: none;}
 .last-row {
     height: 281px;
     border: none;
@@ -756,4 +757,13 @@
     .text {
         padding: 6px 0 0;
     }
+}
+
+.massage-txt{
+    overflow: hidden;
+    padding: 80px 78px;
+
+}
+.massage-txt h2{
+    margin: 0;
 }

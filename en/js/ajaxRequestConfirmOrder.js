@@ -8,8 +8,9 @@ var tempDiscountFromCompanyCal = 0;
 
 var user_cards  = null;
 
-
 var keepLoaderUntilPageLoad   =  true;
+
+var paymentException  =  true;
 
 
 $(document).ready(function() {
@@ -48,6 +49,7 @@ $(document).ready(function() {
 
 
     $('#name').val(dataObject.user.name);
+
 
 
     displayRestDetail();
@@ -271,6 +273,22 @@ function updateCartElements()
     $('#card-message').html('Payment '+dataObject.total_paid+' NIS Card No.');
 
     $('#cash-message').html('Payment '+dataObject.total_paid+' NIS with Cash');
+
+    if(dataObject.total_paid == 0)
+    {
+
+        $('#hidePaymentOption').hide();
+        paymentException = true;
+
+    }
+    else {
+
+
+        $('#hidePaymentOption').show();
+        paymentException = false;
+
+    }
+
 
 }
 
@@ -513,42 +531,51 @@ function onCancel() {
 function onOrderNowClicked() {
 
 
-    $('#error-user-name').hide();
-    $('#error-card-number').hide();
-    $('#error-month-year').hide();
-    $('#error-cvv').hide();
+    if(!paymentException) {
+
+        $('#error-user-name').hide();
+        $('#error-card-number').hide();
+        $('#error-month-year').hide();
+        $('#error-cvv').hide();
 
 
-    // CASH
+        // CASH
 
-    if($('#cash-cb').is(":checked"))
-    {
+        if ($('#cash-cb').is(":checked")) {
 
-        dataObject.payment_option = "CASH";
-        processOrder();
+            dataObject.payment_option = "CASH";
+            processOrder();
 
-
-    }
-
-    // CREDIT CARD
-
-    else {
-
-
-        dataObject.payment_option = "CARD";
-
-
-        if(dataObject.selectedCardId == null) {
-
-
-            $('#card-errors').html("Add Card!");
 
         }
+
+        // CREDIT CARD
+
         else {
 
-            $('#card-errors').html("");
-            payment_credit_card();
+
+            dataObject.payment_option = "CARD";
+
+
+            if (dataObject.selectedCardId == null) {
+
+
+                $('#card-errors').html("Add Card!");
+
+            }
+            else {
+
+                $('#card-errors').html("");
+                payment_credit_card();
+            }
         }
+
+    }
+    else {
+
+        dataObject.payment_option = "No Payment";
+        processOrder();
+
     }
 
 }
