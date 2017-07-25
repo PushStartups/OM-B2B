@@ -394,6 +394,8 @@ function responseListOfRestaurants(url,response) {
             $('#panel41').removeClass("active");
 
 
+            track = "";
+
             localStorage.setItem("order_on_way","");
 
             commonAjaxCall("/restapi/index.php/get_all_pending_orders", {"user_id": dataObject.user.user_id}, responsePendingOrders);
