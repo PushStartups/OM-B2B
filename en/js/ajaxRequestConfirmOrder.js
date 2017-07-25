@@ -291,6 +291,8 @@ function updateCartElements()
 
         $('#hidePaymentOption').hide();
         paymentException = true;
+        $('.box-list').addClass('f-size-change');
+
 
     }
     else {
@@ -298,6 +300,7 @@ function updateCartElements()
 
         $('#hidePaymentOption').show();
         paymentException = false;
+        $('.box-list').removeClass('f-size-change');
 
     }
 

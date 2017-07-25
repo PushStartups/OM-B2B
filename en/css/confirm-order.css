@@ -534,6 +534,8 @@
     background-color: #ffffff;
     border: solid 1px #797979;
 }
+
+
 .fa-times{
     position: absolute;
     top:-4px;
@@ -645,6 +647,10 @@
     padding: 17px 7px 0;
     border-top:1px solid #DCDCDC;
 }
+.order-info .f-size-change{
+    padding: 5px 7px 0;
+    border-top:none;
+}
 .add-block label{
     font-size: 12px;
     line-height: 15px;
@@ -652,6 +658,11 @@
     margin: 0 0 5px;
     display: block;
     font-weight: 400;
+}
+.order-info .f-size-change label{
+    color: #000;
+    font-size: 24px;
+    line-height: 27px;
 }
 .order-info  .box-list .form-control{
     margin:0;

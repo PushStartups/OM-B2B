@@ -941,7 +941,7 @@ $app->post('/store_credit_card_info', function ($request, $response, $args){
 
     $rest = "Error";
     $cgConf['tid']='8804324';
-    $cgConf['amount']= 100;
+    $cgConf['amount']= 1;
     $cgConf['user']='pushstart';
     $cgConf['password']='OE2@38sz';
     $cgConf['cg_gateway_url']="https://cgpay5.creditguard.co.il/xpo/Relay";
