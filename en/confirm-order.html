@@ -241,7 +241,7 @@
 
                                                     </div>
 
-                                                    <a class="btn-link" id="cc_use_other_card" onclick="onCancel()" style="visibility: hidden" href="#">Add a new card</a>
+                                                    <a class="btn-link" id="cc_use_other_card"  style="visibility: hidden" href="#">Add a new card</a>
                                                 </div>
 
 
@@ -758,18 +758,23 @@
     $(document).ready(function(){
 
         $(".btn-link").click(function () {
+
             $(".show-txt").show();
             $(".btn-link").hide();
+            dataObject.selectedCardId = null;
+
         });
     });
 
     $(document).ready(function(){
+
         $(".btn-add-submit.add").click(function () {
 
             $(".show-txt").hide();
             $(".btn-link").show();
 
         });
+
     });
 
 

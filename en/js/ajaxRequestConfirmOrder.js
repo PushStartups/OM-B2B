@@ -604,12 +604,15 @@ function onCancel() {
     $('#dropdownMenuButton2').html("YY");
     $('#dropdownMenuButton').html("MM");
 
-
     $('#error-user-name').hide();
+    $('#name-error-dot').hide();
     $('#error-card-number').hide();
+    $('#card-error-dot').hide();
     $('#dropdownMenuButton').removeClass('add-error');
     $('#dropdownMenuButton2').removeClass('add-error');
     $('#error-cvv').hide();
+    $('#error_cvv_dot').hide();
+    $('#cvv-card-icon').show();
 
     $('#card-errors').html('');
 }
@@ -629,8 +632,8 @@ function payment_credit_card(usage) {
     }
     else {
 
-        // usage  -> direct use card without save
-        // usage  -> save save card and then use
+       // usage  -> direct use card without save
+       // usage  -> save save card and then use
 
         if(usage == "direct")
         {
@@ -791,8 +794,9 @@ function processOrderCallBack(url, response)
         $(".txt-block").show();
 
 
-        keepLoaderUntilPageLoad = false;
-        hideLoading();
+            keepLoaderUntilPageLoad = false;
+            hideLoading();
+
 
     }
     catch (exp)

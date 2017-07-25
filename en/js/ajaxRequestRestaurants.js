@@ -918,7 +918,7 @@ function responseReOrderObject(url,response) {
         var company_name     =   dataObject.company.company_name;
         company_name         =   company_name.replace(/\s/g, '');
 
-        var restaurant_name  =    dataObject.rests_orders[selectedRestIndex].selectedRestaurant.name_en;
+        var restaurant_name  =    dataObject.rests_orders[0].selectedRestaurant.name_en;
         restaurant_name      =    restaurant_name.replace(/\s/g, '');
 
         window.location.href = '/en/'+company_name+"/"+restaurant_name+'/order';
