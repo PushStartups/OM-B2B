@@ -96,11 +96,12 @@
         location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
     }
 
-    var dataObject = localStorage.getItem("data_object_en");
+
+    var user_id = localStorage.getItem("user_id_b2b");
 
 
     // EXCEPTION IF USER OBJECT NOT RECEIVED UN-DEFINED
-    if (dataObject == undefined || dataObject == "" || dataObject == null){
+    if (user_id == undefined || user_id == "" || user_id == null){
 
 
         window.location.href = '/';
@@ -177,7 +178,7 @@
                                     </a>
                                     <div class="dropdown-nav" id="dropdown-nav" style="display: none;">
                                         <h3 id="user_name"></h3>
-                                        <a onclick="localStorage.setItem('data_object_en', ''); window.location.href='/'" href="#">Disconnect</a>
+                                        <a onclick="goBack()" href="#">Disconnect</a>
                                     </div>
                                 </li>
                             </ul>
@@ -189,7 +190,7 @@
                     </div>
                 </div>
             </div>
-            <a onclick="localStorage.setItem('data_object_en', ''); window.location.href='/'" class="btn-back" href="#"><img src="/en/images/icon01.png"></a>
+            <a onclick="goBack()" class="btn-back" href="#"><img src="/en/images/icon01.png"></a>
         </div>
     </section>
     <section class="block">
@@ -1197,6 +1198,15 @@ ERROR DISPLAY POPUP
         }
 
     });
+
+
+    function goBack() {
+
+
+        localStorage.setItem('user_id_b2b', '');
+        window.location.href='/'
+
+    }
 
 
 

@@ -82,14 +82,10 @@ function email_order_summary_english($user_order,$orderId,$todayDate)
 
     //TODAY REMAINING BALANCE SECTION
     $mailbody .= '<tr style="font-size: 18px;  font-weight: bold" >';
-    if($user_order['discount_type'] == "daily"){
-        $mailbody .= "<td style='padding: 5px 0' >Remaining Balance Today* </td>";
-    }
-    else{
-        $mailbody .= "<td style='padding: 5px 0' >Remaining Balance for the month* </td>";
-    }
 
-    $mailbody .= '<td style="text-align: right; white-space: nowrap"> <span style="color: #FF864C;" > '.$user_order['discount'].' NIS</span></td>';
+
+    $mailbody .= "<td style='padding: 5px 0' >Discount </td>";
+    $mailbody .= '<td style="text-align: right; white-space: nowrap"> <span style="color: #FF864C;" > '.$user_order['discount'].'% NIS</span></td>';
     $mailbody .= '</tr>';
 
 
@@ -730,7 +726,7 @@ function sendReportToDevTeam($host, $url, $message){
 
     //To address and name
     $mail->addAddress('errors@orderapp.com');                // SEND EMAIL TO DEV TEAM
-    $mail->addAddress('ahmad@experintsol.com');                // SEND EMAIL TO DEV TEAM
+
     $mail->addAddress('errors@experintsol.com');                // SEND EMAIL TO DEV TEAM
 
     $mail->AddCC(EMAIL);                                          //SEND  CLIENT EMAIL COPY TO ADMIN
@@ -849,14 +845,9 @@ function email_order_summary_hebrew($user_order,$orderId,$todayDate)
 
     //TODAY REMAINING BALANCE SECTION
     $mailbody .= '<tr style="font-size: 18px;  font-weight: bold" >';
-    $mailbody .= '<td style="white-space: nowrap"> <span style="color: #FF864C;" >&nbsp;<span dir="rtl">ש"ח</span>&nbsp; '.$user_order['discount'].'</span></td>';
-    if($user_order['discount_type'] == "daily"){
-        $mailbody .= '<td style="padding: 5px 0; text-align: right;" >יתרת היום* </td>';
-    }
-    else{
-        $mailbody .= '<td style="padding: 5px 0; text-align: right;" >יתרה חודשית* </td>';
-    }
+    $mailbody .= '<td style="white-space: nowrap"> <span style="color: #FF864C;" >&nbsp;<span dir="rtl">% ש"ח</span>&nbsp; '.$user_order['discount'].'</span></td>';
 
+    $mailbody .= '<td style="padding: 5px 0; text-align: right;" >אחוז הנחה </td>';
     $mailbody .= '</tr>';
 
 
@@ -1055,8 +1046,16 @@ function email_order_summary_hebrew_admin($user_order,$orderId,$todayDate)
 
     //TODAY REMAINING BALANCE SECTION
     $mailbody .= '<tr style="font-size: 18px;  font-weight: bold" >';
-    $mailbody .= '<td style="white-space: nowrap"> <span style="color: #FF864C;" > '.$user_order['discount'].' ש"ח  '.'</span></td>';
-    $mailbody .= '<td style="padding: 5px 0; text-align: right;" >יתרת היום* </td>';
+    $mailbody .= '<td style="white-space: nowrap"> <span style="color: #FF864C;" > '.$user_order['discount'].'% ש"ח  '.'</span></td>';
+    $mailbody .= '<td style="padding: 5px 0; text-align: right;" >אחוז הנחה </td>';
+    $mailbody .= '</tr>';
+
+
+    //COMPANY CONTRIBUTION
+
+    $mailbody .= '<tr style="font-size: 18px;  font-weight: bold" >';
+    $mailbody .= '<td style="white-space: nowrap"> <span style="color: #FF864C;" > '.$user_order['company_contribution'].' ש"ח  '.'</span></td>';
+    $mailbody .= '<td style="padding: 5px 0; text-align: right;" >תרומת החברה </td>';
     $mailbody .= '</tr>';
 
     $mailbody .= '</table>';
@@ -1125,6 +1124,8 @@ function email_order_summary_hebrew_admin($user_order,$orderId,$todayDate)
 
     //To address and name
     $mail->addAddress(EMAIL);                    //SEND ADMIN EMAIL
+   
+
 
 
     //Address to which recipient will reply
@@ -1133,7 +1134,7 @@ function email_order_summary_hebrew_admin($user_order,$orderId,$todayDate)
 
     //Send HTML or Plain Text email
     $mail->isHTML(false);
-    $mail->Subject = 'עסק'." ".['rests_orders'][0]['selectedRestaurant']['name_he']." הזמנה חדשה # "."  ".$orderId;
+    $mail->Subject = 'עסק'." ".$user_order['rests_orders'][0]['selectedRestaurant']['name_he']." הזמנה חדשה # "."  ".$orderId;
     $mail->Body = $mailbody;
     $mail->AltBody = "OrderApp";
 
@@ -1158,39 +1159,39 @@ function email_for_mark2($user_order,$orderId,$todayDate)
 
     // USER NAME
 
-    $mailbody .= 'Name :'. $user_order['name'];
+    $mailbody .= 'Name :'. $user_order['user']['name'];
     $mailbody .= '\n';
 
     // USER EMAIL
 
-    $mailbody .= 'Email :'. $user_order['email'];
+    $mailbody .= 'Email :'. $user_order['user']['email'];
     $mailbody .= '\n';
 
     // USER CONTACT
 
-    $mailbody .= 'Contact :'. $user_order['contact'];
+    $mailbody .= 'Contact :'. $user_order['user']['contact'];
     $mailbody .= '\n';
 
     // COMPANY NAME
 
-    $mailbody .= ' Company Name' . $user_order['company_name'];
+    $mailbody .= ' Company Name :' . $user_order['company']['company_name'];
     $mailbody .= '\n';
 
 
     // RESTAURANT NAME
-    $mailbody .= 'Restaurant Name :'. $user_order['restaurantTitle'];
+    $mailbody .= 'Restaurant Name :'. $user_order['rests_orders'][0]['selectedRestaurant']['name_en'];
     $mailbody .= '\n';
 
 
     //  PAYMENT METHOD CASH OR CREDIT CARD
 
-    $mailbody .= 'Payment Method : '.$user_order['Cash_Card'];
+    $mailbody .= 'Payment Method : '.$user_order['payment_option'];
     $mailbody .= '\n';
 
 
 
 
-    $mailbody .= 'Delivery at Company Address : '. $user_order['deliveryAddress'];
+    $mailbody .= 'Delivery at Company Address : '. $user_order['company']['company_address'];
     $mailbody .= '\n';
 
 
@@ -1219,7 +1220,7 @@ function email_for_mark2($user_order,$orderId,$todayDate)
 
 
 
-    foreach($user_order['cartData'] as $t) {
+    foreach($user_order['rests_orders'][0]['foodCartData'] as $t) {
 
 
         if($t['specialRequest'] != "") {
@@ -1244,12 +1245,18 @@ function email_for_mark2($user_order,$orderId,$todayDate)
     $mailbody .= 'Special Request : '.$user_order['specialRequest'];
     $mailbody .= '\n';
 
+    $mailbody .= 'Discount : '.$user_order['discount']." %";
+    $mailbody .= '\n';
 
-    $mailbody .= 'Sub Total : '.$user_order['totalWithoutDiscount'];
+    $mailbody .= 'Company Contribution : '.$user_order['company_contribution'];
     $mailbody .= '\n';
 
 
-    $mailbody .= 'Total : '.$user_order['total'];
+    $mailbody .= 'Sub Total : '.$user_order['actual_total'];
+    $mailbody .= '\n';
+
+
+    $mailbody .= 'Total : '.$user_order['total_paid'];
     $mailbody .= '\n';
 
 
@@ -1279,24 +1286,23 @@ function email_for_mark2($user_order,$orderId,$todayDate)
     //To address and name
     $mail->addAddress(EMAIL);                    //SEND ADMIN EMAIL
 
-
     //Address to which recipient will reply
     $mail->addReplyTo("orders@orderapp.com", "Reply");
 
 
     //Send HTML or Plain Text email
     $mail->isHTML(false);
-    $mail->Subject = 'Ledger '.$user_order['restaurantTitle'].' Order# '.$orderId;
+    $mail->Subject = 'Ledger '.$user_order['rests_orders'][0]['selectedRestaurant']['name_en'].' Order# '.$orderId;
     $mail->Body = $mailbody;
     $mail->AltBody = "OrderApp";
 
 
-    if (!$mail->send()) {
-
+    if (!$mail->send())
+    {
         echo "Mailer Error: " . $mail->ErrorInfo;
     }
-    else {
-
+    else
+    {
         echo "Message has been sent successfully";
 
     }
@@ -1371,6 +1377,11 @@ function email_for_kitchen($user_order,$orderId,$todayDate)
 
 
     $mailbody .= $user_order['total_paid'].' : סה"כ';
+    $mailbody .= '<br>';
+    $mailbody .= '<br>';
+
+
+    $mailbody .= $user_order['company_contribution'].' : תרומת החברה';
     $mailbody .= '<br>';
     $mailbody .= '<br>';
 

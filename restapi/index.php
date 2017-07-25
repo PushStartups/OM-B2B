@@ -42,12 +42,10 @@ else
 }
 
 
-
 // SERVER URL TO UPLOAD CONTENT
 
 // SLIM INITIALIZATION
 $app = new \Slim\App();
-
 
 
 
@@ -60,39 +58,21 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
         $password  = $request->getParam('password');
 
         $obj      = '';
-        $user     = '';
-        $company  = '';
 
         DB::useDB('orderapp_b2b_wui');
+
 
         $userDB = DB::queryFirstRow("select * from b2b_users where user_name = '$user_name' and password = '$password'");
 
 
         if (DB::count() > 0)
         {
+            $company_id                  =   $userDB['company_id'];
+            $companyDB                   =   DB::queryFirstRow("select * from company where id = $company_id");
 
-
-            $company_id         = $userDB['company_id'];
-            $companyDB          = DB::queryFirstRow("select * from company where id = $company_id");
-
-
-            $user['user_id']                    =   $userDB['id'];
-            $user['name']                       =   $userDB['name'];
-            $user['email']                      =   $userDB['smooch_id'];
-            $user['contact']                    =   $userDB['contact'];
-            $user['userDiscountFromCompany']    =   $userDB['discount'];
-            $company['company_id']              =   $company_id;
-            $company['company_name']            =   $companyDB['name'];
-            $company['company_address']         =   $companyDB['delivery_address'];
-            $company['company_discount']        =   $companyDB['discount'];
-            $company['discount_type']           =   $companyDB['discount_type'];
-            $company['lat']                     =   $companyDB['lat'];
-            $company['lng']                     =   $companyDB['lng'];
-
-
-            $obj['company']                 	=   $company;
-            $obj['user']                    	=   $user;
-            $obj['error']                   	=   false;
+            $obj['company_name']         =   $companyDB['name'];
+            $obj['user_id']              =   $userDB['id'];
+            $obj['error']                =   false;
 
 
         }
@@ -133,6 +113,85 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
 
 
 });
+
+
+
+
+//  USER LOGIN FOR B2B FROM SESSION
+$app->post('/confirm_user_login', function ($request, $response, $args)
+{
+    try{
+
+
+        $user_id = $request->getParam('user_id');
+
+        $obj      = '';
+        $user     = '';
+        $company  = '';
+
+
+        DB::useDB('orderapp_b2b_wui');
+
+
+        $userDB = DB::queryFirstRow("select * from b2b_users where id = '$user_id'");
+
+
+        if (DB::count() > 0)
+        {
+            $company_id         = $userDB['company_id'];
+            $companyDB          = DB::queryFirstRow("select * from company where id = $company_id");
+
+
+            $user['user_id']                    =   $userDB['id'];
+            $user['name']                       =   $userDB['name'];
+            $user['email']                      =   $userDB['smooch_id'];
+            $user['contact']                    =   $userDB['contact'];
+            $user['userDiscountFromCompany']    =   $userDB['discount'];
+            $company['company_id']              =   $company_id;
+            $company['company_name']            =   $companyDB['name'];
+            $company['company_address']         =   $companyDB['delivery_address'];
+            $company['company_discount']        =   $companyDB['discount'];
+            $company['discount_type']           =   $companyDB['discount_type'];
+            $company['lat']                     =   $companyDB['lat'];
+            $company['lng']                     =   $companyDB['lng'];
+
+
+            $obj['company']                 	=   $company;
+            $obj['user']                    	=   $user;
+            $obj['error']                   	=   false;
+
+
+        }
+        else
+        {
+            $obj['error'] = true;
+
+        }
+
+
+        // RESPONSE RETURN TO REST API CALL
+        $response = $response->withStatus(202);
+        $response = $response->withJson($obj);
+        return $response;
+
+    }
+
+    catch(MeekroDBException $e) {
+
+
+        $response =  $response->withStatus(500);
+        $response =  $response->withHeader('Content-Type', 'text/html');
+        $response =  $response->write( $e->getMessage());
+        return $response;
+
+    }
+
+
+});
+
+
+
+
 
 
 
@@ -490,6 +549,7 @@ $app->post('/get_all_past_orders', function ($request, $response, $args)
             $restaurant   =  DB::queryFirstRow("select name_en from restaurants where id = '" . $result['restaurant_id'] . "'");
 
             $results[$ctn]['rest_name'] = $restaurant['name_en'];
+            $results[$ctn]['rest_order_object'] = "";
 
             DB::useDB('orderapp_b2b_wui');
 
@@ -535,6 +595,41 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
 
         $user_id = $request->getParam('user_id');
 
+        // CHECK DELIVERY TIME IS PASSED OR NOT
+
+        $today = date('l');
+        DB::useDB(B2B_DB);
+        $get_company_id    =  DB::queryFirstRow("select company_id from b2b_users where id = '$user_id'");
+
+        DB::useDB(B2B_DB);
+        $get_delivery_time =  DB::queryFirstRow("select * from company_timing where week_en = '$today' and  company_id = '".$get_company_id['company_id']."'");
+
+
+        DB::useDB(B2B_DB);
+        $all_user_orders = DB::query("select * from b2b_orders where user_id = '$user_id' AND order_status = 'pending' ");
+        foreach($all_user_orders as $orders)
+        {
+            date_default_timezone_set("Asia/Jerusalem");
+            $current_time =  DateTime::createFromFormat('H:i', date('H:i'));
+            $delivery_time =  DateTime::createFromFormat('H:i', $get_delivery_time['delivery_timing']);
+
+
+
+            if ( $current_time < $delivery_time )
+            {
+                //DO NOTHING
+            }
+            // DELIVERY TIME HAS BEEN PASSED, UPDATE ORDER STATUS TO DELIVERED
+            else
+            {
+
+                DB::useDB(B2B_DB);
+                DB::query("UPDATE b2b_orders SET order_status = 'delivered'  WHERE  id = '".$orders['id']."'");
+            }
+        }
+
+
+
         $results  =  DB::query("select * from b2b_orders where user_id = '$user_id' AND order_status = 'pending' order by id DESC ");
 
 
@@ -555,6 +650,8 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
             $restaurant['city_name'] = $city['name_en'];
 
             $results[$ctn]['rest'] = $restaurant;
+
+            $results[$ctn]['rest_order_object'] = "";
 
             DB::useDB('orderapp_b2b_wui');
 
@@ -586,7 +683,20 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
 
 });
 
+//  GET RE-ORDER OBJECT
+$app->post('/get_reorder', function ($request, $response, $args)
+{
+    $order_id = $request->getParam('order_id');
 
+    DB::useDB(B2B_DB);
+    $rest_order_object    =  DB::queryFirstRow("select rest_order_object from b2b_orders where id = '$order_id'");
+
+    // RESPONSE RETURN TO REST API CALL
+    $response = $response->withStatus(202);
+    $response = $response->withJson($rest_order_object['rest_order_object']);
+    return $response;
+
+});
 
 
 // CANCEL ORDER
@@ -595,7 +705,6 @@ $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
     DB::useDB(B2B_RESTAURANTS);
 
     $company_id = $request->getParam('company_id');
-    $user_id = $request->getParam('user_id');
 
     DB::useDB(B2B_DB);
     $company_restaurants = DB::query("select  rest_id from company_rest where company_id = '$company_id'");
@@ -638,13 +747,11 @@ $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
             $ctn1++;
         }
 
-        DB::useDB(B2B_DB);
-        $userDB = DB::queryFirstRow("select * from b2b_users where id = '$user_id'");
 
         $resp = [
+
             "db_tags"                       => $db_restaurant_tags,          //
             "db_kashrut"                    => $db_restaurant_kashrut,
-            "user_discount"                 => $userDB['discount']
 
         ];
         // RESPONSE RETURN TO REST API CALL
@@ -816,6 +923,7 @@ $app->post('/extras_with_subitems', function ($request, $response, $args) {
 
 $app->post('/store_credit_card_info', function ($request, $response, $args){
 
+
     $card_no        = $request->getParam('card_no');
     $expiry         = $request->getParam('expiry');
     $cvv            = $request->getParam('cvv');
@@ -823,7 +931,7 @@ $app->post('/store_credit_card_info', function ($request, $response, $args){
 
     $rest = "Error";
     $cgConf['tid']='8804324';
-    $cgConf['amount']= 1;
+    $cgConf['amount']= 100;
     $cgConf['user']='pushstart';
     $cgConf['password']='OE2@38sz';
     $cgConf['cg_gateway_url']="https://cgpay5.creditguard.co.il/xpo/Relay";
@@ -1012,6 +1120,9 @@ $app->post('/stripe_payment_request', function ($request, $response, $args) {
     try {
 
         $order_data   = $request->getParam('order_data');
+        $card_no      = $request->getParam('card_no');
+        $exp          = $request->getParam('expiration');
+        $cvv          = $request->getParam('cvv');
 
         $email = $order_data['user']['email'];
 
@@ -1039,27 +1150,56 @@ $app->post('/stripe_payment_request', function ($request, $response, $args) {
         }
 
 
-
         $cId = $order_data['selectedCardId'];
 
-        $card = DB::queryFirstRow("select * from user_credit_cards where id = $cId");
+        // CARD PAYMENT THROUGH SAVE CARD CARD ID
+
+        if($cId != null && $cId != "") {
+
+            $card = DB::queryFirstRow("select * from user_credit_cards where id = $cId");
 
 
-        if ($order_data['language'] == 'en') {
+            if ($order_data['language'] == 'en') {
 
 
-            $result = stripePaymentRequest(($order_data['total_paid'] * 100), $user_id, $email, $card['card_id'], $card['expiration'], $card['cvv']);
+                $result = stripePaymentRequest(($order_data['total_paid'] * 100), $user_id, $email, $card['card_id'], $card['expiration'], $card['cvv'],true);
+
+
+            } else {
+
+
+                $result = stripePaymentRequestHE(($order_data['total_paid'] * 100), $user_id, $email, $card['card_id'], $card['expiration'], $card['cvv'],true);
+
+
+            }
+
+        }
+
+        // CARD PAYMENT WITHOUT SAVE DIRECT
+
+        else{
+
+
+            if ($order_data['language'] == 'en') {
+
+
+                $result = stripePaymentRequest(($order_data['total_paid'] * 100), $user_id, $email, $card_no, $exp, $cvv,false);
+
+
+            } else {
+
+
+                $result = stripePaymentRequestHE(($order_data['total_paid'] * 100), $user_id, $email, $card_no, $exp, $cvv, false);
+
+
+            }
+
 
 
         }
-        else {
 
 
-            $result = stripePaymentRequestHE(($order_data['total_paid'] * 100), $user_id, $email, $card['card_id'], $card['expiration'], $card['cvv']);
-
-
-        }
-
+        //cardNo
 
         // RESPONSE RETURN TO REST API CALL
         $response = $response->withStatus(202);
@@ -1083,7 +1223,7 @@ $app->post('/stripe_payment_request', function ($request, $response, $args) {
 // STRIPE API PAYMENT REQUEST
 // AMOUNT DIVIDED BY 100 FROM API
 
-function  stripePaymentRequest($amount, $user_id, $email ,$creditCardNo, $expDate, $cvv)
+function  stripePaymentRequest($amount, $user_id, $email ,$creditCardNo, $expDate, $cvv ,$isUseCardId)
 {
     $rest = "Error";
     $cgConf['tid']='8804324';
@@ -1111,8 +1251,14 @@ function  stripePaymentRequest($amount, $user_id, $email ,$creditCardNo, $expDat
 								<creditType>RegularCredit</creditType>';
 
 
+    if($isUseCardId)
+    {
+        $poststring .= '<cardId>'.$creditCardNo.'</cardId>';
+    }
+    else{
 
-    $poststring .= '<cardId>'.$creditCardNo.'</cardId>';
+        $poststring .= '<cardNo>'.$creditCardNo.'</cardNo>';
+    }
 
 
     $poststring .=	'<cvv>'.$cvv.'</cvv>
@@ -1399,7 +1545,6 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
 
     }
 
-
     // EMAIL ORDER SUMMERY
 
     email_for_kitchen($user_order, $orderId, $todayDate);
@@ -1407,13 +1552,9 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
 
 
 
-
-
-
     // EMAIL FOR LEDGER
-
-    //email_for_mark2($user_order, $orderId, $todayDate);
-    //ob_end_clean();
+    email_for_mark2($user_order, $orderId, $todayDate);
+    ob_end_clean();
 
 
     // SEND ADMIN COPY EMAIL ORDER SUMMARY
@@ -1425,8 +1566,8 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
     // CLIENT EMAIL
     // EMAIL ORDER SUMMARY
     //
-    if ($user_order['language'] == 'en') {
-
+    if ($user_order['language'] == 'en')
+    {
 
         email_order_summary_english($user_order, $orderId, $todayDate);
 
@@ -1865,7 +2006,6 @@ $app->post('/update_restaurant_logo', function ($request, $response, $args)
 $app->post('/insert_new_restaurant_dataentry', function ($request, $response, $args)
 {
 
-
     global $con;
 
     $resp = "";
@@ -1880,6 +2020,7 @@ $app->post('/insert_new_restaurant_dataentry', function ($request, $response, $a
 
     while($row_brand = mysqli_fetch_array($run_brand))
     {
+
         $data = $row_brand['logo'];
         $name  = $row_brand['name_en'];
 

@@ -119,13 +119,13 @@
     }
 
 
-    var dataObject = localStorage.getItem("data_object_en");
+    var user_id = localStorage.getItem("user_id_b2b");
 
 
     // EXCEPTION IF USER OBJECT NOT RECEIVED UN-DEFINED
-    if (dataObject == undefined || dataObject == "" || dataObject == null){
+    if (user_id == undefined || user_id == "" || user_id == null){
 
-
+        localStorage.setItem("user_id_b2b","");
         window.location.href = '/';
 
     }
@@ -178,7 +178,7 @@
                                     </a>
                                     <div class="dropdown-nav" id="dropdown-nav" style="display: none;">
                                         <h3 id="user_name"></h3>
-                                        <a onclick="localStorage.setItem('data_object_en', ''); window.location.href='/'" href="#">Disconnect</a>
+                                        <a onclick="localStorage.setItem('user_id_b2b', ''); window.location.href='/'" href="#">Disconnect</a>
                                     </div>
                                 </li>
                             </ul>
@@ -688,14 +688,15 @@
 
     function backListener() {
 
+
         var company_name   =   dataObject.company.company_name;
         company_name       =   company_name.replace(/\s/g, '');
 
-        localStorage.setItem("data_object_en", JSON.stringify(dataObject));
-
+        localStorage.setItem("data_object_en", "");
 
         window.location.href = '/en/'+company_name+'/restaurants';
     }
+
 
     $('#name_company').click(function(e){
 

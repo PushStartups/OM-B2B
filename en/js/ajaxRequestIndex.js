@@ -1,4 +1,6 @@
-var dataObject;   // DATA OBJECT CONTAIN INFORMATION ABOUT COMPANY, USER & USER ORDER
+var user_id;              // USER ID
+var company_name;         // COMPANY NAME
+
 
 var keepLoaderUntilPageLoad = true;
 
@@ -6,41 +8,26 @@ var keepLoaderUntilPageLoad = true;
 $(document).ready(function() {
 
 
-    dataObject = localStorage.getItem("data_object_en");
+    user_id = localStorage.getItem("user_id_b2b");
 
 
     // EXCEPTION IF USER OBJECT NOT RECEIVED UN-DEFINED
-    if (dataObject != undefined && dataObject != "" && dataObject != null){
+    if (user_id != undefined && user_id != "" && user_id != null){
 
-        dataObject = JSON.parse(localStorage.getItem("data_object_en"));
 
-        var company_name   =   dataObject.company.company_name;
-        company_name       =   company_name.replace(/\s/g, '');
+        user_id         =   localStorage.getItem("user_id_b2b");
+
+        company_name    =   localStorage.getItem("company_name_b2b");
+
+        company_name    =   company_name.replace(/\s/g, '');
 
         window.location.href = '/en/'+company_name+'/restaurants';
 
-    }
-    else
-    {
-        
-        dataObject = {
-
-            'language': 'en',                  // USER LANGUAGE ENGLISH DESKTOP B2B
-            'company': '',                     // attributes are {company_id, company_name, company_address,delivery_time}
-            'user': '',                        // attributes are {user_id, name, email, contact, userDiscountFromCompany}
-            'rests_orders': [],                // ARRAY OF MULTIPLE REST ORDERS
-            'actual_total' : 0,                // ACTUAL TOTAL (BILL) WITHOUT ANY DISCOUNT AND COMPENSATION
-            'total_paid' : 0,                  // TOTAL AMOUNT PAID BY USER
-            "company_contribution" : 0,        // AMOUNT CONTRIBUTED BY COMPANY
-            "payment_option" : 'CASH',         // PAYMENT OPTION CASH / CARD  DEFAULT CASH
-            "discount": 0,                     // COMPANY DISCOUNT
-            "selectedCardId" : null,           // SELECTED CARD ID BY USER FROM EXISTING CARDS
-            "transactionId" : ""               // TRANSACTION ID RECEIVED FROM CREDIT GUARD ON CARD PAYMENT ( REUQIRED IN CASE OF CANCEL ORDERS)
-        };
 
     }
 
 });
+
 
 
 // PASSWORD VERIFICATION FROM SERVER
@@ -53,10 +40,18 @@ function verifyUserPassword() {
         var user_name = $('#user-name').val();
         var password = $('#password').val();
 
+        $('#showhide').show();
+
+
         commonAjaxCall("/restapi/index.php/b2b_user_login", {"user_name": user_name, "password": password}, responseUserNamePasswordVerification);
 
     }
+    else {
+
+        $('#showhide').hide();
+    }
 }
+
 
 
 
@@ -80,21 +75,24 @@ function responseUserNamePasswordVerification(url,response) {
                 $('#parent-password').addClass("error");
                 $('#error-password').html("invalid password");
 
+                $('#showhide').hide();
+
             }
 
 
         }
         else  {
 
+            $('#showhide').show();
 
-            dataObject.company = response.company;
-            dataObject.user    = response.user;
+            company_name = response.company_name;
+            user_id      = response.user_id;
 
-            var company_name   =   dataObject.company.company_name;
-            company_name       =   company_name.replace(/\s/g, '');
 
-            localStorage.setItem("data_object_en", JSON.stringify(dataObject));
+            localStorage.setItem("user_id_b2b",user_id);
+            localStorage.setItem("company_name_b2b",company_name);
 
+            company_name  =  company_name.replace(/\s/g, '');
 
             window.location.href = '/en/'+company_name+'/restaurants';
 
@@ -111,6 +109,7 @@ function responseUserNamePasswordVerification(url,response) {
 }
 
 
+
 function submitEmailForPasswordRecovery(){
 
     if(errorCheck("forgetPasswordForm")) // IF NO GENERAL ERROR EXISTS REQUEST SERVER FOR FORGET PASSWORD REQUEST
@@ -124,6 +123,8 @@ function submitEmailForPasswordRecovery(){
     }
 }
 
+
+
 function callBackRespForgetPassword(url,response)
 {
 
@@ -136,15 +137,16 @@ function callBackRespForgetPassword(url,response)
         if (response.error)
         {
 
-
             $('#email-sent-message').hide();
             $('#email-error-message').show();
+
         }
         else {
 
 
             $('#email-sent-message').show();
             $('#email-error-message').hide();
+
         }
 
     }

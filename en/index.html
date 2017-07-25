@@ -176,7 +176,6 @@
                                     </div>
                                 </div>
                                 <div class="error-tooltip">
-                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
                                     <p id="error-user-name" class="f black"></p>
                                 </div>
                             </div>
@@ -188,11 +187,11 @@
 
                                     <div class="col-xs-2 box">
                                         <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                        <a  style="display: none" id="showhide" href="#"></a>
                                     </div>
 
                                 </div>
                                 <div class="error-tooltip">
-                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
                                     <p style="letter-spacing: 0;" id="error-password" class="f black"></p>
                                 </div>
 
@@ -361,6 +360,8 @@
 
         $("#showhide").click(function () {
 
+            $("#showhide").toggleClass("active");
+
 
             if ($(".change-type").attr("type") == "password") {
 
@@ -385,10 +386,38 @@
     onChangeRemoveError('email');
 
 
+
+    $('#password').bind('input', function () {
+
+        if($('#password').val() != "")
+        {
+            $('#showhide').show();
+        }
+        else {
+
+            $('#showhide').hide();
+        }
+
+    });
+
     $('#Loader_bg').click(function (evt) {
 
         evt.stopPropagation();
         // Your code here
+
+    });
+
+
+
+    $(function() {
+
+        var inputs = $('input:not(.auto-complete-on)');
+
+        inputs.attr('autocomplete', 'off');
+
+        setTimeout(function() {
+            inputs.attr('autocomplete', 'on');
+        }, 100);
 
     });
 

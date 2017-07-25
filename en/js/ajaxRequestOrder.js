@@ -55,9 +55,17 @@ var tempDiscountFromCompanyCal = 0; // TEMPORARY VARIABLE FOR COMPANY COMPENSATI
 
 $(document).ready(function() {
 
+    dataObject = localStorage.getItem("data_object_en");
 
-    dataObject = JSON.parse(localStorage.getItem("data_object_en"));
+    if (dataObject == undefined || dataObject == "" || dataObject == null){
 
+        localStorage.setItem("user_id_b2b","");
+        window.location.href = '/';
+    }
+    else
+    {
+        dataObject = JSON.parse(localStorage.getItem("data_object_en"));
+    }
 
 
     // INITIALIZING ORDER DETAIL POPUP
@@ -147,16 +155,22 @@ function callBackGetCategoriesWithItems(url,response) {
                     '<h4>'+allCategoriesWithItemsResp[x].items[y].name_en+'</h4>' +
                     '<p>'+allCategoriesWithItemsResp[x].items[y].desc_en+'</p>' +
                     '</div>' +
-                    '<div class="col-xs-4 pull-right">' +
-                    '<div class="price-holder">' +
-                    '<span class="new-dis"><i class="fa fa-tag" aria-hidden="true"></i>'+ allCategoriesWithItemsResp[x].items[y].price+' NIS</span>';
+                    '<div class="col-xs-4 pull-right">';
+
+
 
                     if(allCategoriesWithItemsResp[x].items[y].price == oldPrice)
                     {
-                        str += '<span class="price" style="display: none">'+oldPrice+' NIS </span>';
+                        // NO LINE CUT
+                        str += '<div class="price-holder without-line">';
+                        str +='<span class="new-dis" style="display: none"><i class="fa fa-tag" aria-hidden="true"></i>'+ allCategoriesWithItemsResp[x].items[y].price+' NIS</span>';
+                        str += '<span class="price" >'+oldPrice+' NIS </span>';
                     }
                     else {
 
+                        // LINE WITH CUT
+                        str += '<div class="price-holder">';
+                        str += '<span class="new-dis"><i class="fa fa-tag" aria-hidden="true"></i>'+ allCategoriesWithItemsResp[x].items[y].price+' NIS</span>';
                         str += '<span class="price">'+oldPrice+' NIS </span>';
 
                     }
@@ -926,6 +940,13 @@ function generateTotalUpdateFoodCart()
 
         // CHECK ONE TYPE SUB ITEMS IF ANY
 
+
+        if(order.subItemsOneType == undefined)
+        {
+            order['subItemsOneType'] = [];
+            dataObject.rests_orders[selectedRestIndex].order_detail[x]['subItemsOneType'] = [];
+        }
+
         for (var y = 0; y < order.subItemsOneType.length; y++)
         {
 
@@ -1000,6 +1021,16 @@ function generateTotalUpdateFoodCart()
             }
 
         }
+
+
+
+        if(order.multiItemsOneType == undefined)
+        {
+            order['multiItemsOneType'] = [];
+            dataObject.rests_orders[selectedRestIndex].order_detail[x]['multiItemsOneType'] = [];
+        }
+
+
 
         // CHECK MULTIPLE SELECTABLE SUB ITEMS
 

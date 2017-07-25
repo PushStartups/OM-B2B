@@ -94,11 +94,26 @@ h1{
     border-right: 0;
     font-size: 20px;
     line-height: 35px;
+    padding: 10px 20px !important;
     color: #000 !important;
     -webkit-border-radius: 8px 0 0 8px;
     -moz-border-radius: 8px 0 0 8px;
     border-radius: 8px 0 0 8px;
 }
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill,
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    background-color: #fff !important;
+
+}
+
+
+
 .add-name{
     -webkit-border-radius: 8px 0 0 8px;
     -moz-border-radius: 8px 0 0 8px;
@@ -211,12 +226,15 @@ h1{
     display: inline-block;
     vertical-align: top;
     float: left;
-    margin: 15px 15px 0;
+    margin: 15px 20px 0;
     outline: none;
     text-decoration: underline;
 }
 .forget-psd:focus,
-.forget-psd:hover{color:#fff;}
+.forget-psd:hover{
+    color:#fff;
+    text-decoration: underline;
+}
 .error-txt{
     display: block;
     font-size: 16px;
@@ -233,6 +251,14 @@ h1{
     color: #4A90E2;
     display: inline-block;
     vertical-align: middle;
+    width: 22px;
+    height: 18px;
+    background: url("../images/icon_password.png") no-repeat;
+}
+#showhide.active,
+#showhide .active{
+    height: 20px;
+    background: url("/en/images/ic_visibility_off.png") no-repeat !important;
 }
 .form-control:focus{
     border-color: transparent;
@@ -433,3 +459,7 @@ h1{
 .check-email .btn-submit{
     border-radius: 8px;
 }
+.form-control::-webkit-input-placeholder { color: #000; }  /* WebKit, Blink, Edge */
+.form-control:-moz-placeholder { color: #000; }  /* Mozilla Firefox 4 to 18 */
+.form-control::-moz-placeholder { color: #000; }  /* Mozilla Firefox 19+ */
+.form-control:-ms-input-placeholder { color: #000; }  /* Internet Explorer 10-11 */

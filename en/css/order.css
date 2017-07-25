@@ -198,6 +198,7 @@
     line-height: 19px;
     margin: 0 0 20px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.29);
+    cursor: pointer;
 }
 .add-row.discount .new-dis{display: block;}
 .accordion h4{
@@ -220,6 +221,7 @@
     text-align: center;
 }
 .accordion .add-row.discount .price{text-decoration: line-through;}
+.accordion .add-row.discount .without-line .price{text-decoration: none; margin: 0 0 -4px;}
 .new-dis{
     min-width: 78px;
     max-width: 94px;

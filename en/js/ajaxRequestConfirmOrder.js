@@ -1,22 +1,36 @@
-var dataObject          = null;      // DATA OBJECT CONTAIN INFORMATION ABOUT COMPANY, USER & USER ORDER
+var dataObject                    =   null;      // DATA OBJECT CONTAIN INFORMATION ABOUT COMPANY, USER & USER ORDER
 
-var selectedRestIndex   = 0;
+var selectedRestIndex             =   0;
 
-var foodCartData        = null;     // FOOD CART OBJECT
+var foodCartData                  =   null;     // FOOD CART OBJECT
 
-var tempDiscountFromCompanyCal = 0;
+var tempDiscountFromCompanyCal    =   0;
 
-var user_cards  = null;
+var user_cards                    =   null;
 
-var keepLoaderUntilPageLoad   =  true;
+var keepLoaderUntilPageLoad       =   true;
 
-var paymentException  =  true;
+var paymentException              =   true;
+
 
 
 $(document).ready(function() {
 
 
-    dataObject = JSON.parse(localStorage.getItem("data_object_en"));
+    dataObject = localStorage.getItem("data_object_en");
+
+
+    if (dataObject == undefined || dataObject == "" || dataObject == null){
+
+        localStorage.setItem("user_id_b2b","");
+        window.location.href = '/';
+
+    }
+    else
+    {
+        dataObject = JSON.parse(localStorage.getItem("data_object_en"));
+
+    }
 
 
     tempDiscountFromCompanyCal =  localStorage.getItem("tempDiscountFromCompanyCal");
@@ -107,7 +121,9 @@ function user_cards_callback(url,response)
         }
 
 
+
         updateCartElements();
+
 
         setTimeout(function(){
 
@@ -117,10 +133,10 @@ function user_cards_callback(url,response)
 
         },500);
 
+
     }
     catch (exp)
     {
-
 
         errorHandlerServerResponse(url,"parsing error call back");
         setTimeout(function(){
@@ -144,8 +160,6 @@ function cardSelected(index) {
 }
 
 
-
-
 // UPDATE FOOD CART
 function updateCartElements()
 {
@@ -154,9 +168,7 @@ function updateCartElements()
     // DISPLAY FOOD CART IF AT LEAST ONE ITEM TO DISPLAY
     if(foodCartData.length != 0)
     {
-
         var str = '';
-
 
         for (var x = 0; x < foodCartData.length; x++)
         {
@@ -294,9 +306,6 @@ function updateCartElements()
 
 
 
-
-
-
 // RESTAURANT DETAIL POPUP
 
 function displayRestDetail() {
@@ -371,27 +380,105 @@ function displayRestDetail() {
     $('#min-order').html(temp);
 
 
-
 }
 
 
+// PROCESS PAYMENT START
 
 
+function onOrderNowClicked() {
+
+    if(!paymentException) {
+
+        $('#error-user-name').hide();
+        $('#name-error-dot').hide();
+        $('#error-card-number').hide();
+        $('#card-error-dot').hide();
+        $('#dropdownMenuButton').removeClass('add-error');
+        $('#dropdownMenuButton2').removeClass('add-error');
+        $('#error-cvv').hide();
+        $('#error_cvv_dot').hide();
+        $('#cvv-card-icon').show();
+
+        // CASH
+
+        if ($('#cash-cb').is(":checked")) {
+
+            dataObject.payment_option = "CASH";
+            processOrder();
+
+
+        }
+
+        // CREDIT CARD
+
+        else {
+
+            dataObject.payment_option = "CARD";
+
+            // NEW CARD ADDITION
+
+            if (dataObject.selectedCardId == null) {
+
+                // SAVE CARD FIRST
+
+                if ($('#check_save_card').is(":checked")) {
+
+                    payment_credit_card("save");
+
+                }
+
+                // USE CARD WITHOUT SAVE
+
+                else {
+
+
+                    $('#card-errors').html("");
+                    payment_credit_card("direct");
+
+                }
+
+            }
+
+            // USER WANT TO USE FROM EXISTING CARDS
+
+            else {
+
+                payment_credit_card("");
+
+            }
+
+        }
+
+    }
+    else {
+
+        dataObject.payment_option = "No Payment";
+        processOrder();
+
+    }
+
+}
 
 
 function addNewCard() {
 
 
     $('#error-user-name').hide();
+    $('#name-error-dot').hide();
     $('#error-card-number').hide();
+    $('#card-error-dot').hide();
     $('#dropdownMenuButton').removeClass('add-error');
     $('#dropdownMenuButton2').removeClass('add-error');
     $('#error-cvv').hide();
+    $('#error_cvv_dot').hide();
+    $('#cvv-card-icon').show();
 
 
     if ($('#name').val() == "") {
 
         $('#error-user-name').show();
+        $('#name-error-dot').show();
         return;
 
     }
@@ -401,9 +488,9 @@ function addNewCard() {
 
         $('#error-card-number').show();
         $('#error-card-text').html("*Required Field");
+        $('#card-error-dot').show();
         return;
     }
-
 
     if ((!$('#card_no').val().match(/^\d+$/))) {
 
@@ -411,6 +498,7 @@ function addNewCard() {
 
             $('#error-card-number').show();
             $('#error-card-text').html("Invalid Card Number!");
+            $('#card-error-dot').show();
             return;
         }
     }
@@ -420,7 +508,7 @@ function addNewCard() {
     if ($('#dropdownMenuButton').html() == "MM") {
 
 
-       $('#dropdownMenuButton').addClass('add-error');
+        $('#dropdownMenuButton').addClass('add-error');
         return;
 
     }
@@ -439,7 +527,8 @@ function addNewCard() {
 
         $('#error-cvv').show();
         $('#error-cvv-text').html("*Card CVV Required");
-
+        $('#error_cvv_dot').show();
+        $('#cvv-card-icon').hide();
         return;
     }
 
@@ -456,7 +545,6 @@ function addNewCardCallBack(url,response) {
     try {
 
         resp = response;
-
 
         if(resp.success == true)
         {
@@ -477,10 +565,9 @@ function addNewCardCallBack(url,response) {
             $('#cc_use_other_card').show();
             $('#card_list_parent').css("visibility","visible");
             $('#card-option').hide();
-
             $('#choose_card').html(user_cards[(resp.cards.length-1)].card_mask);
-            dataObject.selectedCardId = user_cards[(resp.cards.length-1)].id;
 
+            dataObject.selectedCardId = user_cards[(resp.cards.length-1)].id;
 
             onCancel();
 
@@ -528,66 +615,111 @@ function onCancel() {
 }
 
 
-function onOrderNowClicked() {
 
 
-    if(!paymentException) {
+// CREDIT CARD PAYMENT
+function payment_credit_card(usage) {
 
-        $('#error-user-name').hide();
-        $('#error-card-number').hide();
-        $('#error-month-year').hide();
-        $('#error-cvv').hide();
+    // USER WANT TO USE FROM EXISTING CARDS
+    if(usage == "") {
 
-
-        // CASH
-
-        if ($('#cash-cb').is(":checked")) {
-
-            dataObject.payment_option = "CASH";
-            processOrder();
-
-
-        }
-
-        // CREDIT CARD
-
-        else {
-
-
-            dataObject.payment_option = "CARD";
-
-
-            if (dataObject.selectedCardId == null) {
-
-
-                $('#card-errors').html("Add Card!");
-
-            }
-            else {
-
-                $('#card-errors').html("");
-                payment_credit_card();
-            }
-        }
+        // CARD ID WILL BE USED
+        commonAjaxCall("/restapi/index.php/stripe_payment_request", {"order_data": dataObject,"card_no" : "","expiration":"","cvv":""}, paymentCreditCardCallBack);
 
     }
     else {
 
-        dataObject.payment_option = "No Payment";
-        processOrder();
+        // usage  -> direct use card without save
+        // usage  -> save save card and then use
+
+        if(usage == "direct")
+        {
+
+
+            $('#error-user-name').hide();
+            $('#name-error-dot').hide();
+            $('#error-card-number').hide();
+            $('#card-error-dot').hide();
+            $('#dropdownMenuButton').removeClass('add-error');
+            $('#dropdownMenuButton2').removeClass('add-error');
+            $('#error-cvv').hide();
+            $('#error_cvv_dot').hide();
+            $('#cvv-card-icon').show();
+
+
+            if ($('#name').val() == "") {
+
+                $('#error-user-name').show();
+                $('#name-error-dot').show();
+                return;
+
+            }
+
+            // CARD NO SHOULD NOT BE EMPTY
+            if ($('#card_no').val() == "") {
+
+                $('#error-card-number').show();
+                $('#error-card-text').html("*Required Field");
+                $('#card-error-dot').show();
+
+                return;
+            }
+
+            if ((!$('#card_no').val().match(/^\d+$/))) {
+
+                if ($("#card_no").val() != '') {
+
+                    $('#error-card-number').show();
+                    $('#error-card-text').html("Invalid Card Number!");
+                    $('#card-error-dot').show();
+                    return;
+                }
+            }
+
+
+            // MONTH SHOULD NOT BE EMPTY
+            if ($('#dropdownMenuButton').html() == "MM") {
+
+
+                $('#dropdownMenuButton').addClass('add-error');
+                return;
+
+            }
+
+            // YEAR SHOULD NOT BE EMPTY
+            if ($('#dropdownMenuButton2').html() == "YY") {
+
+
+                $('#dropdownMenuButton2').addClass('add-error');
+                return;
+
+            }
+
+            // CVV SHOULD NOT BE EMPTY
+            if ($('#cvv').val() == "") {
+
+                $('#error-cvv').show();
+                $('#error-cvv-text').html("*Card CVV Required");
+                $('#error_cvv_dot').show();
+                $('#cvv-card-icon').hide();
+                return;
+            }
+
+
+            var exp = $('#dropdownMenuButton').html() + $('#dropdownMenuButton2').html();
+
+
+            keepLoaderUntilPageLoad = true;
+
+            commonAjaxCall("/restapi/index.php/stripe_payment_request", {"order_data": dataObject, "card_no": $('#card_no').val(), "expiration":exp, "cvv": $('#cvv').val() }, paymentCreditCardCallBack);
+
+        }
+        else {
+
+            addNewCard();
+        }
 
     }
-
-}
-
-
-
-// CREDIT CARD PAYMENT
-function payment_credit_card() {
-
-
-    commonAjaxCall("/restapi/index.php/stripe_payment_request", {"order_data": dataObject },paymentCreditCardCallBack);
-
 
 }
 
@@ -601,13 +733,15 @@ function paymentCreditCardCallBack(url, response) {
 
         if(resp.response == "success")
         {
+
             dataObject.transactionId = resp.trans_id;
             processOrder();
         }
         else
         {
             $('#card-errors').html(resp.response);
-
+            keepLoaderUntilPageLoad = false;
+            hideLoading();
         }
 
     }
@@ -616,6 +750,7 @@ function paymentCreditCardCallBack(url, response) {
 
 
         errorHandlerServerResponse(url,"parsing error call back");
+        keepLoaderUntilPageLoad = false;
         hideLoading();
 
 
@@ -627,11 +762,19 @@ function paymentCreditCardCallBack(url, response) {
 function processOrder() {
 
 
-    dataObject.platform_info =  "B2B_DESKTOP_EN";
-    dataObject.browser_info  =  BrowserInfo();
+    addLoading();
+
+    setTimeout(function() {
+
+        dataObject.platform_info =  "B2B_DESKTOP_EN";
+        dataObject.browser_info  =  BrowserInfo();
 
 
-    commonAjaxCall("/restapi/index.php/b2b_add_order", {"b2b_user_order": dataObject },processOrderCallBack);
+        commonAjaxCall("/restapi/index.php/b2b_add_order", {"b2b_user_order": dataObject },processOrderCallBack);
+
+
+    },1000);
+
 
 
 }
@@ -644,8 +787,12 @@ function processOrderCallBack(url, response)
 
         $('#order_complete_message').html( dataObject.user.name+' '+dataObject.company.company_name +' We are on the way estimated arrival '+ dataObject.company.delivery_time);
 
-         $(".txt-block").show();
-         $(".order-info").hide();
+        $(".order-info").hide();
+        $(".txt-block").show();
+
+
+        keepLoaderUntilPageLoad = false;
+        hideLoading();
 
     }
     catch (exp)
@@ -653,6 +800,7 @@ function processOrderCallBack(url, response)
 
 
         errorHandlerServerResponse(url,"parsing error call back");
+        keepLoaderUntilPageLoad = false;
         hideLoading();
 
 
