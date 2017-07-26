@@ -209,7 +209,7 @@
 
                             <ul class="nav nav-tabs md-pills pills-secondary flex-column" role="tablist">
                                 <li class="nav-item active" id="rest-list-active">
-                                    <a class="nav-link view-link" data-toggle="tab" href="#panel41" role="tab"><h3>View all restaurant</h3></a>
+                                    <a class="nav-link view-link" data-toggle="tab" href="#panel41" role="tab"><h3>View all restaurants</h3></a>
                                     <div class="list-holder">
                                         <h3 class="view-link f black"></h3>
                                         <ul class="list accordion multilevel-accordion">
@@ -853,9 +853,13 @@ ERROR DISPLAY POPUP
     });
 
 
+    var cancel_order_scroll = false;
+
 
     $('body').on('click', '.cancel-order-open', function(e) {
 
+
+        cancel_order_scroll = true;
 
         $("#po-detail-popup").fadeOut();
         $('#message-cancel').css("color","#797979");
@@ -873,6 +877,8 @@ ERROR DISPLAY POPUP
         var container = $('#scrollable1');
         var scrollTo = $(this);
 
+        var that = this;
+
         setTimeout(function(){
 
             // Or you can animate the scrolling:
@@ -880,176 +886,82 @@ ERROR DISPLAY POPUP
 
                 scrollTop: ((scrollTo.offset().top - container.offset().top + container.scrollTop() ) - 300)
 
-            },400)
+            },400,"swing",function () {
 
-        }, 300);
+                try {
 
-
-
-        var that = this;
-
-
-        setTimeout(function () {
-
-            try {
-
-                var index = $(that).attr('id');
-                index = index.replace('cancel-order-open-','');
+                    var index = $(that).attr('id');
+                    index = index.replace('cancel-order-open-', '');
 
 
-                var current_index = $(".cancle-order").attr('current-index');
+                    var current_index = $(".cancle-order").attr('current-index');
 
 
-                if(current_index  != index) {
+                    if (current_index != index) {
 
-                    $(".cancle-order").toggle();
-
-                    //show the menu directly over the placeholder
-                    $(".cancle-order").css({
-
-                        position: "absolute",
-                        top: (scrollTo.offset().top - 220) + "px",
-                        left: (scrollTo.offset().left + 35) + "px"
-
-                    }).show();
-
-                    var offset = (($(".cancle-order").height() + $(".cancle-order").offset().top) - $(window).height());
+                        $(".cancle-order").toggle();
 
 
-                    if (offset > 0) {
-                        console.log(offset);
+                        //show the menu directly over the placeholder
                         $(".cancle-order").css({
-                            top: ($(".cancle-order").offset().top - offset) + "px"
-                        });
+
+                            position: "absolute",
+                            top: (scrollTo.offset().top - 220) + "px",
+                            left: (scrollTo.offset().left + 35) + "px"
+
+                        }).show();
+
+                        var offset = (($(".cancle-order").height() + $(".cancle-order").offset().top) - $(window).height());
+
+
+                        if (offset > 0) {
+                            console.log(offset);
+                            $(".cancle-order").css({
+                                top: ($(".cancle-order").offset().top - offset) + "px"
+                            });
+
+                        }
+
+                        $(".cancle-order").attr("current-index", index);
+
+                    }
+                    else {
+
+
+                        $(".cancle-order").attr("current-index", "");
 
                     }
 
-                    $(".cancle-order").attr("current-index", index);
+                    setTimeout(function () {
+
+                        cancel_order_scroll = false;
+
+                    }, 700);
 
                 }
-                else {
-
-
-                    $(".cancle-order").attr("current-index", "");
-
+                catch (e)
+                {
+                    cancel_order_scroll = false;
+                    console.log(e);
                 }
-            }
-            catch (e)
-            {
-                console.log(e);
-            }
 
-        }, 700);
-
-        e.stopPropagation();
-
-    });
-
-
-
-
-    $('body').on('click', '.rl-dt-ma-popup', function(e) {
-
-
-        if(!$("#rests-dt-mn").is(':hidden'))
-        {
-            $('#rests-dt-mn').hide();
-        }
-
-
-        var autoScroll = false;
-        var scrollTop = 0;
-        var scrollTopDiff = 0;
-
-        var container = $('#scrollable1');
-        var scrollTo = $(this);
-
-        setTimeout(function(){
-
-            // Or you can animate the scrolling:
-            container.animate({
-
-                scrollTop: ((scrollTo.offset().top - container.offset().top + container.scrollTop() ) - 300)
-
-            },400)
+            });
 
         }, 300);
 
 
-        var that = this;
-
-
-        setTimeout(function () {
-
-            try {
-
-                var index = $(that).attr('id');
-                index = index.replace('rl-dt-ma-','');
-
-                $('#dt-str').html(delivery_time_str);
-                $('#min_order_amount').html(listOfRestaurants[index].min_amount+' NIS minimum');
-
-
-                var current_index = $("#rests-dt-mn").attr('current-index');
-
-
-                if(current_index  != index) {
-
-
-                    $("#rests-dt-mn").toggle();
-
-
-
-                    //show the menu directly over the placeholder
-                    $("#rests-dt-mn").css({
-
-                        position: "absolute",
-                        top: (scrollTo.offset().top + 90) + "px",
-                        left : (scrollTo.offset().left + 70) + "px"
-
-                    }).show();
-
-                    var offset = (($("#rests-dt-mn").height() +  $("#rests-dt-mn").offset().top) -   $(window).height());
-
-                    if(offset > 0)
-                    {
-                        console.log(offset);
-                        $("#rests-dt-mn").css({ top: ($("#rests-dt-mn").offset().top - offset) + "px"
-                        });
-
-                    }
-
-                    $("#rests-dt-mn").attr("current-index", index);
-
-                }
-                else {
-
-
-                    $("#rests-dt-mn").attr("current-index", "");
-
-                }
-
-
-
-
-
-            }
-            catch (e)
-            {
-                console.log(e);
-            }
-
-        }, 700);
 
         e.stopPropagation();
 
     });
 
 
-
+    var menu_pending_order = false;
 
     $('body').on('click', '.pending-order-detail', function(e) {
 
+
+        menu_pending_order = true;
 
         $(".cancle-order").fadeOut();
 
@@ -1064,6 +976,7 @@ ERROR DISPLAY POPUP
 
         var container = $('#scrollable1');
         var scrollTo = $(this);
+        var that = this;
 
         setTimeout(function(){
 
@@ -1072,88 +985,90 @@ ERROR DISPLAY POPUP
 
                 scrollTop: ((scrollTo.offset().top - container.offset().top + container.scrollTop() ) - 300)
 
-            },400)
-
-        }, 300);
+            },400,"swing",function () {
 
 
+                try {
 
-        var that = this;
+                    var index = $(that).attr('id');
+                    index = index.replace('pending-order-detail','');
 
+                    var str = "";
 
-        setTimeout(function () {
+                    for(var x=0;x<pending_orders_object[index].order_detail.length;x++)
+                    {
 
-            try {
-
-                var index = $(that).attr('id');
-                index = index.replace('pending-order-detail','');
-
-                var str = "";
-
-                for(var x=0;x<pending_orders_object[index].order_detail.length;x++)
-                {
-
-                    str += '<tr>'+
-                           '<td>'+pending_orders_object[index].order_detail[x].qty+' '+pending_orders_object[index].order_detail[x].item+'</td>'+
-                           '<td>'+pending_orders_object[index].order_detail[x].sub_total+' NIS</td>'+
-                           '</tr>';
-
-                }
-
-
-                $('#cart-items').html(str);
-
-                $('#actual-total').html(pending_orders_object[index].actual_total+" NIS");
-                $('#company_contribution').html(pending_orders_object[index].company_contribution+" NIS");
-                $('#total').html(pending_orders_object[index].total+" NIS");
-
-
-                var current_index = $("#po-detail-popup").attr('current-index');
-
-
-                if(current_index  != index) {
-
-                    $("#po-detail-popup").toggle();
-
-                    //show the menu directly over the placeholder
-                    $("#po-detail-popup").css({
-
-                        position: "absolute",
-                        top: (scrollTo.offset().top + 45) + "px",
-                        left: (scrollTo.offset().left + 70) + "px"
-
-                    }).show();
-
-                    var offset = (($("#po-detail-popup").height() + $("#po-detail-popup").offset().top) - $(window).height());
-
-
-                    if (offset > 0) {
-                        console.log(offset);
-                        $("#po-detail-popup").css({
-                            top: ($("#po-detail-popup").offset().top - offset) + "px"
-                        });
+                        str += '<tr>'+
+                            '<td>'+pending_orders_object[index].order_detail[x].qty+' '+pending_orders_object[index].order_detail[x].item+'</td>'+
+                            '<td>'+pending_orders_object[index].order_detail[x].sub_total+' NIS</td>'+
+                            '</tr>';
 
                     }
 
-                    $("#po-detail-popup").attr("current-index", index);
 
+                    $('#cart-items').html(str);
+
+                    $('#actual-total').html(pending_orders_object[index].actual_total+" NIS");
+                    $('#company_contribution').html(pending_orders_object[index].company_contribution+" NIS");
+                    $('#total').html(pending_orders_object[index].total+" NIS");
+
+
+                    var current_index = $("#po-detail-popup").attr('current-index');
+
+
+                    if(current_index  != index) {
+
+                        $("#po-detail-popup").toggle();
+
+                        //show the menu directly over the placeholder
+                        $("#po-detail-popup").css({
+
+                            position: "absolute",
+                            top: (scrollTo.offset().top + 45) + "px",
+                            left: (scrollTo.offset().left + 70) + "px"
+
+                        }).show();
+
+                        var offset = (($("#po-detail-popup").height() + $("#po-detail-popup").offset().top) - $(window).height());
+
+
+                        if (offset > 0) {
+                            console.log(offset);
+                            $("#po-detail-popup").css({
+                                top: ($("#po-detail-popup").offset().top - offset) + "px"
+                            });
+
+                        }
+
+                        $("#po-detail-popup").attr("current-index", index);
+
+
+                    }
+                    else {
+
+
+                        $("#po-detail-popup").attr("current-index", "");
+
+                    }
+
+
+                    setTimeout(function () {
+
+                        menu_pending_order = false;
+
+                    }, 700);
 
                 }
-                else {
-
-
-                    $("#po-detail-popup").attr("current-index", "");
-
+                catch (e)
+                {
+                    menu_pending_order = false;
+                    console.log(e);
                 }
 
+            });
 
-            }
-            catch (e)
-            {
-                console.log(e);
-            }
+        }, 300);
 
-        }, 700);
 
         e.stopPropagation();
 
@@ -1208,6 +1123,25 @@ ERROR DISPLAY POPUP
 
     }
 
+
+    $( "#scrollable1" ).scroll(function() {
+
+
+        if(!cancel_order_scroll)
+        {
+
+            $('#cancel-order').hide();
+
+        }
+
+        if(!menu_pending_order)
+        {
+
+            $("#po-detail-popup").hide();
+
+        }
+
+    });
 
 
 

@@ -783,8 +783,17 @@
 .info-card{
     position: relative;
 }
+
+.order-item.hide-row-extra {padding: 18px 0 5px;}
+.order-item.hide-row-extra .hide-row,
 .order-item .remove.new,
 .btn-arrow.new-add{display: none;}
+
+.order-item.hide-row-extra .btn-arrow.new-add,
+.order-item.hide-row-extra .remove.new,
+.btn-arrow.hide-row-extra{display: block;}
+
+
 @media screen and ( max-height: 849px ){
     .cart-holder .wrap{
         bottom: 17px;
@@ -798,7 +807,7 @@
     .order-item.add .remove.new,
     .btn-arrow.new-add{display: block;}
     .order-item.add{
-        padding: 15px 0 5px;
+        padding: 18px 0 5px;
     }
 }
 

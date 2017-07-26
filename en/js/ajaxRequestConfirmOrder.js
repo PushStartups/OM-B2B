@@ -156,6 +156,8 @@ function cardSelected(index) {
 
     dataObject.selectedCardId = user_cards[index].id;
     $('#choose_card').html(user_cards[index].card_mask);
+    $('#card-option').hide();
+    $('#cc_use_other_card').show();
 
 }
 

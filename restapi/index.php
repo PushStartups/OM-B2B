@@ -141,6 +141,10 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
             $company_id         = $userDB['company_id'];
             $companyDB          = DB::queryFirstRow("select * from company where id = $company_id");
 
+            DB::useDB('orderapp_b2b_wui');
+
+            DB::query("select * from b2b_orders where user_id = '$user_id' AND order_status = 'pending'");
+
 
             $user['user_id']                    =   $userDB['id'];
             $user['name']                       =   $userDB['name'];
@@ -159,7 +163,7 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
             $obj['company']                 	=   $company;
             $obj['user']                    	=   $user;
             $obj['error']                   	=   false;
-
+            $obj['on_way_order_count']          =   DB::count();
 
         }
         else
@@ -519,7 +523,7 @@ $app->post('/get_all_past_orders', function ($request, $response, $args)
         if($filter == "last_week") {
 
 
-            $results = DB::query(" SELECT * FROM b2b_orders WHERE date > DATE_SUB( NOW( ) , INTERVAL 1 WEEK )  AND user_id = $user_id AND order_status <> 'pending' AND ignore_old_reorder = 'false'");
+            $results = DB::query(" SELECT * FROM b2b_orders WHERE date > DATE_SUB( NOW( ) , INTERVAL 1 WEEK )  AND user_id = $user_id AND order_status <> 'pending' AND ignore_old_reorder = 'false'  order by id DESC");
 
         }
         else{
@@ -534,7 +538,7 @@ $app->post('/get_all_past_orders', function ($request, $response, $args)
             $end_date = $end_date->format('Y-m-d');
 
 
-            $results = DB::query(" SELECT * FROM b2b_orders WHERE date BETWEEN '$start_date'  AND  '$end_date' AND user_id = $user_id AND order_status <> 'pending' AND ignore_old_reorder = 'false'");
+            $results = DB::query(" SELECT * FROM b2b_orders WHERE date BETWEEN '$start_date'  AND  '$end_date' AND user_id = $user_id AND order_status <> 'pending' AND ignore_old_reorder = 'false'  order by id DESC");
         }
 
 
@@ -546,9 +550,10 @@ $app->post('/get_all_past_orders', function ($request, $response, $args)
 
             DB::useDB('orderapp_restaurants_b2b_wui');
 
-            $restaurant   =  DB::queryFirstRow("select name_en from restaurants where id = '" . $result['restaurant_id'] . "'");
+            $restaurant   =  DB::queryFirstRow("select name_en,logo from restaurants where id = '" . $result['restaurant_id'] . "'");
 
             $results[$ctn]['rest_name'] = $restaurant['name_en'];
+            $results[$ctn]['logo'] = $restaurant['logo'];
             $results[$ctn]['rest_order_object'] = "";
 
             DB::useDB('orderapp_b2b_wui');
@@ -1753,7 +1758,7 @@ $app->post('/cancel_order', function ($request, $response, $args)
 
         // RESPONSE RETURN TO REST API CALL
         $response = $response->withStatus(202);
-        $response = $response->withJson('true');
+        $response = $response->withJson($remaining_discount);
         return $response;
     }
     // USER CANCEL THE ORDER AFTER THE 30 MINUTES OF ORDER TIME

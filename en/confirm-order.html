@@ -761,6 +761,8 @@
             $(".show-txt").show();
             $(".btn-link").hide();
             dataObject.selectedCardId = null;
+            $('#cash-cb').prop('checked', false);
+            $('#card-cb').prop('checked', true);
 
         });
     });
@@ -873,6 +875,7 @@
         }
 
     });
+
 
 
 

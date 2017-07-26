@@ -1105,15 +1105,21 @@ function updateCartElements()
     // DISPLAY FOOD CART IF AT LEAST ONE ITEM TO DISPLAY
     if(foodCartData.length != 0)
     {
-
         var str = '';
-
 
         for (var x = 0; x < foodCartData.length; x++)
         {
 
-            str +=  '<div class="order-item add"> ' +
-                '<div class="row no-gutters">' +
+            if(foodCartData[x].specialRequest == "" && foodCartData[x].detail == "")
+            {
+                str +=  '<div class="order-item add hide-row-extra"> ';
+            }
+            else {
+
+                str +=  '<div class="order-item add"> ';
+            }
+
+            str += '<div class="row no-gutters">' +
                 ' <div class="col-xs-2"> ' +
 
                 '<div class="btn-arrow new-add">'+

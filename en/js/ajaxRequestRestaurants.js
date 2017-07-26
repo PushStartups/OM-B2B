@@ -88,6 +88,20 @@ function responseCallBackSessionLogin(url,response) {
             dataObject.company = response.company;
             dataObject.user    = response.user;
 
+            if(response.on_way_order_count > 0)
+            {
+
+                $('#change-status-ow').addClass('active');
+
+            }
+            else
+            {
+
+                $('#change-status-ow').removeClass('active');
+
+            }
+
+
 
             // USER CONFIRMED FROM SYSTEM
 
@@ -396,6 +410,7 @@ function responseListOfRestaurants(url,response) {
 
             track = "";
 
+
             localStorage.setItem("order_on_way","");
 
             commonAjaxCall("/restapi/index.php/get_all_pending_orders", {"user_id": dataObject.user.user_id}, responsePendingOrders);
@@ -566,7 +581,7 @@ function responsePastOrders(url,response) {
                         '<ul>' +
                         '<li class="new-first">' +
                         '<div class="img-circle">' +
-                        '<img src="/en/images/logo-img.png" alt="images description">' +
+                        '<img src="' + response[x].logo + '" alt="images description">' +
                         '</div>' +
                         '<div class="txt">' +
                         '<h1>' + response[x].rest_name + '</h1>' +
@@ -637,7 +652,7 @@ function responsePastOrders(url,response) {
                             '<ul>' +
                             '<li class="new-first">' +
                             '<div class="img-circle">' +
-                            '<img src="/en/images/logo-img.png" alt="images description">' +
+                            '<img src="' + response[x].logo + '" alt="images description">' +
                             '</div>' +
                             '<div class="txt">' +
                             '<h1>' + response[x].rest_name + '</h1>' +
@@ -706,7 +721,7 @@ function responsePastOrders(url,response) {
                         '<ul>' +
                         '<li class="new-first">' +
                         '<div class="img-circle">' +
-                        '<img src="/en/images/logo-img.png" alt="images description">' +
+                        '<img src="' + response[x].logo + '" alt="images description">' +
                         '</div>' +
                         '<div class="txt">' +
                         '<h1>' + response[x].rest_name + '</h1>' +
@@ -774,7 +789,7 @@ function responsePastOrders(url,response) {
                             '<ul>' +
                             '<li class="new-first">' +
                             '<div class="img-circle">' +
-                            '<img src="/en/images/logo-img.png" alt="images description">' +
+                            '<img src="' + response[x].logo + '" alt="images description">' +
                             '</div>' +
                             '<div class="txt">' +
                             '<h1>' + response[x].rest_name + '</h1>' +
@@ -994,7 +1009,7 @@ function responsePendingOrders(url, response) {
                 '<li>'+
                 '<div class="txt-box">'+
                 '<h2 class="light">Total '+response[x].total+' NIS</h2>'+
-                '<p id="pending-order-detail'+x+'" class="pending-order-detail"><span class="arrow">See the menu order <i class="fa fa-angle-down" aria-hidden="true"></i></span></p>'+
+                '<p id="pending-order-detail'+x+'" class="pending-order-detail"><span class="arrow">View Order Summary <i class="fa fa-angle-down" aria-hidden="true"></i></span></p>'+
 
                 '</div>'+
                 '</li>'+
@@ -1114,11 +1129,13 @@ function cancelOrderResponseRequest(url,response) {
 
     try {
 
-        if(response == "true")
+        if(response != "false")
         {
+            dataObject.user.userDiscountFromCompany = response;
+
+            $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+dataObject.user.userDiscountFromCompany+" NIS</em>");
 
             $('.cancle-order').hide();
-
             past_orders_object = null;
             pending_orders_object = null;
             displayPendingOrdersRequest();
@@ -1155,3 +1172,4 @@ function addOrder(index) {
     }
 
 }
+
