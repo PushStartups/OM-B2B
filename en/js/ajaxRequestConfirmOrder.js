@@ -458,7 +458,7 @@ function onOrderNowClicked() {
     }
     else {
 
-        dataObject.payment_option = "No Payment";
+        dataObject.payment_option = "From Your Daily/Weekly Allowance";
         processOrder();
 
     }
