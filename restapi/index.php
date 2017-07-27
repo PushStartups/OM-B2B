@@ -1486,6 +1486,9 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
     // CREATE A NEW ORDER AGAINST USER
     DB::useDB(B2B_DB);
 
+    date_default_timezone_set("Asia/Jerusalem");
+    $curr = date("Y-m-d H:i:s");
+
 
     DB::insert('b2b_orders', array(
         'user_id'                       => $user_order['user']['user_id'],
@@ -1496,7 +1499,7 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
         'company_contribution'          => $user_order['company_contribution'],
         'transaction_id'                => $user_order['transactionId'],
         'restaurant_id'                 => $user_order['rests_orders'][0]['selectedRestaurant']['id'],
-        "date"                          => DB::sqleval("NOW()"),
+        "date"                          => $curr,
         "rest_order_object"             => json_encode($user_order),
         "payment_info"                  => $user_order['payment_option'],
         "platform_info"                 => $user_order['platform_info'],
