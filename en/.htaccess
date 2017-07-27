@@ -14,3 +14,4 @@ RewriteRule ^vote vote.html [NC,L]
 
 ErrorDocument 404 /en/error.html
 
+Options -Indexes
