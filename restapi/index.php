@@ -116,10 +116,12 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
 
 
 
+
 //  USER LOGIN FOR B2B FROM SESSION
 $app->post('/confirm_user_login', function ($request, $response, $args)
 {
     try{
+
 
         $user_id = $request->getParam('user_id');
 
@@ -130,56 +132,16 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
 
         DB::useDB('orderapp_b2b_wui');
 
+
         $userDB = DB::queryFirstRow("select * from b2b_users where id = '$user_id'");
 
-
-        // CURRENT TIME OF ISRAEL
-        date_default_timezone_set("Asia/Jerusalem");
-
-        $today = date("Y-m-d");
 
         if (DB::count() > 0)
         {
             $company_id         = $userDB['company_id'];
             $companyDB          = DB::queryFirstRow("select * from company where id = $company_id");
 
-
-            // IF DISCOUNT TYPE IS DAILY
-
-            if($companyDB['discount_type'] == "daily") {
-
-                if ($today > $user['date']) {
-
-                    $discount = $companyDB['discount'];
-
-                    DB::query("UPDATE b2b_users SET date = '$today', discount = '$discount'  WHERE id = '".$userDB['id']."'");
-
-
-                }
-
-            }
-
-            // IF DISCOUNT TYPE IS MONTHLY
-
-            else{
-
-                $monthUser = date('m', strtotime($user['date']));
-                $todayMonth =  date("m");;
-
-                if($todayMonth > $monthUser)
-                {
-                    $discount = $company['discount'];
-                    DB::query("UPDATE b2b_users SET date = '$today', discount = '$discount'  WHERE id = '".$userDB['id']."'");
-                }
-
-            }
-
-
-
-
             DB::useDB('orderapp_b2b_wui');
-
-            $userDB = DB::queryFirstRow("select * from b2b_users where id = '$user_id'");
 
             DB::query("select * from b2b_orders where user_id = '$user_id' AND order_status = 'pending'");
 
@@ -230,6 +192,9 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
 
 
 });
+
+
+
 
 
 
@@ -558,7 +523,7 @@ $app->post('/get_all_past_orders', function ($request, $response, $args)
         if($filter == "last_week") {
 
 
-            $results = DB::query(" SELECT * FROM b2b_orders WHERE date > DATE_SUB( NOW( ) , INTERVAL 1 WEEK )  AND user_id = $user_id AND order_status <> 'pending' AND ignore_old_reorder = 'false'");
+            $results = DB::query(" SELECT * FROM b2b_orders WHERE date > DATE_SUB( NOW( ) , INTERVAL 1 WEEK )  AND user_id = $user_id AND order_status <> 'pending' AND ignore_old_reorder = 'false'  order by id DESC");
 
         }
         else{
@@ -573,7 +538,7 @@ $app->post('/get_all_past_orders', function ($request, $response, $args)
             $end_date = $end_date->format('Y-m-d');
 
 
-            $results = DB::query(" SELECT * FROM b2b_orders WHERE date BETWEEN '$start_date'  AND  '$end_date' AND user_id = $user_id AND order_status <> 'pending' AND ignore_old_reorder = 'false'");
+            $results = DB::query(" SELECT * FROM b2b_orders WHERE date BETWEEN '$start_date'  AND  '$end_date' AND user_id = $user_id AND order_status <> 'pending' AND ignore_old_reorder = 'false'  order by id DESC");
         }
 
 
@@ -585,9 +550,10 @@ $app->post('/get_all_past_orders', function ($request, $response, $args)
 
             DB::useDB('orderapp_restaurants_b2b_wui');
 
-            $restaurant   =  DB::queryFirstRow("select name_en from restaurants where id = '" . $result['restaurant_id'] . "'");
+            $restaurant   =  DB::queryFirstRow("select name_en,logo from restaurants where id = '" . $result['restaurant_id'] . "'");
 
             $results[$ctn]['rest_name'] = $restaurant['name_en'];
+            $results[$ctn]['logo'] = $restaurant['logo'];
             $results[$ctn]['rest_order_object'] = "";
 
             DB::useDB('orderapp_b2b_wui');
@@ -1792,7 +1758,7 @@ $app->post('/cancel_order', function ($request, $response, $args)
 
         // RESPONSE RETURN TO REST API CALL
         $response = $response->withStatus(202);
-        $response = $response->withJson('true');
+        $response = $response->withJson($remaining_discount);
         return $response;
     }
     // USER CANCEL THE ORDER AFTER THE 30 MINUTES OF ORDER TIME
