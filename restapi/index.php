@@ -631,12 +631,7 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
 
 
 
-            if ( $current_time < $delivery_time )
-            {
-                //DO NOTHING
-            }
-            // DELIVERY TIME HAS BEEN PASSED, UPDATE ORDER STATUS TO DELIVERED
-            else
+            if ( $current_time > $delivery_time )
             {
 
                 DB::useDB(B2B_DB);
