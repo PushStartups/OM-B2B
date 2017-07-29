@@ -601,16 +601,20 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
 {
     try
     {
+
         DB::useDB('orderapp_b2b_wui');
 
 
         $user_id = $request->getParam('user_id');
 
+
         // CHECK DELIVERY TIME IS PASSED OR NOT
 
         $today = date('l');
         DB::useDB(B2B_DB);
+
         $get_company_id    =  DB::queryFirstRow("select company_id from b2b_users where id = '$user_id'");
+
 
         DB::useDB(B2B_DB);
         $get_delivery_time =  DB::queryFirstRow("select * from company_timing where week_en = '$today' and  company_id = '".$get_company_id['company_id']."'");
@@ -618,11 +622,12 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
 
         DB::useDB(B2B_DB);
         $all_user_orders = DB::query("select * from b2b_orders where user_id = '$user_id' AND order_status = 'pending' ");
+
         foreach($all_user_orders as $orders)
         {
             date_default_timezone_set("Asia/Jerusalem");
-            $current_time =  DateTime::createFromFormat('H:i', date('H:i'));
-            $delivery_time =  DateTime::createFromFormat('H:i', $get_delivery_time['delivery_timing']);
+            $current_time =  DateTime::createFromFormat('YY-m-d H:i', date('H:i'));
+            $delivery_time =  DateTime::createFromFormat('YY-m-d H:i', $get_delivery_time['delivery_timing']);
 
 
 
@@ -1533,11 +1538,6 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
         "customer_total_paid_to_restaurant"  => $user_order['total_paid'],
         "eluna"                         => "false",
     ));
-
-
-
-
-
 
 
 
