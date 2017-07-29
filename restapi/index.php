@@ -601,16 +601,20 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
 {
     try
     {
+
         DB::useDB('orderapp_b2b_wui');
 
 
         $user_id = $request->getParam('user_id');
 
+
         // CHECK DELIVERY TIME IS PASSED OR NOT
 
         $today = date('l');
         DB::useDB(B2B_DB);
+
         $get_company_id    =  DB::queryFirstRow("select company_id from b2b_users where id = '$user_id'");
+
 
         DB::useDB(B2B_DB);
         $get_delivery_time =  DB::queryFirstRow("select * from company_timing where week_en = '$today' and  company_id = '".$get_company_id['company_id']."'");
@@ -618,11 +622,12 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
 
         DB::useDB(B2B_DB);
         $all_user_orders = DB::query("select * from b2b_orders where user_id = '$user_id' AND order_status = 'pending' ");
+
         foreach($all_user_orders as $orders)
         {
             date_default_timezone_set("Asia/Jerusalem");
-            $current_time =  DateTime::createFromFormat('H:i', date('H:i'));
-            $delivery_time =  DateTime::createFromFormat('H:i', $get_delivery_time['delivery_timing']);
+            $current_time =  DateTime::createFromFormat('YY-m-d H:i', date('H:i'));
+            $delivery_time =  DateTime::createFromFormat('YY-m-d H:i', $get_delivery_time['delivery_timing']);
 
 
 
@@ -1490,6 +1495,8 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
     $curr = date("Y-m-d H:i:s");
 
 
+
+
     DB::insert('b2b_orders', array(
         'user_id'                       => $user_order['user']['user_id'],
         'company_id'                    => $user_order['company']['company_id'],
@@ -1506,9 +1513,37 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
         "browser_info"                  => $user_order['browser_info'],
         "ignore_old_reorder"            => "false",
     ));
-
-
     $orderId = DB::insertId();
+
+
+    date_default_timezone_set("Asia/Jerusalem");
+    $onlyDate = date("d-m-Y");              //FOR LEDGER
+    $onlytime = date("H:i");              //FOR LEDGER
+    DB::useDB(B2B_DB);
+    DB::insert('b2b_ledger', array(
+        'date'                          => $onlyDate,
+        'time'                          => $onlytime,
+        'customer_name'                 => $getUser['name'],
+        'customer_contact'              => $getUser['contact'],
+        'customer_email'                => $user_order['user']['email'],
+        'restaurant_name'               => $user_order['rests_orders'][0]['selectedRestaurant']['name_en'],
+        'payment_method'                => $user_order['payment_option'],
+        'delivery_or_pickup'            => 'Delivery',
+        'delivery_price'                => '0',
+        'company_name'                  => $user_order['company']['company_name'],
+        "order_no"                      => $orderId,
+        "discount_amount"               => $user_order['discount'],
+        "restaurant_total"              => $user_order['actual_total'],
+        "customer_grand_total"          => $user_order['total_paid'],
+        "customer_total_paid_to_restaurant"  => $user_order['total_paid'],
+        "eluna"                         => "false",
+    ));
+
+
+
+
+
+
 
 
     //GET COMPANY NAME
