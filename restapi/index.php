@@ -1541,11 +1541,6 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
 
 
 
-
-
-
-
-
     //GET COMPANY NAME
     DB::useDB(B2B_DB);
 
