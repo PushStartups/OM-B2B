@@ -290,10 +290,10 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
 
                     // ESTIMATE DELIVERY TIME 1 HOUR LATER THEN CLOSING TIME
 
-                    $delivery_time = strtotime($singleTime['closing_time']) + 60*60;
+                    $delivery_time = strtotime($singleTime['closing_time']);
                     $delivery_time = date('H:i', $delivery_time);
 
-                    $delivery_time_end = strtotime($delivery_time) + 60*60;
+                    $delivery_time_end = strtotime($singleTime['delivery_timing']);
                     $delivery_time_end = date('H:i', $delivery_time_end);
 
                     $delivery_time_str = $delivery_time." - ".$delivery_time_end;
