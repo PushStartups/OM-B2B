@@ -262,7 +262,7 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
         $currentCompanyOpenStatus = false;
         $delivery_time = null;
         $delivery_time_str = null;
-
+        $milisec = null; // DELIVERY TIME CLOSED
 
 
         // CURRENT TIME OF ISRAEL
@@ -280,26 +280,48 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
             if ($singleTime['week_en'] == $dayOfWeek) {
 
 
+                $delivery_time = $singleTime['delivery_timing'];
+
+
                 if($singleTime['opening_time'] != "Closed") {
 
 
-                    $today_timings = $singleTime['opening_time'] . " - " . $singleTime['closing_time'];
+                    $today_timings     = $singleTime['opening_time'] . " - " . $singleTime['closing_time'];
+                    $delivery_time_str = $singleTime['closing_time']." - ".$singleTime['delivery_timing'];
+
+
                     $openingTime = DateTime::createFromFormat('H:i', $singleTime['opening_time']);
                     $closingTime = DateTime::createFromFormat('H:i', $singleTime['closing_time']);
-                    $currentTimes = DateTime::createFromFormat('H:i', $currentTime);
 
-                    // ESTIMATE DELIVERY TIME 1 HOUR LATER THEN CLOSING TIME
 
-                    $delivery_time = strtotime($singleTime['closing_time']);
-                    $delivery_time = date('H:i', $delivery_time);
+                    $currentTimes =  DateTime::createFromFormat('H:i', date('H:i'));
 
-                    $delivery_time_end = strtotime($singleTime['delivery_timing']);
-                    $delivery_time_end = date('H:i', $delivery_time_end);
 
-                    $delivery_time_str = $delivery_time." - ".$delivery_time_end;
+                    $deliveryTime = strtotime($singleTime['delivery_timing']);
+                    $deliveryTime = date('H:i',$deliveryTime);
+                    $deliveryTime =  DateTime::createFromFormat('H:i', $deliveryTime);
+
+
+                    if($deliveryTime > $currentTimes)
+                    {
+
+                        $since_start = $currentTimes->diff($deliveryTime);
+                        $milisec = 0;
+
+                        $milisec  = $milisec + ($since_start->days * 24 * 60);
+                        $milisec  = $milisec + ($since_start->h * 60 * 60);
+                        $milisec  = $milisec + ($since_start->i * 60);
+
+                        $milisec = ($milisec  * 1000);
+
+                    }
+                    else{
+
+                        $milisec = null;
+                    }
+
 
                     if ($currentTimes >= $openingTime && $currentTimes <= $closingTime) {
-
 
                         $currentCompanyOpenStatus = true;
 
@@ -481,7 +503,8 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
             "appox_delivey_time"    => $delivery_time,               // APPOX DELIVERY TIME (1 HOUR AFTER ORDER CLOSED)
             "delivery_time_str"     => $delivery_time_str,           // i.e 10:45 - 11:45
             "db_tags"               => $db_restaurant_tags,          //
-            "db_kashrut"            => $db_restaurant_kashrut
+            "db_kashrut"            => $db_restaurant_kashrut,
+            "delivery_time_milisec" => $milisec
 
         ];
 
@@ -623,19 +646,42 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
         DB::useDB(B2B_DB);
         $all_user_orders = DB::query("select * from b2b_orders where user_id = '$user_id' AND order_status = 'pending' ");
 
+
+
+
         foreach($all_user_orders as $orders)
         {
+
             date_default_timezone_set("Asia/Jerusalem");
-            $current_time =  DateTime::createFromFormat('YY-m-d H:i', date('H:i'));
-            $delivery_time =  DateTime::createFromFormat('YY-m-d H:i', $get_delivery_time['delivery_timing']);
+
+            $current_time =  DateTime::createFromFormat('H:i', date('H:i'));
+            $current_date =  DateTime::createFromFormat('Y-m-d', date('Y-m-d'));
+
+            $order_date = strtotime($orders['date']);
+            $order_date = date('Y-m-d',$order_date);
+            $order_date   =  DateTime::createFromFormat('Y-m-d', $order_date);
 
 
+            $delivery_time = strtotime($get_delivery_time['delivery_timing']);
+            $delivery_time = date('H:i',$delivery_time);
+            $delivery_time   =  DateTime::createFromFormat('H:i', $delivery_time);
+            
 
-            if ( $current_time > $delivery_time )
+            if ( $current_date > $order_date )
             {
 
                 DB::useDB(B2B_DB);
                 DB::query("UPDATE b2b_orders SET order_status = 'delivered'  WHERE  id = '".$orders['id']."'");
+            }
+            else{
+
+                if ( $current_time > $delivery_time )
+                {
+
+                    DB::useDB(B2B_DB);
+                    DB::query("UPDATE b2b_orders SET order_status = 'delivered'  WHERE  id = '".$orders['id']."'");
+                }
+
             }
         }
 
@@ -1450,7 +1496,22 @@ function  stripePaymentRequest($amount, $user_id, $email ,$creditCardNo, $expDat
     return $rest;
 
 }
+$app->post('/send_email_to_b2b_users', function ($request, $response, $args) {
 
+    $email          = $request->getParam('email');
+    $password       = $request->getParam('password');
+    $user_name      = $request->getParam('user_name');
+
+    email_to_b2b_users($email,$password,$user_name);
+
+    ob_end_clean();
+
+    // RESPONSE RETURN TO REST API CALL
+    $response = $response->withStatus(202);
+    $response = $response->withJson(json_encode('success'));
+    return $response;
+
+});
 
 //  ADD USER ORDER TO SERVER
 
