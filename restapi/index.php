@@ -1490,6 +1490,8 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
     $curr = date("Y-m-d H:i:s");
 
 
+
+
     DB::insert('b2b_orders', array(
         'user_id'                       => $user_order['user']['user_id'],
         'company_id'                    => $user_order['company']['company_id'],
@@ -1506,9 +1508,37 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
         "browser_info"                  => $user_order['browser_info'],
         "ignore_old_reorder"            => "false",
     ));
-
-
     $orderId = DB::insertId();
+
+
+    date_default_timezone_set("Asia/Jerusalem");
+    $onlyDate = date("d-m-Y");              //FOR LEDGER
+    $onlytime = date("H:i");              //FOR LEDGER
+    DB::useDB(B2B_DB);
+    DB::insert('b2b_ledger', array(
+        'date'                          => $onlyDate,
+        'time'                          => $onlytime,
+        'customer_name'                 => $getUser['name'],
+        'customer_contact'              => $getUser['contact'],
+        'customer_email'                => $user_order['user']['email'],
+        'restaurant_name'               => $user_order['rests_orders'][0]['selectedRestaurant']['name_en'],
+        'payment_method'                => $user_order['payment_option'],
+        'delivery_or_pickup'            => 'Delivery',
+        'delivery_price'                => '0',
+        'company_name'                  => $user_order['company']['company_name'],
+        "order_no"                      => $orderId,
+        "discount_amount"               => $user_order['discount'],
+        "restaurant_total"              => $user_order['actual_total'],
+        "customer_grand_total"          => $user_order['total_paid'],
+        "customer_total_paid_to_restaurant"  => $user_order['total_paid'],
+        "eluna"                         => "false",
+    ));
+
+
+
+
+
+
 
 
     //GET COMPANY NAME
