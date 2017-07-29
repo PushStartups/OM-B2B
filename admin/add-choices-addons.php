@@ -1,5 +1,6 @@
 <?php
 include "header.php";
+$rolee = $_SESSION['b2b_admin_role'];
 
 if(isset($_GET['id']))
 {
@@ -21,36 +22,38 @@ else
     <!-- MAIN CONTENT -->
     <div id="content">
         <!-- row -->
-        <div class="row">
 
-            <!-- col -->
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-briefcase "></i> Add Addons & Choices To <?=$item_name?> Item <b>(Restaurant: <?=$_SESSION['r_name']?>)</b></h1>
+        <?php if ($rolee == 1) {?>
+            <div class="row">
+
+                <!-- col -->
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-briefcase "></i> Add Addons & Choices To <?=$item_name?> Item <b>(Restaurant: <?=$_SESSION['r_name']?>)</b></h1>
+                </div>
+
             </div>
 
-        </div>
+            <br>
+            <div align="left">
+                <form  action="import-extras.php" method="post"  enctype="multipart/form-data">
+                    <fieldset>
 
-        <br>
-        <div align="left">
-            <form  action="import-extras.php" method="post"  enctype="multipart/form-data">
-                <fieldset>
+                        <div class="form-group">
+                            <label>Import Extras Through CSV</label>
+                            <input class="form-control" id="file" name="file"  type="file" required>
+                            <input type="hidden" value="<?=$item_id?>" name="item_id" id="item_id">
+                            <input type="hidden" value="<?=$_SERVER['REQUEST_URI']?>" name="url" id="url">
 
-                    <div class="form-group">
-                        <label>Import Extras Through CSV</label>
-                        <input class="form-control" id="file" name="file"  type="file" required>
-                        <input type="hidden" value="<?=$item_id?>" name="item_id" id="item_id">
-                        <input type="hidden" value="<?=$_SERVER['REQUEST_URI']?>" name="url" id="url">
+                        </div>
 
-                    </div>
-
-                </fieldset>
-                <button name="Import" type="submit" class="btn btn-primary"  data-loading-text="Loading...">
-                    Import CSV File
-                </button><br>
-                *Please see the sample CSV file link. <a target="_blank" href="https://docs.google.com/spreadsheets/d/1VObPfVvW9cVT9jPTijsHsanmIVhajdFuFbFdW5dCHZQ/edit">Click Here</a>
-            </form>
-        </div><br><br>
-
+                    </fieldset>
+                    <button name="Import" type="submit" class="btn btn-primary"  data-loading-text="Loading...">
+                        Import CSV File
+                    </button><br>
+                    *Please see the sample CSV file link. <a target="_blank" href="https://docs.google.com/spreadsheets/d/1VObPfVvW9cVT9jPTijsHsanmIVhajdFuFbFdW5dCHZQ/edit">Click Here</a>
+                </form>
+            </div><br><br>
+        <?php } ?>
         <!-- widget grid -->
 
         <section id="widget-grid"  id="myform">
@@ -90,9 +93,13 @@ else
                                             <th data-hide="phone"> Type </th>
                                             <th data-hide="phone"> Price Replace </th>
                                             <th data-hide="phone"> Limit </th>
-                                            <th data-hide="phone"> Add SubItems</th>
-                                            <th data-hide="phone,tablet"> Edit</th>
-                                            <th data-hide="phone,tablet"> Delete</th>
+                                            <th data-hide="phone">  SubItems</th>
+
+
+                                            <?php if ($rolee == 1) {?>
+                                                <th data-hide="phone,tablet"> Edit</th>
+                                                <th data-hide="phone,tablet"> Delete</th>
+                                            <?php } ?>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -108,10 +115,12 @@ else
                                                 <td><?=$extra['type']?></td>
                                                 <td><?=$extra['price_replace']?></td>
                                                 <td><?=$extra['limit']?></td>
-                                                <td><a style="text-decoration: none" href="add-subitems.php?id=<?=$extra['id']?>"><button class="btn btn-labeled btn-success  txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-plus"></i> Add SubItems </button></a></td>
-                                                <td><a href="edit-extras.php?id=<?=$extra['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-edit"></i> Edit </button></a></td>
-                                                <td><a onclick="delete_extras('<?=$extra['id']?>','<?=$_SERVER['REQUEST_URI']?>')"><button class="btn btn-labeled btn-danger txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-trash-o"></i> Delete</button></a></td>
+                                                <td><a style="text-decoration: none" href="add-subitems.php?id=<?=$extra['id']?>"><button class="btn btn-labeled btn-success  txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-plus"></i> SubItems </button></a></td>
 
+                                                <?php if ($rolee == 1) {?>
+                                                    <td><a href="edit-extras.php?id=<?=$extra['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-edit"></i> Edit </button></a></td>
+                                                    <td><a onclick="delete_extras('<?=$extra['id']?>','<?=$_SERVER['REQUEST_URI']?>')"><button class="btn btn-labeled btn-danger txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-trash-o"></i> Delete</button></a></td>
+                                                <?php } ?>
                                             </tr>
                                         <?php  }
                                         ?>
@@ -152,10 +161,14 @@ else
                                     <i class="fa fa-arrow-left"></i>
                                     Go Back
                                 </div>
+
+
+                                <?php if ($rolee == 1) {?>
                                 <div onclick="show_addons_div()" class="btn btn-primary btn-lg">
                                     <i class="fa fa-plus"></i>
                                     Add Choices & Addons
                                 </div>
+                                <?php } ?>
                                 <br><br>
                                 <script>
                                     function extra_type(val)
@@ -180,7 +193,7 @@ else
                                                 <input class="form-control" id="name_en" name="name_en" placeholder="Enter Extras" type="text">
                                                 <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="name_en_error"></span>
                                             </div>
-                                            
+
                                             <div class="form-group">
                                                 <label dir="rtl">NAME HE</label>
                                                 <input style="direction:RTL;" class="form-control" id="name_he" name="name_he"  type="text">

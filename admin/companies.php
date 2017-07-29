@@ -1,5 +1,7 @@
 <?php
 include "header.php";
+
+$rolee = $_SESSION['b2b_admin_role'];
 ?>
 <div id="main" role="main">
 
@@ -18,11 +20,13 @@ include "header.php";
 
             <!-- right side of the page with the sparkline graphs -->
             <!-- col -->
-            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-                <!-- sparks -->
-                <a style="float:right" href="add-new-company.php" class="btn btn-lg bg-color-purple txt-color-white"><i class="fa-fw fa fa-plus "></i> Add New Company</a>
-                <!-- end sparks -->
-            </div>
+            <?php if ($rolee == 1) {?>
+                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+                    <!-- sparks -->
+                    <a style="float:right" href="add-new-company.php" class="btn btn-lg bg-color-purple txt-color-white"><i class="fa-fw fa fa-plus "></i> Add New Company</a>
+                    <!-- end sparks -->
+                </div>
+            <?php }?>
             <!-- end col -->
 
         </div>
@@ -73,8 +77,12 @@ include "header.php";
                                         <th data-hide="phone, tablet">Ledger Link</th>
                                         <th data-hide="phone, tablet">Order DeadLine</th>
                                         <th data-hide="phone, tablet">Delivery Time</th>
-                                        <th data-hide="phone, tablet">Add Or View Restaurants</th>
-                                        <th>Action</th>
+
+                                        <?php if ($rolee == 1) {?>
+                                            <th data-hide="phone, tablet">Add Or View Restaurants</th>
+                                            <th>Action</th>
+                                        <?php }?>
+
                                     </tr>
                                     </thead>
 
@@ -103,12 +111,15 @@ include "header.php";
                                             <td><a href="<?=$companies['ledger_link']?>" target="_blank"><?=$companies['ledger_link']?></a> </td>
                                             <td><?=$ordering_deadline_time; ?> </td>
                                             <?php if(($ordering_deadline_time != "Closed") || ($ordering_deadline_time != "")){  ?>
-                                            <td><?=getDeliveryTime($ordering_deadline_time); ?> </td>
+                                                <td><?=getDeliveryTime($ordering_deadline_time); ?> </td>
                                             <?php }  else { ?>
                                                 <td>Closed</td>
                                             <?php } ?>
-                                            <td><a href="add-company-restaurant.php?companies_id=<?=$companies['id']?>"><button class="btn btn-labeled btn-primary  txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-plus"></i>Default Restaurants </button></a></td>
-                                            <td><a href="edit-company.php?id=<?=$companies['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-info"></i> Detail </button></a></td>
+
+                                            <?php if ($rolee == 1) {?>
+                                                <td><a href="add-company-restaurant.php?companies_id=<?=$companies['id']?>"><button class="btn btn-labeled btn-primary  txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-plus"></i>Default Restaurants </button></a></td>
+                                                <td><a href="edit-company.php?id=<?=$companies['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-info"></i> Detail </button></a></td>
+                                            <?php }?>
                                         </tr>
                                     <?php } ?>
                                     </tbody>

@@ -1,7 +1,9 @@
 <?php
 include "header.php";
+
 $rolee = $_SESSION['b2b_admin_role'];
 ?>
+
     <!-- MAIN PANEL -->
     <div id="main" role="main">
 
@@ -14,18 +16,21 @@ $rolee = $_SESSION['b2b_admin_role'];
 
                 <!-- col -->
                 <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-                    <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-tags "></i>B2B Restaurant Discounts</h1>
+                    <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-tags "></i>Kashrut</h1>
                 </div>
                 <!-- end col -->
 
                 <!-- right side of the page with the sparkline graphs -->
                 <!-- col -->
                 <?php if ($rolee == 1) {?>
-                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-                        <a style="text-decoration: none" href="add-rest-company-discount.php"><div class="btn btn-purple btn-lg"><i class="fa-fw fa fa-plus "></i> Add A Company Restaurant Discount</div></a>
+                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+                        <!-- sparks -->
+                        <a style="float:right" href="add-kashrut.php" class="btn btn-lg bg-color-purple txt-color-white"><i class="fa-fw fa fa-plus "></i> Add New Kashrut</a>
+
+                        <!-- end sparks -->
                     </div>
-                <?php } ?>
-                <!-- end col -->
+                    <!-- end col -->
+                <?php }?>
 
             </div>
             <!-- end row -->
@@ -45,8 +50,8 @@ $rolee = $_SESSION['b2b_admin_role'];
                         <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
 
                             <header>
-                                <span class="widget-icon"> <i class="fa fa-tags"></i> </span>
-                                <h2>B2B Restaurant Discounts </h2>
+                                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                                <h2>Kashruts </h2>
                             </header>
                             <!-- widget div-->
                             <div>
@@ -63,53 +68,47 @@ $rolee = $_SESSION['b2b_admin_role'];
                                         <thead>
 
                                         <tr>
-                                            <th data-class="expand">Company</th>
+                                            <th data-class="expand">ID</th>
 
-                                            <th >Restaurant</th>
+                                            <th >Tag Name EN</th>
 
-                                            <th data-hide="phone, tablet">Discount</th>
-
+                                            <th data-hide="phone, tablet">Tag Name HE</th>
 
                                             <?php if ($rolee == 1) {?>
-                                                <th>Action</th>
-                                                <th>Delete</th>
-                                            <?php } ?>
 
+                                                <th >Edit</th>
+
+                                                <th >Delete</th>
+                                            <?php }?>
+                                            <!--                                            <th>Action</th>-->
                                         </tr>
                                         </thead>
 
                                         <tbody>
-                                        <?php
-                                        //  DB::query("select brd.*,c.name,r.name_en from b2b_rest_discounts as brd inner join restaurants as r on brd.rest_id = r.id  inner join company as c on brd.company_id = c.id");
-                                        DB::useDB(B2B_DB);
-                                        $b2bRestDiscounts = DB::query("select * from b2b_rest_discounts");
-                                        //$b2bRestDiscounts = getAllB2BRestDiscounts();
-                                        foreach ($b2bRestDiscounts as $companies)
+                                        <?php $kasruts = getAllKashrut();
+                                        foreach ($kasruts as $kasrut)
                                         {
-                                            DB::useDB(B2B_DB);
-                                            $company = DB::queryFirstRow("select * from company     where id = '".$companies['company_id']."'");
-                                            DB::useDB(B2B_RESTAURANTS);
-                                            $restaurant = DB::queryFirstRow("select * from restaurants where id = '".$companies['rest_id']."'");
-
 
                                             ?>
                                             <tr>
-                                                <td><?=$company['name']?></td>
+                                                <td><?=$kasrut['id']?></td>
 
-                                                <td><?=$restaurant['name_en']?></td>
+                                                <td><?=$kasrut['name_en']?></td>
 
-                                                <td><?=$companies['discount_percent']?>%</td>
+                                                <td><?=$kasrut['name_he']?></td>
 
-                                            <?php if ($rolee == 1) {?>
-                                                <td><a href="edit-b2b-rest-discount.php?id=<?=$companies['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-edit"></i> Edit </button></a></td>
-                                                <td><a onclick="delete_b2b_rest_disc('<?=$companies['id']?>','<?=$_SERVER['REQUEST_URI']?>')"><button class="btn btn-labeled btn-danger txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-trash-o"></i> Delete</button></a></td>
-                                           <?php } ?>
+                                                <?php if ($rolee == 1) {?>
+
+                                                    <td><a href="edit-kashrut.php?id=<?=$kasrut['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-edit"></i> Edit </button></a></td>
+
+                                                    <td><a onclick="delete_kashrut('<?=$kasrut['id']?>','<?=$_SERVER['REQUEST_URI']?>')"><button class="btn btn-labeled btn-danger txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-trash-o"></i> Delete</button></a></td>
+                                                <?php }?>
+
                                             </tr>
                                         <?php } ?>
                                         </tbody>
 
                                     </table>
-
 
                                 </div>
                                 <!-- end widget content -->

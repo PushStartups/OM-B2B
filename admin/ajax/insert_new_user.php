@@ -34,15 +34,21 @@ DB::insert('b2b_users', array(
 echo json_encode("success");
 
 
-$service_url = $_SERVER['HTTP_HOST'].'/restapi/index.php/send_email_to_b2b_users';
-$curl = curl_init($service_url);
-$curl_post_data = array(
-    "email"     => $email,
-    "password"  => $password,
-    "user_name" => $username
-);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $curl_post_data);
-$curl_response = curl_exec($curl);
-curl_close($curl);
+
+$send_email = $_POST['send_email'];
+
+if($send_email == 1) {
+
+    $service_url = $_SERVER['HTTP_HOST'] . '/restapi/index.php/send_email_to_b2b_users';
+    $curl = curl_init($service_url);
+    $curl_post_data = array(
+        "email" => $email,
+        "password" => $password,
+        "user_name" => $username
+    );
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $curl_post_data);
+    $curl_response = curl_exec($curl);
+    curl_close($curl);
+}

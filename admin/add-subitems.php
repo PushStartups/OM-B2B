@@ -1,5 +1,6 @@
 <?php
 include "header.php";
+$rolee = $_SESSION['b2b_admin_role'];
 
 if(isset($_GET['id']))
 {
@@ -18,35 +19,37 @@ else
     <!-- MAIN CONTENT -->
     <div id="content">
         <!-- row -->
-        <div class="row">
 
-            <!-- col -->
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-briefcase "></i> Add SubItems To <?=$extra_name?> <b>(Restaurant: <?=$_SESSION['r_name']?>)</b></h1>
+        <?php if ($rolee == 1) {?>
+            <div class="row">
+
+                <!-- col -->
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-briefcase "></i> Add SubItems To <?=$extra_name?> <b>(Restaurant: <?=$_SESSION['r_name']?>)</b></h1>
+                </div>
+
             </div>
+            <br>
+            <div align="left">
+                <form  action="import-subitems.php" method="post"  enctype="multipart/form-data">
+                    <fieldset>
 
-        </div>
-        <br>
-        <div align="left">
-            <form  action="import-subitems.php" method="post"  enctype="multipart/form-data">
-                <fieldset>
+                        <div class="form-group">
+                            <label>Import Subitems Through CSV</label>
+                            <input class="form-control" id="file" name="file"  type="file" required>
+                            <input type="hidden" value="<?=$extra_id?>" name="extra_id" id="extra_id">
+                            <input type="hidden" value="<?=$_SERVER['REQUEST_URI']?>" name="url" id="url">
 
-                    <div class="form-group">
-                        <label>Import Subitems Through CSV</label>
-                        <input class="form-control" id="file" name="file"  type="file" required>
-                        <input type="hidden" value="<?=$extra_id?>" name="extra_id" id="extra_id">
-                        <input type="hidden" value="<?=$_SERVER['REQUEST_URI']?>" name="url" id="url">
+                        </div>
 
-                    </div>
-
-                </fieldset>
-                <button name="Import" type="submit" class="btn btn-primary"  data-loading-text="Loading...">
-                    Import CSV File
-                </button><br>
-                *Please see the sample CSV file link. <a target="_blank" href="https://docs.google.com/spreadsheets/d/15DeOW-ZHI734O0F22juE5kEuffymjfTQCzmG00h1uqE/edit?usp=sharing">Click Here</a>
-            </form>
-        </div><br><br>
-
+                    </fieldset>
+                    <button name="Import" type="submit" class="btn btn-primary"  data-loading-text="Loading...">
+                        Import CSV File
+                    </button><br>
+                    *Please see the sample CSV file link. <a target="_blank" href="https://docs.google.com/spreadsheets/d/15DeOW-ZHI734O0F22juE5kEuffymjfTQCzmG00h1uqE/edit?usp=sharing">Click Here</a>
+                </form>
+            </div><br><br>
+        <?php } ?>
         <!-- widget grid -->
 
         <section id="widget-grid"  id="myform">
@@ -84,8 +87,12 @@ else
                                             <th data-hide="phone"> Name </th>
                                             <th data-hide="phone"> שֵׁם </th>
                                             <th data-hide="phone"> Price </th>
-                                            <th data-hide="phone,tablet"> Edit</th>
-                                            <th data-hide="phone,tablet"> Delete</th>
+
+
+                                            <?php if ($rolee == 1) {?>
+                                                <th data-hide="phone,tablet"> Edit</th>
+                                                <th data-hide="phone,tablet"> Delete</th>
+                                            <?php } ?>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -98,8 +105,12 @@ else
                                                 <td><?=$subItem['name_en']?></td>
                                                 <td><?=$subItem['name_he']?></td>
                                                 <td><?=$subItem['price']?></td>
-                                                <td><a href="edit-subitems.php?id=<?=$subItem['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-edit"></i> Edit </button></a></td>
-                                                <td><a onclick="delete_subitem('<?=$subItem['id']?>','<?=$_SERVER['REQUEST_URI']?>')"><button class="btn btn-labeled btn-danger txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-trash-o"></i> Delete</button></a></td>
+
+
+                                                <?php if ($rolee == 1) {?>
+                                                    <td><a href="edit-subitems.php?id=<?=$subItem['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-edit"></i> Edit </button></a></td>
+                                                    <td><a onclick="delete_subitem('<?=$subItem['id']?>','<?=$_SERVER['REQUEST_URI']?>')"><button class="btn btn-labeled btn-danger txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-trash-o"></i> Delete</button></a></td>
+                                                <?php }?>
                                             </tr>
                                         <?php  }
                                         ?>
@@ -140,10 +151,13 @@ else
                                     <i class="fa fa-arrow-left"></i>
                                     Go Back
                                 </div>
+
+                                <?php if ($rolee == 1) {?>
                                 <div onclick="show_subitems_div()" class="btn btn-primary btn-lg">
                                     <i class="fa fa-plus"></i>
                                     Add SubItems
                                 </div>
+                                <?php }?>
                                 <br><br>
                                 <div id="add-subitem" style="display: none">
                                     <form>

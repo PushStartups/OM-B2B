@@ -155,9 +155,7 @@ include "header.php";
             <div class="row">
 
                 <!-- col -->
-                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-                    <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-users "></i> Add Users</h1>
-                </div>
+               
 
             </div>
 
@@ -218,10 +216,13 @@ include "header.php";
                             </div>
                         </div>
                     </div>
+
+                    <?php if ($rolee == 1) {?>
                     <div onclick="show_add_new_user()" class="btn btn-primary btn-lg" style="margin-top: 2%;">
                         <i class="fa fa-plus"></i>
                         Add User
                     </div><br>
+                    <?php } ?>
 
                 </article>
 

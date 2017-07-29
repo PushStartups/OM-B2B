@@ -228,34 +228,40 @@ foreach ($timings as $time)
 }
 
 
-
-
-
-
+//GET THE OLD DISCOUNT OF COMPANY, IF THE DISCOUNT CHANGES, CHANGE ALL THE USERS DISCOUNT
 DB::useDB(B2B_DB);
+$old_discount  = DB::queryFirstRow("select discount from company where id = '$company_id'");
+if($_POST['amount'] != $old_discount['discount'])
+{
+    //DISCOUNT IS CHANGED, UPDATE ALL USERS DISCOUNT
+    DB::useDB(B2B_DB);
+    DB::update('b2b_users', array(
+        "discount"                          =>  $_POST['amount'],
+    ),  "company_id=%d",    $company_id   );
+
+}
 
 
 //UPDATE COMPANY
+DB::useDB(B2B_DB);
 DB::update('company', array(
-    "name"              =>  $_POST['name'],
-    "registered_company_number"              =>  $_POST['registered_company_number'],
-    "delivery_address"  =>  $_POST['address'],
-    "discount"          =>  $_POST['amount'],
-
-    "team_size"     =>  $_POST['team_size'],
-    "limit_of_restaurants"     =>  $_POST['limit_of_restaurants'],
-    "contact_name"     =>  $_POST['contact_name'],
-    "contact_number"     =>  $_POST['contact_number'],
-    "contact_email"     =>  $_POST['contact_email'],
-    "ledger_link"     =>  $_POST['ledger_link'],
-
-    "min_order"          =>  $_POST['min_order'],
-    "discount_type"     =>  $_POST['discount_type'],
-    "email"             =>  $_POST['email'],
-    "password"          =>  $_POST['password'],
-    "notes"          =>  $_POST['notes'],
-    "lat"          =>  $_POST['lat'],
-    "lng"          =>  $_POST['lng'],
+    "name"                                  =>  $_POST['name'],
+    "registered_company_number"             =>  $_POST['registered_company_number'],
+    "delivery_address"                      =>  $_POST['address'],
+    "discount"                              =>  $_POST['amount'],
+    "team_size"                             =>  $_POST['team_size'],
+    "limit_of_restaurants"                  =>  $_POST['limit_of_restaurants'],
+    "contact_name"                          =>  $_POST['contact_name'],
+    "contact_number"                        =>  $_POST['contact_number'],
+    "contact_email"                         =>  $_POST['contact_email'],
+    "ledger_link"                           =>  $_POST['ledger_link'],
+    "min_order"                             =>  $_POST['min_order'],
+    "discount_type"                         =>  $_POST['discount_type'],
+    "email"                                 =>  $_POST['email'],
+    "password"                              =>  $_POST['password'],
+    "notes"                                 =>  $_POST['notes'],
+    "lat"                                   =>  $_POST['lat'],
+    "lng"                                   =>  $_POST['lng'],
 
 ),  "id=%d",    $company_id   );
 

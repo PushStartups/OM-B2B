@@ -45,11 +45,22 @@ else{
                     <li class="sparks-info">
                         <h5><b>Remaining Balance</b><span class="txt-color-purple">&nbsp;<?=$info['remaining_balance']?></span></h5>
                     </li>
+                    <?php
+                    DB::useDB('orderapp_b2b_wui');
+                    $payment                =  DB::queryFirstRow("select * from b2b_orders where id = '$order_id' ");
+                    $payment_info           =  $payment['payment_info'];
+                    if($payment_info != "CASH")
+                    {
+                    ?>
 
                     <li class="sparks-info">
                             <?php $refundAmount   =  getTotalRefundAmountB2B($order_id);  ?>
                             <h5><b>Refund Amount</b><span class="txt-color-purple">&nbsp;<?=$refundAmount?></span></h5>
                     </li>
+                    <?php
+
+                    }
+                    ?>
 
                 </ul>
                 <!-- end sparks -->
@@ -156,7 +167,7 @@ else{
 
         </section>
         <!-- end widget grid -->
-
+        <?php if($payment_info != "CASH") { ?>
         <!--   REFUND AREA-->
             <section id="widget-grid" class="">
                 <!-- row -->
@@ -273,8 +284,8 @@ else{
 
                 </section> <?php } ?>
             <!--   REFUND TABLE    -->
-      
 
+            <?php  } ?>
     </div>
     <!-- END MAIN CONTENT -->
 

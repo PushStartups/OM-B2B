@@ -6,7 +6,7 @@ if(isset($_SESSION['admin']))
 }
 require_once 'inc/initDb.php';
 require_once 'inc/functions.php';
-DB::useDB(B2B_RESTAURANTS);
+
 ?>
 <!DOCTYPE html>
 <html lang="en-us" id="extr-page">

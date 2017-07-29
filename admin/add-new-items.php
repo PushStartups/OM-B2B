@@ -1,5 +1,6 @@
 <?php
 include "header.php";
+$rolee = $_SESSION['b2b_admin_role'];
 
 if(isset($_GET['id']))
 {
@@ -21,6 +22,9 @@ else
     <!-- MAIN CONTENT -->
     <div id="content">
         <!-- row -->
+
+
+        <?php if ($rolee == 1) {?>
         <div class="row">
 
             <!-- col -->
@@ -50,7 +54,7 @@ else
                 *Please see the sample CSV file link. <a target="_blank" href="https://docs.google.com/spreadsheets/d/1XjDJjyNy70atEXFR9rrDs3tZDAp81xoaW3KPttMHOC4/edit#gid=0">Click Here</a>
             </form>
         </div><br><br>
-
+<?php } ?>
         <!-- widget grid -->
 
         <section id="widget-grid"  id="myform">
@@ -89,9 +93,12 @@ else
                                             <th data-hide="phone"><i class="fa-fw fa fa-info text-muted hidden-md hidden-sm hidden-xs"></i> שֵׁם </th>
                                             <th data-hide="phone"><i class="fa-fw fa fa-tags text-muted hidden-md hidden-sm hidden-xs"></i> Hide/Show </th>
                                             <th data-hide="phone"><i class="fa-fw fa fa-tags text-muted hidden-md hidden-sm hidden-xs"></i> Price </th>
-                                            <th data-hide="phone"><i class="fa-fw fa fa-plus text-muted hidden-md hidden-sm hidden-xs"></i> Add Choices & Addons </th>
+                                            <th data-hide="phone"><i class="fa-fw fa fa-plus text-muted hidden-md hidden-sm hidden-xs"></i>Choices & Addons </th>
+
+                                            <?php if ($rolee == 1) {?>
                                             <th data-hide="phone,tablet"><i class="fa fa-fw fa-edit txt-color-blue hidden-md hidden-sm hidden-xs"></i> Edit</th>
                                             <th data-hide="phone,tablet"><i class="fa fa-fw fa-edit txt-color-blue hidden-md hidden-sm hidden-xs"></i> Delete</th>
+                                            <?php } ?>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -106,10 +113,13 @@ else
                                                 <td><?=$item['name_he']?></td>
                                                 <td><?=$item['hide']?></td>
                                                 <td><?=$item['price']?></td>
-                                                <td><a style="text-decoration: none" href="add-choices-addons.php?id=<?=$item['id']?>"><button class="btn btn-labeled btn-success  txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-plus"></i> Add Choices & Addons </button></a></td>
+                                                <td><a style="text-decoration: none" href="add-choices-addons.php?id=<?=$item['id']?>"><button class="btn btn-labeled btn-success  txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-plus"></i> Choices & Addons </button></a></td>
+
+
+                                                <?php if ($rolee == 1) {?>
                                                 <td><a href="edit-items.php?id=<?=$item['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-edit"></i> Edit </button></a></td>
                                                 <td><a onclick="delete_item('<?=$item['id']?>','<?=$_SERVER['REQUEST_URI']?>')"><button class="btn btn-labeled btn-danger txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-trash-o"></i> Delete</button></a></td>
-
+<?php } ?>
                                             </tr>
                                         <?php  } ?>
 
@@ -149,10 +159,14 @@ else
                                     <i class="fa fa-arrow-left"></i>
                                     Go Back
                                 </div>
+
+
+                                <?php if ($rolee == 1) {?>
                                 <div onclick="show_category_div()" class="btn btn-primary btn-lg">
                                     <i class="fa fa-plus"></i>
                                     Add Items To <?=$category_name?>
                                 </div>
+                                <?php } ?>
                                 <br><br>
                                 <div id="add-category" style="display: none">
                                     <form>

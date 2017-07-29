@@ -1,5 +1,7 @@
 <?php
 include "header.php";
+
+$rolee = $_SESSION['b2b_admin_role'];
 ?>
     <!-- MAIN PANEL -->
     <div id="main" role="main">
@@ -28,13 +30,14 @@ include "header.php";
 
             </div>
             <br>
-            <div align="center">
-                <a style="text-decoration: none" href="add-new-user.php"><div class="btn btn-purple btn-lg">
-                        <i class="fa fa-plus"></i>
-                        Add B2B User
-                    </div></a>
-            </div><br><br>
-
+            <?php if ($rolee == 1) {?>
+                <div align="center">
+                    <a style="text-decoration: none" href="add-new-user.php"><div class="btn btn-purple btn-lg">
+                            <i class="fa fa-plus"></i>
+                            Add B2B User
+                        </div></a>
+                </div><br><br>
+            <?php }?>
             <!-- end row -->
 
             <!--
@@ -72,13 +75,18 @@ include "header.php";
                                         <tr>
                                             <th data-class="expand">ID</th>
                                             <th >Email</th>
+                                            <th >Company</th>
                                             <th >Name</th>
                                             <th >Address</th>
                                             <th >Discount</th>
                                             <th >Contact</th>
                                             <th >Language</th>
-                                            <th >Action</th>
-                                            <th >Delete</th>
+
+
+                                            <?php if ($rolee == 1) {?>
+                                                <th >Action</th>
+                                                <th >Delete</th>
+                                            <?php }?>
                                             <!--                                            <th>Delete</th>-->
                                         </tr>
                                         </thead>
@@ -93,14 +101,22 @@ include "header.php";
                                             <tr>
                                                 <td><?=$user['id']?></td>
                                                 <td><?=$user['smooch_id']?></td>
+                                                <?php
+                                                $comp = DB::queryFirstRow("select name from company where id = '".$user['company_id']."'");
+
+                                                ?>
+                                                <td><?=$comp['name']?></td>
                                                 <td><?=$user['name']?></td>
                                                 <td><?=$user['address']?></td>
                                                 <td><?=$user['discount']?></td>
                                                 <td><?=$user['contact']?></td>
                                                 <td><?=$user['language']?></td>
-                                                <td><a href="user-edit.php?user_id=<?=$user['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-info"></i> Edit </button></a></td>
-                                                <td><a onclick="delete_user_db('<?=$user['id']?>','<?=$_SERVER['REQUEST_URI']?>')"><button class="btn btn-labeled btn-danger txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-trash-o"></i> Delete</button></a></td>
 
+
+                                                <?php if ($rolee == 1) {?>
+                                                    <td><a href="user-edit.php?user_id=<?=$user['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-info"></i> Edit </button></a></td>
+                                                    <td><a onclick="delete_user_db('<?=$user['id']?>','<?=$_SERVER['REQUEST_URI']?>')"><button class="btn btn-labeled btn-danger txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-trash-o"></i> Delete</button></a></td>
+                                                <?php } ?>
                                             </tr>
                                         <?php } ?>
                                         </tbody>

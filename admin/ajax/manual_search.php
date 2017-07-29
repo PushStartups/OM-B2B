@@ -6,17 +6,26 @@ session_start();
 DB::query("set names utf8");
 
 $user_email = $_POST['search-user-email'];
-$company_id = $_POST['company_id'];
-DB::useDB(B2B_DB);
-$user  =    DB::queryFirstRow("select * from b2b_users where smooch_id = '$user_email'");
-$user_id = $user['id'];
+if($user_email == "")
+{
+    $user_id = "";
+    $sql = '';
+}
+else
+{
 
+    DB::useDB(B2B_DB);
+    $user = DB::queryFirstRow("select * from b2b_users where smooch_id = '$user_email'");
+    $user_id = $user['id'];
+    $sql = 'AND o.user_id = '.$user_id;
+}
+$company_id = $_POST['company_id'];
 
 DB::useDB(B2B_DB);
 $query = "select o.*, c.name as company_name, u.smooch_id as email from b2b_orders as o inner join company as c on o.company_id = c.id  
 inner join b2b_users as u on o.user_id = u.id 
 where DATE( o.date ) >= '".$_POST['search_start_date']."' 
-AND DATE( o.date ) <= '".$_POST['search_end_date']."' AND o.user_id = '$user_id' AND o.company_id = '$company_id' ";
+AND DATE( o.date ) <= '".$_POST['search_end_date']."' AND o.company_id = '$company_id' $sql ";
 
 
 

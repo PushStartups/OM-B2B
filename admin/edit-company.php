@@ -180,6 +180,7 @@ include "header.php";
                                         </div>
 
                                         <div class="form-group">
+                                            <p><b>*If you change the discount amount, it will affect on all the users associated with this company</b></p>
                                             <label>Discount Amount </label>
                                             <input class="form-control" id="amount" name="amount" value="<?=$edit_company['discount'];?>" placeholder="Enter Discount Amount" type="text">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_amount"></span>

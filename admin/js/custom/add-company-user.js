@@ -50,7 +50,6 @@ $('#address').bind('input', function() {
 
 function add_new_user(url)
 {
-
     
     var name            =  $('#name').val();
     var smooch_id       =  $('#smooch_id').val();
@@ -103,6 +102,7 @@ function add_new_user(url)
         'smooch_id'      :  $('#smooch_id').val(),
         'contact'        :  $('#contact').val(),
         'address'        :  $('#address').val(),
+        'send_email'          :  $('#send_email').val()
 
     };
 

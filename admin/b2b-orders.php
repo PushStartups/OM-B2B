@@ -177,7 +177,9 @@ $_SESSION['search_end_date'] = "";
                                             fputcsv($file,explode(',',$line));
                                         }
                                         ?>
-                                        <?php $orders = getAllB2BOrders();
+                                        <?php DB::useDB(B2B_DB);
+                                        $orders = DB::query("select o.*, c.name as company_name, u.smooch_id as email from b2b_orders as o inner join company as c on o.company_id = c.id  inner join b2b_users as u on o.user_id = u.id order by o.id DESC ");
+
                                         $i = 1;
                                         $totall = 0; $actual_total = 0 ; $discount = 0;
                                         foreach ($orders as $order)
@@ -204,7 +206,6 @@ $_SESSION['search_end_date'] = "";
 
                                                 <td><?=$order['total']." NIS"?></td>
                                                 <?php  $arr[4] = $order['total'];   $totall  = $totall + $order['total']; ?>
-
 
                                                 <td><?=$order['actual_total']." NIS"?></td>
                                                 <?php  $arr[5] = $order['actual_total'];   $actual_total  = $actual_total + $order['actual_total']; ?>

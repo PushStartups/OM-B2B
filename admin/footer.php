@@ -131,6 +131,10 @@ you can add as many as you like
 <script src="js/custom/add-new-city.js"></script>
 <script src="js/custom/user-edit.js"></script>
 <script src="js/custom/insert_b2b_orders_date.js"></script>
+<script src="js/custom/add-new-kashrut.js"></script>
+<script src="js/custom/edit-kashrut.js"></script>
+<script src="js/custom/add-rest-kashrut.js"></script>
+<script src="js/custom/add-new-admin.js"></script>
 
 
 <script type="text/javascript">
@@ -179,6 +183,7 @@ you can add as many as you like
         };
 
         $('#dt_basic').dataTable({
+            "pageLength": 50,
             "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
             "t"+
             "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
@@ -210,6 +215,7 @@ you can add as many as you like
             //"bAutoWidth": false,
             //"bPaginate": false,
             //"bStateSave": true // saves sort state using localStorage
+            "pageLength": 50,
             "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6 hidden-xs'f><'col-sm-6 col-xs-12 hidden-xs'<'toolbar'>>r>"+
             "t"+
             "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
@@ -399,7 +405,42 @@ you can add as many as you like
 
 
 
-    // TAGS AUTOCOMPLETE
+    // KASHRUTS AUTOCOMPLETE
+
+
+    var kashrut = new Array();
+    <?php
+    DB::useDB(B2B_RESTAURANTS);
+    $arr11 = DB::query("select * from kashrut");
+    foreach($arr11 as $kashrut_name ){ ?>
+    kashrut.push("<?php echo $kashrut_name['name_en']; ?>");
+    <?php } ?>
+
+    $( "#kashrut_name_en").autocomplete({
+        source: kashrut,
+        select: function (event, ui) {
+            globalTag = ui.item.label;
+            auto_hebrew_kashrut(ui.item.label);
+
+        },
+    });
+
+    // KASHRUTS HE AUTOCOMPLETE
+    var kashrut_he = new Array();
+    <?php
+    DB::useDB(B2B_RESTAURANTS);
+    $arr11 = DB::query("select * from kashrut");
+    foreach($arr11 as $kashrut_name ){ ?>
+    kashrut_he.push("<?php echo $kashrut_name['name_he']; ?>");
+    <?php } ?>
+
+    $( "#kashrut_name_he" ).autocomplete({
+        source: kashrut_he
+    });
+
+
+
+// TAGS AUTOCOMPLETE
 
 
     var tags = new Array();

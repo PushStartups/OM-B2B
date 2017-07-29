@@ -6,6 +6,8 @@ require_once 'inc/constants.php';
 checkAdminSession();
 DB::query("set names utf8");
 DB::useDB(B2B_RESTAURANTS);
+
+$rolee = $_SESSION['b2b_admin_role'];
 ?>
 
 <!DOCTYPE html>
@@ -164,8 +166,21 @@ DB::useDB(B2B_RESTAURANTS);
                 <a href="b2b-orders.php" title="Orders"><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">B2B Orders</span></a>
             </li>
             <li>
-                <a href="b2b-rest-discounts.php" title="Orders"><i class="fa fa-lg fa-fw fa-tags"></i> <span class="menu-item-parent">B2B Rest Disc</span></a>
+                <a href="kashrut.php" title="Kashrut"><i class="fa fa-lg fa-fw fa-plus"></i> <span class="menu-item-parent">Kashrut</span></a>
             </li>
+            <li>
+                <a href="b2b-rest-discounts.php" title="Discounts"><i class="fa fa-lg fa-fw fa-tags"></i> <span class="menu-item-parent">B2B Rest Disc</span></a>
+            </li>
+            <li>
+                <a href="stock-reports.php" title="Stock Invoice Taxing"><i class="fa fa-lg fa-fw fa-files-o"></i> <span class="menu-item-parent">Stock Invoice Taxes </span></a>
+            </li>
+
+            <?php if ($rolee == 1) {?>
+            <li>
+                <a href="add-new-admin.php" title="Add Admin"><i class="fa fa-lg fa-fw fa-user-secret"></i> <span class="menu-item-parent">Add New Admin </span></a>
+            </li>
+            <?php } ?>
+
             <li>
                 <a href="logout.php" title="Restaurant"><i class="fa fa-lg fa-fw fa-sign-out"></i> <span class="menu-item-parent">Sign Out</span></a>
             </li>

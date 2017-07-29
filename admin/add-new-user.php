@@ -137,7 +137,16 @@ include "header.php";
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="address_error"></span>
                                         </div>
 
-                                        <input type="hidden" name="companies_id" id="companies_id" value="<?=$companies_id;?>"
+                                        <input type="hidden" name="companies_id" id="companies_id" value="<?=$companies_id;?>"/>
+
+                                        <div class="form-group">
+                                            <label>Send Email</label>
+                                            <select id="send_email" name="send_email" class="form-control">
+                                                <option value="0" selected>No</option>
+                                                <option value="1">Yes</option>
+                                            </select>
+                                            <span style="font-size: 14px; color: red; width: 100%; padding: 9px;text-transform: none;"></span>
+                                        </div>
 
                                     </fieldset>
                                     <div class="form-actions">

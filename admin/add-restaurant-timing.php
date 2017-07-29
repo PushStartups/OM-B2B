@@ -1,9 +1,10 @@
 <?php
 include "header.php";
+$rolee = $_SESSION['b2b_admin_role'];
 
 if(isset($_GET['id']))
 {
-     $restaurant_id = $_GET['id'];
+    $restaurant_id = $_GET['id'];
 
     $timings = getAllTimings($restaurant_id);
 
@@ -96,7 +97,7 @@ else
 
             <!-- col -->
             <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-                <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-clock-o"></i> Add Restaurant Timings</h1>
+                <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-clock-o"></i> Restaurant Timings</h1>
             </div>
 
         </div>
@@ -347,13 +348,16 @@ else
                                     </table>
 
 
+                                    <?php if ($rolee == 1) {?>
 
-                                    <div class="form-actions">
-                                        <div onclick="add_timing('<?=$restaurant_id?>','<?=$_SERVER['REQUEST_URI']?>')" class="btn btn-primary btn-lg">
-                                            <i class="fa fa-save"></i>
-                                            Submit
+                                        <div class="form-actions">
+                                            <div onclick="add_timing('<?=$restaurant_id?>','<?=$_SERVER['REQUEST_URI']?>')" class="btn btn-primary btn-lg">
+                                                <i class="fa fa-save"></i>
+                                                Submit
+                                            </div>
                                         </div>
-                                    </div>
+
+                                    <?php } ?>
 
                                 </form>
                                 <!--   RESTAURANT DELIVERY ADDRESS AND FEES-->
@@ -372,7 +376,7 @@ else
 
                 <!-- col -->
                 <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-                    <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-truck"></i> Add Delivery Address</h1>
+                    <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-truck"></i> Delivery Address</h1>
                 </div>
 
             </div>
@@ -435,11 +439,14 @@ else
                             </div>
                         </div>
                     </div>
-                    <div onclick="show_delivery_address()" class="btn btn-primary btn-lg" style="margin-top: 2%;">
-                        <i class="fa fa-plus"></i>
-                        Add Delivery Address
-                    </div><br>
 
+
+                    <?php if ($rolee == 1) {?>
+                        <div onclick="show_delivery_address()" class="btn btn-primary btn-lg" style="margin-top: 2%;">
+                            <i class="fa fa-plus"></i>
+                            Add Delivery Address
+                        </div><br>
+                    <?php }?>
                 </article>
 
             </div><br>
@@ -465,8 +472,12 @@ else
                                         <th data-class="expand"><i class="fa fa-fw fa-address-card  text-muted hidden-md hidden-sm hidden-xs"></i> Address</th>
                                         <th data-hide="expand"><i class="fa-fw fa fa-address-card  text-muted hidden-md hidden-sm hidden-xs"></i> כתובת </th>
                                         <th data-hide="phone"><i class="fa-fw fa fa-money  text-muted hidden-md hidden-sm hidden-xs"></i> Fees </th>
-                                        <th data-hide="phone"><i class="fa-fw fa   text-muted hidden-md hidden-sm hidden-xs"></i> Edit </th>
-                                        <th data-hide="phone"><i class="fa-fw fa   text-muted hidden-md hidden-sm hidden-xs"></i> Delete </th>
+
+
+                                        <?php if ($rolee == 1) {?>
+                                            <th data-hide="phone"><i class="fa-fw fa   text-muted hidden-md hidden-sm hidden-xs"></i> Edit </th>
+                                            <th data-hide="phone"><i class="fa-fw fa   text-muted hidden-md hidden-sm hidden-xs"></i> Delete </th>
+                                        <?php }?>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -481,8 +492,10 @@ else
                                             <td><?=$delivery['area_he']?></td>
                                             <td><?=$delivery['fee']?></td>
 
-                                            <td><a href="edit-address.php?id=<?=$delivery['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-edit"></i> Edit </button></a></td>
-                                            <td><a onclick="delete_delivery_address('<?=$delivery['id']?>','<?=$_SERVER['REQUEST_URI']?>')"><button class="btn btn-labeled btn-danger  txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-trash-o"></i> Delete </button></a></td>
+                                            <?php if ($rolee == 1) {?>
+                                                <td><a href="edit-address.php?id=<?=$delivery['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-edit"></i> Edit </button></a></td>
+                                                <td><a onclick="delete_delivery_address('<?=$delivery['id']?>','<?=$_SERVER['REQUEST_URI']?>')"><button class="btn btn-labeled btn-danger  txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-trash-o"></i> Delete </button></a></td>
+                                            <?php }?>
                                         </tr>
                                     <?php  } ?>
 
