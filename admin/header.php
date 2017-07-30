@@ -166,6 +166,9 @@ $rolee = $_SESSION['b2b_admin_role'];
                 <a href="b2b-orders.php" title="Orders"><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">B2B Orders</span></a>
             </li>
             <li>
+                <a href="b2b-ledger.php" title="B2B Ledger"><i class="fa fa-lg fa-fw fa-files-o"></i> <span class="menu-item-parent">B2B Ledger </span></a>
+            </li>
+            <li>
                 <a href="kashrut.php" title="Kashrut"><i class="fa fa-lg fa-fw fa-plus"></i> <span class="menu-item-parent">Kashrut</span></a>
             </li>
             <li>
@@ -174,6 +177,7 @@ $rolee = $_SESSION['b2b_admin_role'];
             <li>
                 <a href="stock-reports.php" title="Stock Invoice Taxing"><i class="fa fa-lg fa-fw fa-files-o"></i> <span class="menu-item-parent">Stock Invoice Taxes </span></a>
             </li>
+
 
             <?php if ($rolee == 1) {?>
             <li>
