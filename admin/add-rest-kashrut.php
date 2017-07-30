@@ -7,6 +7,7 @@ $rolee = $_SESSION['b2b_admin_role'];
     if(isset($_GET['id']))
     {
         $restaurant_id      =   $_GET['id'];
+        $_SESSION['kashrut_rest_id'] = $restaurant_id;
         $restaurant_name    =   getRestaurantName($restaurant_id);
         $kasruts               =   getKashrutsOfSpecificRestaurant($restaurant_id);
 
@@ -49,20 +50,42 @@ $rolee = $_SESSION['b2b_admin_role'];
                         <div>
                             <div class="widget-body">
 
-                                <form>
+                                <form method="post" enctype="multipart/form-data" action="ajax/add_rest_kashrut.php">
                                     <fieldset>
                                         <input name="authenticity_token" type="hidden">
-                                        <div class="form-group">
-                                            <label>Kashrut Name</label>
-                                            <input class="form-control" id="kashrut_name_en" name="kashrut_name_en" placeholder="Enter Kashrut Name" type="text">
-                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error-tag-name-en"></span>
-                                        </div>
+<!--                                        <div class="form-group">-->
+<!--                                            <label>Kashrut Name</label>-->
+<!--                                            <input class="form-control" id="kashrut_name_en" name="kashrut_name_en" placeholder="Enter Kashrut Name" type="text">-->
+<!--                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error-tag-name-en"></span>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>Kashrut Name He</label>-->
+<!--                                            <input style="direction:RTL;" class="form-control" id="kashrut_name_he" name="kashrut_name_he"  type="text">-->
+<!--                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error-tag-name-he"></span>-->
+<!--                                        </div>-->
+                                        <label>Kashrut</label>
+                                        <!--                                            <input class="form-control" id="rest_name" name="rest_name" placeholder="Enter Restaurant Name" type="text">-->
+                                        <select id="kash_name" name="kash_name[]" multiple="multiple" class="form-control" required>
+                                            <?php
+
+                                            DB::useDB(B2B_RESTAURANTS);
+                                            $qry1 = "select  * from  kashrut";
+
+                                            $kashrut = db::query($qry1);
+
+                                            foreach($kashrut as $kashruts)
+                                            { ?>
+                                                <option value="<?=$kashruts['id']?>"><?=$kashruts['name_en']?></option>;
+                                                <?php
+                                            }
+                                            ?>
+
+                                        </select>
+                                        <input type="hidden" value="<?=$restaurant_id ?>" id="restaurant_id" name="restaurant_id">
+                                        <input type="hidden" value="<?=$_SERVER['REQUEST_URI']?>" id="url" name="url">
                                     </fieldset>
                                     <div class="form-actions">
-                                        <div onclick="add_kashrut_restaurant('<?=$restaurant_id?>','<?=$_SERVER['REQUEST_URI']?>')" class="btn btn-primary">
-                                            <i class="fa fa-save"></i>
-                                            Save
-                                        </div>
+                                        <input type="submit" value="Submit" class="btn btn-primary">
                                     </div>
                                 </form>
                             </div>

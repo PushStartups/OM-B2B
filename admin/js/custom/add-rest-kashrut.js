@@ -77,42 +77,42 @@ function auto_hebrew_kashrut(name_en)
 
 
 
-function add_kashrut_restaurant(restaurant_id,url)
-{
-    var name_en                    =  $('#kashrut_name_en').val();
-    var name_he                    =  $('#kashrut_name_he').val();
-
-    if(name_en == "")
-    {
-        $('#error-tag-name-en').html('Required*');
-        return;
-    }
-
-    if(name_he == "")
-    {
-        $('#error-tag-name-he').html('Required*');
-        return;
-    }
-
-    var postForm = { //Fetch form data
-
-        'name_en'                 :  name_en,
-        'name_he'                 :  name_he,
-        'restaurant_id'           :  restaurant_id
-    };
-
-
-    addLoading();
-    $.ajax({
-        url:"ajax/add_rest_kashrut.php",
-        method:"post",
-        data:postForm,
-        dataType:"json",
-        success:function(data)
-        {
-            hideLoading();
-            alert("Kashrut added successfully");
-            window.location.href = url;
-        }
-    });
-}
+// function add_kashrut_restaurant(restaurant_id,url)
+// {
+//     var name_en                    =  $('#kashrut_name_en').val();
+//     var name_he                    =  $('#kashrut_name_he').val();
+//
+//     if(name_en == "")
+//     {
+//         $('#error-tag-name-en').html('Required*');
+//         return;
+//     }
+//
+//     if(name_he == "")
+//     {
+//         $('#error-tag-name-he').html('Required*');
+//         return;
+//     }
+//
+//     var postForm = { //Fetch form data
+//
+//         'name_en'                 :  name_en,
+//         'name_he'                 :  name_he,
+//         'restaurant_id'           :  restaurant_id
+//     };
+//
+//
+//     addLoading();
+//     $.ajax({
+//         url:"ajax/add_rest_kashrut.php",
+//         method:"post",
+//         data:postForm,
+//         dataType:"json",
+//         success:function(data)
+//         {
+//             hideLoading();
+//             alert("Kashrut added successfully");
+//             window.location.href = url;
+//         }
+//     });
+// }
