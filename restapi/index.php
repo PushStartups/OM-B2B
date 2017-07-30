@@ -687,6 +687,7 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
 
 
 
+
         $results  =  DB::query("select * from b2b_orders where user_id = '$user_id' AND order_status = 'pending' order by id DESC ");
 
 
