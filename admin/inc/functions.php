@@ -366,9 +366,19 @@ function getTagsOfSpecificRestaurant($restaurant_id)
     return $tags = DB::query("select * from tags inner join restaurant_tags on tags.id = restaurant_tags.tag_id where restaurant_tags.restaurant_id = '$restaurant_id' ");
 }
 
+function getKashrutsOfSpecificRestaurant($restaurant_id)
+{
+    return $kashruts = DB::query("select * from kashrut inner join restaurant_kashrut on kashrut.id = restaurant_kashrut.kashrut_id where restaurant_kashrut.restaurant_id = '$restaurant_id' ");
+}
+
 function getSpecificTags($tags_id)
 {
     return $tags = DB::queryFirstRow("select * from tags  where id = '$tags_id' ");
+}
+
+function getSpecificKashruts($kashruts_id)
+{
+    return $kashruts = DB::queryFirstRow("select * from kashrut  where id = '$kashruts_id' ");
 }
 
 
@@ -399,6 +409,17 @@ function getSpecificCity($city_id)
 function getAllTags()
 {
     return $tags= DB::query("select * from tags");
+}
+
+function getAllKashrut()
+{
+    return $tags= DB::query("select * from kashrut");
+}
+
+function getAllStockInvoicesPDF()
+{
+    DB::useDB(B2B_DB);
+    return $stocks= DB::query("select * from stock_invoice_taxing_pdf");
 }
 
 function getSpecificb2bRestDisc($rest_id)

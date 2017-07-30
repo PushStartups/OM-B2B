@@ -534,9 +534,7 @@ you can add as many as you like
             maxHeight: '300',
         });
 
-        $('#kash_name').multiselect({
-            
-        });
+       
 //        var last_valid_selection = null;
 //        alert(rest_limit);
 //        $('#rest_name').change(function(event) {

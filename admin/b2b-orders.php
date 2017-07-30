@@ -132,7 +132,7 @@ $_SESSION['search_end_date'] = "";
 
 
 
-                                    <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                    <table id="dt_basic" class="table table-striped table-bordered" width="100%">
 
 
                                         <thead>

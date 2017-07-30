@@ -27,13 +27,13 @@ $rolee = $_SESSION['b2b_admin_role'];
 
             <!-- right side of the page with the sparkline graphs -->
             <!-- col -->
-            <?php if ($rolee == 1) {?>
+            <?php if ($rolee == 1) { if(empty($kasruts)){ ?>
             <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
 
                 <a onclick="add_kashrut_tab()" style="float:right"  class="btn btn-lg bg-color-purple txt-color-white"><i class="fa-fw fa fa-plus "></i> Add New Kashrut</a>
 
             </div>
-            <?php } ?>
+            <?php } } ?>
             <!-- end col -->
 
         </div>
@@ -44,7 +44,7 @@ $rolee = $_SESSION['b2b_admin_role'];
             <div class="row">
                 <!-- NEW WIDGET START -->
                 <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
+                    <?php if(empty($kasruts)){ ?>
                     <div style="display:none" class="jarviswidget" id="add_kash" data-widget-colorbutton="false" data-widget-editbutton="false">
 
                         <div>
@@ -65,7 +65,7 @@ $rolee = $_SESSION['b2b_admin_role'];
 <!--                                        </div>-->
                                         <label>Kashrut</label>
                                         <!--                                            <input class="form-control" id="rest_name" name="rest_name" placeholder="Enter Restaurant Name" type="text">-->
-                                        <select id="kash_name" name="kash_name[]" multiple="multiple" class="form-control" required>
+                                        <select id="kash_name" name="kash_name" multiple="multiple" class="form-control" required>
                                             <?php
 
                                             DB::useDB(B2B_RESTAURANTS);
@@ -91,7 +91,7 @@ $rolee = $_SESSION['b2b_admin_role'];
                             </div>
                         </div>
                     </div>
-
+                    <?php } ?>
 
                     <?php if(!empty($kasruts)){  ?>
                         <!-- Widget ID (each widget will need unique ID)-->
