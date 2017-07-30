@@ -9,6 +9,7 @@ if(isset($_GET['order_id'])){
 else{
     header("location:b2b-orders.php");
 }
+$rolee = $_SESSION['b2b_admin_role'];
 ?>
 <div id="main" role="main">
 
@@ -167,7 +168,9 @@ else{
 
         </section>
         <!-- end widget grid -->
-        <?php if($payment_info != "CASH") { ?>
+        <?php if($payment_info != "CASH") {
+              if ($rolee == 1) {  ?>
+
         <!--   REFUND AREA-->
             <section id="widget-grid" class="">
                 <!-- row -->
@@ -285,7 +288,7 @@ else{
                 </section> <?php } ?>
             <!--   REFUND TABLE    -->
 
-            <?php  } ?>
+            <?php } } ?>
     </div>
     <!-- END MAIN CONTENT -->
 

@@ -112,9 +112,9 @@ else{
                                             <th data-hide="phone,tablet">Tags</th>
                                             <th data-hide="phone,tablet">Kashruts</th>
 
-                                        <?php if ($rolee == 1) {?>
+                                       
                                             <th data-hide="phone,tablet"><i class="fa fa-fw fa-edit txt-color-blue hidden-md hidden-sm hidden-xs"></i> Action</th>
-                                        <?php } ?>
+
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -163,9 +163,9 @@ else{
 
                                                 <td><a style="text-decoration: none" href="add-rest-kashrut.php?id=<?=$restaurants['id']?>"><button class="btn btn-labeled bg-color-yellow txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-plus"></i>  Kashrut </button></a></td>
 
-                                            <?php if ($rolee == 1) {?>
+
                                                 <td><a href="edit-restaurant.php?id=<?=$restaurants['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;" ><i class="fa fa-fw fa-edit"></i> Edit </button></a></td>
-                                            <?php } ?>
+
                                         </tr>
                                     <?php  } ?>
 

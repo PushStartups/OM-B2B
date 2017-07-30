@@ -135,6 +135,7 @@ you can add as many as you like
 <script src="js/custom/edit-kashrut.js"></script>
 <script src="js/custom/add-rest-kashrut.js"></script>
 <script src="js/custom/add-new-admin.js"></script>
+<script src="js/custom/stock.js"></script>
 
 
 <script type="text/javascript">
@@ -534,7 +535,7 @@ you can add as many as you like
             maxHeight: '300',
         });
 
-       
+
 //        var last_valid_selection = null;
 //        alert(rest_limit);
 //        $('#rest_name').change(function(event) {

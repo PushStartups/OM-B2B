@@ -1,6 +1,6 @@
 <?php
 include "header.php";
-
+$rolee = $_SESSION['b2b_admin_role'];
 if(isset($_GET['id']))
 {
     $restaurant_id                 =    $_GET['id'];
@@ -48,12 +48,14 @@ else
                                 <div class="widget-body">
 
                                     <form  method="post" enctype="multipart/form-data">
+                                        <?php  if ($rolee == 1) {  ?>
                                         <div class="form-actions">
                                             <div onclick="delete_restaurant('<?=$restaurant_id?>','<?=$_SERVER['REQUEST_URI']?>')" class="btn btn-danger btn-lg">
                                                 <i class="fa fa-save"></i>
                                                 Delete Restaurant
                                             </div>
                                         </div>
+                                        <?php } ?>
                                         <fieldset>
                                             <input name="authenticity_token" type="hidden">
 
@@ -201,12 +203,14 @@ else
                                             </div>
                                             <br>
                                         </fieldset>
+                                        <?php  if ($rolee == 1) {  ?>
                                         <div class="form-actions">
                                             <div onclick="update_restaurant('<?=$restaurant_id?>')" class="btn btn-primary btn-lg">
                                                 <i class="fa fa-save"></i>
                                                 Update
                                             </div>
                                         </div>
+                                        <?php } ?>
                                     </form>
                                 </div>
                                 <!-- end widget content -->

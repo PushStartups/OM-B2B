@@ -1,6 +1,6 @@
 <?php
 include "header.php";
-$rolee = $_SESSION['b2b_admin_role'];
+
 
 ?>
 <div id="main" role="main">
@@ -9,7 +9,6 @@ $rolee = $_SESSION['b2b_admin_role'];
     <div id="content">
         <!-- row -->
 
-        <?php if ($rolee == 1) {?>
         <div class="row">
 
             <!-- col -->
@@ -77,7 +76,7 @@ $rolee = $_SESSION['b2b_admin_role'];
             </section>
         </div>
 
-        <?php } ?>
+
         <!-- end widget grid -->
 
 
@@ -111,9 +110,8 @@ $rolee = $_SESSION['b2b_admin_role'];
                                         <th data-class="expand">ID</th>
 
                                         <th >URL</th>
-                                        <?php if ($rolee == 1) {?>
-                                        <th >Delete</th>
-                                        <?php } ?>
+
+                                 
 
 
                                         <!--                                            <th>Action</th>-->
@@ -121,7 +119,9 @@ $rolee = $_SESSION['b2b_admin_role'];
                                     </thead>
 
                                     <tbody>
-                                    <?php $stocks = getAllStockInvoicesPDF();
+                                    <?php
+                                    DB::useDB('orderapp_b2b_wui');
+                                   $stocks= DB::query("select * from stock_invoice_taxing_pdf where company_id = '".$_SESSION['company_id']."'");
                                     foreach ($stocks as $stock)
                                     {
 
@@ -130,7 +130,6 @@ $rolee = $_SESSION['b2b_admin_role'];
                                             <td><?=$stock['id']?></td>
 
                                             <td><a href="//<?=$stock['url']?>" target="_blank"><?=$stock['url']?></a></td>
-                                            <?php if ($rolee == 1) { ?> <td><a onclick="delete_stock('<?=$stock['id']?>','<?=$_SERVER['REQUEST_URI']?>')"><button class="btn btn-labeled btn-danger txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-trash-o"></i> Delete</button></a></td> <?php } ?>
 
                                         </tr>
                                     <?php } ?>
@@ -187,7 +186,7 @@ include "footer.php";
 if ( isset( $_FILES['pdfFile'] ) ) {
 //    if ($_FILES['pdfFile']['type'] == "application/pdf") {
         $source_file = $_FILES['pdfFile']['tmp_name'];
-        $dest_file = "stockReports/".$_FILES['pdfFile']['name'];
+        $dest_file = "../admin/stockReports/".$_FILES['pdfFile']['name'];
 
 //        if (file_exists($dest_file)) {
 //            print "The file name already exists!!";
@@ -200,7 +199,8 @@ if ( isset( $_FILES['pdfFile'] ) ) {
               //INSERT FILE LINK INTO DATAABSE
                 DB::useDB('orderapp_b2b_wui');
                 DB::insert('stock_invoice_taxing_pdf', array(
-                    "url" => $_SERVER['HTTP_HOST']."/admin/stockReports/".$_FILES['pdfFile']['name']
+                    "url" => $_SERVER['HTTP_HOST']."/admin/stockReports/".$_FILES['pdfFile']['name'],
+                    "company_id" => $_SESSION['company_id']
 
                 ));
                 //  print "File location : upload/".$_FILES['pdfFile']['name']."<br/>";

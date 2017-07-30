@@ -141,6 +141,8 @@ $_SESSION['search_end_date'] = "";
                                             <th data-class="expand">Order ID</th>
 
                                             <th >User Email</th>
+                                            <th >Name</th>
+                                            <th >Contact</th>
 
                                             <th data-hide="phone, tablet">Company</th>
                                             <th data-hide="phone, tablet">Restaurant Name</th>
@@ -170,7 +172,7 @@ $_SESSION['search_end_date'] = "";
                                         <?php  $file = fopen("b2bOrderDetail.csv","w");
                                         $list = array
                                         (
-                                            "Order ID,User Email,Company,Restaurant Name,Total Paid,SubTotal,Today's Remaining Balance,Company Contribution,Payment,Order Status,Transaction ID,Date Completed"
+                                            "Order ID,User Email,Name,Contact,Company,Restaurant Name,Total Paid,SubTotal,Today's Remaining Balance,Company Contribution,Payment,Order Status,Transaction ID,Date Completed"
                                         );
                                         foreach ($list as $line)
                                         {
@@ -178,7 +180,7 @@ $_SESSION['search_end_date'] = "";
                                         }
                                         ?>
                                         <?php DB::useDB(B2B_DB);
-                                        $orders = DB::query("select o.*, c.name as company_name, u.smooch_id as email from b2b_orders as o inner join company as c on o.company_id = c.id  inner join b2b_users as u on o.user_id = u.id order by o.id DESC ");
+                                        $orders = DB::query("select o.*, c.name as company_name, u.smooch_id as email, u.name as user_name, u.contact as contact from b2b_orders as o inner join company as c on o.company_id = c.id  inner join b2b_users as u on o.user_id = u.id order by o.id DESC ");
 
                                         $i = 1;
                                         $totall = 0; $actual_total = 0 ; $discount = 0;
@@ -198,31 +200,37 @@ $_SESSION['search_end_date'] = "";
                                                 <td><?=$order['email']?></td>
                                                 <?php  $arr[1] = $order['email'];  ?>
 
+                                                <td><?=$order['user_name']?></td>
+                                                <?php  $arr[2] = $order['user_name'];  ?>
+
+                                                <td><?=$order['contact']?></td>
+                                                <?php  $arr[3] = $order['contact'];  ?>
+
                                                 <td><?=$order['company_name']?></td>
-                                                <?php  $arr[2] = $order['company_name'];  ?>
+                                                <?php  $arr[4] = $order['company_name'];  ?>
 
                                                 <td><?=$restaurant_name?></td>
-                                                <?php  $arr[3] = $restaurant_name;  ?>
+                                                <?php  $arr[5] = $restaurant_name;  ?>
 
                                                 <td><?=$order['total']." NIS"?></td>
-                                                <?php  $arr[4] = $order['total'];   $totall  = $totall + $order['total']; ?>
+                                                <?php  $arr[6] = $order['total'];   $totall  = $totall + $order['total']; ?>
 
                                                 <td><?=$order['actual_total']." NIS"?></td>
-                                                <?php  $arr[5] = $order['actual_total'];   $actual_total  = $actual_total + $order['actual_total']; ?>
+                                                <?php  $arr[7] = $order['actual_total'];   $actual_total  = $actual_total + $order['actual_total']; ?>
 
                                                 <td><?=$order['discount']." NIS"?></td>
-                                                <?php  $arr[6] = $order['discount'];   $discount  = $discount + $order['discount']; ?>
+                                                <?php  $arr[8] = $order['discount'];   $discount  = $discount + $order['discount']; ?>
 
 
                                                 <td><?=$order['company_contribution']." NIS"?></td>
-                                                <?php  $arr[7] = $order['company_contribution']; ?>
+                                                <?php  $arr[9] = $order['company_contribution']; ?>
 
 
                                                 <td><?=$order['payment_info']?></td>
-                                                <?php  $arr[8] = $order['payment_info'];  ?>
+                                                <?php  $arr[10] = $order['payment_info'];  ?>
 
                                                 <td><?=$order['order_status']?></td>
-                                                <?php  $arr[9] = $order['order_status'];  ?>
+                                                <?php  $arr[11] = $order['order_status'];  ?>
 
 
                                                 <!--                                                <td>--><?//=$refundAmount." NIS"?><!--</td>-->
@@ -230,12 +238,12 @@ $_SESSION['search_end_date'] = "";
 
                                                 <?php if(empty($order['transaction_id'])) { $order['transaction_id'] = "N/A"; }?>
                                                 <td><?=$order['transaction_id']?></td>
-                                                <?php  $arr[11] = $order['transaction_id'];  ?>
+                                                <?php  $arr[12] = $order['transaction_id'];  ?>
 
 
 
                                                 <td><?=$order['date']?></td>
-                                                <?php  $arr[12] = $order['date'];  ?>
+                                                <?php  $arr[13] = $order['date'];  ?>
 
                                                 <td><a href="b2b-order-detail.php?order_id=<?=$order['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-info"></i> More Detail </button></a></td>
                                             </tr>
@@ -246,7 +254,7 @@ $_SESSION['search_end_date'] = "";
 
                                         $list = array
                                         (
-                                            ",,,Total :, $totall , $actual_total , $discount  "
+                                            ",,,,,Total :, $totall , $actual_total , $discount  "
                                         );
                                         foreach ($list as $line)
                                         {

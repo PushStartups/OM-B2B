@@ -149,6 +149,9 @@ DB::query("set names utf8");
                 <a href="manage-users.php" title="Manage Users"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">Manage Users</span></a>
             </li>
             <li>
+                <a href="stock-reports.php" title="Stock Invoice Taxing"><i class="fa fa-lg fa-fw fa-files-o"></i> <span class="menu-item-parent">Stock Invoice Taxes </span></a>
+            </li>
+            <li>
                 <a href="manage-restaurant-discounts.php" title="manage restaurant discount "><i class="fa fa-lg fa-fw fa-tags"></i> <span class="menu-item-parent">Restaurant Discounts </span></a>
             </li>
             <li>
