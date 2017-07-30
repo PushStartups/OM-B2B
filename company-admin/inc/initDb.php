@@ -4,7 +4,7 @@
 
 require_once 'meekrodb.2.3.class.php';
 
-if($_SERVER['HTTP_HOST'] == "qab2b.orderapp.com") {
+if($_SERVER['HTTP_HOST'] == "b2b.orderapp.com") {
 
     DB::$host = 'production-orderapp.crv4lzhgi1gx.eu-central-1.rds.amazonaws.com';
     DB::$port = '3306';
