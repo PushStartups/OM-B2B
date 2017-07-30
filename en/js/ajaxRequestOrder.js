@@ -159,28 +159,28 @@ function callBackGetCategoriesWithItems(url,response) {
 
 
 
-                    if(allCategoriesWithItemsResp[x].items[y].price == oldPrice)
-                    {
-                        // NO LINE CUT
-                        str += '<div class="price-holder without-line">';
-                        str +='<span class="new-dis" style="display: none"><i class="fa fa-tag" aria-hidden="true"></i>'+ allCategoriesWithItemsResp[x].items[y].price+' NIS</span>';
-                        str += '<span class="price" >'+oldPrice+' NIS </span>';
-                    }
-                    else {
+                if(allCategoriesWithItemsResp[x].items[y].price == oldPrice)
+                {
+                    // NO LINE CUT
+                    str += '<div class="price-holder without-line">';
+                    str +='<span class="new-dis" style="display: none"><i class="fa fa-tag" aria-hidden="true"></i>'+ allCategoriesWithItemsResp[x].items[y].price+' NIS</span>';
+                    str += '<span class="price" >'+oldPrice+' NIS </span>';
+                }
+                else {
 
-                        // LINE WITH CUT
-                        str += '<div class="price-holder">';
-                        str += '<span class="new-dis"><i class="fa fa-tag" aria-hidden="true"></i>'+ allCategoriesWithItemsResp[x].items[y].price+' NIS</span>';
-                        str += '<span class="price">'+oldPrice+' NIS </span>';
+                    // LINE WITH CUT
+                    str += '<div class="price-holder">';
+                    str += '<span class="new-dis"><i class="fa fa-tag" aria-hidden="true"></i>'+ allCategoriesWithItemsResp[x].items[y].price+' NIS</span>';
+                    str += '<span class="price">'+oldPrice+' NIS </span>';
 
-                    }
+                }
 
                 str += '</div>' +
-                '<img class="img-plus" src="/en/images/plus-icon.png">' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>';
+                    '<img class="img-plus" src="/en/images/plus-icon.png">' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
 
 
             }
@@ -410,231 +410,245 @@ function onItemSelectedCallBack(url,response)
         var minx_holder = [];
         var miny_holder = [];
 
-        // DISPLAY ALL AVAILABLE EXTRAS
-        for (var x = 0; x < extras.extra_with_subitems.length; x++) {
+        var isShow = false;
 
-            // EXTRAS WITH TYPE ONE (SINGLE SELECTABLE)
-            // DISPLAY IS DROP DOWN
+        if(extras.extra_with_subitems.length != 0) {
 
-            if (extras.extra_with_subitems[x].type == "One") {
+            // DISPLAY ALL AVAILABLE EXTRAS
+            for (var x = 0; x < extras.extra_with_subitems.length; x++) {
 
-                var temp = "";
-                var minSubItemName = "";
-                var minPrice = 0;
-                var minY = 0;
-                var minX = 0;
+                // EXTRAS WITH TYPE ONE (SINGLE SELECTABLE)
+                // DISPLAY IS DROP DOWN
 
+                if (extras.extra_with_subitems[x].type == "One") {
 
+                    var temp = "";
+                    var minSubItemName = "";
+                    var minPrice = 0;
+                    var minY = 0;
+                    var minX = 0;
 
-                for (var y = 0; y < extras.extra_with_subitems[x].subitems.length; y++) {
-
-
-                    if (percentage_discount != '0') {
-
-                        extras.extra_with_subitems[x].subitems[y].price = convertFloat(convertFloat(extras.extra_with_subitems[x].subitems[y].price) - convertFloat((convertFloat(extras.extra_with_subitems[x].subitems[y].price) * convertFloat(percentage_discount)) / 100));
-
-                    }
-
-                    if (extras.extra_with_subitems[x].price_replace == 1) {
-
-                        if (convertFloat(extras.extra_with_subitems[x].subitems[y].price) > 0) {
-
-
-                            temp += '<li onclick="onOneTypeExtraSubItemSelected(' + x + ',' + y + ',' + oneTypeSubItems.length + ',this)"> ' +
-                                '<label class="control control--radio"> <div class="chek-box-holder">' +
-                                '<input type="radio" class="radio-one-type-'+x+'" name="radio-' + x + y + '" id="radio-id-' + x + y + '" /> ' +
-                                '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_en + '  (' + extras.extra_with_subitems[x].subitems[y].price + ') </p> </label> </li>';
-
-                        }
-                        else {
-
-                            temp += '<li onclick="onOneTypeExtraSubItemSelected(' + x + ',' + y + ',' + oneTypeSubItems.length + ',this)"> ' +
-                                '<label class="control control--radio"> <div class="chek-box-holder">' +
-                                '<input type="radio" class="radio-one-type-'+x+'" name="radio-' + x + y + '" id="radio-id-' + x + y + '" /> ' +
-                                '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_en + ' </p> </label> </li>';
-
-
-                        }
-
-                        if (y == 0 || (convertFloat(extras.extra_with_subitems[x].subitems[y].price) < minPrice)) {
-
-                            minPrice = extras.extra_with_subitems[x].subitems[y].price;
-                            minSubItemName = extras.extra_with_subitems[x].subitems[y].name_en;
-                            minY = y;
-                            minX = x;
-
-
-                        }
-                    }
-                    else {
-
-                        if (convertFloat(extras.extra_with_subitems[x].subitems[y].price) > 0) {
-
-
-                            temp += '<li onclick="onOneTypeExtraSubItemSelected(' + x + ',' + y + ',' + oneTypeSubItems.length + ',this)"> ' +
-                                '<label class="control control--radio"> <div class="chek-box-holder">' +
-                                '<input type="radio" class="radio-one-type-'+x+'" name="radio' + x + y + '"  id="radio-id-' + x + y + '"  /> ' +
-                                '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_en + '  (' + extras.extra_with_subitems[x].subitems[y].price + ') </p> </label> </li>';
-
-
-                        }
-                        else {
-                            temp += '<li onclick="onOneTypeExtraSubItemSelected(' + x + ',' + y + ',' + oneTypeSubItems.length + ',this)"> ' +
-                                '<label class="control control--radio"> <div class="chek-box-holder">' +
-                                '<input type="radio" class="radio-one-type-'+x+'" name="radio' + x + y + '"  id="radio-id-' + x + y + '"  /> ' +
-                                '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_en + ' </p> </label> </li>';
-
-                        }
-
-                    }
-
-
-                }
-
-
-
-
-                oneTypeStr +=
-
-                    '<div class="holder">' +'<div class="heading-holder"><h3 class="pull-left">' + extras.extra_with_subitems[x].name_en + '</h3><span  style="padding-left: 20px" class="error pull-left"  id="errorOneType-' + oneTypeSubItems.length +'"></span></div>' +
-                    '<div class="holder">' +
-                    '<ul class="control-group">';
-
-                oneTypeStr += temp;
-
-                oneTypeStr += '</div></ul>';
-
-                if (minSubItemName == "") {
-                    // CREATE SUB ITEM DEFAULT OBJECT AND PUSH IN ONE TYPE ARRAY EMPTY AS DEFAULT
-                    // UPDATE VALUE FROM SUB ITEM SELECTION FROM DROP DOWN TYPE ONE
-                    var subItem = {};
-
-                    subItem[extras.extra_with_subitems[x].name_en] = null;
-                    oneTypeSubItems.push(subItem);
-
-                }
-                else {
-                    // SUB ITEM OBJECT
-
-                    var temp = {
-
-                        "subItemId": extras.extra_with_subitems[x].subitems[minY].id,
-                        "replace_price": extras.extra_with_subitems[x].price_replace,
-                        "subItemPrice": extras.extra_with_subitems[x].subitems[minY].price,
-                        "subItemName": extras.extra_with_subitems[x].subitems[minY].name_en,
-                        "subItemNameHe": extras.extra_with_subitems[x].subitems[minY].name_he,
-                        "qty": 1
-                    };   // QUANTITY OF SUB-ITEM BY DEFAULT 1
-
-
-                    var subItem = {};
-
-                    subItem[extras.extra_with_subitems[x].name_en] = temp;
-
-                    oneTypeSubItems.push(subItem);
-
-                    minx_holder.push(minX);
-                    miny_holder.push(minY);
-
-                }
-
-
-            }
-
-            // // EXTRAS WITH TYPE MULTIPLE (MULTIPLE SELECTABLE)
-            // // DISPLAY IS SERIES OF CHECK RADIO BOXES.
-
-            else {
-
-
-
-                if (extras.extra_with_subitems[x].subitems.length != 0) {
-                    // SUB ITEMS WITH MULTIPLE SELECTABLE OPTIONS
-
-                    var multiTypeItemSet = [];
-
-
-                    multipleTypeStr += '<div class="heading-holder"><h3 class="pull-left">' + extras.extra_with_subitems[x].name_en + '</h3><span class="error pull-left" style="padding-left: 20px"  id="errorMultipleType-' + x +'"></span></div>' +
-                        '<div class="holder">' +
-                        '<ul class="control-group">';
 
                     for (var y = 0; y < extras.extra_with_subitems[x].subitems.length; y++) {
+
+
+                        isShow = true;
+
                         if (percentage_discount != '0') {
 
                             extras.extra_with_subitems[x].subitems[y].price = convertFloat(convertFloat(extras.extra_with_subitems[x].subitems[y].price) - convertFloat((convertFloat(extras.extra_with_subitems[x].subitems[y].price) * convertFloat(percentage_discount)) / 100));
 
                         }
 
-                        if (convertFloat(extras.extra_with_subitems[x].subitems[y].price) > 0) {
-                            // ON CLICK PASSING EXTRA ID AND SUB ITEM ID
+                        if (extras.extra_with_subitems[x].price_replace == 1) {
 
-                            multipleTypeStr += '<li> <label class="control control--checkbox">' +
-                                '<div class="chek-box-holder"> ' +
-                                '<input id="checkbox-id-' + x + y + '" onclick="onExtraSubItemSelected('+multipleTypeSubItems.length+',' + x + ',' + y + ',' + multiTypeItemSet.length + ')" type="checkbox" />' +
-                                '<div class="control__indicator"></div> ' +
-                                '</div> <p>' + capitalizeFirstLetter(extras.extra_with_subitems[x].subitems[y].name_en) + ' (' + extras.extra_with_subitems[x].subitems[y].price + ')' + '</p> ' +
-                                '</label>' +
-                                '</li>';
+                            if (convertFloat(extras.extra_with_subitems[x].subitems[y].price) > 0) {
 
+
+                                temp += '<li onclick="onOneTypeExtraSubItemSelected(' + x + ',' + y + ',' + oneTypeSubItems.length + ',this)"> ' +
+                                    '<label class="control control--radio"> <div class="chek-box-holder">' +
+                                    '<input type="radio" class="radio-one-type-' + x + '" name="radio-' + x + y + '" id="radio-id-' + x + y + '" /> ' +
+                                    '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_en + '  (' + extras.extra_with_subitems[x].subitems[y].price + ') </p> </label> </li>';
+
+                            }
+                            else {
+
+                                temp += '<li onclick="onOneTypeExtraSubItemSelected(' + x + ',' + y + ',' + oneTypeSubItems.length + ',this)"> ' +
+                                    '<label class="control control--radio"> <div class="chek-box-holder">' +
+                                    '<input type="radio" class="radio-one-type-' + x + '" name="radio-' + x + y + '" id="radio-id-' + x + y + '" /> ' +
+                                    '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_en + ' </p> </label> </li>';
+
+
+                            }
+
+                            if (y == 0 || (convertFloat(extras.extra_with_subitems[x].subitems[y].price) < minPrice)) {
+
+                                minPrice = extras.extra_with_subitems[x].subitems[y].price;
+                                minSubItemName = extras.extra_with_subitems[x].subitems[y].name_en;
+                                minY = y;
+                                minX = x;
+
+
+                            }
                         }
                         else {
-                            // ON CLICK PASSING EXTRA ID AND SUB ITEM ID
 
-                            multipleTypeStr += '<li> <label class="control control--checkbox">' +
-                                '<div class="chek-box-holder"> ' +
-                                '<input id="checkbox-id-' + x + y + '" onclick="onExtraSubItemSelected('+multipleTypeSubItems.length+',' + x + ',' + y + ',' + multiTypeItemSet.length + ')" type="checkbox" />' +
-                                '<div class="control__indicator"></div> ' +
-                                '</div><p>' + capitalizeFirstLetter(extras.extra_with_subitems[x].subitems[y].name_en) + '</p> ' +
-                                '</label>' +
-                                '</li>';
+                            if (convertFloat(extras.extra_with_subitems[x].subitems[y].price) > 0) {
 
+
+                                temp += '<li onclick="onOneTypeExtraSubItemSelected(' + x + ',' + y + ',' + oneTypeSubItems.length + ',this)"> ' +
+                                    '<label class="control control--radio"> <div class="chek-box-holder">' +
+                                    '<input type="radio" class="radio-one-type-' + x + '" name="radio' + x + y + '"  id="radio-id-' + x + y + '"  /> ' +
+                                    '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_en + '  (' + extras.extra_with_subitems[x].subitems[y].price + ') </p> </label> </li>';
+
+
+                            }
+                            else {
+                                temp += '<li onclick="onOneTypeExtraSubItemSelected(' + x + ',' + y + ',' + oneTypeSubItems.length + ',this)"> ' +
+                                    '<label class="control control--radio"> <div class="chek-box-holder">' +
+                                    '<input type="radio" class="radio-one-type-' + x + '" name="radio' + x + y + '"  id="radio-id-' + x + y + '"  /> ' +
+                                    '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_en + ' </p> </label> </li>';
+
+                            }
 
                         }
 
 
-                        // CREATE SUB ITEM OBJECT FOR ALL SUB ITEMS AVAILABLE AND SAVE VALUE ON USER SELECTION
-                        // DEFAULT VALUE IS NULL
-                        // UPDATE VALUE FROM CHECK BOX SELECTION
-                        var subItem = {};
-                        subItem[extras.extra_with_subitems[x].subitems[y].name_en] = null;
-                        multiTypeItemSet.push(subItem);
                     }
 
-                    multipleTypeSubItems.push(multiTypeItemSet);
 
-                    multipleTypeStr += '</ul>';
-                    multipleTypeStr += '</div>';
+                    oneTypeStr +=
+
+                        '<div class="holder">' + '<div class="heading-holder"><h3 class="pull-left">' + extras.extra_with_subitems[x].name_en + '</h3><span  style="padding-left: 20px" class="error pull-left"  id="errorOneType-' + oneTypeSubItems.length + '"></span></div>' +
+                        '<div class="holder">' +
+                        '<ul class="control-group">';
+
+                    oneTypeStr += temp;
+
+                    oneTypeStr += '</div></ul>';
+
+                    if (minSubItemName == "") {
+                        // CREATE SUB ITEM DEFAULT OBJECT AND PUSH IN ONE TYPE ARRAY EMPTY AS DEFAULT
+                        // UPDATE VALUE FROM SUB ITEM SELECTION FROM DROP DOWN TYPE ONE
+                        var subItem = {};
+
+                        subItem[extras.extra_with_subitems[x].name_en] = null;
+                        oneTypeSubItems.push(subItem);
+
+                    }
+                    else {
+                        // SUB ITEM OBJECT
+
+                        var temp = {
+
+                            "subItemId": extras.extra_with_subitems[x].subitems[minY].id,
+                            "replace_price": extras.extra_with_subitems[x].price_replace,
+                            "subItemPrice": extras.extra_with_subitems[x].subitems[minY].price,
+                            "subItemName": extras.extra_with_subitems[x].subitems[minY].name_en,
+                            "subItemNameHe": extras.extra_with_subitems[x].subitems[minY].name_he,
+                            "qty": 1
+                        };   // QUANTITY OF SUB-ITEM BY DEFAULT 1
+
+
+                        var subItem = {};
+
+                        subItem[extras.extra_with_subitems[x].name_en] = temp;
+
+                        oneTypeSubItems.push(subItem);
+
+                        minx_holder.push(minX);
+                        miny_holder.push(minY);
+
+                    }
+
 
                 }
+
+                // // EXTRAS WITH TYPE MULTIPLE (MULTIPLE SELECTABLE)
+                // // DISPLAY IS SERIES OF CHECK RADIO BOXES.
+
+                else {
+
+
+                    if (extras.extra_with_subitems[x].subitems.length != 0) {
+                        // SUB ITEMS WITH MULTIPLE SELECTABLE OPTIONS
+
+                        isShow = true;
+
+                        var multiTypeItemSet = [];
+
+
+                        multipleTypeStr += '<div class="heading-holder"><h3 class="pull-left">' + extras.extra_with_subitems[x].name_en + '</h3><span class="error pull-left" style="padding-left: 20px"  id="errorMultipleType-' + x + '"></span></div>' +
+                            '<div class="holder">' +
+                            '<ul class="control-group">';
+
+                        for (var y = 0; y < extras.extra_with_subitems[x].subitems.length; y++) {
+                            if (percentage_discount != '0') {
+
+                                extras.extra_with_subitems[x].subitems[y].price = convertFloat(convertFloat(extras.extra_with_subitems[x].subitems[y].price) - convertFloat((convertFloat(extras.extra_with_subitems[x].subitems[y].price) * convertFloat(percentage_discount)) / 100));
+
+                            }
+
+                            if (convertFloat(extras.extra_with_subitems[x].subitems[y].price) > 0) {
+                                // ON CLICK PASSING EXTRA ID AND SUB ITEM ID
+
+                                multipleTypeStr += '<li> <label class="control control--checkbox">' +
+                                    '<div class="chek-box-holder"> ' +
+                                    '<input id="checkbox-id-' + x + y + '" onclick="onExtraSubItemSelected(' + multipleTypeSubItems.length + ',' + x + ',' + y + ',' + multiTypeItemSet.length + ')" type="checkbox" />' +
+                                    '<div class="control__indicator"></div> ' +
+                                    '</div> <p>' + capitalizeFirstLetter(extras.extra_with_subitems[x].subitems[y].name_en) + ' (' + extras.extra_with_subitems[x].subitems[y].price + ')' + '</p> ' +
+                                    '</label>' +
+                                    '</li>';
+
+                            }
+                            else {
+                                // ON CLICK PASSING EXTRA ID AND SUB ITEM ID
+
+                                multipleTypeStr += '<li> <label class="control control--checkbox">' +
+                                    '<div class="chek-box-holder"> ' +
+                                    '<input id="checkbox-id-' + x + y + '" onclick="onExtraSubItemSelected(' + multipleTypeSubItems.length + ',' + x + ',' + y + ',' + multiTypeItemSet.length + ')" type="checkbox" />' +
+                                    '<div class="control__indicator"></div> ' +
+                                    '</div><p>' + capitalizeFirstLetter(extras.extra_with_subitems[x].subitems[y].name_en) + '</p> ' +
+                                    '</label>' +
+                                    '</li>';
+
+
+                            }
+
+
+                            // CREATE SUB ITEM OBJECT FOR ALL SUB ITEMS AVAILABLE AND SAVE VALUE ON USER SELECTION
+                            // DEFAULT VALUE IS NULL
+                            // UPDATE VALUE FROM CHECK BOX SELECTION
+                            var subItem = {};
+                            subItem[extras.extra_with_subitems[x].subitems[y].name_en] = null;
+                            multiTypeItemSet.push(subItem);
+                        }
+
+                        multipleTypeSubItems.push(multiTypeItemSet);
+
+                        multipleTypeStr += '</ul>';
+                        multipleTypeStr += '</div>';
+
+                    }
+                }
+            }
+
+            if (oneTypeSubItems.length != 0) {
+
+                $('#parent_type_one').show();
+                $('#parent_type_one').html(oneTypeStr);
+            }
+            else {
+                $('#parent_type_one').hide();
+            }
+
+            $('#parent_type_multiple_2').html(multipleTypeStr);
+            $('#parent_type_multiple_2').show();
+
+
+            if(isShow) {
+                $('#my-order').modal('show');
+
+                // CHECK DEFAULT SELECTED MINIMUM ITEMS
+
+                for (var x = 0; x < minx_holder.length; x++) {
+
+                    var radioId = '#radio-id-' + minx_holder[x] + miny_holder[x];
+
+                    $(radioId).prop('checked', true);
+
+                }
+
+            }
+            else {
+                addUserOrder();
             }
         }
-
-        if (oneTypeSubItems.length != 0) {
-
-            $('#parent_type_one').show();
-            $('#parent_type_one').html(oneTypeStr);
-        }
         else {
-            $('#parent_type_one').hide();
-        }
 
-        $('#parent_type_multiple_2').html(multipleTypeStr);
-        $('#parent_type_multiple_2').show();
-
-
-        $('#my-order').modal('show');
-
-        // CHECK DEFAULT SELECTED MINIMUM ITEMS
-
-        for(var x=0;x<minx_holder.length;x++)
-        {
-
-            var radioId = '#radio-id-'+minx_holder[x]+miny_holder[x];
-
-            $(radioId).prop('checked', true);
+            addUserOrder();
 
         }
-
 
     }
     catch (exp)
