@@ -46,6 +46,8 @@ var track  = null;
 var keepLoaderUntilPageLoad   =  true;
 
 
+var deliveryClosedTimeInMiliSec = null;
+
 
 // AFTER DOCUMENTED LOADED
 $(document).ready(function() {
@@ -208,6 +210,21 @@ function responseDBAllTagsKashrut(url, response) {
 }
 
 
+function DeliveryTimeClosedTimerUpdate(milisecTime)
+{
+
+    setTimeout(function myFunction() {
+
+        // REDIRECT TO VOTING
+
+        location.reload();
+
+
+    }, milisecTime)
+
+}
+
+
 function responseListOfRestaurants(url,response) {
 
 
@@ -218,9 +235,18 @@ function responseListOfRestaurants(url,response) {
         company_open_status = response.company_open_status;
         delivery_time_str   = response.delivery_time_str;
         appox_delivey_time  = response.appox_delivey_time;
+        deliveryClosedTimeInMiliSec  = response.delivery_time_milisec;
+
+
+
+        if(deliveryClosedTimeInMiliSec != null)
+        {
+            DeliveryTimeClosedTimerUpdate(deliveryClosedTimeInMiliSec);
+        }
 
 
         dataObject.company.delivery_time = delivery_time_str;
+
 
         var str = '';
 

@@ -687,6 +687,7 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
 
 
 
+
         $results  =  DB::query("select * from b2b_orders where user_id = '$user_id' AND order_status = 'pending' order by id DESC ");
 
 
@@ -1494,25 +1495,9 @@ function  stripePaymentRequest($amount, $user_id, $email ,$creditCardNo, $expDat
     }
 
     return $rest;
+
 }
 
-
-$app->post('/send_email_to_b2b_users', function ($request, $response, $args) {
-
-    $email          = $request->getParam('email');
-    $password       = $request->getParam('password');
-    $user_name      = $request->getParam('user_name');
-
-    email_to_b2b_users($email,$password,$user_name);
-
-    ob_end_clean();
-
-    // RESPONSE RETURN TO REST API CALL
-    $response = $response->withStatus(202);
-    $response = $response->withJson(json_encode('success'));
-    return $response;
-
-});
 
 //  ADD USER ORDER TO SERVER
 
