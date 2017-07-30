@@ -57,11 +57,6 @@ $rolee = $_SESSION['b2b_admin_role'];
                                             <input class="form-control" id="kashrut_name_en" name="kashrut_name_en" placeholder="Enter Kashrut Name" type="text">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error-tag-name-en"></span>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Kashrut Name He</label>
-                                            <input style="direction:RTL;" class="form-control" id="kashrut_name_he" name="kashrut_name_he"  type="text">
-                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error-tag-name-he"></span>
-                                        </div>
                                     </fieldset>
                                     <div class="form-actions">
                                         <div onclick="add_kashrut_restaurant('<?=$restaurant_id?>','<?=$_SERVER['REQUEST_URI']?>')" class="btn btn-primary">

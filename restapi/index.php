@@ -1494,8 +1494,9 @@ function  stripePaymentRequest($amount, $user_id, $email ,$creditCardNo, $expDat
     }
 
     return $rest;
-
 }
+
+
 $app->post('/send_email_to_b2b_users', function ($request, $response, $args) {
 
     $email          = $request->getParam('email');
