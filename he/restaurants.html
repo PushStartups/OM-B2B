@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Orderapp | Order from restaurants online</title>
+    <link rel="icon" href="images/favicon.png" type="image/png" sizes="32x32">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Arimo:300,400,400i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style-he.css">
+    <link rel="stylesheet" type="text/css" href="css/generic.css">
+    <link rel="stylesheet" type="text/css" href="css/rests.css">
+</head>
+<body>
+<div id="wrapper" dir="rtl">
+    <!--<img class="bg" src="images/bgbody.png">-->
+    <section class="jumbotron-fluid">
+        <div id="header" class="orang_gradient_rtl">
+            <div class="container">
+                <div class="row no-gutters">
+
+                    <div class="col-xs-5 pull-left">
+                        <nav id="nav">
+                            <ul class="bt-sm">
+                                <li>
+                                    <a href="#">
+                                        <img class="icon-user" src="images/ic_profile01.png">
+                                        <span id="name_company"> מרינה לונדון, אור שלום <em>500 NIS</em></span>
+                                    </a>
+                                    <div class="dropdown-nav" style="display: block;">
+                                        <h3>היי מרינה לונדון,<br> :) נחמד לראות אותך כאן </h3>
+                                        <a onclick="window.location.href='index.html'" href="#">התנתק/י</a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li data-toggle="modal" data-target="#about"><a class="f white" href="#">אודות</a></li>
+                                <li><a class="f white active" href="#">EN</a></li>
+                            </ul>
+                        </nav>
+
+
+
+
+                        <!--<nav id="nav">-->
+                            <!--<ul>-->
+                                <!--<li><a class="f white active" href="#">EN</a></li>-->
+                                <!--<li><a class="f white" href="#">אודות</a></li>-->
+                            <!--</ul>-->
+                            <!--<ul class="bt-sm">-->
+                                <!--<li>-->
+                                    <!--<a href="#">-->
+                                        <!--<span id="name_company"><em>500 NIS</em> מרינה לונדון, אור שלום </span>-->
+                                        <!--<img class="icon-user" src="images/ic_profile01.png">-->
+                                    <!--</a>-->
+                                    <!--<div class="dropdown-nav" id="dropdown-nav" style="display: none;">-->
+                                        <!--<h3>היי מבחן, נחמד לפגוש אותך :)</h3>-->
+                                        <!--<a onclick="clearLocalStorage()" href="#">התנתק/י</a>-->
+                                    <!--</div>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</nav>-->
+                    </div>
+
+                    <div class="col-xs-5 pull-right">
+                        <div class="logo">
+                            <a href="#">
+                                <div class="logo-img">
+                                    <img src="images/logo.png" alt="images description">
+                                </div>
+                                <h2 class="f white light">בחר את המסעדה שלך</h2>
+                            </a>
+                            <ul class="breadcrumbs">
+                                <li><p class="comment f white">בחר את המסעדה שלך</p></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <a onclick="window.location.href='index.html'" class="btn-back" href="#"><img src="images/icon01.png"></a>
+        </div>
+    </section>
+    <section class="block">
+        <div class="jumbtron-fluid">
+            <div class="parent-bottom" style="/*position: relative;*/width:100%;height:100%;">
+                <img src="images/left_bottom.png">
+                <img src="images/right_bottom-new.png" style="left: auto; right: 0; margin: 0; width: 60%; height: 90vh; top:10px;"/>
+            </div>
+            <div class="container">
+
+
+
+
+
+                <div class="row no-gutters">
+                    <div class="col-xs-3">
+
+                        <aside id="sidebar">
+
+                            <ul class="nav nav-tabs md-pills pills-secondary flex-column" role="tablist">
+                                <li class="nav-item active" id="rest-list-active">
+                                    <a class="nav-link view-link" data-toggle="tab" href="#panel41" role="tab"><h3>צפה ברשימת המסעדות</h3></a>
+                                    <div class="list-holder">
+                                        <!--<h3 class="view-link f black"></h3>-->
+                                        <ul class="list accordion multilevel-accordion">
+                                            <li>
+                                                <a class="f black opener" href="#">מטבח</a>
+                                                <div class="list-item slide" style="display: none">
+
+                                                    <div class="baron">
+                                                        <div id="scrollable-item" class="baron__scroller">
+                                                            <ul>
+                                                                <li>
+                                                                    <label class="control control--checkbox">
+                                                                        <input type="checkbox">
+                                                                        <div class="control__indicator"></div><span>חלבי [1]</span>
+                                                                    </label>
+                                                                </li>
+                                                                <li>
+                                                                    <label class="control control--checkbox">
+                                                                        <input type="checkbox">
+                                                                        <div class="control__indicator"></div><span>בשרי [2]</span>
+                                                                    </label>
+                                                                </li>
+                                                                <li>
+                                                                    <label class="control control--checkbox">
+                                                                        <input type="checkbox">
+                                                                        <div class="control__indicator"></div><span>פיצריה [5]</span>
+                                                                    </label>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="baron__track">
+                                                            <div class="baron__bar add1"></div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <a class="f black opener" href="#">כשרות</a>
+                                                <div class="list-item slide">
+
+                                                    <div class="baron">
+                                                        <div id="scrollable-item2" class="baron__scroller">
+                                                            <ul id="kashruts">
+                                                                <li>
+                                                                    <label class="control control--checkbox">
+                                                                        <input type="checkbox">
+                                                                        <div class="control__indicator"></div><span>כשר [2]</span>
+                                                                    </label>
+                                                                </li>
+                                                                <li>
+                                                                    <label class="control control--checkbox">
+                                                                        <input type="checkbox">
+                                                                        <div class="control__indicator"></div><span>כשר למהדרין [5]</span>
+                                                                    </label>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="baron__track">
+                                                            <div class="baron__bar add1"></div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+
+
+                                <!--PAST ORDERS TAB-->
+
+                                <li class="nav-item" id="past-list-active">
+                                    <a onclick="displayPastOrdersRequest()" class="nav-link view" data-toggle="tab" href="#panel42" role="tab"><h3>צפה בהזמנות קודמות</h3></a>
+                                    <div class="list-holder">
+                                        <!--<h3 class="view-link f black"></h3>-->
+                                        <ul class="list accordion multilevel-accordion">
+                                            <li>
+                                                <a class="f black opener" href="#">תאריך הזמנה</a>
+                                                <div class="list-item slide">
+                                                    <ul>
+                                                        <li>
+                                                            <label class="control control--radio">
+                                                                <div class="chek-box-holder">
+                                                                    <input id="filter-past-order-cb-lastweek" checked type="radio" name="radio"/>
+                                                                    <div class="control__indicator"></div>
+                                                                </div>
+                                                                <p id="last_week_orders_text">שבוע שעבר [9]</p>
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label class="control control--radio">
+                                                                <div class="chek-box-holder">
+                                                                    <input id="filter-past-order-cb-custom" type="radio" name="radio"/>
+                                                                    <div class="control__indicator"></div>
+                                                                </div>
+
+                                                            </label>
+                                                            <div id="parent-custom-last-week-filter" class="row no-gutters add" style="float: left; width: 92%; font-size: 14px; line-height: 17px; margin: 0 0 0 -11px;">
+                                                                <div class="col-xs-2">
+                                                                    <p style="visibility: hidden; margin: 0;">button</p>
+                                                                    <button onclick="  past_orders_object = null;  displayPastOrdersRequest();" type="button" class="btn-arrow"><img src="images/btn-next.png"></button>
+                                                                </div>
+                                                                <div class="col-xs-5">
+                                                                    <div class="form-group">
+                                                                        <p>עד תאריך</p>
+                                                                        <div class='input-group date form_datetime' >
+                                                                            <input name="datee" id='datepicker2' type='text' class="form-control" />
+                                                                            <!--<span class="input-group-addon" >-->
+                                                                            <!--<img src="/en/images/icon_calender.png">-->
+                                                                            <!--</span>-->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-5">
+                                                                    <div class="form-group">
+                                                                        <p>מתאריך</p>
+                                                                        <div class='input-group date' >
+                                                                            <input  dateee type='text' id='datepicker' class="form-control" />
+                                                                            <!--<span class="input-group-addon" >-->
+                                                                            <!--<img src="/en/images/icon_calender.png" onclick="$('#datepicker').click()">-->
+                                                                            <!--</span>-->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <a class="f black opener" href="#">הזמנות שבוטלו</a>
+                                                <div class="list-item slide">
+                                                    <ul>
+                                                        <li>
+                                                            <label class="control control--checkbox">
+                                                                <input id="cb_cancelled_past_orders" type="checkbox">
+                                                                <div class="control__indicator"></div>
+                                                                <span>הצג הזמנות שבוטלו</span>
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+
+                                <li class="nav-item" id="pending-list-active" onclick="displayPendingOrdersRequest()">
+                                    <a  class="nav-link motorbike"  data-toggle="tab" href="#panel43" role="tab"><h3 id="change-status-ow">צפה בהזמנות בדרך</h3></a>
+                                </li>
+                            </ul>
+
+                        </aside>
+
+
+                    </div>
+                    <div class="col-xs-9">
+                        <div class="baron">
+                            <div id="scrollable1" class="baron__scroller">
+
+                                <div id="contant">
+                            <div class="tab-content vertical">
+                                <div class="tab-pane fade in active " id="panel41" role="tabpanel">
+                                    <ul class="rest-list">
+                                        <li>
+                                            <ul>
+                                                <li>
+                                                    <div class="img-circle">
+                                                        <img src="images/logo-img.png" alt="images description">
+                                                    </div>
+                                                    <div class="txt">
+                                                        <h1 class="light f black">בנדורה</h1>
+                                                        <p><em class="f black"> כשרות</em> רבנות שפלת יהודה בשר, בורגר</p>
+                                                    </div>
+                                                </li>
+                                                <li class="third">
+                                                    <address class="address">
+                                                        <img class="edit edit1" src="images/ic_checkin.png">
+                                                        <p class="new-adress">   שדרות יגאל אלון 12</p>
+                                                        <div class="tooltip-popup popup"><p class="f black"> שדרות יגאל אלון 6, קניון שערי העיר<strong>   בית שמש </strong></p></div>
+                                                    </address>
+                                                </li>
+                                                <li>
+                                                    <div class="text">
+                                                        <p><em class="f black"> 10%  הנחה </em>  בין השעות 10:00 - 17:00</p>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="btn-box"><button class="bt_ordernow" type="button" onclick="window.location.href='order.html'">הזמן <br> עכשיו</button></div>
+                                                    <time class="time">
+                                                        <img class="bike" src="images/motorbike-delivery.png">
+                                                        <p> משלוח בשעה 11:00</p>
+                                                        <!--<div class="time-popup popup" style="display: none;">-->
+                                                            <!--<div class="header">-->
+                                                                <!--<p class="f black" style="text-transform: uppercase;">זמן אספקה ​​להיום</p>-->
+                                                                <!--<p>Pickup אפשרי כל עוד המסעדה פתוחה</p>-->
+                                                            <!--</div>-->
+                                                            <!--<table>-->
+                                                                <!--<tr>-->
+                                                                    <!--<td>מינימום 25 ₪</td>-->
+                                                                    <!--<td class="f black">10:30 - 10:45</td>-->
+                                                                <!--</tr>-->
+                                                                <!--<tr>-->
+                                                                    <!--<td>מינימום 25 ₪</td>-->
+                                                                    <!--<td class="f black">10:30 - 10:45</td>-->
+                                                                <!--</tr>-->
+                                                                <!--<tr>-->
+                                                                    <!--<td>מינימום 25 ₪</td>-->
+                                                                    <!--<td class="f black">10:30 - 10:45</td>-->
+                                                                <!--</tr>-->
+                                                            <!--</table>-->
+                                                        <!--</div>-->
+
+                                                    </time>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <ul>
+                                                <li>
+                                                    <div class="img-circle">
+                                                        <img src="images/logo-img.png" alt="images description">
+                                                    </div>
+                                                    <div class="txt">
+                                                        <h1 class="light f black">בנדורה</h1>
+                                                        <p><em class="f black"> כשרות</em> רבנות שפלת יהודה בשר, בורגר</p>
+                                                    </div>
+                                                </li>
+                                                <li class="third">
+                                                    <address class="address">
+                                                        <img class="edit edit1" src="images/ic_checkin.png">
+                                                        <p class="new-adress">   שדרות יגאל אלון 12</p>
+                                                        <div class="tooltip-popup popup"><p class="f black"> שדרות יגאל אלון 6, קניון שערי העיר<strong>   בית שמש </strong></p></div>
+                                                    </address>
+                                                </li>
+                                                <li>
+                                                    <div class="text">
+                                                        <p><em class="f black"> 10%  הנחה</em>  בין השעות 10:00 - 17:00</p>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="btn-box"><button class="bt_ordernow" type="button">הזמן <br> עכשיו</button></div>
+                                                    <time class="time">
+                                                        <img class="bike" src="images/motorbike-delivery.png">
+                                                        <p> משלוח בשעה 11:00</p>
+                                                    </time>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <ul>
+                                                <li>
+                                                    <div class="img-circle">
+                                                        <img src="images/logo-img.png" alt="images description">
+                                                    </div>
+                                                    <div class="txt">
+                                                        <h1 class="light f black">בנדורה</h1>
+                                                        <p><em class="f black"> כשרות</em> רבנות שפלת יהודה בשר, בורגר</p>
+                                                    </div>
+                                                </li>
+                                                <li class="third">
+                                                    <address class="address">
+                                                        <img class="edit edit1" src="images/ic_checkin.png">
+                                                        <p class="new-adress">   שדרות יגאל אלון 12</p>
+                                                        <div class="tooltip-popup popup"><p class="f black"> שדרות יגאל אלון 6, קניון שערי העיר<strong>   בית שמש </strong></p></div>
+                                                    </address>
+                                                </li>
+                                                <li>
+                                                    <div class="text">
+                                                        <p><em class="f black"> 10%  הנחה</em>  בין השעות 10:00 - 17:00</p>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="btn-box"><button class="bt_ordernow" type="button" onclick="window.location.href='order.html'">הזמן <br> עכשיו</button></div>
+                                                    <time class="time">
+                                                        <img class="bike" src="images/motorbike-delivery.png">
+                                                        <p> משלוח בשעה 11:00</p>
+                                                    </time>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <ul>
+                                                <li>
+                                                    <div class="img-circle">
+                                                        <img src="images/logo-img.png" alt="images description">
+                                                    </div>
+                                                    <div class="txt">
+                                                        <h1 class="light f black">בנדורה</h1>
+                                                        <p><em class="f black"> כשרות</em> רבנות שפלת יהודה בשר, בורגר</p>
+                                                    </div>
+                                                </li>
+                                                <li class="third">
+                                                    <address class="address">
+                                                        <img class="edit edit1" src="images/ic_checkin.png">
+                                                        <p class="new-adress">   שדרות יגאל אלון 12</p>
+                                                        <div class="tooltip-popup popup"><p class="f black"> שדרות יגאל אלון 6, קניון שערי העיר<strong>   בית שמש </strong></p></div>
+                                                    </address>
+                                                </li>
+                                                <li>
+                                                    <div class="text">
+                                                        <p><em class="f black"> 10%  הנחה</em>  בין השעות 10:00 - 17:00</p>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="btn-box"><button class="bt_ordernow" type="button" onclick="window.location.href='order.html'">הזמן <br> עכשיו</button></div>
+                                                    <time class="time">
+                                                        <img class="bike" src="images/motorbike-delivery.png">
+                                                        <p> משלוח בשעה 11:00</p>
+                                                        <!--<div class="time-popup popup" style="display: none;">-->
+                                                        <!--<div class="header">-->
+                                                        <!--<p class="f black" style="text-transform: uppercase;">זמן אספקה ​​להיום</p>-->
+                                                        <!--<p>Pickup אפשרי כל עוד המסעדה פתוחה</p>-->
+                                                        <!--</div>-->
+                                                        <!--<table>-->
+                                                        <!--<tr>-->
+                                                        <!--<td>מינימום 25 ₪</td>-->
+                                                        <!--<td class="f black">10:30 - 10:45</td>-->
+                                                        <!--</tr>-->
+                                                        <!--<tr>-->
+                                                        <!--<td>מינימום 25 ₪</td>-->
+                                                        <!--<td class="f black">10:30 - 10:45</td>-->
+                                                        <!--</tr>-->
+                                                        <!--<tr>-->
+                                                        <!--<td>מינימום 25 ₪</td>-->
+                                                        <!--<td class="f black">10:30 - 10:45</td>-->
+                                                        <!--</tr>-->
+                                                        <!--</table>-->
+                                                        <!--</div>-->
+
+                                                    </time>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <ul>
+                                                <li>
+                                                    <div class="img-circle">
+                                                        <img src="images/logo-img.png" alt="images description">
+                                                    </div>
+                                                    <div class="txt">
+                                                        <h1 class="light f black">בנדורה</h1>
+                                                        <p><em class="f black"> כשרות</em> רבנות שפלת יהודה בשר, בורגר</p>
+                                                    </div>
+                                                </li>
+                                                <li class="third">
+                                                    <address class="address">
+                                                        <img class="edit edit1" src="images/ic_checkin.png">
+                                                        <p class="new-adress">   שדרות יגאל אלון 12</p>
+                                                        <div class="tooltip-popup popup"><p class="f black"> שדרות יגאל אלון 6, קניון שערי העיר<strong>   בית שמש </strong></p></div>
+                                                    </address>
+                                                </li>
+                                                <li>
+                                                    <div class="text">
+                                                        <p><em class="f black"> 10%  הנחה</em>  בין השעות 10:00 - 17:00</p>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="btn-box"><button class="bt_ordernow" type="button">הזמן <br> עכשיו</button></div>
+                                                    <time class="time">
+                                                        <img class="bike" src="images/motorbike-delivery.png">
+                                                        <p> משלוח בשעה 11:00</p>
+                                                    </time>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade in" id="panel42" role="tabpanel">
+                                    <a class="btn-print" href="#"><img src="images/ic_print.png">הדפס סיכום הזמנות</a>
+                                    <ul class="rest-list add-style">
+                                        <li>
+                                            <ul>
+                                                <li class="new-first">
+                                                    <div class="img-circle">
+                                                        <img src="images/logo-img.png" alt="images description">
+                                                    </div>
+                                                    <div class="txt">
+                                                        <h1 class="f black">בנדורה</h1>
+                                                        <div class="order received"><i class="fa fa-check-circle" aria-hidden="true"></i> <p>הזמנה התקבלה</p></div>
+                                                        <p style="line-height: 17px;"> הזמנה מתאריך <em class="f black">12/12/2017</em><br>סך הכל לתשלום <em class="f black"> 80 ש”ח </em>  </p>
+                                                    </div>
+                                                </li>
+                                                <li class="last add">
+                                                    <div class="btn-box"><button class="bt_ordernow" type="button">הזמן שוב</button></div>
+                                                    <div class="text add">
+                                                        <p><em class="f black">  בנדורה חריף אש</em> בנדורה מחוזקת - לרציניים בלבד!! נתחי עגל/פרגית מחוזקת בטעמים על פלאנצ׳ה לוהטת בתוספת בצל, פלפל חריף אש ועגבנית צלויות על פחמים (צמרמורת!!) </p>
+                                                        <p style="margin: 0;"><a class="more-info" href="#">מידע נוסף</a></p>
+
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <ul>
+                                                <li class="new-first">
+                                                    <div class="img-circle">
+                                                        <img src="images/logo-img.png" alt="images description">
+                                                    </div>
+                                                    <div class="txt">
+                                                        <h1 class="f black">בנדורה</h1>
+                                                        <div class="order canceled"><i class="fa fa-times-circle" aria-hidden="true"></i> <p>הזמנה התקבלה</p></div>
+                                                        <p style="line-height: 17px;"> הזמנה מתאריך <em class="f black">12/12/2017</em><br>סך הכל לתשלום <em class="f black"> 80 ש”ח </em>  </p>
+                                                    </div>
+                                                </li>
+                                                <li class="last add">
+                                                    <div class="btn-box"><button class="bt_ordernow" type="button">הזמן שוב</button></div>
+                                                    <div class="text add">
+                                                        <p><em class="f black">  בנדורה חריף אש</em> בנדורה מחוזקת - לרציניים בלבד!! נתחי עגל/פרגית מחוזקת בטעמים על פלאנצ׳ה לוהטת בתוספת בצל, פלפל חריף אש ועגבנית צלויות על פחמים (צמרמורת!!) </p>
+                                                        <p style="margin: 0;"><a class="more-info" href="#">מידע נוסף</a></p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade  in" id="panel43" role="tabpanel">
+                                    <div class="massage-txt" style="display: none;">
+                                        <h2 class="f black">היי, מרינה אור שלום</h2>
+                                        <h2 class="light" style="color: #797979; text-transform: inherit;">  לא קיימות בחשבונך הזמנות קודמות</h2>
+                                    </div>
+                                    <div class="box-frame">
+                                        <h2 class="light">19/06/17</h2>
+                                        <div class="view-order">
+                                            <ul class="rest-list">
+                                                <li>
+                                                    <ul>
+                                                        <li>
+                                                            <div class="txt-box">
+                                                                <h2 class="light">הזמנה בדרך</h2>
+                                                                <p>סטטוס הזמנה</p>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="txt-box">
+                                                                <h2 class="light">בנדורה</h2>
+                                                                <p>שדרות יגאל אלון 12, קניון…</p>
+                                                                <div class="tooltip-popup popup"><p class="f black"> שדרות יגאל אלון 6, קניון שערי העיר<strong>   בית שמש </strong></p></div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="txt-box">
+                                                                <h2 class="light">11:00-11:45</h2>
+                                                                <p>זמן קבלת המשלוח</p>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="txt-box">
+                                                                <h2 class="light">סך הכל 35 ש״ח</h2>
+                                                                <p><span class="arrow">פרוט הזמנה <i class="fa fa-angle-down" aria-hidden="true"></i></span></p>
+                                                                <div class="time-popup popup" style="display: block;">
+                                                                    <div class="header">
+                                                                        <table>
+                                                                            <tr>
+                                                                                <td> 1 בנדורה חריף אש </td>
+                                                                                <td>50 ש״ח</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td> 1 נקניקיות מרגז </td>
+                                                                                <td>35 ש״ח</td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                    <table>
+                                                                        <tr>
+                                                                            <td>סך הכל</td>
+                                                                            <td class="f black">50 ש״ח</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>חלק חברה</td>
+                                                                            <td class="f black">30- ש״ח</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>סך הכל לתשלום</td>
+                                                                            <td class="f black">35 ש״ח</td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                            <div class="footer-box">
+                                                <button class="f white btn-order" type="button"><img src="images/plus.png">  הוסף הזמנה</button>
+                                                <a class="btn-link" href="#">
+                                                    <p>ביטול הזמנה</p>
+                                                    <div class="cancle-order popup" style="display: none;">
+                                                        <h4>האם אתה בטוח שאתה מעוניין למחוק את ההזמנה?</h4>
+                                                        <div class="btn-holder">
+                                                            <button class="btn-cancle hover" type="button"><p> מעוניין לבטל </p></button>
+                                                            <button class="btn-cancle" type="button"><p class="f white">לא מעוניין לבטל</p></button>
+                                                        </div>
+                                                        <p>ניתן לבטל הזמנה עד חצי שעה לפני זמן המשלוח הצפוי</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                            </div>
+                            <div class="baron__track">
+                                <div class="baron__bar add1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+<div class="modal fade in mypopup" id="about" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+            <!--<h2> ORDERAPP, סדר מהיר </h2>-->
+            <!--<p>-->
+            <!--OrderApp היא מהפכה חוויית ההזמנה המקוונת.<br>-->
+
+            <!--                אנו מקלים על כל הכאב הכרוך בתהליך ההזמנה. עבור מסעדות, אנחנו מקור זורם של הזמנות לניהול. עבור משתמשים, אנחנו פלטפורמה קלה הזמנת עם משלוח בזמן לדלת שלך.-->
+            <!--<br>-->
+            <!--<br>-->
+            <!--* מופעל על ידי Push Startups-->
+            <!--</p>-->
+
+
+            <h2>התיאבון שלכם הוא ההצלחה שלנו!</h2>
+            <p> Orderapp הינה אפליקציה נוחה וקלה להזמנת אוכל ממש עד לשולחן במשרד. הזמנת האוכל באמצעות Orderapp מקלה על תהליך ההזמנה בדרך הפשוטה והמהירה שהיא מציעה למשתמש ומונעות טעויות מביכות שעלולות להתרחש כאשר אתם חושבים יותר על העבודה ופחות על הארוחה.</p>
+            <p> פשוט, לחצו על המסעדה המועדפת עליכם, בחרו את התפריט והמנות הרצויות והאוכל כבר בדרך. כמי ששמו לעצמם את איכות השרות כערך עליון, אנו בוחרים להעניק מענה מיידי ואפקטיבי ושירות משלוחים מהיר במיוחד. כל זאת כדי להבטיח לכם שתוכלו להתרכז בעבודה בזמן שאנחנו מתרכזים באיכות הארוחה והמשלוח.</p>
+
+
+            <!-- SOCIAL LINKS FOR ORDER APP -->
+            <div class="social-icons">
+                <ul>
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/theorderapp/"><img src="images/fb.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://twitter.com/OrderAppTeam"><img src="images/tw.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://plus.google.com/106974163137537901922"><img src="images/gp.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/theorderapp/"><img src="images/insta.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.pinterest.com/orderapp/"><img src="images/pin.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/orderapp-team-4a886510b"><img src="images/link.png"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="js/jquery.accordion.js"></script>
+<script type="text/javascript" src="js/baron.js"></script>
+
+<script type="text/javascript">
+
+    window.onload = function() {
+        window.dima = baron({
+            root: '.baron',
+            scroller: '.baron__scroller',
+            bar: '.baron__bar'
+        }).autoUpdate();
+    };
+
+
+
+    $( function() {
+
+        $( "#datepicker" ).datepicker();
+        $( "#datepicker2" ).datepicker();
+
+    } );
+
+
+
+
+
+
+    $('#name_company').click(function(e){
+
+        if($("#dropdown-nav").is(':visible'))
+        {
+            $('#dropdown-nav').hide();
+        }
+        else {
+
+            $('#dropdown-nav').show();
+
+        }
+
+        e.stopPropagation();
+
+    });
+
+    $(document).click(function(e){
+
+        if(!(document.getElementById('dropdown-nav').contains(e.target)))
+        {
+            $('#dropdown-nav').hide();
+
+        }
+
+    });
+
+
+    (function ($) {
+        "use strict";
+        function centerModal() {
+            $(this).css('display', 'block');
+            var $dialog  = $(this).find(".modal-dialog"),
+                offset       = ($(window).height() - $dialog.height()) / 2,
+                bottomMargin = parseInt($dialog.css('marginBottom'), 10);
+
+            // Make sure you don't hide the top part of the modal w/ a negative margin if it's longer than the screen height, and keep the margin equal to the bottom margin of the modal
+            if(offset < bottomMargin) offset = bottomMargin;
+            $dialog.css("margin-top", offset);
+        }
+
+        $(document).on('show.bs.modal', '.modal', centerModal);
+        $(window).on("resize", function () {
+            $('.modal:visible').each(centerModal);
+
+        });
+    })(jQuery);
+
+
+
+</script>
+
+</body>
+</html>

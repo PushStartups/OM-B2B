@@ -1,0 +1,90 @@
+.baron__clipper {
+    position: relative;
+    overflow: hidden;
+}
+.baron__scroller {
+    /*overflow-y: scroll;*/
+    -ms-overflow-style: none;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+    /* remove line to customize scrollbar in iOs */
+}
+.baron__scroller::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+.baron__track {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 0;
+    bottom: 0;
+}
+.baron._scrollbar .baron__track {
+    display: block;
+}
+.baron__free {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+}
+.baron__bar {
+    display: none;
+    position: absolute;
+    right: 0;    
+    z-index: 1;
+    width: 7px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+.baron._scrollbar .baron__bar {
+    display: block;
+}
+.baron__control {
+    display: none;
+}
+#scrollable1{
+    max-height: 96vh;
+}
+#scrollable-sidebar,
+#scrollable3{
+    height:85vh;
+    /*background: #f7f7f7;*/
+}
+.scrollable6,
+.scrollable4{
+    position: relative;}
+#scrollable4{
+    max-height:45vh;
+}
+.list-item.slide .baron__track{
+    right:4px;
+    top:0;
+}
+#scrollable-item2,
+#scrollable-item{
+    max-height:25vh;
+}
+#scrollable5{
+    max-height:60vh;
+}
+.baron__bar.add,
+.baron__bar.add1 {background: rgba(204, 204, 204, 0.3);}
+#scrollable2 {
+    overflow-y: scroll;
+    max-height: 60vh !important;
+}
+#scrollable-cart-items {
+    max-height: 11vh;
+}
+#scrollable.add1{
+    max-height:80vh;
+}
+#scrollable-pragraph{max-height: 22vh;}

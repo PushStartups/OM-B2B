@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Orderapp | Order from restaurants online</title>
+    <link rel="icon" href="images/favicon.png" type="image/png" sizes="32x32">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style-he.css">
+    <link rel="stylesheet" type="text/css" href="css/generic.css">
+    <link rel="stylesheet" type="text/css" href="css/baron.css">
+    <link rel="stylesheet" type="text/css" href="css/order.css">
+</head>
+<body>
+<div id="wrapper" dir="rtl">
+    <section class="jumbotron-fluid">
+        <div id="header" class="orang_gradient_rtl">
+            <div class="container">
+                <div class="row no-gutters">
+
+                    <div class="col-xs-5 pull-left">
+                        <nav id="nav">
+                            <ul class="bt-sm">
+                                <li>
+                                    <a href="#">
+                                        <img class="icon-user" src="images/ic_profile01.png">
+                                        <span id="name_company"> מרינה לונדון, אור שלום <em>500 NIS</em></span>
+                                    </a>
+                                    <div class="dropdown-nav" style="display: none;">
+                                        <h3>היי מרינה לונדון,<br> :) נחמד לראות אותך כאן </h3>
+                                        <a onclick="window.location.href='index.html'" href="#">התנתק/י</a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li data-toggle="modal" data-target="#about"><a class="f white" href="#">אודות</a></li>
+                                <li><a class="f white active" href="#">EN</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <div class="col-xs-5 pull-right" style="text-align: right;">
+                        <div class="logo">
+                            <a href="#">
+                                <div class="logo-img">
+                                    <img src="images/logo.png" alt="images description">
+                                </div>
+                                <h2 class="f white light">בחר את המסעדה שלך</h2>
+                            </a>
+                            <ul class="breadcrumbs">
+                                <li><a onclick="window.location.href='restaurants.html'" href="#"><p class="comment f white">בחר את המסעדה שלך</p></a></li>
+                                <li><p class="comment f white"> > בחר את התפריט שלך </p></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <a onclick="window.location.href='restaurants.html'" class="btn-back" href="#"><img src="images/icon01.png"></a>
+        </div>
+    </section>
+    <section class="block">
+        <div class="jumbtron-fluid">
+            <div class="parent-bottom" style="/*position: relative;*/width:100%;height:100%;">
+                <img src="images/left_bottom.png">
+                <img src="images/right_bottom-new.png" style="left: auto; right: 0; margin: 0; width: 60%; height: 90vh; top:10px;"/>
+            </div>
+            <div class="container">
+            <div class="row no-gutters">
+                <div class="col-xs-9">
+                    <header class="header-box">
+                        <div class="row no-gutters">
+                            <div class="col-xs-11" id="rest-name-cat"><h2 class="f white light">בנדורה</h2>
+                                <p class="f white">שדרות יגאל אלון 6, קניון שערי העיר</p>
+                                <ul>
+                                    <li><img class="img add" src="images/motorbike-delivery-01.png">10:00-20:00</li>
+                                    <li><a class="tel" href="tel:0500000000"><img class="img" src="images/phone-icon.png">050-000-0000</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-1"><a class="alert-img" data-toggle="modal" data-target="#popup-info" href="#"><img src="images/info-icon.png"></a></div>
+                        </div>
+                    </header>
+                    <div class="row no-gutters">
+                        <div class="col-xs-3">
+                            <aside id="sidebar">
+                                <ul class="add-list">
+                                    <li><a href="#">בנדורה גריל</a></li>
+                                    <li><a href="#">בנדורה סלטים</a></li>
+                                    <li><a href="#">בנדורה חומוס</a></li>
+                                    <li><a href="#">בנדורה שתיה</a></li>
+                                </ul>
+                            </aside>
+                        </div>
+                        <div class="col-xs-9">
+
+                            <div class="baron">
+                                <div id="scrollable3" class="baron__scroller">
+
+                                    <div id="contant">
+                                <ul class="accordion multilevel-accordion">
+                                    <li class="active">
+                                        <a href="#" class="opener">
+                                            <h3 class="light">בנדורה גריל</h3>
+                                        </a>
+                                        <div class="slide">
+                                            <div class="add-row discount" data-toggle="modal" data-target="#my-order">
+                                                <div class="row">
+                                                    <div class="col-xs-8">
+                                                        <h4>שווארמה</h4>
+                                                        <p>בנדורה מחוזקת - לרציניים בלבד!! נתחי עגל/פרגית מחוזקת בטעמים על פלאנצ׳ה לוהטת בתוספת בצל, פלפל חריף אש ועגבנית צלויות על פחמים (צמרמורת!!)</p>
+                                                    </div>
+                                                    <div class="col-xs-4 pull-right">
+                                                        <div class="price-holder">
+                                                            <span class="new-dis">ש״ח 30 <i class="fa fa-tag" aria-hidden="true"></i></span>
+                                                            <span class="price">33 ש״ח </span>
+                                                        </div>
+                                                        <img class="img-plus" src="images/plus-icon.png">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="add-row discount" data-toggle="modal" data-target="#my-order">
+                                                <div class="row">
+                                                    <div class="col-xs-8">
+                                                        <h4>בנדורה חריף אש</h4>
+                                                        <p>מעורב בנדורה של הברברי : לבבות, כבדים ובצל שרוף, תערובת תבלינים משוק לווינסקי ועשבי תיבול זרוקים על פחמים</p>
+                                                    </div>
+                                                    <div class="col-xs-4 pull-right">
+                                                        <div class="price-holder without-line">
+                                                            <span class="new-dis" style="display: none;">NIS 30 <i class="fa fa-tag" aria-hidden="true"></i></span>
+                                                            <span class="price">33 ש״ח </span>
+                                                        </div>
+                                                        <img class="img-plus" src="images/plus-icon.png">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="add-row discount" data-toggle="modal" data-target="#my-order">
+                                                <div class="row">
+                                                    <div class="col-xs-8">
+                                                        <h4>קבב</h4>
+                                                        <p>שיפוד פרגית ג׳מבו מרקש: שיפוד פרגית מתובלת בתבלין אריסה, כמון, שום ועשבי תבול</p>
+                                                    </div>
+                                                    <div class="col-xs-4 pull-right">
+                                                        <div class="price-holder without-line">
+                                                            <span class="new-dis" style="display: none;">NIS 30 <i class="fa fa-tag" aria-hidden="true"></i></span>
+                                                            <span class="price">33 ש״ח </span>
+                                                        </div>
+                                                        <img class="img-plus" src="images/plus-icon.png">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="add-row discount" data-toggle="modal" data-target="#my-order">
+                                                <div class="row">
+                                                    <div class="col-xs-8">
+                                                        <h4>בורגר</h4>
+                                                        <p>חזה עוף במרינדה של תבליני שוק: פרוסות חזה עוף מתובלים בפפריקה, כמון, חוואייג׳ ופלפל שחור גרוס.</p>
+                                                    </div>
+                                                    <div class="col-xs-4 pull-right">
+                                                        <div class="price-holder without-line">
+                                                            <span class="new-dis" style="display: none;">NIS 30 <i class="fa fa-tag" aria-hidden="true"></i></span>
+                                                            <span class="price">33 ש״ח </span>
+                                                        </div>
+                                                        <img class="img-plus" src="images/plus-icon.png">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </li>
+                                    <li  class="active">
+                                        <a href="#" class="opener">
+                                            <h3 class="light">סלטים</h3>
+                                        </a>
+                                        <div class="slide">
+                                            <div class="add-row">
+                                                <div class="row">
+                                                    <div class="col-xs-8">
+                                                        <h4>סלט בנדורה</h4>
+                                                        <p>בנדורה אקספרס: סלט ירקות חתוך דק מתובל בשמן זית ולימון, נתחי שווארמה פרגית או רצועות חזה עוף, בצל שרוף, טחינה של סעיד, סומק ופטרוזיליה</p>
+                                                    </div>
+                                                    <div class="col-xs-4 pull-right">
+                                                        <div class="price-holder without-line">
+                                                            <span class="new-dis" style="display: none;">NIS 30 <i class="fa fa-tag" aria-hidden="true"></i></span>
+                                                            <span class="price">33 ש״ח </span>
+                                                        </div>
+                                                        <img class="img-plus" src="images/plus-icon.png">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="add-row">
+                                                <div class="row">
+                                                    <div class="col-xs-8">
+                                                        <h4>סלט בנדורה</h4>
+                                                        <p>בנדורה אקספרס: סלט ירקות חתוך דק מתובל בשמן זית ולימון, נתחי שווארמה פרגית או רצועות חזה עוף, בצל שרוף, טחינה של סעיד, סומק ופטרוזיליה</p>
+                                                    </div>
+                                                    <div class="col-xs-4 pull-right">
+                                                        <div class="price-holder without-line">
+                                                            <span class="new-dis" style="display: none;">NIS 30 <i class="fa fa-tag" aria-hidden="true"></i></span>
+                                                            <span class="price">33 ש״ח </span>
+                                                        </div>
+                                                        <img class="img-plus" src="images/plus-icon.png">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="add-row">
+                                                <div class="row">
+                                                    <div class="col-xs-8">
+                                                        <h4>סלט בנדורה</h4>
+                                                        <p>בנדורה אקספרס: סלט ירקות חתוך דק מתובל בשמן זית ולימון, נתחי שווארמה פרגית או רצועות חזה עוף, בצל שרוף, טחינה של סעיד, סומק ופטרוזיליה</p>
+                                                    </div>
+                                                    <div class="col-xs-4 pull-right">
+                                                        <div class="price-holder without-line">
+                                                            <span class="new-dis" style="display: none;">NIS 30 <i class="fa fa-tag" aria-hidden="true"></i></span>
+                                                            <span class="price">33 ש״ח </span>
+                                                        </div>
+                                                        <img class="img-plus" src="images/plus-icon.png">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                                </div>
+                                <div class="baron__track">
+                                    <div class="baron__bar add1"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="cart-holder">
+                        <header class="gray-header">
+                            <h2 class="f black light">עגלת קניות <span class="counter">0</span></h2>
+                        </header>
+                        <div class="row" style="display: none;">
+                            <div class="col-xs-12">
+                                <div class="empty-cart">
+                                    <img src="images/Shopping-Cart-10.png" alt="cart">
+                                    <h3 class="light">העגלה שלך ריקה</h3>
+                                </div>
+                            </div>
+                        </div>
+
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="frame" style="background: #fff;">
+                                            <div class="order-item">
+                                                <div class="row no-gutters">
+                                                    <div class="col-xs-1">
+                                                    </div>
+                                                    <div class="col-xs-11">
+                                                        <div class="row no-gutters">
+                                                            <div class="col-xs-9" style="padding: 0 7px 0 0;">
+                                                                <p class="f black">שווארמה</p>
+                                                            </div>
+                                                            <div class="col-xs-3">
+                                                                <p class="f black amount"> ש״ח 30</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row no-gutters">
+                                                    <div class="col-xs-1">
+                                                        <div class="btn-arrow">
+                                                            <a href="#" class="btn-up">
+                                                                <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                                            </a>
+                                                            <span class="count f black">1</span>
+                                                            <a href="#" class="btn-down">
+                                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-10" style="padding: 0 7px 0 0;">
+                                                        <p>בנדורה מחוזקת - לרציניים בלבד!! נתחי עגל/פרגית מחוזקת בטעמים על פלאנצ׳ה</p>
+                                                    </div>
+                                                    <div class="col-xs-1">
+                                                        <a class="remove" href="#"><img class="fa-times" src="images/ic_cancel.png"></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                        <div class="wrap">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="frame" style="background: #fff;">
+                                        <div class="minimum-item add">
+                                            <div class="row no-gutters">
+                                                <div class="col-xs-8">
+                                                    <h3 class="title light">סך הכל</h3>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <h3 class="nis light"> ש״ח 60</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="minimum-item add">
+                                            <div class="row no-gutters">
+                                                <div class="col-xs-8">
+                                                    <h3 class="title light">חלק חברה</h3>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <h3 class="nis light">  ש״ח 20- </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="minimum-item add">
+                                            <!--<div class="coupon">-->
+                                                <!--<label id="coupon-toggle" class="new-label">Coupon Code</label>-->
+                                                <!--<div class="coupon-box">-->
+                                                    <!--<div class="wrap">-->
+                                                        <!--<button id="submitCoupon" class="btn-coupon-submit" type="button"><img src="images/icon011.png"></button>-->
+                                                        <!--<input id="coupon-txt" type="text" placeholder="Type Coupon Code">-->
+                                                    <!--</div>-->
+                                                    <!--<span id="coupon-error" style="display: none" class="error">*incorrect code</span>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <div class="row no-gutters">
+                                                <div class="col-xs-8">
+                                                    <h3 class="title">סך הכל לתשלום</h3>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <h3 class="nis"> ש״ח 40</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="img-frame">
+                                            <a href="#"><img src="images/cards-icon.png"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info-card">
+                                <button class="btn-submit" onclick="window.location.href='confirm-order.html'" type="button">בצע הזמנה</button>
+                                <div class="tooltip-popup popup"><p class="f black">העגלה שלך ריקה</p></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<div class="modal fade" id="my-order" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog my-popup">
+        <div class="modal-content  modal-md modal-lg" dir="rtl">
+
+            <div class="frame">
+                <div class="baron">
+                <div id="scrollable" class="baron__scroller right add">
+                    <div class="modal-header">
+                        <button class="close" aria-label="Close" type="button" data-dismiss="modal"><span class="f white" aria-hidden="true">×</span></button>
+                        <h1>בנדורה חריף אש</h1>
+                        <p>בנדורה מחוזקת - לרציניים בלבד!! נתחי עגל/פרגית מחוזקת בטעמים על פלאנצ׳ה לוהטת בתוספת בצל, פלפל חריף אש ועגבנית צלויות על פחמים (צמרמורת!!)</p>
+                    </div>
+                    <div class="modal-body">
+                        <div class="box-frame">
+                            <h3>סוג בשר</h3>
+                            <div class="holder">
+                                <ul class="control-group">
+                                    <li>
+                                        <label class="control control--radio">
+                                            <div class="chek-box-holder">
+                                                <input type="radio" name="radio" checked="checked"/>
+                                                <div class="control__indicator"></div>
+                                            </div>
+                                            <p>מיקס</p>
+                                        </label>
+                                        <span class="error" style="display: none;">*Required field</span>
+                                    </li>
+                                    <li>
+                                        <label class="control control--radio">
+                                            <div class="chek-box-holder">
+                                                <input type="radio" name="radio"/>
+                                                <div class="control__indicator"></div>
+                                            </div>
+                                            <p>עגל</p>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="control control--radio">
+                                            <div class="chek-box-holder">
+                                                <input type="radio" name="radio" />
+                                                <div class="control__indicator"></div>
+                                            </div>
+                                            <p>בשר</p>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="box-frame">
+                            <h3>רטבים</h3>
+                            <div class="holder">
+                                <ul class="control-group">
+                                    <li>
+                                        <label class="control control--checkbox">
+                                            <div class="chek-box-holder">
+                                                <input type="checkbox" checked="checked"/>
+                                                <div class="control__indicator"></div>
+                                            </div>
+                                            <p>בצל מטוגן</p>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="control control--checkbox">
+                                            <div class="chek-box-holder">
+                                                <input type="checkbox"/>
+                                                <div class="control__indicator"></div>
+                                            </div>
+                                            <p>מיוטנז</p>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="control control--checkbox">
+                                            <div class="chek-box-holder">
+                                                <input type="checkbox"/>
+                                                <div class="control__indicator"></div>
+                                            </div>
+                                            <p>קטשופ</p>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="control control--checkbox">
+                                            <div class="chek-box-holder">
+                                                <input type="checkbox" checked="checked"/>
+                                                <div class="control__indicator"></div>
+                                            </div>
+                                            <p>סחוג</p>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="control control--checkbox">
+                                            <div class="chek-box-holder">
+                                                <input type="checkbox"/>
+                                                <div class="control__indicator"></div>
+                                            </div>
+                                            <p>חומוס</p>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="control control--checkbox">
+                                            <div class="chek-box-holder">
+                                                <input type="checkbox"/>
+                                                <div class="control__indicator"></div>
+                                            </div>
+                                            <p>צ’ילי מתוק</p>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="control control--checkbox">
+                                            <div class="chek-box-holder">
+                                                <input type="checkbox" checked="checked"/>
+                                                <div class="control__indicator"></div>
+                                            </div>
+                                            <p>אלף האיים</p>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="control control--checkbox">
+                                            <div class="chek-box-holder">
+                                                <input type="checkbox"/>
+                                                <div class="control__indicator"></div>
+                                            </div>
+                                            <p>ברביקיו</p>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="control control--checkbox">
+                                            <div class="chek-box-holder">
+                                                <input type="checkbox"/>
+                                                <div class="control__indicator"></div>
+                                            </div>
+                                            <p>חרדל</p>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="control control--checkbox">
+                                            <div class="chek-box-holder">
+                                                <input type="checkbox" checked="checked"/>
+                                                <div class="control__indicator"></div>
+                                            </div>
+                                            <p>חצילים במיונז</p>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="control control--checkbox">
+                                            <div class="chek-box-holder">
+                                                <input type="checkbox"/>
+                                                <div class="control__indicator"></div>
+                                            </div>
+                                            <p>צ’ילי חריף</p>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="control control--checkbox">
+                                            <div class="chek-box-holder">
+                                                <input type="checkbox"/>
+                                                <div class="control__indicator"></div>
+                                            </div>
+                                            <p>צ’ימיצ’ורי</p>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="baron__track">
+                    <div class="baron__bar add"></div>
+                </div>
+            </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row no-gutters">
+                    <div class="col-xs-6">
+                        <a class="link" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> הערות מיוחדות </a>
+                        <div class="input-group show-box">
+                            <input class="form-control" type="text" placeholder="בקשות מיוחדות">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-6" style="text-align: left;">
+                        <h2 class="f black"> סך הכל 75ש”ח</h2>
+                        <button class="btn-cart f white" type="button">הוסף לעגלה</button>
+                    </div>
+            </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- popup two -->
+<div class="modal fade"  id="popup-info" role="dialog">
+    <div class="modal-dialog modal-md mypopup info">
+        <button type="button" class="close" data-dismiss="modal"><span class="f white" aria-hidden="true">×</span></button>
+        <div class="modal-content">
+
+            <div class="row no-gutters">
+                <div class="col-md-6 col-sm-6 col-xs-6 first-col text-center" id="rest-detail">
+                    <div class="img-frame"><a href="#"><img src="images/meshulashim_logo.png" alt="logo-img"></a></div>
+                    <h2>פיצה משולשים</h2>
+                    <p class="f white">שד' יגאל אלון 6, קניון שער העיר, בית שמש</p>
+                    <span class="cart f white">מינימום הזמנה 100 ש״ח</span>
+                    <div class="wrap">
+                        <div class="baron _scrollbar" data-baron-v-id="4" style="overflow: hidden;">
+                            <div id="scrollable-pragraph" class="baron__scroller">
+                                <p class="f white">הפיצריה כשרה ומגישה מבחר של מנות כגון פיצות, פסטות ברטבים עשירים, סלטים מירקות טריים הנחתכים במקום, בורקסים בטעמים וכן גם טוסטים. ניתן להזמין את הפיצות הטעימות של משולשים גם ללא גלוטן.</p>
+                            </div>
+                            <div class="baron__track">
+                                <div class="baron__bar add" style="top: 0px; height: 113px;"></div>
+                            </div>
+                        </div>
+                        <img class="mobile-sec" src="images/delivery-line-he.png">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6 second-col">
+
+                    <div class="baron">
+
+                        <div id="scrollable-add1" class="baron__scroller right add">
+                            <div class="add-row first">
+                                <span class="title">שעות פתיחה</span>
+
+
+                                <!--RESTAURANT TIMINGS FROM SERVER-->
+                                <table class="table" id="time-detail">
+                                    <tr>
+                                        <td>                              שישי
+                                            </td>
+                                        <td>10:00AM - 11:00PM </td>
+                                    </tr>
+                                    <tr>
+                                        <td>חמישי</td>
+                                        <td>10:00AM - 11:00PM </td>
+                                    </tr>
+                                    <tr>
+                                        <td>רביעי</td>
+                                        <td>10:00AM - 11:00PM </td>
+                                    </tr>
+                                    <tr>
+                                        <td>שלישי</td>
+                                        <td>10:00AM - 11:00PM </td>
+                                    </tr>
+                                    <tr>
+                                        <td>שני</td>
+                                        <td>10:00AM - 11:00PM </td>
+                                    </tr>
+                                    <tr>
+                                        <td>ראשון</td>
+                                        <td>סגור - סגור</td>
+                                    </tr>
+                                    <tr>
+                                        <td>שבת</td>
+                                        <td>10:00AM - 11:00PM </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="add-row first">
+                                <span class="title title3">גלריה</span>
+                                <div id="menu-carousel" class="carousel slide" data-ride="carousel">
+
+
+                                    <!--GALLERY IMAGES FROM SERVER-->
+                                    <div class="carousel-inner" role="listbox" id="gallery-images">
+                                        <div class="item active"><img src="images/band_1.png" alt="Chania">
+                                        </div>
+                                        <div class="item"><img src="images/band_2.png" alt="Chania"></div>
+                                        <div class="item"><img src="images/band_2.png" alt="Chania"></div>
+                                    </div>
+
+                                    <a class="left carousel-control" href="#menu-carousel" role="button" data-slide="prev">
+                                        <span class="sr-only">Previous</span>
+                                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                    </a>
+                                    <a class="right carousel-control" href="#menu-carousel" role="button" data-slide="next">
+                                        <span class="sr-only">Next</span>
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="baron__track">
+                            <div class="baron__bar add" style="top: 0px; height: 0px;"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade in mypopup" id="about" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+            <!--<h2> ORDERAPP, סדר מהיר </h2>-->
+            <!--<p>-->
+            <!--OrderApp היא מהפכה חוויית ההזמנה המקוונת.<br>-->
+
+            <!--                אנו מקלים על כל הכאב הכרוך בתהליך ההזמנה. עבור מסעדות, אנחנו מקור זורם של הזמנות לניהול. עבור משתמשים, אנחנו פלטפורמה קלה הזמנת עם משלוח בזמן לדלת שלך.-->
+            <!--<br>-->
+            <!--<br>-->
+            <!--* מופעל על ידי Push Startups-->
+            <!--</p>-->
+
+
+            <h2>התיאבון שלכם הוא ההצלחה שלנו!</h2>
+            <p> Orderapp הינה אפליקציה נוחה וקלה להזמנת אוכל ממש עד לשולחן במשרד. הזמנת האוכל באמצעות Orderapp מקלה על תהליך ההזמנה בדרך הפשוטה והמהירה שהיא מציעה למשתמש ומונעות טעויות מביכות שעלולות להתרחש כאשר אתם חושבים יותר על העבודה ופחות על הארוחה.</p>
+            <p> פשוט, לחצו על המסעדה המועדפת עליכם, בחרו את התפריט והמנות הרצויות והאוכל כבר בדרך. כמי ששמו לעצמם את איכות השרות כערך עליון, אנו בוחרים להעניק מענה מיידי ואפקטיבי ושירות משלוחים מהיר במיוחד. כל זאת כדי להבטיח לכם שתוכלו להתרכז בעבודה בזמן שאנחנו מתרכזים באיכות הארוחה והמשלוח.</p>
+
+
+            <!-- SOCIAL LINKS FOR ORDER APP -->
+            <div class="social-icons">
+                <ul>
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/theorderapp/"><img src="images/fb.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://twitter.com/OrderAppTeam"><img src="images/tw.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://plus.google.com/106974163137537901922"><img src="images/gp.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/theorderapp/"><img src="images/insta.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.pinterest.com/orderapp/"><img src="images/pin.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/orderapp-team-4a886510b"><img src="images/link.png"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.accordion.js"></script>
+<script src="js/baron.js"></script>
+
+<script>
+
+    $('.carousel').carousel();
+
+    window.onload = function() {
+        window.dima = baron({
+            root: '.baron',
+            scroller: '.baron__scroller',
+            bar: '.baron__bar'
+        }).autoUpdate();
+    };
+
+    $(document).ready(function(){
+        $(".link").click(function () {
+            $(".show-box").show();
+            $(".link").hide();
+        });
+    });
+    $(document).ready(function(){
+        $(".fa-times").click(function () {
+            $(".show-box").hide();
+            $(".link").show();
+        });
+    });
+
+    $('body').on('click', '#my-order', function(e) {
+
+        if(e.target.id == 'my-order')
+        {
+            $('#my-order').modal('hide');
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
