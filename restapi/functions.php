@@ -147,7 +147,7 @@ function email_order_summary_english($user_order,$orderId,$todayDate)
 
     $mail->CharSet = 'UTF-8';
 
-    $mail->SMTPDebug = 3;                                               // Enable verbose debug output
+
 
     $mail->isSMTP();
     $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
@@ -235,7 +235,7 @@ function email_to_b2b_users($email,$password,$username)
 
     $mail->CharSet = 'UTF-8';
 
-    $mail->SMTPDebug = 3;                                               // Enable verbose debug output
+
 
     $mail->isSMTP();
     $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
@@ -426,8 +426,6 @@ function email_order_summary_english_cancel($user_order,$orderId,$todayDate,$rem
 
     $mail->CharSet = 'UTF-8';
 
-    $mail->SMTPDebug = 3;                                               // Enable verbose debug output
-
     $mail->isSMTP();
     $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
     $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
@@ -460,7 +458,7 @@ function email_order_summary_english_cancel($user_order,$orderId,$todayDate,$rem
     }
     else
     {
-        echo "Message has been sent successfully";
+        //  echo "Message has been sent successfully";
     }
 
 
@@ -474,47 +472,47 @@ function email_for_kitchen_cancel($user_order,$orderId,$todayDate)
     $mailbody = '';
 
     // USER NAME
-    $mailbody .=  $user_order['user']['name'].' : שֵׁם';
+    $mailbody .=  $user_order->user->name.' : שֵׁם';
     $mailbody .= '<br>';
     $mailbody .= '<br>';
 
 
-    $mailbody .=  $user_order['company']['company_name'].' : שם החברה';
+    $mailbody .=  $user_order->company->company_name.' : שם החברה';
     $mailbody .= '<br>';
     $mailbody .= '<br>';
 
 
     $mailbody .= ' :  הזמנה';
 
-    foreach($user_order['rests_orders'][0]['foodCartData']  as $t)
+    foreach($user_order->rests_orders[0]->foodCartData  as $t)
     {
 
         $mailbody .= '<br>';
         $mailbody .= '<br>';
 
 
-        $mailbody.= $t['name_he'];
+        $mailbody.= $t->name_he;
 
         $mailbody .= '<br>';
         $mailbody .= '<br>';
 
-        $mailbody .=  $t['detail_he'];
+        $mailbody .=  $t->detail_he;
 
         $mailbody .= '<br>';
         $mailbody .= '<br>';
 
-        if($t['specialRequest'] != "") {
+        if($t->specialRequest != "") {
 
 
-            if ($t['detail_he'] != '')
+            if ($t->detail_he != '')
             {
 
-                $mailbody .= $t['specialRequest'].' : בקשה מיוחדת';
+                $mailbody .= $t->specialRequest.' : בקשה מיוחדת';
 
             }
             else {
 
-                $mailbody .= $t['specialRequest'].' : בקשה מיוחדת';
+                $mailbody .= $t->specialRequest.' : בקשה מיוחדת';
             }
 
 
@@ -528,12 +526,12 @@ function email_for_kitchen_cancel($user_order,$orderId,$todayDate)
     }
 
 
-    $mailbody .= $user_order['actual_total'].' : סך כל החשבון ללא דיסקונט';
+    $mailbody .= $user_order->actual_total.' : סך כל החשבון ללא דיסקונט';
     $mailbody .= '<br>';
     $mailbody .= '<br>';
 
 
-    $mailbody .= $user_order['total_paid'].' : סה"כ';
+    $mailbody .= $user_order->total_paid.' : סה"כ';
     $mailbody .= '<br>';
     $mailbody .= '<br>';
 
@@ -543,7 +541,7 @@ function email_for_kitchen_cancel($user_order,$orderId,$todayDate)
 
     $mail->CharSet = 'UTF-8';
 
-    $mail->SMTPDebug = 3;                                               // Enable verbose debug output
+    // Enable verbose debug output
 
     $mail->isSMTP();
     $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
@@ -568,18 +566,18 @@ function email_for_kitchen_cancel($user_order,$orderId,$todayDate)
 
     //Send HTML or Plain Text email
     $mail->isHTML(false);
-    $mail->Subject = " בטל הזמנה ".$orderId . " #" . $user_order['rests_orders'][0]['selectedRestaurant']['name_he'];
+    $mail->Subject = " בטל הזמנה ".$orderId . " #" . $user_order->rests_orders[0]->selectedRestaurant->name_he;
     $mail->Body = $mailbody;
     $mail->AltBody = "OrderApp";
 
     if (!$mail->send()) {
 
-        echo "Mailer Error: " . $mail->ErrorInfo;
+        //  echo "Mailer Error: " . $mail->ErrorInfo;
 
     }
     else {
 
-        echo "Message has been sent successfully";
+        // echo "Message has been sent successfully";
 
     }
 
@@ -684,7 +682,7 @@ function mailForgotPassword($password, $username, $user_email){
 
     $mail = new PHPMailer;
     $mail->CharSet = 'UTF-8';
-    $mail->SMTPDebug = 3;                                               // Enable verbose debug output
+
 
     $mail->isSMTP();
     $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
@@ -997,7 +995,7 @@ function email_order_summary_hebrew($user_order,$orderId,$todayDate)
 
     $mail->CharSet = 'UTF-8';
 
-    $mail->SMTPDebug = 3;                                               // Enable verbose debug output
+
 
     $mail->isSMTP();
     $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
@@ -1194,7 +1192,7 @@ function email_order_summary_hebrew_admin($user_order,$orderId,$todayDate)
 
     $mail->CharSet = 'UTF-8';
 
-    $mail->SMTPDebug = 3;                                               // Enable verbose debug output
+    $mail->SMTPDebug = false;                                               // Enable verbose debug output
 
     $mail->isSMTP();
     $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
@@ -1211,7 +1209,7 @@ function email_order_summary_hebrew_admin($user_order,$orderId,$todayDate)
 
     //To address and name
     $mail->addAddress(EMAIL);                    //SEND ADMIN EMAIL
-   
+
 
 
 
@@ -1244,59 +1242,59 @@ function email_for_mark2_cancel($user_order,$orderId,$todayDate)
 
     // USER NAME
 
-    $mailbody .= 'Name :'. $user_order['user']['name'];
+    $mailbody .= 'Name :'. $user_order->user->name;
     $mailbody .= '\n';
 
     // USER EMAIL
 
-    $mailbody .= 'Email :'. $user_order['user']['email'];
+    $mailbody .= 'Email :'. $user_order->user->email;
     $mailbody .= '\n';
 
     // USER CONTACT
 
-    $mailbody .= 'Contact :'. $user_order['user']['contact'];
+    $mailbody .= 'Contact :'. $user_order->user->contact;
     $mailbody .= '\n';
 
     // COMPANY NAME
 
-    $mailbody .= ' Company Name :' . $user_order['company']['company_name'];
+    $mailbody .= ' Company Name :' . $user_order->company->company_name;
     $mailbody .= '\n';
 
 
     // RESTAURANT NAME
-    $mailbody .= 'Restaurant Name :'. $user_order['rests_orders'][0]['selectedRestaurant']['name_en'];
+    $mailbody .= 'Restaurant Name :'. $user_order->rests_orders[0]->selectedRestaurant->name_en;
     $mailbody .= '\n';
 
 
     //  PAYMENT METHOD CASH OR CREDIT CARD
 
-    $mailbody .= 'Payment Method : '.$user_order['payment_option'];
+    $mailbody .= 'Payment Method : '.$user_order->payment_option;
     $mailbody .= '\n';
 
 
 
 
-    $mailbody .= 'Delivery at Company Address : '. $user_order['company']['company_address'];
+    $mailbody .= 'Delivery at Company Address : '. $user_order->company->company_address;
     $mailbody .= '\n';
 
 
 
-    if($user_order['isCoupon']) {
+    if($user_order->isCoupon) {
 
         $mailbody .= '\n';
-        $mailbody .= 'coupon code : ' . $user_order['couponCode'];
+        $mailbody .= 'coupon code : ' . $user_order->couponCode;
         $mailbody .= '\n';
 
 
         if ($user_order['isFixAmountCoupon'] == 'true') {
 
 
-            $mailbody .= 'Discount : ' . $user_order['discount_coupon'] . ' NIS';
+            $mailbody .= 'Discount : ' . $user_order->discount_coupon . ' NIS';
 
         }
         else {
 
-            $mailbody .= 'Discount : ' . $user_order['discount_coupon'] . ' %';
+            $mailbody .= 'Discount : ' . $user_order->discount_coupon . ' %';
 
         }
 
@@ -1305,20 +1303,20 @@ function email_for_mark2_cancel($user_order,$orderId,$todayDate)
 
 
 
-    foreach($user_order['rests_orders'][0]['foodCartData'] as $t) {
+    foreach($user_order->rests_orders[0]->foodCartData as $t) {
 
 
-        if($t['specialRequest'] != "") {
+        if($t->specialRequest != "") {
 
 
-            if ($t['detail'] != '') {
+            if ($t->detail != '') {
 
-                $mailbody .= 'Special Request : '.$t['specialRequest'];
+                $mailbody .= 'Special Request : '.$t->specialRequest;
 
             }
             else {
 
-                $mailbody .= 'Special Request : '.$t['specialRequest'];
+                $mailbody .= 'Special Request : '.$t->specialRequest;
             }
 
             $mailbody .= '\n';
@@ -1327,21 +1325,21 @@ function email_for_mark2_cancel($user_order,$orderId,$todayDate)
     }
 
 
-    $mailbody .= 'Special Request : '.$user_order['specialRequest'];
+    $mailbody .= 'Special Request : '.$user_order->specialRequest;
     $mailbody .= '\n';
 
-    $mailbody .= 'Discount : '.$user_order['discount']." %";
+    $mailbody .= 'Discount : '.$user_order->discount." %";
     $mailbody .= '\n';
 
-    $mailbody .= 'Company Contribution : '.$user_order['company_contribution'];
-    $mailbody .= '\n';
-
-
-    $mailbody .= 'Sub Total : '.$user_order['actual_total'];
+    $mailbody .= 'Company Contribution : '.$user_order->company_contribution;
     $mailbody .= '\n';
 
 
-    $mailbody .= 'Total : '.$user_order['total_paid'];
+    $mailbody .= 'Sub Total : '.$user_order->actual_total;
+    $mailbody .= '\n';
+
+
+    $mailbody .= 'Total : '.$user_order->total_paid;
     $mailbody .= '\n';
 
 
@@ -1349,9 +1347,6 @@ function email_for_mark2_cancel($user_order,$orderId,$todayDate)
 
 
     $mail->CharSet = 'UTF-8';
-
-
-    $mail->SMTPDebug = 3;                                               // Enable verbose debug output
 
 
     $mail->isSMTP();
@@ -1377,18 +1372,18 @@ function email_for_mark2_cancel($user_order,$orderId,$todayDate)
 
     //Send HTML or Plain Text email
     $mail->isHTML(false);
-    $mail->Subject = 'Ledger '.$user_order['rests_orders'][0]['selectedRestaurant']['name_en'].' Order# '.$orderId;
+    $mail->Subject = 'Ledger '.$user_order->rests_orders[0]->selectedRestaurant->name_en->Order.'# '.$orderId;
     $mail->Body = $mailbody;
     $mail->AltBody = "OrderApp";
 
 
     if (!$mail->send())
     {
-        echo "Mailer Error: " . $mail->ErrorInfo;
+        //echo "Mailer Error: " . $mail->ErrorInfo;
     }
     else
     {
-        echo "Message has been sent successfully";
+        //echo "Message has been sent successfully";
 
     }
 
@@ -1509,7 +1504,7 @@ function email_for_mark2($user_order,$orderId,$todayDate)
     $mail->CharSet = 'UTF-8';
 
 
-    $mail->SMTPDebug = 3;                                               // Enable verbose debug output
+
 
 
     $mail->isSMTP();
@@ -1542,11 +1537,11 @@ function email_for_mark2($user_order,$orderId,$todayDate)
 
     if (!$mail->send())
     {
-        echo "Mailer Error: " . $mail->ErrorInfo;
+        // echo "Mailer Error: " . $mail->ErrorInfo;
     }
     else
     {
-        echo "Message has been sent successfully";
+        //  echo "Message has been sent successfully";
 
     }
 
@@ -1634,7 +1629,7 @@ function email_for_kitchen($user_order,$orderId,$todayDate)
 
     $mail->CharSet = 'UTF-8';
 
-    $mail->SMTPDebug = 3;                                               // Enable verbose debug output
+
 
     $mail->isSMTP();
     $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP

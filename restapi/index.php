@@ -1872,6 +1872,7 @@ $app->post('/cancel_order', function ($request, $response, $args)
 
 
             email_order_summary_english_cancel($user_order, $order_id, $todayDate, $remaining_discount);
+            ob_end_clean();
 
         } else {
 
