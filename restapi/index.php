@@ -122,12 +122,12 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
 {
     try{
 
-
         $user_id = $request->getParam('user_id');
 
         $obj      = '';
         $user     = '';
         $company  = '';
+        $discount = '';
 
 
         DB::useDB('orderapp_b2b_wui');
@@ -138,8 +138,56 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
 
         if (DB::count() > 0)
         {
+
             $company_id         = $userDB['company_id'];
             $companyDB          = DB::queryFirstRow("select * from company where id = $company_id");
+
+
+            // CURRENT TIME OF ISRAEL
+            date_default_timezone_set("Asia/Jerusalem");
+
+            $today = date("Y-m-d");
+
+
+            // IF DISCOUNT TYPE IS DAILY
+
+            if($companyDB['discount_type'] == "daily") {
+
+                if ($today > $user['date']) {
+
+
+                    $discount = $companyDB['discount'];
+                    DB::query("UPDATE b2b_users SET date = '$today', discount = '$discount'  WHERE id = '".$userDB['id']."'");
+
+
+                }
+                else {
+
+                    $discount = $user['discount'];
+
+                }
+
+            }
+
+            // IF DISCOUNT TYPE IS MONTHLY
+
+            else{
+
+                $monthUser = date('m', strtotime($user['date']));
+                $todayMonth =  date("m");;
+
+                if($todayMonth > $monthUser)
+                {
+                    $discount = $company['discount'];
+                    DB::query("UPDATE b2b_users SET date = '$today', discount = '$discount'  WHERE id = '".$userDB['id']."'");
+                }
+                else{
+
+                    $discount = $user['discount'];
+
+                }
+
+            }
 
             DB::useDB('orderapp_b2b_wui');
 
@@ -150,7 +198,7 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
             $user['name']                       =   $userDB['name'];
             $user['email']                      =   $userDB['smooch_id'];
             $user['contact']                    =   $userDB['contact'];
-            $user['userDiscountFromCompany']    =   $userDB['discount'];
+            $user['userDiscountFromCompany']    =   $discount;
             $company['company_id']              =   $company_id;
             $company['company_name']            =   $companyDB['name'];
             $company['company_address']         =   $companyDB['delivery_address'];
@@ -189,7 +237,6 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
         return $response;
 
     }
-
 
 });
 
@@ -760,15 +807,18 @@ $app->post('/get_reorder', function ($request, $response, $args)
 // CANCEL ORDER
 $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
 {
+
     DB::useDB(B2B_RESTAURANTS);
 
     $company_id = $request->getParam('company_id');
     $user_id = $request->getParam('user_id');
 
+
     DB::useDB(B2B_DB);
     $company_restaurants = DB::query("select  rest_id from company_rest where company_id = '$company_id'");
 
     try{
+
         DB::useDB(B2B_RESTAURANTS);
         $db_restaurant_tags = DB::query("select * from tags");
 
@@ -805,6 +855,7 @@ $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
             $db_restaurant_kashrut[$ctn1]['count'] = $count1;
             $ctn1++;
         }
+
 
         DB::useDB(B2B_DB);
         $userDB = DB::queryFirstRow("select * from b2b_users where id = '$user_id'");
