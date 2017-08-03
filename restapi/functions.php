@@ -568,7 +568,7 @@ function email_for_kitchen_cancel($user_order,$orderId,$todayDate)
 
     //Send HTML or Plain Text email
     $mail->isHTML(false);
-    $mail->Subject = " הזמנה חדשה ".$orderId . " #" . $user_order['rests_orders'][0]['selectedRestaurant']['name_he'];
+    $mail->Subject = " בטל הזמנה ".$orderId . " #" . $user_order['rests_orders'][0]['selectedRestaurant']['name_he'];
     $mail->Body = $mailbody;
     $mail->AltBody = "OrderApp";
 
@@ -1237,6 +1237,162 @@ function email_order_summary_hebrew_admin($user_order,$orderId,$todayDate)
 }
 
 
+function email_for_mark2_cancel($user_order,$orderId,$todayDate)
+{
+
+    $mailbody = '';
+
+    // USER NAME
+
+    $mailbody .= 'Name :'. $user_order['user']['name'];
+    $mailbody .= '\n';
+
+    // USER EMAIL
+
+    $mailbody .= 'Email :'. $user_order['user']['email'];
+    $mailbody .= '\n';
+
+    // USER CONTACT
+
+    $mailbody .= 'Contact :'. $user_order['user']['contact'];
+    $mailbody .= '\n';
+
+    // COMPANY NAME
+
+    $mailbody .= ' Company Name :' . $user_order['company']['company_name'];
+    $mailbody .= '\n';
+
+
+    // RESTAURANT NAME
+    $mailbody .= 'Restaurant Name :'. $user_order['rests_orders'][0]['selectedRestaurant']['name_en'];
+    $mailbody .= '\n';
+
+
+    //  PAYMENT METHOD CASH OR CREDIT CARD
+
+    $mailbody .= 'Payment Method : '.$user_order['payment_option'];
+    $mailbody .= '\n';
+
+
+
+
+    $mailbody .= 'Delivery at Company Address : '. $user_order['company']['company_address'];
+    $mailbody .= '\n';
+
+
+
+    if($user_order['isCoupon']) {
+
+        $mailbody .= '\n';
+        $mailbody .= 'coupon code : ' . $user_order['couponCode'];
+        $mailbody .= '\n';
+
+
+        if ($user_order['isFixAmountCoupon'] == 'true') {
+
+
+            $mailbody .= 'Discount : ' . $user_order['discount_coupon'] . ' NIS';
+
+        }
+        else {
+
+            $mailbody .= 'Discount : ' . $user_order['discount_coupon'] . ' %';
+
+        }
+
+        $mailbody .= '\n';
+    }
+
+
+
+    foreach($user_order['rests_orders'][0]['foodCartData'] as $t) {
+
+
+        if($t['specialRequest'] != "") {
+
+
+            if ($t['detail'] != '') {
+
+                $mailbody .= 'Special Request : '.$t['specialRequest'];
+
+            }
+            else {
+
+                $mailbody .= 'Special Request : '.$t['specialRequest'];
+            }
+
+            $mailbody .= '\n';
+        }
+
+    }
+
+
+    $mailbody .= 'Special Request : '.$user_order['specialRequest'];
+    $mailbody .= '\n';
+
+    $mailbody .= 'Discount : '.$user_order['discount']." %";
+    $mailbody .= '\n';
+
+    $mailbody .= 'Company Contribution : '.$user_order['company_contribution'];
+    $mailbody .= '\n';
+
+
+    $mailbody .= 'Sub Total : '.$user_order['actual_total'];
+    $mailbody .= '\n';
+
+
+    $mailbody .= 'Total : '.$user_order['total_paid'];
+    $mailbody .= '\n';
+
+
+    $mail = new PHPMailer;
+
+
+    $mail->CharSet = 'UTF-8';
+
+
+    $mail->SMTPDebug = 3;                                               // Enable verbose debug output
+
+
+    $mail->isSMTP();
+    $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
+    $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
+    $mail->Username = "AKIAJZTPZAMJBYRSJ27A";
+    $mail->Password = "AujjPinHpYPuio4CYc5LgkBrSRbs++g9sJIjDpS4l2Ky";   //   SMTP password
+    $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
+    $mail->Port = 587;
+
+
+    //From email address and name
+    $mail->From = "orders@orderapp.com";
+    $mail->FromName = "OrderApp";
+
+
+    //To address and name
+    $mail->addAddress(EMAIL);                    //SEND ADMIN EMAIL
+
+    //Address to which recipient will reply
+    $mail->addReplyTo("orders@orderapp.com", "Reply");
+
+
+    //Send HTML or Plain Text email
+    $mail->isHTML(false);
+    $mail->Subject = 'Ledger '.$user_order['rests_orders'][0]['selectedRestaurant']['name_en'].' Order# '.$orderId;
+    $mail->Body = $mailbody;
+    $mail->AltBody = "OrderApp";
+
+
+    if (!$mail->send())
+    {
+        echo "Mailer Error: " . $mail->ErrorInfo;
+    }
+    else
+    {
+        echo "Message has been sent successfully";
+
+    }
+
+}
 
 
 function email_for_mark2($user_order,$orderId,$todayDate)

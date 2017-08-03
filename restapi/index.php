@@ -1849,14 +1849,14 @@ $app->post('/cancel_order', function ($request, $response, $args)
 
         // EMAIL ORDER SUMMERY
 
-        //email_for_kitchen_cancel($user_order, $orderId, $todayDate);
-        //ob_end_clean();
+        email_for_kitchen_cancel($user_order, $order_id, $todayDate);
+        ob_end_clean();
 
 
         // EMAIL FOR LEDGER
 
-        //email_for_mark2($user_order, $orderId, $todayDate);
-        //ob_end_clean();
+        email_for_mark2_cancel($user_order, $order_id, $todayDate);
+        ob_end_clean();
 
 
         // SEND ADMIN COPY EMAIL ORDER SUMMARY

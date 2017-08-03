@@ -184,6 +184,7 @@ you can add as many as you like
         };
 
         $('#dt_basic').dataTable({
+            "order": [[ 0, "desc" ]],
             "pageLength": 50,
             "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
             "t"+
@@ -550,8 +551,14 @@ you can add as many as you like
 //        });
 
     });
+    function company_delivery_option(val)
+    {
+        if(val == 1)
+        {
+            $("#delivery_charge").show();
+        }
 
-
+    }
 
 </script>
 

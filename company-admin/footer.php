@@ -270,6 +270,7 @@ you can add as many as you like
 
             // Tabletools options:
             //   https://datatables.net/extensions/tabletools/button_options
+            "order": [[ 0, "desc" ]],
             "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'T>r>"+
             "t"+
             "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
