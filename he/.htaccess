@@ -1,0 +1,17 @@
+RewriteEngine on
+
+RewriteRule ^([0-9a-zA-Z_-]+)/restaurants restaurants.html [NC,L]
+
+RewriteRule ^([0-9a-zA-Z_-]+)/([0-9a-zA-Z_-]+)/complete-order complete-order.html [NC,L]
+
+RewriteRule ^([0-9a-zA-Z_-]+)/([0-9a-zA-Z_-]+)/order order.html [NC,L]
+
+RewriteRule ^confirm-order confirm-order.html [NC,L]
+
+RewriteRule ^complete-order complete-order.html [NC,L]
+
+RewriteRule ^vote vote.html [NC,L]
+
+ErrorDocument 404 /en/error.html
+
+Options -Indexes

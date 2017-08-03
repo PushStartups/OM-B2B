@@ -2,24 +2,126 @@
 <html lang="en">
 
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Orderapp | Order from restaurants online</title>
     <link rel="icon" href="images/favicon.png" type="image/png" sizes="32x32">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Arimo:300,400,400i,700,700i" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style-he.css">
     <link rel="stylesheet" type="text/css" href="css/generic.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
+
+    <!--SITE SEO CONTENT-->
+    <!-- Google Analytics -->
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-89656592-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+    <!-- End Google Analytics -->
+    <!-- Facebook Pixel Code -->
+
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            }; if (!f._fbq) f._fbq = n;
+            n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+        }(window,
+            document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '2198328787059300'); // Insert your pixel ID here.
+        fbq('track', 'PageView');
+    </script>
+
+    <noscript>
+        <img height="1" width="1" style="display:none"
+             src="https://www.facebook.com/tr?id=2198328787059300&ev=PageView&noscript=1" />
+    </noscript>
+
+    <!-- DO NOT MODIFY -->
+    <!-- End Facebook Pixel Code -->
+    <!-- Facebook/Twitter Open Graph -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@orderappteam" />
+    <meta property="og:url" content="http://orderapp.com" />
+    <meta property="og:title" content="OrderApp - Order delivery online today." />
+    <meta property="og:description" content="OrderApp is the easiest solution for ordering takeaway from restaurants.
+          We remove the phone call and give you the option of live chat or digital menu." />
+
+
+    <!-- Hotjar Tracking Code for orderapp.com -->
+    <script>
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:532682,hjsv:5};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!--SITE SEO CONTENT CLOSED-->
 </head>
+
 <body>
+
+<script>
+
+    if (location.protocol != 'https:')
+    {
+        location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+    }
+
+    document.onreadystatechange = function () {
+
+        var state = document.readyState;
+
+        if (state == 'interactive') {
+
+
+            addLoading();
+
+        }
+        else if (state == 'complete') {
+
+
+            setTimeout(function(){
+
+
+                keepLoaderUntilPageLoad = false;
+                hideLoading();
+
+
+            },10);
+
+        }
+    }
+
+
+</script>
+
 <div style="display: none" id="Loader_bg">
     <img id="loader" class="loader-css" src="/en/images/loader.gif" >
 </div>
+
 <div id="wrapper" dir="rtl">
-    <!-- carousel slider -->
+
+    <!-- carousel slider for background  -->
     <div class="carousel slide carousel-fade" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
             <div class="item active"></div>
@@ -28,11 +130,13 @@
             <div class="item"></div>
         </div>
     </div>
+
+
     <section class="img-block">
         <nav id="nav">
             <ul>
                 <li data-toggle="modal" data-target="#about"><a class="f white" href="#">אודות</a></li>
-                <li><a class="f white active" href="#">EN</a></li>
+                <!--<li><a class="f white active" href="#">EN</a></li>-->
             </ul>
         </nav>
         <div class="container">
@@ -60,35 +164,38 @@
                             <div class="col-md-4 col-sm-4 col-xs-12 box add-name">
                                 <div class="row no-gutters add">
                                     <div class="col-xs-10 box">
-                                        <input class="form-control" type="text" placeholder="שם משתמש">
+                                        <input ctype="text" class="form-control mandatory"  id="user-name" type="search" placeholder="שם משתמש">
                                     </div>
                                     <div class="col-xs-2 box">
                                         <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
                                     </div>
                                 </div>
                                 <div class="error-tooltip">
-                                    <p class="f black">שם משתמש שגוי</p>
+                                    <p id="error-user-name" class="f black">שם משתמש שגוי</p>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-4 col-xs-12 box password">
+                            <div id="parent-password" class="col-md-4 col-sm-4 col-xs-12 box password">
                                 <div class="row no-gutters add">
                                     <div class="col-xs-10 box">
-                                        <input class="form-control change-type" type="password" placeholder="סיסמה">
+                                        <input ctype="password" class="form-control change-type mandatory" id="password" type="password" placeholder="סיסמה">
                                     </div>
                                     <div class="col-xs-2 box">
-                                        <i style="display: none" class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                                        <a id="showhide" href="#"></a>
+                                        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                        <a style="display: none" id="showhide" href="#"></a>
                                     </div>
+                                </div>
+                                <div class="error-tooltip">
+                                    <p style="letter-spacing: 0;" id="error-password" class="f black"></p>
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-12 box">
-                                <button class="btn-submit bt bt-md orang_gradient_rtl f white" type="button" onclick="window.location.href='restaurants.html'">הזמן עכשיו</button>
+                                <button onclick="verifyUserPassword()" class="btn-submit bt bt-md orang_gradient_rtl f white" type="button">הזמן עכשיו</button>
                             </div>
                         </div>
                         <div class="row no-gutters">
                             <div class="col-md-12">
                                 <span class="error-txt f white" style="display: none;">*Required field</span>
-                                <a href="#" data-toggle="modal" data-target="#email-popup"   onclick="$('#user-em').val('')"   class="forget-psd">אופס, שכחתי סיסמה</a>
+                                <a href="#" data-toggle="modal" data-target="#email-popup"  class="forget-psd">אופס, שכחתי סיסמה</a>
                             </div>
                         </div>
                     </form>
@@ -101,6 +208,7 @@
     </div>
 </div>
 
+
 <div class="modal fade b2b-popup"  id="email-popup" role="dialog">
     <div class="modal-dialog modal-md">
         <div class="modal-content" dir="rtl">
@@ -109,13 +217,14 @@
             <h2 class="f black">זה בסדר… <br>  רק הזן בבקשה את כתובת המייל שלך</h2>
             <div class="row no-gutters tas" id="email-parent">
                 <div class="col-xs-10">
-                    <input type="email" id="user-em" placeholder="כתובת מייל">
+                    <input class="mandatory" id="email" ctype="email" type="email"  placeholder="כתובת מייל">
                 </div>
                 <div class="col-xs-2">
-                    <button type="submit"><img src="images/ic_next.png"></button>
+                    <button onclick="submitEmailForPasswordRecovery()" type="submit"><img src="images/ic_next.png"></button>
                 </div>
             </div>
         </div>
+        <span style="margin-top: 10px;" id="error-email"></span>
     </div>
 </div>
 
