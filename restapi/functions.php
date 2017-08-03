@@ -568,7 +568,7 @@ function email_for_kitchen_cancel($user_order,$orderId,$todayDate)
 
     //Send HTML or Plain Text email
     $mail->isHTML(false);
-    $mail->Subject = " הזמנה חדשה ".substr($user_order['user']['contact'], -4) . " #" . $user_order['rests_orders'][0]['selectedRestaurant']['name_he'];
+    $mail->Subject = " הזמנה חדשה ".$orderId . " #" . $user_order['rests_orders'][0]['selectedRestaurant']['name_he'];
     $mail->Body = $mailbody;
     $mail->AltBody = "OrderApp";
 
@@ -1503,7 +1503,7 @@ function email_for_kitchen($user_order,$orderId,$todayDate)
 
     //Send HTML or Plain Text email
     $mail->isHTML(false);
-    $mail->Subject = " הזמנה חדשה ".substr($user_order['user']['contact'], -4) . " #" . $user_order['rests_orders'][0]['selectedRestaurant']['name_he'];
+    $mail->Subject = " הזמנה חדשה ".$orderId . " #" . $user_order['rests_orders'][0]['selectedRestaurant']['name_he'];
     $mail->Body = $mailbody;
     $mail->AltBody = "OrderApp";
 
