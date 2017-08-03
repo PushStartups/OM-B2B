@@ -153,7 +153,7 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
 
             if($companyDB['discount_type'] == "daily") {
 
-                if ($today > $user['date']) {
+                if ($today > $userDB['date']) {
 
 
                     $discount = $companyDB['discount'];
@@ -163,7 +163,7 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
                 }
                 else {
 
-                    $discount = $user['discount'];
+                    $discount = $userDB['discount'];
 
                 }
 
@@ -173,7 +173,7 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
 
             else{
 
-                $monthUser = date('m', strtotime($user['date']));
+                $monthUser = date('m', strtotime($userDB['date']));
                 $todayMonth =  date("m");;
 
                 if($todayMonth > $monthUser)
@@ -183,7 +183,7 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
                 }
                 else{
 
-                    $discount = $user['discount'];
+                    $discount = $userDB['discount'];
 
                 }
 
@@ -864,7 +864,6 @@ $app->post('/get_db_tags_and_kashrut', function ($request, $response, $args)
 
             "db_tags"                       => $db_restaurant_tags,          //
             "db_kashrut"                    => $db_restaurant_kashrut,
-            "user_discount"                 => $userDB['discount']
 
         ];
         // RESPONSE RETURN TO REST API CALL
@@ -1564,7 +1563,7 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
     $user_order = $request->getParam('b2b_user_order');
 
     $user_id    = null;
-    $smooch_id  = $user_order['user']['email'];
+    $user_id  = $user_order['user']['user_id'];
 
 
     date_default_timezone_set("Asia/Jerusalem");
@@ -1574,7 +1573,7 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
 
     DB::useDB(B2B_DB);
     //CHECK IF USER ALREADY EXIST, IF NO CREATE USER
-    $getUser = DB::queryFirstRow("select * from b2b_users where smooch_id = '" . $user_order['user']['email'] . "'");
+    $getUser = DB::queryFirstRow("select * from b2b_users where id = '" . $user_id . "'");
 
 
     $discount = $getUser['discount'] - $user_order['company_contribution'];
@@ -1728,7 +1727,7 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
 
     DB::useDB(B2B_DB);
 
-    DB::query("UPDATE b2b_users SET date = '$today', discount = '$discount'  WHERE  smooch_id = '$smooch_id'");
+    DB::query("UPDATE b2b_users SET date = '$today', discount = '$discount'  WHERE  id = '$user_id'");
 
 
     // RESPONSE RETURN TO REST API CALL

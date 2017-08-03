@@ -793,7 +793,12 @@ function processOrderCallBack(url, response)
 
     try {
 
+
+        var newBalance = dataObject.user.userDiscountFromCompany - dataObject.company_contribution;
+
         $('#order_complete_message').html( dataObject.user.name+' '+dataObject.company.company_name +' We are on the way estimated arrival '+ dataObject.company.delivery_time);
+        $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+newBalance+" NIS</em>");
+
 
         $(".order-info").hide();
         $(".txt-block").show();
