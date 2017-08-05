@@ -351,7 +351,7 @@ function responseListOfRestaurants(url,response) {
                         '</li>' +
                         '<li class="third">' +
                         '<address class="address">' +
-                        '<img class="edit edit1" src="/en/images/ic_checkin.png">' +
+                        '<img class="edit edit1" src="/he/images/ic_checkin.png">' +
                         '<p class="new-adress" >' + listOfRestaurants[x].address_he + '</p>' +
                         '<div class="tooltip-popup popup"><p class="f black">' + listOfRestaurants[x].address_he + '</br><strong>' + listOfRestaurants[x].city_he + '</strong></p></div>' +
                         '</address>' +
@@ -362,7 +362,7 @@ function responseListOfRestaurants(url,response) {
                         '<time class="time">' +
 
                         '<div  class="rl-dt-ma-popup-add">' +
-                        '<img class="bike" src="/en/images/motorbike-delivery.png">' +
+                        '<img class="bike" src="/he/images/motorbike-delivery.png">' +
                         '<p>זמן משלוח  ' + appox_delivey_time + '</p>' +
                         '</div>' +
                         '</time>' +
@@ -398,7 +398,7 @@ function responseListOfRestaurants(url,response) {
                         '</li>' +
                         '<li class="third">' +
                         '<address class="address">' +
-                        '<img class="edit edit1" src="/en/images/ic_checkin.png">' +
+                        '<img class="edit edit1" src="/he/images/ic_checkin.png">' +
                         '<p class="new-adress" >' + listOfRestaurants[x].address_he + '</p>' +
                         '<div class="tooltip-popup popup"><p class="f black">' + listOfRestaurants[x].address_he + '</br><strong>' + listOfRestaurants[x].city_he + '</strong></p></div>' +
                         '</address>' +
@@ -406,7 +406,7 @@ function responseListOfRestaurants(url,response) {
                         '<li>' +
                         '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button" onclick="">סָגוּר</button></div>' +
                         '<time class="time">' +
-                        '<img class="bike" src="/en/images/motorbike-delivery.png">' +
+                        '<img class="bike" src="/he/images/motorbike-delivery.png">' +
                         '<p> -- :: -- </p>' +
                         '</time>' +
                         '</li>' +
@@ -966,7 +966,7 @@ function responseReOrderObject(url,response) {
         var restaurant_name  =    dataObject.rests_orders[0].selectedRestaurant.name_he;
         restaurant_name      =    restaurant_name.replace(/\s/g, '');
 
-        window.location.href = '/en/'+company_name+"/"+restaurant_name+'/order';
+        window.location.href = '/he/'+company_name+"/"+restaurant_name+'/order';
 
 
     }
@@ -1052,12 +1052,12 @@ function responsePendingOrders(url, response) {
                 if (company_open_status) {
 
 
-                str +=  '<button class="f white btn-order" onclick="addOrder(' + x + ')" type="button"><img src="/en/images/plus.png"> הוסף הזמנה</button>';
+                str +=  '<button class="f white btn-order" onclick="addOrder(' + x + ')" type="button"><img src="/he/images/plus.png"> הוסף הזמנה</button>';
 
                 }
                 else {
 
-                    str +=  '<button class="f white btn-order"  data-toggle="modal" data-target="#business-popup" type="button"><img src="/en/images/plus.png"> הוסף הזמנה</button>';
+                    str +=  '<button class="f white btn-order"  data-toggle="modal" data-target="#business-popup" type="button"><img src="/he/images/plus.png"> הוסף הזמנה</button>';
 
                 }
 
@@ -1132,10 +1132,10 @@ function onOrderNowClicked(index)
     var company_name     =   dataObject.company.company_name;
     company_name         =   company_name.replace(/\s/g, '');
 
-    var restaurant_name  =    listOfRestaurants[index].name_he;
+    var restaurant_name  =    listOfRestaurants[index].name_en;
     restaurant_name      =    restaurant_name.replace(/\s/g, '');
 
-    window.location.href = '/en/'+company_name+"/"+restaurant_name+'/order';
+    window.location.href = '/he/'+company_name+"/"+restaurant_name+'/order';
 
 
 
