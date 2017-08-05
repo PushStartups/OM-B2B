@@ -78,8 +78,9 @@ if( function_exists( "curl_init" )) {
             {
                 DB::useDB(B2B_DB);
                 //RREFUND SUCCESS
-                DB::query("UPDATE user_orders SET total = total - '$refund_amount_NIS' WHERE id = '$order_id'");
-                DB::insert('refund', array(
+                DB::query("UPDATE b2b_orders SET total = total - '$refund_amount_NIS' WHERE id = '$order_id'");
+                DB::useDB(B2B_DB);
+                DB::insert('b2b_refund', array(
                     'order_id' => $order_id,
                     'amount'   => $refund_amount_NIS
                 ));

@@ -6,26 +6,26 @@ DB::query("set names utf8");
 DB::useDB(B2B_DB);
 
 DB::insert('company', array(
-    "name"              =>  $_POST['name'],
-    "registered_company_number"              =>  $_POST['registered_company_number'],
-    "delivery_address"  =>  $_POST['address'],
-    "min_order"         =>  $_POST['min_order'],
-    "discount"          =>  $_POST['amount'],
-    "discount_type"     =>  $_POST['discount_type'],
-
-    "team_size"     =>  $_POST['team_size'],
-    "limit_of_restaurants"     =>  $_POST['limit_of_restaurants'],
-    "contact_name"     =>  $_POST['contact_name'],
-    "contact_number"     =>  $_POST['contact_number'],
-    "contact_email"     =>  $_POST['contact_email'],
-    "ledger_link"     =>  $_POST['ledger_link'],
-
-    "email"             =>  $_POST['email'],
-    "password"          =>  $_POST['password'],
-    "notes"          =>  $_POST['notes'],
-    "voting"            =>  0,
-    "lat"          =>  $_POST['lat'],
-    "lng"          =>  $_POST['lng'],
+    "name"                              =>  $_POST['name'],
+    "registered_company_number"         =>  $_POST['registered_company_number'],
+    "delivery_address"                  =>  $_POST['address'],
+    "min_order"                         =>  $_POST['min_order'],
+    "discount"                          =>  $_POST['amount'],
+    "discount_type"                     =>  $_POST['discount_type'],
+    "team_size"                         =>  $_POST['team_size'],
+    "limit_of_restaurants"              =>  $_POST['limit_of_restaurants'],
+    "contact_name"                      =>  $_POST['contact_name'],
+    "contact_number"                    =>  $_POST['contact_number'],
+    "contact_email"                     =>  $_POST['contact_email'],
+    "ledger_link"                       =>  $_POST['ledger_link'],
+    "email"                             =>  $_POST['email'],
+    "password"                          =>  $_POST['password'],
+    "notes"                             =>  $_POST['notes'],
+    "voting"                            =>  0,
+    "lat"                               =>  $_POST['lat'],
+    "lng"                               =>  $_POST['lng'],
+    "company_delivery_option"           =>  $_POST['company_delivery_option'],
+    "delivery_charge"                   =>  $_POST['delivery_charge'],
 ));
 
 $company_id  = DB::insertId();
