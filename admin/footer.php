@@ -551,14 +551,7 @@ you can add as many as you like
 //        });
 
     });
-    function company_delivery_option(val)
-    {
-        if(val == 1)
-        {
-            $("#delivery_charge").show();
-        }
-
-    }
+    
 
 </script>
 

@@ -77,6 +77,7 @@ $rolee = $_SESSION['b2b_admin_role'];
                                         <th data-hide="phone, tablet">Ledger Link</th>
                                         <th data-hide="phone, tablet">Order DeadLine</th>
                                         <th data-hide="phone, tablet">Delivery Time</th>
+                                        <th data-hide="phone, tablet">Delivery Detail</th>
 
                                         <?php if ($rolee == 1) {?>
                                             <th data-hide="phone, tablet">Add Or View Restaurants</th>
@@ -115,6 +116,7 @@ $rolee = $_SESSION['b2b_admin_role'];
                                             <?php }  else { ?>
                                                 <td>Closed</td>
                                             <?php } ?>
+                                            <td><a href="delivery_detail.php?company_id=<?=$companies['id']?>"><button class="btn btn-labeled btn-success  txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-eye"></i>Delivery Detail </button></a></td>
 
                                             <?php if ($rolee == 1) {?>
                                                 <td><a href="add-company-restaurant.php?companies_id=<?=$companies['id']?>"><button class="btn btn-labeled btn-primary  txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-plus"></i>Default Restaurants </button></a></td>

@@ -466,6 +466,13 @@ function edit_company(companies_id,urll)
         return;
     }
 
+    var del_charges = 0;
+    if($('#company_delivery_option').val() == '1')
+    {
+        del_charges = $("#d_charges").val();
+    }
+
+
     //alert($('#discount_type').val());
 
     var postForm = { //Fetch form data
@@ -498,7 +505,7 @@ function edit_company(companies_id,urll)
         'email'                   :  $('#email').val(),
         'password'                :  $('#password').val(),
 
-        'notes'                :  document.getElementById("notes").value,
+        'notes'                   :  document.getElementById("notes").value,
 
         'sunday_start_time'       :  $('#sunday_start_time').val(),
         'sunday_end_time'         :  $('#sunday_end_time').val(),
@@ -520,11 +527,13 @@ function edit_company(companies_id,urll)
 
         'saturday_start_time'     :  $('#saturday_start_time').val(),
         'saturday_end_time'       :  $('#saturday_end_time').val(),
-        'lat'       :  $('#lat').val(),
-        'lng'       :  $('#lng').val(),
+        'lat'                     :  $('#lat').val(),
+        'lng'                     :  $('#lng').val(),
 
-        'week_en'                :  $('#week_en').val(),
-        'delivery_time'                :  $('#delivery_time').val(),
+        'week_en'                 :  $('#week_en').val(),
+        'delivery_time'           :  $('#delivery_time').val(),
+        'company_delivery_option' :  $('#company_delivery_option').val(),
+        'delivery_charge'         :    del_charges,
     };
 
 

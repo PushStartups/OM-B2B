@@ -409,7 +409,11 @@ function add_company()
         return;
     }
 
-
+    var del_charges = 0;
+    if($('#company_delivery_option').val() == '1')
+    {
+        del_charges = $("#d_charges").val();
+    }
 
     var postForm = { //Fetch form data
         'address'                 :  $('#area_en').val(),
@@ -452,8 +456,10 @@ function add_company()
 
         'saturday_start_time'     :  $('#saturday_start_time').val(),
         'saturday_end_time'       :  $('#saturday_end_time').val(),
-        'lat'       :  $('#lat').val(),
-        'lng'       :  $('#lng').val(),
+        'lat'                     :  $('#lat').val(),
+        'lng'                     :  $('#lng').val(),
+        'company_delivery_option' :  $('#company_delivery_option').val(),
+        'delivery_charge'         :    del_charges,
     };
 
 

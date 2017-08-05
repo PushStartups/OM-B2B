@@ -146,6 +146,22 @@ include "header.php";
                                         </div>
 
                                         <div class="form-group">
+                                            <label>Company Delivery Option *(Enable Delivery Charges For Company) </label>
+                                            <select onchange="company_delivery_optionn(this.value);" id="company_delivery_option" name="company_delivery_option" class="form-control">
+                                                <option value="0">No</option>
+                                                <option value="1">Yes</option>
+                                            </select>
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;"></span>
+                                        </div>
+
+                                        <div style="display:none;" id="delivery_charge" class="form-group">
+                                            <label>Delivery Charges</label>
+                                            <input class="form-control" id="d_charges" name="d_charges" placeholder="Enter Delivery Charges" type="text">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_delivery_charges"></span>
+                                        </div>
+
+
+                                        <div class="form-group">
                                             <label>Notes</label>
                                             <textarea class="form-control" id="notes" name="notes" placeholder="Enter notes"></textarea>
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_notes"></span>
@@ -383,6 +399,23 @@ include "header.php";
     <!-- END MAIN CONTENT -->
 </div>
 <!-- END MAIN PANEL -->
+<script>
+    function company_delivery_optionn(val)
+    {
+        //alert(val);
+        if(val == 1)
+        {
+            $("#delivery_charge").show();
+            $("#d_charges").attr("required", "true");
+        }
+        else
+        {
+            $("#delivery_charge").hide();
+            $("#d_charges").attr("required", "false");
+        }
+
+    }
+</script>
 <?php
 include "footer.php";
 ?>

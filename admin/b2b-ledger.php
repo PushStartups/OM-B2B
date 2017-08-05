@@ -82,10 +82,10 @@ include "header.php";
                                             <th data-hide="phone, tablet">Name</th>
                                             <th data-hide="phone, tablet">Contact</th>
                                             <th data-hide="phone, tablet">Email</th>
+                                            <th data-hide="phone, tablet">Company Name</th>
                                             <th data-hide="phone, tablet">Restaurant Name</th>
                                             <th data-hide="phone,tablet">Payment</th>
                                             <th data-hide="phone,tablet">Delivery Or Pickup</th>
-                                            <th data-hide="phone,tablet">Delivery Price</th>
                                             <th data-hide="phone,tablet">Order No</th>
                                             <th data-hide="phone,tablet">Restaurant Total</th>
                                             <th data-hide="phone, tablet">Customer Grand Total</th>
@@ -107,10 +107,11 @@ include "header.php";
                                                 <td><?= $order['customer_name'] ?></td>
                                                 <td><?= $order['customer_contact'] ?></td>
                                                 <td><?= $order['customer_email'] ?></td>
+                                                <td><?= $order['company_name'] ?></td>
                                                 <td><?= $order['restaurant_name'] ?></td>
                                                 <td><?= $order['payment_method'] ?></td>
                                                 <td><?= $order['delivery_or_pickup'] ?></td>
-                                                <td><?= $order['delivery_price'] ?></td>
+                                                <td><?= $order['order_no'] ?></td>
                                                 <td><?= $order['restaurant_total'] ?></td>
                                                 <td><?= $order['customer_grand_total'] ?></td>
                                                 <td><?= $order['customer_total_paid_to_restaurant'] ?></td>
