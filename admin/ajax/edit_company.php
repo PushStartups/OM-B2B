@@ -262,6 +262,8 @@ DB::update('company', array(
     "notes"                                 =>  $_POST['notes'],
     "lat"                                   =>  $_POST['lat'],
     "lng"                                   =>  $_POST['lng'],
+    "company_delivery_option"               =>  $_POST['company_delivery_option'],
+    "delivery_charge"                       =>  $_POST['delivery_charge'],
 
 ),  "id=%d",    $company_id   );
 

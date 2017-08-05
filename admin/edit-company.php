@@ -256,7 +256,7 @@ include "header.php";
 
                                         <div <?php if($edit_company['company_delivery_option'] == "0"){ ?> style="display:none;" <?php } ?> id="delivery_charge" class="form-group">
                                             <label>Delivery Charges</label>
-                                            <input class="form-control" id="d_charges" name="d_charges" placeholder="Enter Delivery Charges" type="text">
+                                            <input class="form-control" id="d_charges" name="d_charges" value="<?=$edit_company['delivery_charge']?>" placeholder="Enter Delivery Charges" type="text">
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_delivery_charges"></span>
                                         </div>
 
@@ -567,7 +567,7 @@ include "header.php";
     <!-- END MAIN CONTENT -->
 </div>
 <script>
-    function company_delivery_optionn(val)
+    function company_delivery_optionn_edit(val)
     {
         //alert(val);
         if(val == 1)
