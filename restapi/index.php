@@ -287,6 +287,45 @@ $app->post('/forgot_email', function ($request, $response, $args){
 });
 
 
+//  SEND CREDENTIAL DETAIL BACK TO USER IN CASE OF FORGET PASSWORD
+$app->post('/forgot_email_he', function ($request, $response, $args){
+
+    DB::useDB('orderapp_b2b_wui');
+
+    $msg = '';
+    $user_email = $request->getParam('email');
+
+
+    $userLoginInfo = DB::queryFirstRow("select * from b2b_users WHERE smooch_id = %s",$user_email);
+
+
+    if(DB::count() > 0)
+    {
+
+        $username = $userLoginInfo['user_name'];
+        $password = $userLoginInfo['password'];
+
+        $is_error = mailForgotPasswordHe($password, $username, $user_email);
+
+        ob_end_clean();
+
+        $msg['error'] = false;
+
+    }
+    else
+    {
+
+        $msg['error'] = true;
+
+    }
+
+    $response = $response->withStatus(202);
+    $response = $response->withJson($msg);
+    return $response;
+
+});
+
+
 
 
 
@@ -398,7 +437,16 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
 
         // GET ALL RESTAURANT ID'S ASSOCIATED WITH COMPANY
 
-        $rest_ids = DB::query("select rest_id from company_rest where company_id = '$company_id'");
+        if($companyDetail['company_delivery_option'] == '1')
+        {
+            DB::useDB('orderapp_restaurants_b2b_wui');
+            $rest_ids = DB::query("select id as rest_id from restaurants where city_id = '1'");
+        }
+        else
+        {
+            $rest_ids = DB::query("select rest_id from company_rest where company_id = '$company_id'");
+        }
+
 
         $restaurants = Array();
 
@@ -620,9 +668,10 @@ $app->post('/get_all_past_orders', function ($request, $response, $args)
 
             DB::useDB('orderapp_restaurants_b2b_wui');
 
-            $restaurant   =  DB::queryFirstRow("select name_en,logo from restaurants where id = '" . $result['restaurant_id'] . "'");
+            $restaurant   =  DB::queryFirstRow("select name_en,name_he,logo from restaurants where id = '" . $result['restaurant_id'] . "'");
 
             $results[$ctn]['rest_name'] = $restaurant['name_en'];
+            $results[$ctn]['rest_name_he'] = $restaurant['name_he'];
             $results[$ctn]['logo'] = $restaurant['logo'];
             $results[$ctn]['rest_order_object'] = "";
 
@@ -753,6 +802,8 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
             $city = DB::queryFirstRow("select * from cities where id = '" . $restaurant['city_id'] . "'");
 
             $restaurant['city_name'] = $city['name_en'];
+
+            $restaurant['city_name_he'] = $city['name_he'];
 
             $results[$ctn]['rest'] = $restaurant;
 

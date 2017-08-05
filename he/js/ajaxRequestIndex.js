@@ -10,7 +10,8 @@ $(document).ready(function() {
 
     user_id = localStorage.getItem("user_id_b2b");
 
-    localStorage.setItem("USER_LANGUAGE","EN");
+
+    localStorage.setItem("USER_LANGUAGE","HE");
 
     // EXCEPTION IF USER OBJECT NOT RECEIVED UN-DEFINED
     if (user_id != undefined && user_id != "" && user_id != null){
@@ -22,7 +23,7 @@ $(document).ready(function() {
 
         company_name    =   company_name.replace(/\s/g, '');
 
-        window.location.href = '/en/'+company_name+'/restaurants';
+        window.location.href = '/he/'+company_name+'/restaurants';
 
 
     }
@@ -68,13 +69,13 @@ function responseUserNamePasswordVerification(url,response) {
             if(response.field == "user-name") {
 
                 $('#parent-user-name').addClass("error");
-                $('#error-user-name').html("invalid username");
+                $('#error-user-name').html("שם משתמש לא חוקי");
 
             }
             else if(response.field == "password"){
 
                 $('#parent-password').addClass("error");
-                $('#error-password').html("invalid password");
+                $('#error-password').html("סיסמה שגויה");
 
                 $('#showhide').hide();
 
@@ -95,7 +96,7 @@ function responseUserNamePasswordVerification(url,response) {
 
             company_name  =  company_name.replace(/\s/g, '');
 
-            window.location.href = '/en/'+company_name+'/restaurants';
+            window.location.href = '/he/'+company_name+'/restaurants';
 
         }
 
@@ -119,7 +120,7 @@ function submitEmailForPasswordRecovery(){
         var email = $('#email').val();
 
 
-        commonAjaxCall("/restapi/index.php/forgot_email", {"email": email}, callBackRespForgetPassword);
+        commonAjaxCall("/restapi/index.php/forgot_email_he", {"email": email}, callBackRespForgetPassword);
 
     }
 }

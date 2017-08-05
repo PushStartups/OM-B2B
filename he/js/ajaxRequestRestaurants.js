@@ -6,8 +6,8 @@ var dataObject;                  // DATA OBJECT CONTAIN INFORMATION ABOUT COMPAN
 
 
 var listOfRestaurants = null;    // LIST OF ALL RESTAURANTS RECEIVED FROM SERVER
-                                 //array restaurants -> {id,city_en,city_he,name_en,name_he,min_amount,tags,logo,description_en,description_he,
-                                 // address_en,address_he,hechsher_en,hechsher_he,gallery,rest_lat,rest_lng,timings,today_timings,percentage_discount,}}
+                                 //array restaurants -> {id,city_he,city_he,name_he,name_he,min_amount,tags,logo,description_en,description_he,
+                                 // address_he,address_he,hechsher_en,hechsher_he,gallery,rest_lat,rest_lng,timings,today_timings,percentage_discount,}}
 
 
 var company_open_status;         // BUSINESS ORDERING IS OPEN OR CLOSED NOW
@@ -53,9 +53,10 @@ var deliveryClosedTimeInMiliSec = null;
 $(document).ready(function() {
 
 
+    localStorage.setItem("USER_LANGUAGE","HE");
+
     var user_id   =   localStorage.getItem("user_id_b2b");
 
-    localStorage.setItem("USER_LANGUAGE","EN");
 
     dataObject = {
 
@@ -157,7 +158,7 @@ function responseDBAllTagsKashrut(url, response) {
                 str += '<li id="filter-item-tags-' + x + '" >' +
                     '<label class="control control--checkbox">' +
                     '<input id="cb-tags-' + x + '" onclick="onFilterChange(' + x + ')" type="checkbox">' +
-                    '<div class="control__indicator"></div><span id="cb-tags-title' + x + '">' + db_tags[x].name_en + ' [' + db_tags[x].count + ']' + '</span>' +
+                    '<div class="control__indicator"></div><span id="cb-tags-title' + x + '">' + db_tags[x].name_he + ' [' + db_tags[x].count + ']' + '</span>' +
                     '</label>' +
                     '</li>';
             }
@@ -176,7 +177,7 @@ function responseDBAllTagsKashrut(url, response) {
                 str += '<li id="filter-item-kashrut-' + x + '">' +
                     '<label class="control control--checkbox">' +
                     '<input id="cb-kashrut-' + x + '" onclick="onFilterChange(' + x + ')"   type="checkbox">' +
-                    '<div class="control__indicator"></div><span id="cb-kashrut-title' + x + '">' + db_kashrut[x].name_en + ' [' + db_kashrut[x].count + ']' + '</span>' +
+                    '<div class="control__indicator"></div><span id="cb-kashrut-title' + x + '">' + db_kashrut[x].name_he + ' [' + db_kashrut[x].count + ']' + '</span>' +
                     '</label>' +
                     '</li>';
 
@@ -188,13 +189,13 @@ function responseDBAllTagsKashrut(url, response) {
 
         $('.list-item').show();
 
-        $('#user_name').html(dataObject.user.name+", Nice to meet you :)");
+        $('#user_name').html(dataObject.user.name+", נעים להכיר אותך :)");
 
-        $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+dataObject.user.userDiscountFromCompany+" NIS</em>");
+        $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+dataObject.user.userDiscountFromCompany+' ש"ח '+"</em>");
 
-        $("#name2").html('Hi '+dataObject.user.name+", "+dataObject.company.company_name);
+        $("#name2").html(' היי '+dataObject.user.name+", "+dataObject.company.company_name);
 
-        $("#name3").html('Hi '+dataObject.user.name+", "+dataObject.company.company_name);
+        $("#name3").html(' היי '+dataObject.user.name+", "+dataObject.company.company_name);
 
 
         // REQUEST ALL RESTAURANTS FROM SERVER
@@ -275,9 +276,9 @@ function responseListOfRestaurants(url,response) {
 
                     for (var z = 0; z < listOfRestaurants[x].tags.length; z++) {
 
-                        var tag = listOfRestaurants[x].tags[z]['name_en'];
+                        var tag = listOfRestaurants[x].tags[z]['name_he'];
 
-                        if ((tag.toLowerCase()).includes(db_tags[y].name_en.toLowerCase())) {
+                        if ((tag.toLowerCase()).includes(db_tags[y].name_he.toLowerCase())) {
 
                             isShow = true;
                             break;
@@ -304,9 +305,9 @@ function responseListOfRestaurants(url,response) {
 
                     for (var z = 0; z < listOfRestaurants[x].kashrut.length; z++) {
 
-                        var kasrut = listOfRestaurants[x].kashrut[z]['name_en'];
+                        var kasrut = listOfRestaurants[x].kashrut[z]['name_he'];
 
-                        if ((kasrut.toLowerCase()).includes(db_kashrut[y].name_en.toLowerCase())) {
+                        if ((kasrut.toLowerCase()).includes(db_kashrut[y].name_he.toLowerCase())) {
 
                             isShow = true;
                             break;
@@ -339,30 +340,30 @@ function responseListOfRestaurants(url,response) {
                         '<img src="' + listOfRestaurants[x].logo + '" alt="images description">' +
                         '</div>' +
                         '<div class="txt">' +
-                        '<h1 style="cursor: pointer" onclick="onOrderNowClicked('+x+')" class="light">' + listOfRestaurants[x].name_en + '</h1>' +
+                        '<h1 style="cursor: pointer" onclick="onOrderNowClicked('+x+')" class="light">' + listOfRestaurants[x].name_he + '</h1>' +
                         '<p><em class="f black">Kashrut</em> ' + kashrutString+'<br>'+tagsString+ ' </p>' +
                         '</div>' +
                         '</li>' +
                         '<li>' +
                         '<div class="text">' +
-                        '<p><em class="f black">' + listOfRestaurants[x].percentage_discount + ' % off</em> Between the hours ' + listOfRestaurants[x].today_timings + ' </p>' +
+                        '<p><em class="f black">' + listOfRestaurants[x].percentage_discount + ' % הנחה</em> בין השעות  ' + listOfRestaurants[x].today_timings + ' </p>' +
                         '</div>' +
                         '</li>' +
                         '<li class="third">' +
                         '<address class="address">' +
                         '<img class="edit edit1" src="/en/images/ic_checkin.png">' +
-                        '<p class="new-adress" >' + listOfRestaurants[x].address_en + '</p>' +
-                        '<div class="tooltip-popup popup"><p class="f black">' + listOfRestaurants[x].address_en + '</br><strong>' + listOfRestaurants[x].city_en + '</strong></p></div>' +
+                        '<p class="new-adress" >' + listOfRestaurants[x].address_he + '</p>' +
+                        '<div class="tooltip-popup popup"><p class="f black">' + listOfRestaurants[x].address_he + '</br><strong>' + listOfRestaurants[x].city_he + '</strong></p></div>' +
                         '</address>' +
                         '</li>' +
                         '<li>' +
-                        '<div class="btn-box"><button  class="bt_ordernow" type="button" onclick="onOrderNowClicked('+x+')">order<br>now</button></div>' +
+                        '<div class="btn-box"><button  class="bt_ordernow" type="button" onclick="onOrderNowClicked('+x+')">'+'להזמין'+'<br>'+'עַכשָׁיו'+'</button></div>' +
 
                         '<time class="time">' +
 
                         '<div  class="rl-dt-ma-popup-add">' +
                         '<img class="bike" src="/en/images/motorbike-delivery.png">' +
-                        '<p>Delivery time  ' + appox_delivey_time + '</p>' +
+                        '<p>זמן משלוח  ' + appox_delivey_time + '</p>' +
                         '</div>' +
                         '</time>' +
                         '</li>' +
@@ -386,24 +387,24 @@ function responseListOfRestaurants(url,response) {
                         '<img src="' + listOfRestaurants[x].logo + '" alt="images description">' +
                         '</div>' +
                         '<div class="txt">' +
-                        '<h1 class="light">' + listOfRestaurants[x].name_en + '</h1>' +
+                        '<h1 class="light">' + listOfRestaurants[x].name_he + '</h1>' +
                         '<p><em class="f black">Kashrut</em> ' + kashrutString + ' </p>' +
                         '</div>' +
                         '</li>' +
                         '<li>' +
                         '<div class="text">' +
-                        '<p><em class="f black">' + listOfRestaurants[x].percentage_discount + ' % off</em> Between the hours ' + listOfRestaurants[x].today_timings + ' </p>' +
+                        '<p><em class="f black">' + listOfRestaurants[x].percentage_discount + ' % הנחה</em> בין השעות ' + listOfRestaurants[x].today_timings + ' </p>' +
                         '</div>' +
                         '</li>' +
                         '<li class="third">' +
                         '<address class="address">' +
                         '<img class="edit edit1" src="/en/images/ic_checkin.png">' +
-                        '<p class="new-adress" >' + listOfRestaurants[x].address_en + '</p>' +
-                        '<div class="tooltip-popup popup"><p class="f black">' + listOfRestaurants[x].address_en + '</br><strong>' + listOfRestaurants[x].city_en + '</strong></p></div>' +
+                        '<p class="new-adress" >' + listOfRestaurants[x].address_he + '</p>' +
+                        '<div class="tooltip-popup popup"><p class="f black">' + listOfRestaurants[x].address_he + '</br><strong>' + listOfRestaurants[x].city_he + '</strong></p></div>' +
                         '</address>' +
                         '</li>' +
                         '<li>' +
-                        '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button" onclick="">Closed</button></div>' +
+                        '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button" onclick="">סָגוּר</button></div>' +
                         '<time class="time">' +
                         '<img class="bike" src="/en/images/motorbike-delivery.png">' +
                         '<p> -- :: -- </p>' +
@@ -476,10 +477,10 @@ function fromKashrutToString (restaurant)
     {
 
         if ( i == 0)
-            kashrut += restaurant.kashrut[i]['name_en'];
+            kashrut += restaurant.kashrut[i]['name_he'];
 
         else
-            kashrut += ", "+restaurant.kashrut[i]['name_en'] ;
+            kashrut += ", "+restaurant.kashrut[i]['name_he'] ;
 
 
     }
@@ -500,10 +501,10 @@ function fromTagsToString (restaurant)
     {
 
         if ( i == 0)
-            tags += restaurant.tags[i]['name_en'];
+            tags += restaurant.tags[i]['name_he'];
 
         else
-            tags += ", "+restaurant.tags[i]['name_en'] ;
+            tags += ", "+restaurant.tags[i]['name_he'] ;
 
 
     }
@@ -583,7 +584,7 @@ function responsePastOrders(url,response) {
 
         if($('#filter-past-order-cb-lastweek').is(':checked')) {
 
-            $('#last_week_orders_text').html('Last Week  [' + response.length + ']');
+            $('#last_week_orders_text').html('שבוע שעבר  [' + response.length + ']');
 
         }
 
@@ -611,13 +612,13 @@ function responsePastOrders(url,response) {
                         '<img src="' + response[x].logo + '" alt="images description">' +
                         '</div>' +
                         '<div class="txt">' +
-                        '<h1>' + response[x].rest_name + '</h1>' +
-                        '<div class="order received"><i class="fa fa-check-circle" aria-hidden="true"></i> <p>Order received</p></div>' +
-                        '<p>Order from date <em class="f black">' + response[x].date + '</em><br> in the amount of <em class="f black">' + response[x]['actual_total'] + ' NIS</em></p>' +
+                        '<h1>' + response[x].rest_name_he + '</h1>' +
+                        '<div class="order received"><i class="fa fa-check-circle" aria-hidden="true"></i> <p>ההזמנה התקבלה</p></div>' +
+                        '<p>סדר מיום <em class="f black">' + response[x].date + '</em><br> בכמות של <em class="f black">' + response[x]['actual_total']+ ' ש"ח '+'</em></p> ' +
                         '</div>' +
                         '</li>' +
                         '<li class="last add">' +
-                        '<div class="btn-box"><button class="bt_ordernow" onclick="requestReOrder(' + x + ')" data-toggle="modal" type="button">Reorder</button></div>' +
+                        '<div class="btn-box"><button class="bt_ordernow" onclick="requestReOrder(' + x + ')" data-toggle="modal" type="button">להזמין מחדש</button></div>' +
                         '<div class="text add">';
 
 
@@ -652,7 +653,7 @@ function responsePastOrders(url,response) {
                         }
 
                         str += '</div>';
-                        str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">more info</a>';
+                        str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">עוד מידע</a>';
                     }
 
 
@@ -682,13 +683,13 @@ function responsePastOrders(url,response) {
                             '<img src="' + response[x].logo + '" alt="images description">' +
                             '</div>' +
                             '<div class="txt">' +
-                            '<h1>' + response[x].rest_name + '</h1>' +
-                            '<div class="order canceled"><i class="fa fa-times-circle" aria-hidden="true"></i> <p>Cancelled</p></div>' +
-                            '<p>Order from date <em class="f black">' + response[x].date + '</em><br> in the amount of <em class="f black">' + response[x]['actual_total'] + ' NIS</em></p>' +
+                            '<h1>' + response[x].rest_name_he + '</h1>' +
+                            '<div class="order canceled"><i class="fa fa-times-circle" aria-hidden="true"></i> <p>מבוטל</p></div>' +
+                            '<p>סדר מיום <em class="f black">' + response[x].date + '</em><br> בכמות של <em class="f black">' + response[x]['actual_total'] + ' ש"ח</em></p>' +
                             '</div>' +
                             '</li>' +
                             '<li class="last add">' +
-                            '<div class="btn-box"><button class="bt_ordernow" onclick="requestReOrder(' + x + ')"  data-toggle="modal" type="button">Reorder</button></div>' +
+                            '<div class="btn-box"><button class="bt_ordernow" onclick="requestReOrder(' + x + ')"  data-toggle="modal" type="button">להזמין מחדש</button></div>' +
                             '<div class="text add">';
 
 
@@ -721,7 +722,7 @@ function responsePastOrders(url,response) {
                             }
 
                             str += '</div>';
-                            str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">more info</a>';
+                            str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">עוד מידע</a>';
                         }
 
 
@@ -751,13 +752,13 @@ function responsePastOrders(url,response) {
                         '<img src="' + response[x].logo + '" alt="images description">' +
                         '</div>' +
                         '<div class="txt">' +
-                        '<h1>' + response[x].rest_name + '</h1>' +
-                        '<div class="order received"><i class="fa fa-check-circle" aria-hidden="true"></i> <p>Order received</p></div>' +
-                        '<p>Order from date <em class="f black">' + response[x].date + '</em><br> in the amount of <em class="f black">' + response[x]['actual_total'] + ' NIS</em></p>' +
+                        '<h1>' + response[x].rest_name_he + '</h1>' +
+                        '<div class="order received"><i class="fa fa-check-circle" aria-hidden="true"></i> <p>ההזמנה התקבלה</p></div>' +
+                        '<p>סדר מיום <em class="f black">' + response[x].date + '</em><br> בכמות של <em class="f black">' + response[x]['actual_total'] + ' ש"ח</em></p>' +
                         '</div>' +
                         '</li>' +
                         '<li class="last add">' +
-                        '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button">Reorder</button></div>' +
+                        '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button">להזמין מחדש</button></div>' +
                         '<div class="text add">';
 
 
@@ -790,7 +791,7 @@ function responsePastOrders(url,response) {
                         }
 
                         str += '</div>';
-                        str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">more info</a>';
+                        str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">עוד מידע</a>';
                     }
 
 
@@ -819,13 +820,13 @@ function responsePastOrders(url,response) {
                             '<img src="' + response[x].logo + '" alt="images description">' +
                             '</div>' +
                             '<div class="txt">' +
-                            '<h1>' + response[x].rest_name + '</h1>' +
-                            '<div class="order canceled"><i class="fa fa-times-circle" aria-hidden="true"></i> <p>Cancelled</p></div>' +
-                            '<p>Order from date <em class="f black">' + response[x].date + '</em><br> in the amount of <em class="f black">' + response[x]['actual_total'] + ' NIS</em></p>' +
+                            '<h1>' + response[x].rest_name_he + '</h1>' +
+                            '<div class="order canceled"><i class="fa fa-times-circle" aria-hidden="true"></i> <p>מבוטל</p></div>' +
+                            '<p>סדר מיום <em class="f black">' + response[x].date + '</em><br> בכמות של <em class="f black">' + response[x]['actual_total'] + ' ש"ח</em></p>' +
                             '</div>' +
                             '</li>' +
                             '<li class="last add">' +
-                            '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button">Reorder</button></div>' +
+                            '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button">להזמין מחדש</button></div>' +
                             '<div class="text add">';
 
 
@@ -858,7 +859,7 @@ function responsePastOrders(url,response) {
                             }
 
                             str += '</div>';
-                            str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">more info</a>';
+                            str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">עוד מידע</a>';
                         }
 
 
@@ -894,7 +895,7 @@ function responsePastOrders(url,response) {
 
 
 
-        $('#cancelled_order_text').html("Show Canceled orders ["+cancelled_orders_count+"]");
+        $('#cancelled_order_text').html("הצג הזמנות שביטלו ["+cancelled_orders_count+"]");
         past_orders_object = response;
 
     }
@@ -922,11 +923,11 @@ function hideShowMoreInfo(index) {
 
     if($(id).is(':hidden'))
     {
-        $(btnId).html('more info');
+        $(btnId).html('עוד מידע');
     }
     else {
 
-        $(btnId).html('less info');
+        $(btnId).html('פחות מידע');
     }
 }
 
@@ -962,7 +963,7 @@ function responseReOrderObject(url,response) {
         var company_name     =   dataObject.company.company_name;
         company_name         =   company_name.replace(/\s/g, '');
 
-        var restaurant_name  =    dataObject.rests_orders[0].selectedRestaurant.name_en;
+        var restaurant_name  =    dataObject.rests_orders[0].selectedRestaurant.name_he;
         restaurant_name      =    restaurant_name.replace(/\s/g, '');
 
         window.location.href = '/en/'+company_name+"/"+restaurant_name+'/order';
@@ -1016,27 +1017,27 @@ function responsePendingOrders(url, response) {
                 '<ul>'+
                 '<li>'+
                 '<div class="txt-box">'+
-                '<h2 class="light">On the way</h2>'+
-                '<p>Order Status</p>'+
+                '<h2 class="light">בדרך</h2>'+
+                '<p>מצב הזמנה</p>'+
                 '</div>'+
                 '</li>'+
                 '<li>'+
                 '<div class="txt-box">'+
-                '<h2 class="light">'+response[x].rest.name_en+'</h2>'+
-                '<p>'+response[x].rest.address_en+'</p>'+
-                '<div class="tooltip-popup popup"><p class="f black"> '+response[x].rest.address_en+'</br><strong>'+response[x].rest.city_name+'</strong></p></div>'+
+                '<h2 class="light">'+response[x].rest.name_he+'</h2>'+
+                '<p>'+response[x].rest.address_he+'</p>'+
+                '<div class="tooltip-popup popup"><p class="f black"> '+response[x].rest.address_he+'</br><strong>'+response[x].rest.city_name_he+'</strong></p></div>'+
                 '</div>'+
                 '</li>'+
                 '<li>'+
                 '<div class="txt-box">'+
                 '<h2 class="light">'+delivery_time_str+'</h2>'+
-                '<p>Delivery time</p>'+
+                '<p>זמן משלוח</p>'+
                 '</div>'+
                 '</li>'+
                 '<li>'+
                 '<div class="txt-box">'+
-                '<h2 class="light">Total '+response[x].total+' NIS</h2>'+
-                '<p id="pending-order-detail'+x+'" class="pending-order-detail"><span class="arrow">View Order Summary <i class="fa fa-angle-down" aria-hidden="true"></i></span></p>'+
+                '<h2 class="light">סה"כ '+response[x].total+' ש"ח</h2>'+
+                '<p id="pending-order-detail'+x+'" class="pending-order-detail"><span class="arrow"> צפה בסיכום ההזמנה <i class="fa fa-angle-down" aria-hidden="true"></i></span></p>'+
 
                 '</div>'+
                 '</li>'+
@@ -1051,18 +1052,18 @@ function responsePendingOrders(url, response) {
                 if (company_open_status) {
 
 
-                str +=  '<button class="f white btn-order" onclick="addOrder(' + x + ')" type="button"><img src="/en/images/plus.png"> Add an Order</button>';
+                str +=  '<button class="f white btn-order" onclick="addOrder(' + x + ')" type="button"><img src="/en/images/plus.png"> הוסף הזמנה</button>';
 
                 }
                 else {
 
-                    str +=  '<button class="f white btn-order"  data-toggle="modal" data-target="#business-popup" type="button"><img src="/en/images/plus.png"> Add an Order</button>';
+                    str +=  '<button class="f white btn-order"  data-toggle="modal" data-target="#business-popup" type="button"><img src="/en/images/plus.png"> הוסף הזמנה</button>';
 
                 }
 
 
                 str += '<a class="btn-link" href="#">'+
-                '<p  id="cancel-order-open-'+x+'" class="cancel-order-open">Cancel Order</p>'+
+                '<p  id="cancel-order-open-'+x+'" class="cancel-order-open">בטל הזמנה</p>'+
                 '</a>'+
                 '</div>'+
                 '</div>';
@@ -1115,7 +1116,7 @@ function onOrderNowClicked(index)
     };
 
 
-    // PUSHING SELECTED RESTAURANT ORDER OBJECT
+    // PUShiNG SELECTED RESTAURANT ORDER OBJECT
 
     // TEMPORARY REMOVE PREVIOUS ORDER
 
@@ -1131,7 +1132,7 @@ function onOrderNowClicked(index)
     var company_name     =   dataObject.company.company_name;
     company_name         =   company_name.replace(/\s/g, '');
 
-    var restaurant_name  =    listOfRestaurants[index].name_en;
+    var restaurant_name  =    listOfRestaurants[index].name_he;
     restaurant_name      =    restaurant_name.replace(/\s/g, '');
 
     window.location.href = '/en/'+company_name+"/"+restaurant_name+'/order';
@@ -1160,7 +1161,7 @@ function cancelOrderResponseRequest(url,response) {
         {
             dataObject.user.userDiscountFromCompany = response;
 
-            $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+dataObject.user.userDiscountFromCompany+" NIS</em>");
+            $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+dataObject.user.userDiscountFromCompany+'ש"ח'+"</em>");
 
             $('.cancle-order').hide();
             past_orders_object = null;
