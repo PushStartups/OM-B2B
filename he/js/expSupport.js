@@ -1,4 +1,3 @@
-
 // INPUT TAGS HANDLER
 
 function errorCheck(parentId) {
@@ -26,7 +25,7 @@ function errorCheck(parentId) {
                     // EMPTY VALUE ERROR
                     if (value == "") {
 
-                        $(error_id).html("*Required Field");
+                        $(error_id).html("*שדה נדרש");
                         $(id).addClass('have-error');
                         $(child_parent).addClass('error');
                         $(error_id).addClass('error');
@@ -44,7 +43,7 @@ function errorCheck(parentId) {
                     // EMPTY VALUE ERROR
                     if (value == "") {
 
-                        $(error_id).html("*Required Field");
+                        $(error_id).html("*שדה נדרש");
                         $(id).addClass('have-error');
                         $(error_id).addClass('error');
                         $(child_parent).addClass('error');
@@ -62,7 +61,7 @@ function errorCheck(parentId) {
                     // EMPTY VALUE ERROR
                     if (value == "") {
 
-                        $(error_id).html("*Required Field");
+                        $(error_id).html("*שדה נדרש");
                         $(error_id).addClass('error');
                         $(id).addClass('have-error');
                         $(child_parent).addClass('error');
@@ -74,7 +73,7 @@ function errorCheck(parentId) {
                 // CHAR CONTAIN ERROR
 
                 if ((!value.match(/^\d+$/))) {
-                    $(error_id).html("Number Only");
+                    $(error_id).html("מספר בלבד");
                     $(error_id).addClass('error');
                     $(id).addClass('have-error');
                     return false;
@@ -89,7 +88,7 @@ function errorCheck(parentId) {
                     // EMPTY VALUE ERROR
                     if (value == "") {
 
-                        $(error_id).html("*Required Field");
+                        $(error_id).html("*שדה נדרש");
                         $(id).addClass('have-error');
                         $(child_parent).addClass('error');
                         $(error_id).addClass('error');
@@ -104,7 +103,7 @@ function errorCheck(parentId) {
                     $(id).addClass('have-error');
                     $(error_id).addClass('error');
                     $(child_parent).addClass('error');
-                    $(error_id).html("Invalid Email");
+                    $(error_id).html("אימייל שגוי");
                     return false;
 
                 }

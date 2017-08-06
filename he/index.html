@@ -157,11 +157,11 @@
                     <h1 class="light f white">  הזמן חכם <br>הזמן מהר</h1>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" id="loginForm">
                 <div class="col-md-8 col-xs-12 add">
                     <form class="form" action="#">
                         <div class="row no-gutters add">
-                            <div class="col-md-4 col-sm-4 col-xs-12 box add-name">
+                            <div id="parent-user-name" class="col-md-4 col-sm-4 col-xs-12 box add-name">
                                 <div class="row no-gutters add">
                                     <div class="col-xs-10 box">
                                         <input ctype="text" class="form-control mandatory"  id="user-name" type="search" placeholder="שם משתמש">
@@ -194,7 +194,7 @@
                         </div>
                         <div class="row no-gutters">
                             <div class="col-md-12">
-                                <span class="error-txt f white" style="display: none;">*Required field</span>
+                                <span class="error-txt f white" style="display: none;">*שדה נדרש</span>
                                 <a href="#" data-toggle="modal" data-target="#email-popup"  class="forget-psd">אופס, שכחתי סיסמה</a>
                             </div>
                         </div>
@@ -210,7 +210,7 @@
 
 
 <div class="modal fade b2b-popup"  id="email-popup" role="dialog">
-    <div class="modal-dialog modal-md">
+    <div  id="forgetPasswordForm" class="modal-dialog modal-md">
         <div class="modal-content" dir="rtl">
             <!--<img class="ic_close" src="images/ic_close.png" onclick="$('#detail-popup').fadeOut(); $('.overlay').fadeOut()">-->
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
@@ -233,11 +233,11 @@
     <div class="modal-dialog modal-md">
         <div class="modal-content" dir="rtl">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-            <div class="check-email">
+            <div style="display: none"  id="email-sent-message" class="check-email">
                 <h2 class="f black">בבקשה בדוק את תיבת המייל שלך</h2>
-                <a class="get-link" href="#">לא קיבלתי מכם מייל</a>
+                <a onclick="$('#check-email-popup').modal('hide'); submitEmailForPasswordRecovery();" class="get-link" href="#">לא קיבלתי מכם מייל</a>
             </div>
-            <div class="check-email" style="display: none;">
+            <div style="display: none" id="email-error-message"  class="check-email" >
                 <h2 class="f black">אופס, כתובת המייל שלך לא קיימת</h2>
                 <h3 class="f black">צור קשר עם החברה שלך</h3>
                 <div class="line">או</div>
@@ -248,6 +248,44 @@
 </div>
 
 
+<div class="modal fade in mypopup" id="error-info-popup" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+            <h2> נחזור בקרוב! </h2>
+            <p> אנו מתנצלים על אי הנוחות אנו נפתור את הבעיה בקרוב! </p>
+
+            <!-- SOCIAL LINKS FOR ORDER APP -->
+            <div class="social-icons">
+                <ul>
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/theorderapp/"><img src="/en/images/fb.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://twitter.com/OrderAppTeam"><img src="/en/images/tw.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://plus.google.com/106974163137537901922"><img src="/en/images/gp.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/theorderapp/"><img src="/en/images/insta.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.pinterest.com/orderapp/"><img src="/en/images/pin.png"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/orderapp-team-4a886510b"><img src="/en/images/link.png"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <div class="modal fade in mypopup" id="about" role="dialog" aria-hidden="false">
     <div class="modal-dialog modal-lg">
 
@@ -255,16 +293,6 @@
         <div class="modal-content">
 
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-            <!--<h2> ORDERAPP, סדר מהיר </h2>-->
-            <!--<p>-->
-                <!--OrderApp היא מהפכה חוויית ההזמנה המקוונת.<br>-->
-
-                <!--                אנו מקלים על כל הכאב הכרוך בתהליך ההזמנה. עבור מסעדות, אנחנו מקור זורם של הזמנות לניהול. עבור משתמשים, אנחנו פלטפורמה קלה הזמנת עם משלוח בזמן לדלת שלך.-->
-                <!--<br>-->
-                <!--<br>-->
-                <!--* מופעל על ידי Push Startups-->
-            <!--</p>-->
-
 
             <h2>התיאבון שלכם הוא ההצלחה שלנו!</h2>
             <p> Orderapp הינה אפליקציה נוחה וקלה להזמנת אוכל ממש עד לשולחן במשרד. הזמנת האוכל באמצעות Orderapp מקלה על תהליך ההזמנה בדרך הפשוטה והמהירה שהיא מציעה למשתמש ומונעות טעויות מביכות שעלולות להתרחש כאשר אתם חושבים יותר על העבודה ופחות על הארוחה.</p>
@@ -299,14 +327,14 @@
 </div>
 
 
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
-<!--<script src="js/bootstrap.min.js"></script>-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="js/ajaxRequestIndex.js"></script>
 <script src="js/expSupport.js"></script>
 <script src="js/commonAjaxCall.js"></script>
+
+
 
 <script>
 
@@ -377,6 +405,7 @@
         }, 100);
 
     });
+
 
 </script>
 </body>

@@ -65,8 +65,9 @@
     max-height:45vh;
 }
 .list-item.slide .baron__track{
-    right:4px;
+    right:auto;
     top:0;
+    left: 12px;
 }
 #scrollable-item2,
 #scrollable-item{

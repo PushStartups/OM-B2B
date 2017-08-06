@@ -120,6 +120,7 @@ h1{
     background: #ccc;
 }
 .error-tooltip{
+    display: none;
     position: absolute;
     top: -50px;
     right: 0;
@@ -167,12 +168,12 @@ h1{
     font-size: 20px;
     line-height: 60px;
     cursor: pointer;
-    display: inline-block;
+    display: none;
     vertical-align: middle;
     /*transform: rotate(180deg);*/
 }
-.error .form-control{
-    border-color:#ff0000;
+.error .fa-exclamation-circle, .error .error-tooltip{
+    display: block;
 }
 .col-md-8.add,
 .col-md-8.col-sm-12.add,
