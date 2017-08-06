@@ -1915,7 +1915,7 @@ $app->post('/cancel_order', function ($request, $response, $args)
 
         } else {
 
-            //  email_order_summary_hebrew($user_order, $orderId, $todayDate);
+              email_order_summary_hebrew_cancel($user_order, $order_id, $todayDate, $remaining_discount);
 
         }
 
