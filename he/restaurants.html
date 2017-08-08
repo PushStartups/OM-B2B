@@ -163,7 +163,7 @@
                             </ul>
                             <ul>
                                 <li data-toggle="modal" data-target="#about"><a class="f white" href="#">אודות</a></li>
-                                <!--<li><a class="f white active" href="#">EN</a></li>-->
+                                <li><a class="f white active" onclick="goToEn();"  href="#">EN</a></li>
                             </ul>
                         </nav>
 
@@ -685,7 +685,7 @@
 
 
 
-<div current-index = "" id="cancel-order" class="cancle-order popup" style="display: none; height: 200px;">
+<div current-index = "" id="cancel-order" class="cancle-order popup" style="display: none; height: 175px;">
 
     <h4>האם אתה בטוח שאתה רוצה <br> לבטל את ההזמנה? </h4>
 
@@ -882,7 +882,7 @@
                         $(".cancle-order").css({
 
                             position: "absolute",
-                            top: (scrollTo.offset().top - 220) + "px",
+                            top: (scrollTo.offset().top - 200) + "px",
                             left: (scrollTo.offset().left + 35) + "px"
 
                         }).show();
@@ -1001,7 +1001,7 @@
 
                             position: "absolute",
                             top: (scrollTo.offset().top + 45) + "px",
-                            left: (scrollTo.offset().left + 70) + "px"
+                            left: (scrollTo.offset().left + 145) + "px"
 
                         }).show();
 
@@ -1119,6 +1119,17 @@
 
     });
 
+
+    function goToEn() {
+
+        var company_name = localStorage.getItem("company_name_b2b");
+
+        company_name  =  company_name.replace(/\s/g, '');
+
+        window.location.href = '/he/'+company_name+'/restaurants';
+
+
+    }
 
 
 </script>

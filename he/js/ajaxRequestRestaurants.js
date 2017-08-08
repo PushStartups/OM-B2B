@@ -60,7 +60,7 @@ $(document).ready(function() {
 
     dataObject = {
 
-        'language': 'en',                  // USER LANGUAGE ENGLISH DESKTOP B2B
+        'language': 'he',                  // USER LANGUAGE ENGLISH DESKTOP B2B
         'company': '',                     // attributes are {company_id, company_name, company_address,delivery_time}
         'user': '',                        // attributes are {user_id, name, email, contact, userDiscountFromCompany}
         'rests_orders': [],                // ARRAY OF MULTIPLE REST ORDERS
@@ -357,7 +357,7 @@ function responseListOfRestaurants(url,response) {
                         '</address>' +
                         '</li>' +
                         '<li>' +
-                        '<div class="btn-box"><button  class="bt_ordernow" type="button" onclick="onOrderNowClicked('+x+')">'+'להזמין'+'<br>'+'עַכשָׁיו'+'</button></div>' +
+                        '<div class="btn-box"><button  class="bt_ordernow" type="button" onclick="onOrderNowClicked('+x+')">'+' הזמן <br> עכשיו '+'</button></div>' +
 
                         '<time class="time">' +
 
@@ -404,7 +404,7 @@ function responseListOfRestaurants(url,response) {
                         '</address>' +
                         '</li>' +
                         '<li>' +
-                        '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button" onclick="">סָגוּר</button></div>' +
+                        '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button" onclick="">סגור</button></div>' +
                         '<time class="time">' +
                         '<img class="bike" src="/he/images/motorbike-delivery.png">' +
                         '<p> -- :: -- </p>' +
@@ -613,12 +613,12 @@ function responsePastOrders(url,response) {
                         '</div>' +
                         '<div class="txt">' +
                         '<h1>' + response[x].rest_name_he + '</h1>' +
-                        '<div class="order received"><i class="fa fa-check-circle" aria-hidden="true"></i> <p>ההזמנה התקבלה</p></div>' +
-                        '<p>סדר מיום <em class="f black">' + response[x].date + '</em><br> בכמות של <em class="f black">' + response[x]['actual_total']+ ' ש"ח '+'</em></p> ' +
+                        '<div class="order received"><i class="fa fa-check-circle" aria-hidden="true"></i> <p>הזמנה התקבלה</p></div>' +
+                        '<p>הזמנה מתאריך <em class="f black">' + response[x].date + '</em><br> סך הכל לתשלום <em class="f black">' + response[x]['actual_total']+ ' ש"ח '+'</em></p> ' +
                         '</div>' +
                         '</li>' +
                         '<li class="last add">' +
-                        '<div class="btn-box"><button class="bt_ordernow" onclick="requestReOrder(' + x + ')" data-toggle="modal" type="button">להזמין מחדש</button></div>' +
+                        '<div class="btn-box"><button class="bt_ordernow" onclick="requestReOrder(' + x + ')" data-toggle="modal" type="button">הזמן שוב</button></div>' +
                         '<div class="text add">';
 
 
@@ -653,7 +653,7 @@ function responsePastOrders(url,response) {
                         }
 
                         str += '</div>';
-                        str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">עוד מידע</a>';
+                        str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">מידע נוסף</a>';
                     }
 
 
@@ -684,12 +684,12 @@ function responsePastOrders(url,response) {
                             '</div>' +
                             '<div class="txt">' +
                             '<h1>' + response[x].rest_name_he + '</h1>' +
-                            '<div class="order canceled"><i class="fa fa-times-circle" aria-hidden="true"></i> <p>מבוטל</p></div>' +
-                            '<p>סדר מיום <em class="f black">' + response[x].date + '</em><br> בכמות של <em class="f black">' + response[x]['actual_total'] + ' ש"ח</em></p>' +
+                            '<div class="order canceled"><i class="fa fa-times-circle" aria-hidden="true"></i> <p>הזמנה התקבלה</p></div>' +
+                            '<p>הזמנה מתאריך <em class="f black">' + response[x].date + '</em><br> סך הכל לתשלום <em class="f black">' + response[x]['actual_total'] + ' ש"ח</em></p>' +
                             '</div>' +
                             '</li>' +
                             '<li class="last add">' +
-                            '<div class="btn-box"><button class="bt_ordernow" onclick="requestReOrder(' + x + ')"  data-toggle="modal" type="button">להזמין מחדש</button></div>' +
+                            '<div class="btn-box"><button class="bt_ordernow" onclick="requestReOrder(' + x + ')"  data-toggle="modal" type="button">הזמן שוב</button></div>' +
                             '<div class="text add">';
 
 
@@ -722,7 +722,7 @@ function responsePastOrders(url,response) {
                             }
 
                             str += '</div>';
-                            str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">עוד מידע</a>';
+                            str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">מידע נוסף</a>';
                         }
 
 
@@ -753,12 +753,12 @@ function responsePastOrders(url,response) {
                         '</div>' +
                         '<div class="txt">' +
                         '<h1>' + response[x].rest_name_he + '</h1>' +
-                        '<div class="order received"><i class="fa fa-check-circle" aria-hidden="true"></i> <p>ההזמנה התקבלה</p></div>' +
-                        '<p>סדר מיום <em class="f black">' + response[x].date + '</em><br> בכמות של <em class="f black">' + response[x]['actual_total'] + ' ש"ח</em></p>' +
+                        '<div class="order received"><i class="fa fa-check-circle" aria-hidden="true"></i> <p>הזמנה התקבלה</p></div>' +
+                        '<p>הזמנה מתאריך <em class="f black">' + response[x].date + '</em><br> סך הכל לתשלום <em class="f black">' + response[x]['actual_total'] + ' ש"ח</em></p>' +
                         '</div>' +
                         '</li>' +
                         '<li class="last add">' +
-                        '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button">להזמין מחדש</button></div>' +
+                        '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button">הזמן שוב</button></div>' +
                         '<div class="text add">';
 
 
@@ -791,7 +791,7 @@ function responsePastOrders(url,response) {
                         }
 
                         str += '</div>';
-                        str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">עוד מידע</a>';
+                        str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">מידע נוסף</a>';
                     }
 
 
@@ -821,12 +821,12 @@ function responsePastOrders(url,response) {
                             '</div>' +
                             '<div class="txt">' +
                             '<h1>' + response[x].rest_name_he + '</h1>' +
-                            '<div class="order canceled"><i class="fa fa-times-circle" aria-hidden="true"></i> <p>מבוטל</p></div>' +
-                            '<p>סדר מיום <em class="f black">' + response[x].date + '</em><br> בכמות של <em class="f black">' + response[x]['actual_total'] + ' ש"ח</em></p>' +
+                            '<div class="order canceled"><i class="fa fa-times-circle" aria-hidden="true"></i> <p>הזמנה התקבלה</p></div>' +
+                            '<p>הזמנה מתאריך <em class="f black">' + response[x].date + '</em><br> סך הכל לתשלום <em class="f black">' + response[x]['actual_total'] + ' ש"ח</em></p>' +
                             '</div>' +
                             '</li>' +
                             '<li class="last add">' +
-                            '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button">להזמין מחדש</button></div>' +
+                            '<div class="btn-box"><button class="bt_ordernow" data-toggle="modal" data-target="#business-popup" type="button">הזמן שוב</button></div>' +
                             '<div class="text add">';
 
 
@@ -859,7 +859,7 @@ function responsePastOrders(url,response) {
                             }
 
                             str += '</div>';
-                            str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">עוד מידע</a>';
+                            str += '<a class="more-info" id="more-info-btn' + x + '" onclick="hideShowMoreInfo(' + x + ')" href="#">מידע נוסף</a>';
                         }
 
 
@@ -949,7 +949,7 @@ function responseReOrderObject(url,response) {
 
         dataObject = JSON.parse(response);
 
-        localStorage.setItem("data_object_en", JSON.stringify(dataObject));
+        localStorage.setItem("data_object_he", JSON.stringify(dataObject));
 
 
         // REST VALUES
@@ -1017,8 +1017,8 @@ function responsePendingOrders(url, response) {
                 '<ul>'+
                 '<li>'+
                 '<div class="txt-box">'+
-                '<h2 class="light">בדרך</h2>'+
-                '<p>מצב הזמנה</p>'+
+                '<h2 class="light">הזמנה בדרך</h2>'+
+                '<p>סטטוס הזמנה</p>'+
                 '</div>'+
                 '</li>'+
                 '<li>'+
@@ -1031,13 +1031,13 @@ function responsePendingOrders(url, response) {
                 '<li>'+
                 '<div class="txt-box">'+
                 '<h2 class="light">'+delivery_time_str+'</h2>'+
-                '<p>זמן משלוח</p>'+
+                '<p>זמן קבלת המשלוח</p>'+
                 '</div>'+
                 '</li>'+
                 '<li>'+
                 '<div class="txt-box">'+
                 '<h2 class="light">סה"כ '+response[x].total+' ש"ח</h2>'+
-                '<p id="pending-order-detail'+x+'" class="pending-order-detail"><span class="arrow"> צפה בסיכום ההזמנה <i class="fa fa-angle-down" aria-hidden="true"></i></span></p>'+
+                '<p id="pending-order-detail'+x+'" class="pending-order-detail"><span class="arrow"> פרוט הזמנה <i class="fa fa-angle-down" aria-hidden="true"></i></span></p>'+
 
                 '</div>'+
                 '</li>'+
@@ -1063,7 +1063,7 @@ function responsePendingOrders(url, response) {
 
 
                 str += '<a class="btn-link" href="#">'+
-                '<p  id="cancel-order-open-'+x+'" class="cancel-order-open">בטל הזמנה</p>'+
+                '<p  id="cancel-order-open-'+x+'" class="cancel-order-open">ביטול הזמנה</p>'+
                 '</a>'+
                 '</div>'+
                 '</div>';
@@ -1126,7 +1126,7 @@ function onOrderNowClicked(index)
     dataObject.rests_orders.push(orderObject);
 
 
-    localStorage.setItem("data_object_en", JSON.stringify(dataObject));
+    localStorage.setItem("data_object_he", JSON.stringify(dataObject));
 
 
     var company_name     =   dataObject.company.company_name;

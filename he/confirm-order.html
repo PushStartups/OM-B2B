@@ -6,17 +6,131 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Orderapp | Order from restaurants online</title>
-    <link rel="icon" href="images/favicon.png" type="image/png" sizes="32x32">
+    <link rel="icon" href="/he/images/favicon.png" type="image/png" sizes="32x32">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/style-he.css">
-    <link rel="stylesheet" type="text/css" href="css/generic.css">
-    <link rel="stylesheet" type="text/css" href="css/baron.css">
-    <link rel="stylesheet" type="text/css" href="css/confirm-order.css">
+
+    <link rel="stylesheet" type="text/css" href="/he/css/style-he.css">
+    <link rel="stylesheet" type="text/css" href="/he/css/generic.css">
+    <link rel="stylesheet" type="text/css" href="/he/css/baron.css">
+    <link rel="stylesheet" type="text/css" href="/he/css/confirm-order.css">
+
+    <!--SITE SEO CONTENT-->
+    <!-- Google Analytics -->
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-89656592-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+    <!-- End Google Analytics -->
+    <!-- Facebook Pixel Code -->
+
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            }; if (!f._fbq) f._fbq = n;
+            n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+        }(window,
+            document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '2198328787059300'); // Insert your pixel ID here.
+        fbq('track', 'PageView');
+    </script>
+
+    <noscript>
+        <img height="1" width="1" style="display:none"
+             src="https://www.facebook.com/tr?id=2198328787059300&ev=PageView&noscript=1" />
+    </noscript>
+
+    <!-- DO NOT MODIFY -->
+    <!-- End Facebook Pixel Code -->
+    <!-- Facebook/Twitter Open Graph -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@orderappteam" />
+    <meta property="og:url" content="http://orderapp.com" />
+    <meta property="og:title" content="OrderApp - Order delivery online today." />
+    <meta property="og:description" content="OrderApp is the easiest solution for ordering takeaway from restaurants.
+          We remove the phone call and give you the option of live chat or digital menu." />
+
+
+    <!-- Hotjar Tracking Code for orderapp.com -->
+    <script>
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:532682,hjsv:5};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!--SITE SEO CONTENT CLOSED-->
+
 </head>
 <body>
+
+
+<script>
+
+    if (location.protocol != 'https:')
+    {
+        location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+    }
+
+    var user_id = localStorage.getItem("user_id_b2b");
+
+    // EXCEPTION IF USER OBJECT NOT RECEIVED UN-DEFINED
+    if (user_id == undefined || user_id == "" || user_id == null){
+
+        localStorage.setItem("user_id_b2b","");
+        window.location.href = '/';
+
+    }
+
+    document.onreadystatechange = function () {
+
+        var state = document.readyState;
+
+        if (state == 'interactive') {
+
+
+            addLoading();
+
+        }
+        else if (state == 'complete') {
+
+
+            setTimeout(function(){
+
+                hideLoading();
+
+
+            },10);
+
+        }
+    }
+
+
+</script>
+
+
+
+<div style="display: none" id="Loader_bg">
+    <img id="loader" class="loader-css" src="/he/images/loader.gif" >
+</div>
+
+
 <div id="wrapper">
     <section class="jumbotron-fluid">
         <div id="header" class="orang_gradient_rtl">
@@ -28,18 +142,18 @@
                             <ul class="bt-sm">
                                 <li>
                                     <a href="#">
-                                        <img class="icon-user" src="images/ic_profile01.png">
-                                        <span id="name_company"> מרינה לונדון, אור שלום <em>500 NIS</em></span>
+                                        <img class="icon-user" src="/he/images/ic_profile01.png">
+                                        <span id="name_company"></span>
                                     </a>
-                                    <div class="dropdown-nav" style="display: none;">
-                                        <h3>היי מרינה לונדון,<br> :) נחמד לראות אותך כאן </h3>
-                                        <a onclick="window.location.href='index.html'" href="#">התנתק/י</a>
+                                    <div class="dropdown-nav" id="dropdown-nav" style="display: none;">
+                                        <h3 id="user_name"> </h3>
+                                        <a onclick="localStorage.setItem('user_id_b2b', ''); window.location.href='/'" href="#">התנתק/י</a>
                                     </div>
                                 </li>
                             </ul>
                             <ul>
-                                <li data-toggle="modal" data-target="#about"><a class="f white" href="#">אודות</a></li>
-                                <li><a class="f white active" href="#">EN</a></li>
+                                <li  data-toggle="modal" data-target="#about"><a class="f white" href="#">אודות</a></li>
+                                <!--<li><a class="f white active" href="#">EN</a></li>-->
                             </ul>
                         </nav>
                     </div>
@@ -48,13 +162,13 @@
                         <div class="logo">
                             <a href="#">
                                 <div class="logo-img">
-                                    <img src="images/logo.png" alt="images description">
+                                    <img src="/he/images/logo.png" alt="images description">
                                 </div>
                                 <h2 class="f white light">אמצעי תשלום</h2>
                             </a>
                             <ul class="breadcrumbs">
-                                <li><a onclick="window.location.href='restaurants.html'" href="#"><p class="comment f white">בחר את המסעדה שלך</p></a></li>
-                                <li><a onclick="window.location.href='order.html'" href="#"><p class="comment f white"> > בחר את התפריט שלך </p></a></li>
+                                <li><a onclick="backListener()" href="#"><p class="comment f white">בחר את המסעדה שלך</p></a></li>
+                                <li><a onclick="goToOrderPage()" href="#"><p class="comment f white"> > בחר את התפריט שלך </p></a></li>
                                 <li><p class="comment f white"> > אמצעי תשלום </p></li>
                             </ul>
                         </div>
@@ -62,452 +176,463 @@
 
                 </div>
             </div>
-            <a onclick="window.location.href='order.html'" class="btn-back" href="#"><img src="images/icon01.png"></a>
+            <a onclick="goToOrderPage()" class="btn-back" href="#"><img src="/he/images/icon01.png"></a>
         </div>
     </section>
     <section class="block">
         <div class="jumbtron-fluid">
             <div class="parent-bottom" style="/*position: relative;*/width:100%;height:100%;">
-                <img src="images/left_bottom.png">
-                <img src="images/right_bottom-new.png" style="left: auto; right: 0; margin: 0; width: 60%; height: 90vh; top:10px;"/>
+                <img src="/he/images/left_bottom.png">
+                <img src="/he/images/right_bottom-new.png" style="left: auto; right: 0; margin: 0; width: 60%; height: 90vh; top:10px;"/>
             </div>
             <div class="container">
-            <div class="row no-gutters">
-                <div class="col-xs-9">
-                    <header class="header-box">
-                        <div class="row no-gutters">
-                            <div class="col-xs-11" id="rest-name-cat"><h2 class="f white light">בנדורה</h2>
-                                <p class="f white">שדרות יגאל אלון 6, קניון שערי העיר</p>
-                                <ul>
-                                    <li><img class="img add" src="images/motorbike-delivery-01.png">10:00-20:00</li>
-                                    <li><a class="tel" href="tel:0500000000"><img class="img" src="images/phone-icon.png">050-000-0000</a></li>
-                                </ul>
+                <div class="row no-gutters">
+                    <div class="col-xs-9">
+                        <header class="header-box">
+                            <div class="row no-gutters">
+                                <div class="col-xs-11" id="rest-name-cat"><h2 class="f white light" id="rest-title"></h2>
+                                    <p class="f white" id="rest-address"></p>
+                                    <ul>
+                                        <!--<li><img class="img add" src="/he/images/motorbike-delivery-01.png">10:00-20:00</li>-->
+                                        <li><a class="tel" href="tel:0500000000"><img class="img" src="/he/images/phone-icon.png" ><span class="f white" id="contact"></span></a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-1"><a class="alert-img" data-toggle="modal" data-target="#popup-info" href="#"><img src="/he/images/info-icon.png"></a></div>
                             </div>
-                            <div class="col-xs-1"><a class="alert-img" data-toggle="modal" data-target="#popup-info" href="#"><img src="images/info-icon.png"></a></div>
-                        </div>
-                    </header>
+                        </header>
 
-                    <div class="row no-gutters">
-                        <div class="col-xs-12">
-                            <div class="order-info">
+                        <div class="row no-gutters">
+                            <div class="col-xs-12">
+                                <div class="order-info">
 
-                                <div class="add-block">
+                                    <div class="add-block">
 
-                                    <ul id="hidePaymentOption">
+                                        <ul id="hidePaymentOption" style="display: none">
 
 
-                                        <li>
-                                            <div>
-                                                <div class="checkbox-holder" style="display: inline-block; vertical-align: middle; width: 39%;">
-                                                    <label class="control control--radio">
-                                                        <div class="chek-box-holder">
-                                                            <input name="radio" type="radio" />
-                                                            <div class="control__indicator"></div>
-                                                        </div>
-                                                        <h2  style="line-height: 20px;">כרטיס אשראי מס.</h2>
-                                                    </label>
-                                                </div>
-
-                                                <div style="visibility: visible; display: inline-block; vertical-align: middle; margin: 3px 0 0;" class="dropdown new" id="card_list_parent">
-
-                                                    <button style="margin: -5px 0 -5px;" class="btn btn-secondary dropdown-toggle" type="button" id="choose_card" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                         2589 *** ***
-                                                    </button>
-
-                                                    <div class="dropdown-menu dropdown scrollable-menu" id="cards_list" aria-labelledby="dropdownMenuButton">
-
-                                                        <a class="dropdown-item" href="#">2589 *** ***</a>
+                                            <li>
+                                                <div>
+                                                    <div class="checkbox-holder" style="display: inline-block; vertical-align: middle; width: 39%;">
+                                                        <label class="control control--radio">
+                                                            <div class="chek-box-holder">
+                                                                <input name="radio" type="radio" id="card-cb" />
+                                                                <div class="control__indicator"></div>
+                                                            </div>
+                                                            <h2  style="line-height: 20px;">כרטיס אשראי מס.</h2>
+                                                        </label>
                                                     </div>
 
-                                                    <span style="color: red;font-size: 13px; margin-top: 5px" id="error-delivery"></span>
+                                                    <div style="visibility: visible; display: inline-block; vertical-align: middle; margin: 3px 0 0;" class="dropdown new" id="card_list_parent">
 
-                                                </div>
+                                                        <button style="margin: -5px 0 -5px;" class="btn btn-secondary dropdown-toggle" type="button" id="choose_card" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        </button>
 
-                                                <a class="btn-link" id="cc_use_other_card"  style="visibility: visible" href="#">הוסף כרטיס אשראי</a>
-                                            </div>
-
-
-
-
-                                            <div id="card-option" class="show-txt" style="display: none;">
-
-                                                <div class="row">
-                                                    <div class="col-xs-6">
-                                                        <label>שם בעל הכרטיס</label>
-                                                        <div class="field-box">
-                                                            <div class="row no-gutters">
-                                                                <div class="col-xs-10">
-                                                                    <input id="name" class="form-control" type="text" placeholder="מרינה לונדון">
-                                                                </div>
-                                                                <div class="col-xs-2">
-                                                                    <i id="name-error-dot" class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="error-tooltip" id="error-user-name" style="display: block;">
-                                                                <p class="f black">שם בעל הכטיס שגוי</p>
-                                                            </div>
-
+                                                        <div class="dropdown-menu dropdown scrollable-menu" id="cards_list" aria-labelledby="dropdownMenuButton">
                                                         </div>
+
+                                                        <span style="color: red;font-size: 13px; margin-top: 5px" id="error-delivery"></span>
+
                                                     </div>
-                                                    <div class="col-xs-6">
-                                                        <label>מספר הכרטיס</label>
-                                                        <div class="field-box">
-                                                            <div class="row no-gutters">
 
-                                                                <div class="col-xs-10">
-                                                                    <input id="card_no" class="form-control" type="text" placeholder="XXXXXXXXXXXXXX">
-                                                                </div>
-                                                                <div class="col-xs-2">
-                                                                    <i id="card-error-dot"  class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="error-tooltip" id="error-card-number" style="display: none">
-                                                                <p class="f black" id="error-card-text">* שדה נדרש</p>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
+                                                    <a class="btn-link" id="cc_use_other_card"  style="visibility: visible" href="#">הוסף כרטיס אשראי</a>
                                                 </div>
 
 
-                                                <div class="row">
-                                                    <div class="col-xs-6">
-                                                        <div class="row">
-                                                            <div class="col-xs-12">
-                                                                <label>ת.פקיעת תוקף</label>
-                                                                <div class="field-box add">
-                                                                    <div class="row no-gutters">
-
-                                                                        <div class="col-xs-6">
-
-                                                                            <div class="dropdown new drop">
-
-                                                                                <button class="btn btn-secondary new-btn dropdown-toggle" style="border:none; border-radius: 0; border-left: 1px solid #000;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">יום</button>
-
-                                                                                <div class="dropdown-menu dropdown scrollable-menu" aria-labelledby="dropdownMenuButton">
 
 
-                                                                                    <!--month_error_dot-->
+                                                <div id="card-option" class="show-txt" style="display: none;">
 
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('01')" href="#">01</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('02')" href="#">02</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('03')" href="#">03</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('04')" href="#">04</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('05')" href="#">05</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('06')" href="#">06</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('07')" href="#">07</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('08')" href="#">08</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('09')" href="#">09</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('10')" href="#">10</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('11')" href="#">11</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('12')" href="#">12</a>
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <label>שם בעל הכרטיס</label>
+                                                            <div class="field-box">
+                                                                <div class="row no-gutters">
+                                                                    <div class="col-xs-10">
+                                                                        <input id="name" class="form-control" type="text" placeholder="מרינה לונדון">
+                                                                    </div>
+                                                                    <div class="col-xs-2">
+                                                                        <i id="name-error-dot" class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                                                    </div>
+                                                                </div>
 
+                                                                <div class="error-tooltip" id="error-user-name">
+                                                                    <p class="f black">שם בעל הכטיס שגוי</p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <label>מספר הכרטיס</label>
+                                                            <div class="field-box">
+                                                                <div class="row no-gutters">
+
+                                                                    <div class="col-xs-10">
+                                                                        <input id="card_no" class="form-control" type="text" placeholder="">
+                                                                    </div>
+                                                                    <div class="col-xs-2">
+                                                                        <i id="card-error-dot"  class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="error-tooltip" id="error-card-number" style="display: none">
+                                                                    <p class="f black" id="error-card-text">* שדה נדרש</p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <div class="row">
+                                                                <div class="col-xs-12">
+                                                                    <label>ת.פקיעת תוקף</label>
+                                                                    <div class="field-box add">
+                                                                        <div class="row no-gutters">
+
+                                                                            <div class="col-xs-6">
+
+                                                                                <div class="dropdown new drop">
+
+                                                                                    <button class="btn btn-secondary new-btn dropdown-toggle" style="border:none; border-radius: 0; border-left: 1px solid #000;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">יום</button>
+
+                                                                                    <div class="dropdown-menu dropdown scrollable-menu" aria-labelledby="dropdownMenuButton">
+
+
+                                                                                        <!--month_error_dot-->
+
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('01')" href="#">01</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('02')" href="#">02</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('03')" href="#">03</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('04')" href="#">04</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('05')" href="#">05</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('06')" href="#">06</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('07')" href="#">07</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('08')" href="#">08</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('09')" href="#">09</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('10')" href="#">10</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('11')" href="#">11</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton').html('12')" href="#">12</a>
+
+                                                                                    </div>
                                                                                 </div>
+
                                                                             </div>
 
+
+                                                                            <div class="col-xs-6">
+
+                                                                                <div class="dropdown new drop">
+
+
+                                                                                    <!--year_error_dot-->
+
+                                                                                    <button class="btn btn-secondary new-btn dropdown-toggle" style="border:none;" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">שנה</button>
+
+                                                                                    <div class="dropdown-menu dropdown scrollable-menu" aria-labelledby="dropdownMenuButton2">
+
+                                                                                        <!--<a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('01')" href="#">01</a>-->
+                                                                                        <!--<a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('02')" href="#">02</a>-->
+                                                                                        <!--<a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('03')" href="#">03</a>-->
+                                                                                        <!--<a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('04')" href="#">04</a>-->
+                                                                                        <!--<a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('05')" href="#">05</a>-->
+                                                                                        <!--<a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('06')" href="#">06</a>-->
+                                                                                        <!--<a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('07')" href="#">07</a>-->
+                                                                                        <!--<a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('08')" href="#">08</a>-->
+                                                                                        <!--<a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('09')" href="#">09</a>-->
+                                                                                        <!--<a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('10')" href="#">10</a>-->
+                                                                                        <!--<a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('11')" href="#">11</a>-->
+                                                                                        <!--<a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('12')" href="#">12</a>-->
+                                                                                        <!--<a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('13')" href="#">13</a>-->
+                                                                                        <!--<a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('14')" href="#">14</a>-->
+                                                                                        <!--<a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('15')" href="#">15</a>-->
+                                                                                        <!--<a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('16')" href="#">16</a>-->
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('17')" href="#">17</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('18')" href="#">18</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('19')" href="#">19</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('20')" href="#">20</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('21')" href="#">21</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('22')" href="#">22</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('23')" href="#">23</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('24')" href="#">24</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('25')" href="#">25</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('26')" href="#">26</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('27')" href="#">27</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('28')" href="#">28</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('29')" href="#">29</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('30')" href="#">30</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('31')" href="#">31</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('32')" href="#">32</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('33')" href="#">33</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('34')" href="#">34</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('35')" href="#">35</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('36')" href="#">36</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('37')" href="#">37</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('38')" href="#">38</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('39')" href="#">39</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('40')" href="#">40</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('41')" href="#">41</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('42')" href="#">42</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('43')" href="#">43</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('44')" href="#">44</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('45')" href="#">45</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('46')" href="#">46</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('47')" href="#">47</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('48')" href="#">48</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('49')" href="#">49</a>
+                                                                                        <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('50')" href="#">50</a>
+
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
                                                                         </div>
 
 
-                                                                        <div class="col-xs-6">
+                                                                    </div>
+                                                                </div>
 
-                                                                            <div class="dropdown new drop">
 
 
-                                                                                <!--year_error_dot-->
 
-                                                                                <button class="btn btn-secondary new-btn dropdown-toggle" style="border:none;" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">שנה</button>
 
-                                                                                <div class="dropdown-menu dropdown scrollable-menu" aria-labelledby="dropdownMenuButton2">
 
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('01')" href="#">01</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('02')" href="#">02</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('03')" href="#">03</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('04')" href="#">04</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('05')" href="#">05</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('06')" href="#">06</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('07')" href="#">07</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('08')" href="#">08</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('09')" href="#">09</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('10')" href="#">10</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('11')" href="#">11</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('12')" href="#">12</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('13')" href="#">13</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('14')" href="#">14</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('15')" href="#">15</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('16')" href="#">16</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('17')" href="#">17</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('18')" href="#">18</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('19')" href="#">19</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('20')" href="#">20</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('21')" href="#">21</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('22')" href="#">22</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('23')" href="#">23</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('24')" href="#">24</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('25')" href="#">25</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('26')" href="#">26</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('27')" href="#">27</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('28')" href="#">28</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('29')" href="#">29</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('30')" href="#">30</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('31')" href="#">31</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('32')" href="#">32</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('33')" href="#">33</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('34')" href="#">34</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('35')" href="#">35</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('36')" href="#">36</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('37')" href="#">37</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('38')" href="#">38</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('39')" href="#">39</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('40')" href="#">40</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('41')" href="#">41</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('42')" href="#">42</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('43')" href="#">43</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('44')" href="#">44</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('45')" href="#">45</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('46')" href="#">46</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('47')" href="#">47</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('48')" href="#">48</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('49')" href="#">49</a>
-                                                                                    <a class="dropdown-item" onclick="$('#dropdownMenuButton2').html('50')" href="#">50</a>
 
-                                                                                </div>
-                                                                            </div>
 
-                                                                        </div>
+                                                                <!--<div class="col-xs-8">-->
+                                                                <!--<div class="field-box">-->
+
+                                                                <!--<div class="row no-gutters">-->
+
+                                                                <!--<div class="col-xs-6 add-border">-->
+                                                                <!--<input class="form-control" id="month" type="text" placeholder="MM">-->
+                                                                <!--</div>-->
+                                                                <!--<div class="col-xs-6">-->
+                                                                <!--<input class="form-control" id="year" type="text" placeholder="YY">-->
+                                                                <!--</div>-->
+
+
+
+
+                                                                <!--</div>-->
+                                                                <!--</div>-->
+                                                                <!--</div>-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <label>cvv</label>
+                                                            <div class="field-box">
+                                                                <div class="row no-gutters">
+                                                                    <div class="col-xs-7">
+                                                                        <input class="form-control" id="cvv" type="text" placeholder="">
+                                                                    </div>
+
+                                                                    <div class="col-xs-5">
+                                                                        <i  id="error_cvv_dot" class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                                                        <img id="cvv-card-icon" style="display: none;" class="edit" src="/he/images/cvs-icon.png">
                                                                     </div>
 
 
                                                                 </div>
-                                                            </div>
 
-
-
-
-
-
-
-
-                                                            <!--<div class="col-xs-8">-->
-                                                            <!--<div class="field-box">-->
-
-                                                            <!--<div class="row no-gutters">-->
-
-                                                            <!--<div class="col-xs-6 add-border">-->
-                                                            <!--<input class="form-control" id="month" type="text" placeholder="MM">-->
-                                                            <!--</div>-->
-                                                            <!--<div class="col-xs-6">-->
-                                                            <!--<input class="form-control" id="year" type="text" placeholder="YY">-->
-                                                            <!--</div>-->
-
-
-
-
-                                                            <!--</div>-->
-                                                            <!--</div>-->
-                                                            <!--</div>-->
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-3">
-                                                        <label>cvv</label>
-                                                        <div class="field-box">
-                                                            <div class="row no-gutters">
-                                                                <div class="col-xs-7">
-                                                                    <input class="form-control" id="cvv" type="text" placeholder="XXX">
+                                                                <div class="error-tooltip cvv" id="error-cvv" style="display: none">
+                                                                    <p class="f black" id="error-cvv-text">* שדה נדרש</p>
                                                                 </div>
 
-                                                                <div class="col-xs-5">
-                                                                    <i  id="error_cvv_dot" style="display: block;" class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                                                                    <img id="cvv-card-icon" style="display: none;" class="edit" src="images/cvs-icon.png">
-                                                                </div>
-
-
                                                             </div>
-
-                                                            <div class="error-tooltip cvv" id="error-cvv" style="display: none">
-                                                                <p class="f black" id="error-cvv-text">* שדה נדרש</p>
-                                                            </div>
-
                                                         </div>
                                                     </div>
+
+                                                    <div class="row no-gutters">
+                                                        <div class="col-xs-12">
+                                                            <div class="checkbox-holder add">
+                                                                <label class="control control--checkbox">
+                                                                    <div class="chek-box-holder">
+                                                                        <input type="checkbox" id="check_save_card" />
+                                                                        <div class="control__indicator"></div>
+                                                                    </div>
+                                                                    <p style="font-size: 16px; line-height: 20px;">שמור פרטי כרטיס</p>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <!--<div class="btn-holder">-->
+                                                    <!--<button type="button" onclick="addNewCard()" class="btn-add-submit hover f black">Use this card</button>-->
+                                                    <!--<button type="button" onclick="$('card-option').hide(); onCancel()" class="btn-add-submit f black add">Cancel</button>-->
+                                                    <!--</div>-->
                                                 </div>
 
-                                                <div class="row no-gutters">
+
+                                                <span id="card-errors" style="color: red; margin-top: 10px; margin-bottom: 10px; margin-right: 32px; display: block;"></span>
+
+                                            </li>
+
+                                            <li>
+
+                                                <div class="checkbox-holder">
+                                                    <label class="control control--radio">
+                                                        <div class="chek-box-holder">
+                                                            <input type="radio" name="radio" id="cash-cb" checked  />
+                                                            <div class="control__indicator"></div>
+                                                        </div>
+                                                        <h2  style="line-height: 20px;">מזומן</h2>
+                                                    </label>
+                                                </div>
+
+                                            </li>
+
+                                        </ul>
+
+                                        <div class="box-list">
+                                            <label>הערות מיוחדות</label>
+                                            <div class="field-box">
+                                                <div class="row">
                                                     <div class="col-xs-12">
-                                                        <div class="checkbox-holder add">
-                                                            <label class="control control--checkbox">
-                                                                <div class="chek-box-holder">
-                                                                    <input type="checkbox" id="check_save_card" />
-                                                                    <div class="control__indicator"></div>
-                                                                </div>
-                                                                <p style="font-size: 16px; line-height: 20px;">שמור פרטי כרטיס</p>
-                                                            </label>
-                                                        </div>
+                                                        <input class="form-control" type="text">
                                                     </div>
-                                                </div>
-
-
-                                                <!--<div class="btn-holder">-->
-                                                <!--<button type="button" onclick="addNewCard()" class="btn-add-submit hover f black">Use this card</button>-->
-                                                <!--<button type="button" onclick="$('card-option').hide(); onCancel()" class="btn-add-submit f black add">Cancel</button>-->
-                                                <!--</div>-->
-                                            </div>
-
-
-                                            <span id="card-errors" style="color: red; margin-top: 10px; margin-bottom: 10px; margin-left: 40px; display: block;"></span>
-
-                                        </li>
-
-                                        <li>
-
-                                            <div class="checkbox-holder">
-                                                <label class="control control--radio">
-                                                    <div class="chek-box-holder">
-                                                        <input type="radio" name="radio" />
-                                                        <div class="control__indicator"></div>
-                                                    </div>
-                                                    <h2  style="line-height: 20px;">מזומן</h2>
-                                                </label>
-                                            </div>
-
-                                        </li>
-
-                                    </ul>
-
-                                    <div class="box-list">
-                                        <label>הערות מיוחדות</label>
-                                        <div class="field-box">
-                                            <div class="row">
-                                                <div class="col-xs-12">
-                                                    <input class="form-control" type="text">
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
 
+                                    <button onclick="onOrderNowClicked()" type="button" class="btn-order-now"><h2 class="f white">אשר הזמנה</h2></button>
                                 </div>
 
-                                <button onclick="onOrderNowClicked()" type="button" class="btn-order-now"><h2 class="f white">אשר הזמנה</h2></button>
-                            </div>
 
-
-                            <div class="txt-block" style="display: none">
-                                <h2 id="order_complete_message">מרינה לונדון, אור שלום, אנחנו כבר בדרך <br>
- זמן הגעה משוער 12:30 -1:30 </h2>
-                                <div class="btn-holder-new">
-                                    <button type="button" onclick="gotoRestListPage(null)" class="btn-new-submit"><h2 class="f white">הוסף הזמנה</h2></button>
-                                    <button type="button" onclick="gotoRestListPage('track')" class="btn-new-submit hover"><h2 class="f white">מעקב אחר ההזמנה</h2></button>
+                                <div class="txt-block" style="display: none">
+                                    <h2 id="order_complete_message">מרינה לונדון, אור שלום, אנחנו כבר בדרך <br>
+                                        זמן הגעה משוער 12:30 -1:30 </h2>
+                                    <div class="btn-holder-new">
+                                        <button type="button" onclick="gotoRestListPage(null)" class="btn-new-submit"><h2 class="f white">הוסף הזמנה</h2></button>
+                                        <button type="button" onclick="gotoRestListPage('track')" class="btn-new-submit hover"><h2 class="f white">מעקב אחר ההזמנה</h2></button>
+                                    </div>
                                 </div>
+
+
                             </div>
-
-
                         </div>
+
                     </div>
-
-                </div>
-                <div class="col-xs-3">
-                    <div class="cart-holder">
-                        <header class="gray-header">
-                            <h2 class="f black light">עגלת קניות <span class="counter">0</span></h2>
-                        </header>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="frame" style="background: #F5F5F5;">
-                                    <div class="order-item">
-                                        <div class="row no-gutters">
-                                            <div class="col-xs-1">
-                                            </div>
-                                            <div class="col-xs-11">
-                                                <div class="row no-gutters">
-                                                    <div class="col-xs-9" style="padding: 0 7px 0 0;">
-                                                        <p class="f black">שווארמה</p>
-                                                    </div>
-                                                    <div class="col-xs-3">
-                                                        <p class="f black amount"> ש״ח 30</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row no-gutters">
-                                            <div class="col-xs-1">
-                                                <div class="btn-arrow">
-                                                    <span class="count f black">1</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-10" style="padding: 0 7px 0 0;">
-                                                <p>בנדורה מחוזקת - לרציניים בלבד!! נתחי עגל/פרגית מחוזקת בטעמים על פלאנצ׳ה</p>
-                                            </div>
-                                            <div class="col-xs-1">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-xs-3">
+                        <div class="cart-holder">
+                            <header class="gray-header">
+                                <h2 class="f black light">עגלת קניות <span class="counter badge">0</span></h2>
+                            </header>
 
 
-
-
-                        <div class="wrap">
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <div class="frame" style="background: #F5F5F5;">
-                                        <div class="minimum-item add">
-                                            <div class="row no-gutters">
-                                                <div class="col-xs-8">
-                                                    <h3 class="title light">סך הכל</h3>
-                                                </div>
-                                                <div class="col-xs-4">
-                                                    <h3 class="nis light"> ש״ח 60</h3>
-                                                </div>
+                                    <div class="baron scrollable4 col-second">
+                                        <div id="scrollable4" class="baron__scroller right">
+                                            <div class="frame" id="nested-section" style="background: #F5F5F5;">
+                                                <!--<div class="order-item">-->
+                                                <!--<div class="row no-gutters">-->
+                                                <!--<div class="col-xs-1">-->
+                                                <!--</div>-->
+                                                <!--<div class="col-xs-11">-->
+                                                <!--<div class="row no-gutters">-->
+                                                <!--<div class="col-xs-9" style="padding: 0 7px 0 0;">-->
+                                                <!--<p class="f black">שווארמה</p>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-xs-3">-->
+                                                <!--<p class="f black amount"> ש״ח 30</p>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="row no-gutters">-->
+                                                <!--<div class="col-xs-1">-->
+                                                <!--<div class="btn-arrow">-->
+                                                <!--<a href="#" class="btn-up">-->
+                                                <!--<i class="fa fa-angle-up" aria-hidden="true"></i>-->
+                                                <!--</a>-->
+                                                <!--<span class="count f black">1</span>-->
+                                                <!--<a href="#" class="btn-down">-->
+                                                <!--<i class="fa fa-angle-down" aria-hidden="true"></i>-->
+                                                <!--</a>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-xs-10" style="padding: 0 7px 0 0;">-->
+                                                <!--<p>בנדורה מחוזקת - לרציניים בלבד!! נתחי עגל/פרגית מחוזקת בטעמים על פלאנצ׳ה</p>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-xs-1">-->
+                                                <!--<a class="remove" href="#"><img class="fa-times" src="/he/images/ic_cancel.png"></a>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
                                             </div>
                                         </div>
-                                        <div class="minimum-item add">
-                                            <div class="row no-gutters">
-                                                <div class="col-xs-8">
-                                                    <h3 class="title light">חלק חברה</h3>
-                                                </div>
-                                                <div class="col-xs-4">
-                                                    <h3 class="nis light">  ש״ח 20- </h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="minimum-item add">
-                                            <!--<div class="coupon">-->
-                                            <!--<label id="coupon-toggle" class="new-label">Coupon Code</label>-->
-                                            <!--<div class="coupon-box">-->
-                                            <!--<div class="wrap">-->
-                                            <!--<button id="submitCoupon" class="btn-coupon-submit" type="button"><img src="images/icon011.png"></button>-->
-                                            <!--<input id="coupon-txt" type="text" placeholder="Type Coupon Code">-->
-                                            <!--</div>-->
-                                            <!--<span id="coupon-error" style="display: none" class="error">*incorrect code</span>-->
-                                            <!--</div>-->
-                                            <!--</div>-->
-                                            <div class="row no-gutters">
-                                                <div class="col-xs-8">
-                                                    <h3 class="title">סך הכל לתשלום</h3>
-                                                </div>
-                                                <div class="col-xs-4">
-                                                    <h3 class="nis"> ש״ח 40</h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="img-frame">
-                                            <a href="#"><img src="images/cards-icon.png"></a>
+                                        <div class="baron__track">
+                                            <div class="baron__bar"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="info-card">
-                                <button class="btn-submit" type="button">בצע הזמנה</button>
-                                <div class="tooltip-popup popup"><p class="f black">העגלה שלך ריקה</p></div>
-                            </div>
-                        </div>
 
+
+                            <div class="wrap">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="frame" style="background: #F5F5F5;">
+                                            <div class="minimum-item add" style="display: none" id="st_parent">
+                                                <div class="row no-gutters">
+                                                    <div class="col-xs-8">
+                                                        <h3 class="title light">סך הכל</h3>
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <h3 class="nis light" id="actual_total"></h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="minimum-item add" style="display:none;" id="cc_parent">
+                                                <div class="row no-gutters">
+                                                    <div class="col-xs-8">
+                                                        <h3 class="title light">חלק חברה</h3>
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <h3 class="nis light" id="company_contribution">  </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="minimum-item add">
+                                                <!--<div class="coupon">-->
+                                                <!--<label id="coupon-toggle" class="new-label">Coupon Code</label>-->
+                                                <!--<div class="coupon-box">-->
+                                                <!--<div class="wrap">-->
+                                                <!--<button id="submitCoupon" class="btn-coupon-submit" type="button"><img src="/he/images/icon011.png"></button>-->
+                                                <!--<input id="coupon-txt" type="text" placeholder="Type Coupon Code">-->
+                                                <!--</div>-->
+                                                <!--<span id="coupon-error" style="display: none" class="error">*incorrect code</span>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <div class="row no-gutters">
+                                                    <div class="col-xs-8">
+                                                        <h3 class="title">סך הכל לתשלום</h3>
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <h3 id="total_paid" class="nis">0 ש"ח </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="img-frame">
+                                                <a href="#"><img src="/he/images/cards-icon.png"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="info-card">
+                                    <button class="btn-submit" onclick="OnOrderNowClicked()"  type="button">בצע הזמנה</button>
+                                    <div style="display: none;"  id="empty-tooltip" class="tooltip-popup popup"><p class="f black"></p></div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
-            </div>
 
             </div>
         </div>
@@ -523,7 +648,7 @@
 
             <div class="row no-gutters">
                 <div class="col-md-6 col-sm-6 col-xs-6 first-col text-center" id="rest-detail">
-                    <div class="img-frame"><a href="#"><img src="images/meshulashim_logo.png" alt="logo-img"></a></div>
+                    <div class="img-frame"><a href="#"><img src="/he/images/meshulashim_logo.png" alt="logo-img"></a></div>
                     <h2>פיצה משולשים</h2>
                     <p class="f white">שד' יגאל אלון 6, קניון שער העיר, בית שמש</p>
                     <span class="cart f white">מינימום הזמנה 100 ש״ח</span>
@@ -536,7 +661,7 @@
                                 <div class="baron__bar add" style="top: 0px; height: 113px;"></div>
                             </div>
                         </div>
-                        <img class="mobile-sec" src="images/delivery-line-he.png">
+                        <img class="mobile-sec" src="/he/images/delivery-line-he.png">
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-6 second-col">
@@ -550,35 +675,7 @@
 
                                 <!--RESTAURANT TIMINGS FROM SERVER-->
                                 <table class="table" id="time-detail">
-                                    <tr>
-                                        <td>                              שישי
-                                        </td>
-                                        <td>10:00AM - 11:00PM </td>
-                                    </tr>
-                                    <tr>
-                                        <td>חמישי</td>
-                                        <td>10:00AM - 11:00PM </td>
-                                    </tr>
-                                    <tr>
-                                        <td>רביעי</td>
-                                        <td>10:00AM - 11:00PM </td>
-                                    </tr>
-                                    <tr>
-                                        <td>שלישי</td>
-                                        <td>10:00AM - 11:00PM </td>
-                                    </tr>
-                                    <tr>
-                                        <td>שני</td>
-                                        <td>10:00AM - 11:00PM </td>
-                                    </tr>
-                                    <tr>
-                                        <td>ראשון</td>
-                                        <td>סגור - סגור</td>
-                                    </tr>
-                                    <tr>
-                                        <td>שבת</td>
-                                        <td>10:00AM - 11:00PM </td>
-                                    </tr>
+
                                 </table>
                             </div>
 
@@ -589,10 +686,7 @@
 
                                     <!--GALLERY IMAGES FROM SERVER-->
                                     <div class="carousel-inner" role="listbox" id="gallery-images">
-                                        <div class="item active"><img src="images/band_1.png" alt="Chania">
-                                        </div>
-                                        <div class="item"><img src="images/band_2.png" alt="Chania"></div>
-                                        <div class="item"><img src="images/band_2.png" alt="Chania"></div>
+
                                     </div>
 
                                     <a class="left carousel-control" href="#menu-carousel" role="button" data-slide="prev">
@@ -645,22 +739,22 @@
             <div class="social-icons">
                 <ul>
                     <li>
-                        <a target="_blank" href="https://www.facebook.com/theorderapp/"><img src="images/fb.png"></a>
+                        <a target="_blank" href="https://www.facebook.com/theorderapp/"><img src="/he/images/fb.png"></a>
                     </li>
                     <li>
-                        <a target="_blank" href="https://twitter.com/OrderAppTeam"><img src="images/tw.png"></a>
+                        <a target="_blank" href="https://twitter.com/OrderAppTeam"><img src="/he/images/tw.png"></a>
                     </li>
                     <li>
-                        <a target="_blank" href="https://plus.google.com/106974163137537901922"><img src="images/gp.png"></a>
+                        <a target="_blank" href="https://plus.google.com/106974163137537901922"><img src="/he/images/gp.png"></a>
                     </li>
                     <li>
-                        <a target="_blank" href="https://www.instagram.com/theorderapp/"><img src="images/insta.png"></a>
+                        <a target="_blank" href="https://www.instagram.com/theorderapp/"><img src="/he/images/insta.png"></a>
                     </li>
                     <li>
-                        <a target="_blank" href="https://www.pinterest.com/orderapp/"><img src="images/pin.png"></a>
+                        <a target="_blank" href="https://www.pinterest.com/orderapp/"><img src="/he/images/pin.png"></a>
                     </li>
                     <li>
-                        <a target="_blank" href="https://www.linkedin.com/in/orderapp-team-4a886510b"><img src="images/link.png"></a>
+                        <a target="_blank" href="https://www.linkedin.com/in/orderapp-team-4a886510b"><img src="/he/images/link.png"></a>
                     </li>
                 </ul>
             </div>
@@ -668,9 +762,13 @@
     </div>
 </div>
 
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/baron.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="/he/js/baron.js"></script>
+<script src="/he/js/commonAjaxCall.js"></script>
+<script src="/he/js/ajaxRequestConfirmOrder.js"></script>
 
 <script>
 
@@ -683,35 +781,138 @@
     };
 
     $(document).ready(function(){
+
         $(".btn-link").click(function () {
+
             $(".show-txt").show();
             $(".btn-link").hide();
+            dataObject.selectedCardId = null;
+            $('#cash-cb').prop('checked', false);
+            $('#card-cb').prop('checked', true);
+
         });
     });
+
     $(document).ready(function(){
+
         $(".btn-add-submit.add").click(function () {
+
             $(".show-txt").hide();
             $(".btn-link").show();
+
         });
+
     });
 
-    $(document).ready(function(){
-        $(".btn-order-now").click(function () {
-            $(".txt-block").show();
-            $(".order-info").hide();
-        });
-    });
-    $(document).ready(function(){
-        $(".btn-new-submit").click(function () {
-            $(".txt-block").hide();
-            $(".order-info").show();
-        });
+
+    $("#cash-cb").click(function(e) {
+
+
+        $('#card-cb').prop('checked', false);
+        $('#card-option').hide();
+
+        onCancel();
+
     });
 
+    $("#card-cb").click(function(e) {
+
+
+        $('#cash-cb').prop('checked', false);
+
+        if(user_cards == null || user_cards == "null") {
+
+            $('#card-option').show();
+        }
+        else {
+
+            $('#cc_use_other_card').css("visibility","visible");
+            $('#cc_use_other_card').show();
+            $('#card_list_parent').css("visibility","visible");
+
+        }
+
+    });
+
+
+
+    function gotoRestListPage(message) {
+
+        var company_name   =   dataObject.company.company_name;
+        company_name       =   company_name.replace(/\s/g, '');
+
+        localStorage.setItem("data_object_he", JSON.stringify(dataObject));
+
+        localStorage.setItem("order_on_way", message);
+
+
+        window.location.href = '/he/'+company_name+'/restaurants';
+    }
+
+    function goToOrderPage() {
+
+
+        var company_name     =   dataObject.company.company_name;
+        company_name         =   company_name.replace(/\s/g, '');
+
+        var restaurant_name  =    dataObject.rests_orders[selectedRestIndex].selectedRestaurant.name_en;
+        restaurant_name      =    restaurant_name.replace(/\s/g, '');
+
+        window.location.href = '/he/'+company_name+"/"+restaurant_name+'/order';
+
+    }
+
+    function backListener() {
+
+
+        var company_name   =   dataObject.company.company_name;
+        company_name       =   company_name.replace(/\s/g, '');
+
+        localStorage.setItem("data_object_he", JSON.stringify(dataObject));
+
+
+        window.location.href = '/he/'+company_name+'/restaurants';
+
+    }
+
+
+    $('#name_company').click(function(e){
+
+        if($("#dropdown-nav").is(':visible'))
+        {
+            $('#dropdown-nav').hide();
+        }
+        else {
+
+            $('#dropdown-nav').show();
+
+        }
+
+        e.stopPropagation();
+
+    });
+
+    $(document).click(function(e){
+
+        if(!(document.getElementById('dropdown-nav').contains(e.target)))
+        {
+            $('#dropdown-nav').hide();
+
+        }
+
+    });
+
+
+    $( "#scrollable1" ).scroll(function() {
+
+        $('#cancel-order').hide();
+
+    });
 
 
 
 </script>
+
 
 </body>
 </html>

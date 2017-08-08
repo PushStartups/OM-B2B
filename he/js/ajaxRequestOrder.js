@@ -55,7 +55,7 @@ var tempDiscountFromCompanyCal = 0; // TEMPORARY VARIABLE FOR COMPANY COMPENSATI
 
 $(document).ready(function() {
 
-    dataObject = localStorage.getItem("data_object_en");
+    dataObject = localStorage.getItem("data_object_he");
 
     if (dataObject == undefined || dataObject == "" || dataObject == null){
 
@@ -64,7 +64,7 @@ $(document).ready(function() {
     }
     else
     {
-        dataObject = JSON.parse(localStorage.getItem("data_object_en"));
+        dataObject = JSON.parse(localStorage.getItem("data_object_he"));
     }
 
 
@@ -76,18 +76,18 @@ $(document).ready(function() {
     }
 
 
-    $("#rest-title").html(dataObject.rests_orders[selectedRestIndex].selectedRestaurant.name_en);
+    $("#rest-title").html(dataObject.rests_orders[selectedRestIndex].selectedRestaurant.name_he);
 
 
-    $("#rest-address").html(dataObject.rests_orders[selectedRestIndex].selectedRestaurant.address_en);
+    $("#rest-address").html(dataObject.rests_orders[selectedRestIndex].selectedRestaurant.address_he);
 
 
-    $('#user_name').html(dataObject.user.name+", Nice to meet you :)");
+    $('#user_name').html(dataObject.user.name+", נעים להכיר אותך :)");
 
-    $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+dataObject.user.userDiscountFromCompany+" NIS</em>");
+    $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+dataObject.user.userDiscountFromCompany+' ש"ח '+"</em>");
 
 
-    $("#delivery_time").html("Delivery Time "+dataObject.company.delivery_time);
+    $("#delivery_time").html(" זמן משלוח "+dataObject.company.delivery_time);
 
     $("#contact").html(dataObject.rests_orders[selectedRestIndex].selectedRestaurant.contact);
 
@@ -123,7 +123,7 @@ function callBackGetCategoriesWithItems(url,response) {
         for(var x=0;x<allCategoriesWithItemsResp.length;x++)
         {
 
-            categorySideMenu += '<li onclick="openTabCategories('+x+')" ><a href="#">'+allCategoriesWithItemsResp[x].name_en+'</a></li>';
+            categorySideMenu += '<li onclick="openTabCategories('+x+')" ><a href="#">'+allCategoriesWithItemsResp[x].name_he+'</a></li>';
 
             str +=  '';
 
@@ -131,7 +131,7 @@ function callBackGetCategoriesWithItems(url,response) {
 
 
             str += '<a href="#" class="opener">'+
-                '<h3 class="light">'+allCategoriesWithItemsResp[x].name_en+'</h3>'+
+                '<h3 class="light">'+allCategoriesWithItemsResp[x].name_he+'</h3>'+
                 '</a>';
 
 
@@ -152,8 +152,8 @@ function callBackGetCategoriesWithItems(url,response) {
                     '<div class="add-row discount" onclick="onItemSelected('+x+','+y+')" >' +
                     '<div class="row">' +
                     '<div class="col-xs-8">' +
-                    '<h4>'+allCategoriesWithItemsResp[x].items[y].name_en+'</h4>' +
-                    '<p>'+allCategoriesWithItemsResp[x].items[y].desc_en+'</p>' +
+                    '<h4>'+allCategoriesWithItemsResp[x].items[y].name_he+'</h4>' +
+                    '<p>'+allCategoriesWithItemsResp[x].items[y].desc_he+'</p>' +
                     '</div>' +
                     '<div class="col-xs-4 pull-right">';
 
@@ -163,15 +163,15 @@ function callBackGetCategoriesWithItems(url,response) {
                 {
                     // NO LINE CUT
                     str += '<div class="price-holder without-line">';
-                    str +='<span class="new-dis" style="display: none"><i class="fa fa-tag" aria-hidden="true"></i>'+ allCategoriesWithItemsResp[x].items[y].price+' NIS</span>';
-                    str += '<span class="price" >'+oldPrice+' NIS </span>';
+                    str +='<span class="new-dis" style="display: none"><i class="fa fa-tag" aria-hidden="true"></i>'+ allCategoriesWithItemsResp[x].items[y].price+' ש"ח '+'</span>';
+                    str += '<span class="price" >'+oldPrice+' ש"ח '+'</span>';
                 }
                 else {
 
                     // LINE WITH CUT
                     str += '<div class="price-holder">';
-                    str += '<span class="new-dis"><i class="fa fa-tag" aria-hidden="true"></i>'+ allCategoriesWithItemsResp[x].items[y].price+' NIS</span>';
-                    str += '<span class="price">'+oldPrice+' NIS </span>';
+                    str += '<span class="new-dis"><i class="fa fa-tag" aria-hidden="true"></i>'+ allCategoriesWithItemsResp[x].items[y].price+' ש"ח '+'</span>';
+                    str += '<span class="price">'+oldPrice+' ש"ח '+'</span>';
 
                 }
 
@@ -256,13 +256,13 @@ function displayRestDetail() {
     var temp =  '<div class="img-frame">'+
         '<a href="#"><img src="'+ selectedRest.logo +'" alt="logo-img"></a>'+
         '</div>'+
-        '<h2>'+ selectedRest.name_en +'</h2>'+
-        '<p class="f white">'+ selectedRest.address_en +'</p>'+
-        '<span class="cart f white">Minimum Order '+ selectedRest.min_amount +' NIS</span>'+
+        '<h2>'+ selectedRest.name_he +'</h2>'+
+        '<p class="f white">'+ selectedRest.address_he +'</p>'+
+        '<span class="cart f white">הזמנה מינימלית '+ selectedRest.min_amount +' ש"ח '+'</span>'+
         '<div class="wrap">'+
         '<div class="baron">'+
         '<div id="scrollable-pragraph" class="baron__scroller">'+
-        '<p class="f white">'+ selectedRest.description_en +'</p>'+
+        '<p class="f white">'+ selectedRest.description_he +'</p>'+
         '</div>'+
         '<div class="baron__track">'+
         '<div class="baron__bar add"></div>'+
@@ -281,7 +281,7 @@ function displayRestDetail() {
     for (i = 0; i < selectedRest.timings.length; i++)
     {
 
-        temp += '<tr><td>'+ selectedRest.timings[i].week_en +'</td>'+
+        temp += '<tr><td>'+ selectedRest.timings[i].week_he +'</td>'+
             '<td>'+ selectedRest.timings[i].opening_time + ' - ' + selectedRest.timings[i].closing_time +'</td></tr>';
 
     }
@@ -313,7 +313,7 @@ function displayRestDetail() {
 
     // SETTING MINIMUM ORDER
 
-    temp = '<p>Minimum Order '+ selectedRest.min_amount +' NIS</p>';
+    temp = '<p>Minimum Order '+ selectedRest.min_amount +' ש"ח '+'</p>';
 
     $('#min-order').html(temp);
 
@@ -369,7 +369,7 @@ function onItemSelected (x,y)
     // DISPLAY ITEM (PRODUCT) DETAIL CARD
 
     // UPDATE ITEM NAME
-    $('#itemPopUpTitle').html(allCategoriesWithItemsResp[currentCategoryId].items[currentItemIndex].name_en);
+    $('#itemPopUpTitle').html(allCategoriesWithItemsResp[currentCategoryId].items[currentItemIndex].name_he);
 
 
     selectedItemPrice = allCategoriesWithItemsResp[currentCategoryId].items[currentItemIndex].price;
@@ -378,11 +378,11 @@ function onItemSelected (x,y)
     selectedItemPriceOrg = selectedItemPrice;
 
 
-    $('#itemPopUpPrice').html("Total "+selectedItemPrice+' NIS');
+    $('#itemPopUpPrice').html(' סה"כ '+selectedItemPrice+' ש"ח ');
 
 
     // UPDATE DESCRIPTION
-    $('#itemPopUpDesc').html(allCategoriesWithItemsResp[currentCategoryId].items[currentItemIndex].desc_en);
+    $('#itemPopUpDesc').html(allCategoriesWithItemsResp[currentCategoryId].items[currentItemIndex].desc_he);
 
 
 
@@ -390,9 +390,6 @@ function onItemSelected (x,y)
     commonAjaxCall("/restapi/index.php/extras_with_subitems", {"itemId" :  allCategoriesWithItemsResp[currentCategoryId].items[currentItemIndex].id},onItemSelectedCallBack);
 
 }
-
-
-
 
 
 
@@ -448,7 +445,7 @@ function onItemSelectedCallBack(url,response)
                                 temp += '<li onclick="onOneTypeExtraSubItemSelected(' + x + ',' + y + ',' + oneTypeSubItems.length + ',this)"> ' +
                                     '<label class="control control--radio"> <div class="chek-box-holder">' +
                                     '<input type="radio" class="radio-one-type-' + x + '" name="radio-' + x + y + '" id="radio-id-' + x + y + '" /> ' +
-                                    '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_en + '  (' + extras.extra_with_subitems[x].subitems[y].price + ') </p> </label> </li>';
+                                    '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_he + '  (' + extras.extra_with_subitems[x].subitems[y].price + ') </p> </label> </li>';
 
                             }
                             else {
@@ -456,7 +453,7 @@ function onItemSelectedCallBack(url,response)
                                 temp += '<li onclick="onOneTypeExtraSubItemSelected(' + x + ',' + y + ',' + oneTypeSubItems.length + ',this)"> ' +
                                     '<label class="control control--radio"> <div class="chek-box-holder">' +
                                     '<input type="radio" class="radio-one-type-' + x + '" name="radio-' + x + y + '" id="radio-id-' + x + y + '" /> ' +
-                                    '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_en + ' </p> </label> </li>';
+                                    '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_he + ' </p> </label> </li>';
 
 
                             }
@@ -464,7 +461,7 @@ function onItemSelectedCallBack(url,response)
                             if (y == 0 || (convertFloat(extras.extra_with_subitems[x].subitems[y].price) < minPrice)) {
 
                                 minPrice = extras.extra_with_subitems[x].subitems[y].price;
-                                minSubItemName = extras.extra_with_subitems[x].subitems[y].name_en;
+                                minSubItemName = extras.extra_with_subitems[x].subitems[y].name_he;
                                 minY = y;
                                 minX = x;
 
@@ -479,7 +476,7 @@ function onItemSelectedCallBack(url,response)
                                 temp += '<li onclick="onOneTypeExtraSubItemSelected(' + x + ',' + y + ',' + oneTypeSubItems.length + ',this)"> ' +
                                     '<label class="control control--radio"> <div class="chek-box-holder">' +
                                     '<input type="radio" class="radio-one-type-' + x + '" name="radio' + x + y + '"  id="radio-id-' + x + y + '"  /> ' +
-                                    '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_en + '  (' + extras.extra_with_subitems[x].subitems[y].price + ') </p> </label> </li>';
+                                    '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_he + '  (' + extras.extra_with_subitems[x].subitems[y].price + ') </p> </label> </li>';
 
 
                             }
@@ -487,7 +484,7 @@ function onItemSelectedCallBack(url,response)
                                 temp += '<li onclick="onOneTypeExtraSubItemSelected(' + x + ',' + y + ',' + oneTypeSubItems.length + ',this)"> ' +
                                     '<label class="control control--radio"> <div class="chek-box-holder">' +
                                     '<input type="radio" class="radio-one-type-' + x + '" name="radio' + x + y + '"  id="radio-id-' + x + y + '"  /> ' +
-                                    '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_en + ' </p> </label> </li>';
+                                    '<div class="control__indicator"></div> </div> <p>' + extras.extra_with_subitems[x].subitems[y].name_he + ' </p> </label> </li>';
 
                             }
 
@@ -499,7 +496,7 @@ function onItemSelectedCallBack(url,response)
 
                     oneTypeStr +=
 
-                        '<div class="holder">' + '<div class="heading-holder"><h3 class="pull-left">' + extras.extra_with_subitems[x].name_en + '</h3><span  style="padding-left: 20px" class="error pull-left"  id="errorOneType-' + oneTypeSubItems.length + '"></span></div>' +
+                        '<div class="holder">' + '<div class="heading-holder"><h3 class="pull-right">' + extras.extra_with_subitems[x].name_he + '</h3><span  style="padding: 4px 20px" class="error pull-right"  id="errorOneType-' + oneTypeSubItems.length + '"></span></div>' +
                         '<div class="holder">' +
                         '<ul class="control-group">';
 
@@ -512,7 +509,7 @@ function onItemSelectedCallBack(url,response)
                         // UPDATE VALUE FROM SUB ITEM SELECTION FROM DROP DOWN TYPE ONE
                         var subItem = {};
 
-                        subItem[extras.extra_with_subitems[x].name_en] = null;
+                        subItem[extras.extra_with_subitems[x].name_he] = null;
                         oneTypeSubItems.push(subItem);
 
                     }
@@ -532,7 +529,7 @@ function onItemSelectedCallBack(url,response)
 
                         var subItem = {};
 
-                        subItem[extras.extra_with_subitems[x].name_en] = temp;
+                        subItem[extras.extra_with_subitems[x].name_he] = temp;
 
                         oneTypeSubItems.push(subItem);
 
@@ -558,7 +555,7 @@ function onItemSelectedCallBack(url,response)
                         var multiTypeItemSet = [];
 
 
-                        multipleTypeStr += '<div class="heading-holder"><h3 class="pull-left">' + extras.extra_with_subitems[x].name_en + '</h3><span class="error pull-left" style="padding-left: 20px"  id="errorMultipleType-' + x + '"></span></div>' +
+                        multipleTypeStr += '<div class="heading-holder"><h3 class="pull-right">' + extras.extra_with_subitems[x].name_he + '</h3><span class="error pull-right" style="padding: 4px 20px"  id="errorMultipleType-' + x + '"></span></div>' +
                             '<div class="holder">' +
                             '<ul class="control-group">';
 
@@ -576,7 +573,7 @@ function onItemSelectedCallBack(url,response)
                                     '<div class="chek-box-holder"> ' +
                                     '<input id="checkbox-id-' + x + y + '" onclick="onExtraSubItemSelected(' + multipleTypeSubItems.length + ',' + x + ',' + y + ',' + multiTypeItemSet.length + ')" type="checkbox" />' +
                                     '<div class="control__indicator"></div> ' +
-                                    '</div> <p>' + capitalizeFirstLetter(extras.extra_with_subitems[x].subitems[y].name_en) + ' (' + extras.extra_with_subitems[x].subitems[y].price + ')' + '</p> ' +
+                                    '</div> <p>' + capitalizeFirstLetter(extras.extra_with_subitems[x].subitems[y].name_he) + ' (' + extras.extra_with_subitems[x].subitems[y].price + ')' + '</p> ' +
                                     '</label>' +
                                     '</li>';
 
@@ -588,7 +585,7 @@ function onItemSelectedCallBack(url,response)
                                     '<div class="chek-box-holder"> ' +
                                     '<input id="checkbox-id-' + x + y + '" onclick="onExtraSubItemSelected(' + multipleTypeSubItems.length + ',' + x + ',' + y + ',' + multiTypeItemSet.length + ')" type="checkbox" />' +
                                     '<div class="control__indicator"></div> ' +
-                                    '</div><p>' + capitalizeFirstLetter(extras.extra_with_subitems[x].subitems[y].name_en) + '</p> ' +
+                                    '</div><p>' + capitalizeFirstLetter(extras.extra_with_subitems[x].subitems[y].name_he) + '</p> ' +
                                     '</label>' +
                                     '</li>';
 
@@ -600,7 +597,7 @@ function onItemSelectedCallBack(url,response)
                             // DEFAULT VALUE IS NULL
                             // UPDATE VALUE FROM CHECK BOX SELECTION
                             var subItem = {};
-                            subItem[extras.extra_with_subitems[x].subitems[y].name_en] = null;
+                            subItem[extras.extra_with_subitems[x].subitems[y].name_he] = null;
                             multiTypeItemSet.push(subItem);
                         }
 
@@ -692,7 +689,7 @@ function onOneTypeExtraSubItemSelected(extraIndex, subItemIndex, oneTypeIndex , 
 
 
     // AS ONE TYPE EXTRA OVER RIDE TO EXISTING VALUE
-    oneTypeSubItems[oneTypeIndex][extras.extra_with_subitems[extraIndex].name_en] =  subItem;
+    oneTypeSubItems[oneTypeIndex][extras.extra_with_subitems[extraIndex].name_he] =  subItem;
 
     updatedSelectedItemPrice();
 }
@@ -708,7 +705,7 @@ function onExtraSubItemSelected(ex, extraIndex, subItemIndex, index) {
 
     var id = '#checkbox-id-'+extraIndex+subItemIndex;
 
-    var name = extras.extra_with_subitems[extraIndex].subitems[subItemIndex].name_en;
+    var name = extras.extra_with_subitems[extraIndex].subitems[subItemIndex].name_he;
 
     // IF CHECK BOX SET CHECKED ADD SUB ITEM
 
@@ -841,7 +838,7 @@ function updatedSelectedItemPrice() {
     selectedItemPrice = convertFloat(convertFloat(sum) + convertFloat(replace));
 
 
-    $('#itemPopUpPrice').html("Total "+selectedItemPrice+' NIS');
+    $('#itemPopUpPrice').html(' סה"כ '+selectedItemPrice+' ש"ח ');
 }
 
 
@@ -861,7 +858,7 @@ function addUserOrder()
             if(oneTypeSubItems[x][key] == null || oneTypeSubItems[x][key] == "" )
             {
 
-                $('#errorOneType-'+x).html("please select one!");
+                $('#errorOneType-'+x).html("בבקשה תבחר אחד!");
 
                 return;
             }
@@ -1126,46 +1123,71 @@ function updateCartElements()
 
             if(foodCartData[x].specialRequest == "" && foodCartData[x].detail == "")
             {
-                str +=  '<div class="order-item add hide-row-extra"> ';
+                str +=  '<div class="order-item hide-row-extra"> ';
             }
             else {
 
-                str +=  '<div class="order-item add"> ';
+                str +=  '<div class="order-item"> ';
             }
 
-            str += '<div class="row no-gutters">' +
-                ' <div class="col-xs-2"> ' +
 
-                '<div class="btn-arrow new-add">'+
-                '<a href="#"  class="btn-up"  id="left-btn'+x+'" onclick="onQtyIncreaseButtonClicked(' + x + ')" class="left-btn"><i class="fa fa-angle-up" aria-hidden="true"></i></a>'+
-                '<span id="count'+x+'" class="count f black">' + foodCartData[x].qty.toString() + '</span>' +
-                '<a href="#" class="btn-down" onclick="onQtyDecreasedButtonClicked(' + x + ')" class="increase-btn"><i class="fa fa-angle-down" aria-hidden="true"></i></a>' +
+
+            str += '<div class="row no-gutters wd">'+
+                '<div class="col-xs-1">'+
+                '</div>'+
+                '<div class="col-xs-11">'+
+                '<div class="row no-gutters">'+
+                '<div class="col-xs-9" style="padding: 0 7px 0 0;">'+
+                '<p class="f black" style="min-width: 120px; white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis;">'+foodCartData[x].name_he +'</p>'+
+                '</div>'+
+                '<div class="col-xs-3">'+
+                '<p class="f black amount">'+foodCartData[x].price+' ש״ח  '+'</p>'+
+                '</div>'+
+                '</div>'+
+                '</div>'+
                 '</div>'+
 
-                '</div> ' +
-                '<div class="col-xs-10"> ' +
-                '<div class="row no-gutters">' +
-                '<div class="col-xs-7">'+
-                '<p class="f black" style="min-width: 120px; white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis;">' + foodCartData[x].name + '</p>'+
+
+                '<div class="row no-gutters hide-row">'+
+                '<div class="col-xs-1">'+
+                '<div class="btn-arrow">'+
+                '<a href="#" class="btn-up" id="left-btn'+x+'"  onclick="onQtyIncreaseButtonClicked(' + x + ')" >'+
+                '<i class="fa fa-angle-up"  aria-hidden="true"></i>'+
+                '</a>'+
+                '<span id="count'+x+'" class="count f black">'+ foodCartData[x].qty.toString() +'</span>'+
+                '<a href="#" class="btn-down" onclick="onQtyDecreasedButtonClicked(' + x + ')">'+
+                '<i class="fa fa-angle-down" aria-hidden="true"></i>'+
+                '</a>'+
+                '</div>'+
+                '</div>'+
+                '<div class="col-xs-11">'+
+                '<div class="row no-gutters">'+
+                '<div class="col-xs-7" style="padding: 0 7px 0 0;">'+
+                '<p class="f black" style="min-width: 120px; white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis;">'+foodCartData[x].name_he +'</p>'+
                 '</div>'+
                 '<div class="col-xs-5">'+
-                '<a class="remove new" onclick="removeItem(' + x + ')" href="#"><i class="fa fa-times" aria-hidden="true"></i></a>'+
-                '<p class="f black amount">' + foodCartData[x].price  + ' NIS</p>'+
+                '<a class="remove" onclick="removeItem(' + x + ')"   href="#"><img class="fa-times" src="/he/images/ic_cancel.png"></a>'+
+                '<p class="f black amount">'+foodCartData[x].price+' ש״ח  '+'</p>'+
                 '</div>'+
                 '</div>'+
                 '</div>'+
                 '</div>'+
-                '<div class="row no-gutters hide-row">'+
-                '<div class="col-xs-2">'+
 
+
+                '<div class="row no-gutters wd">'+
+                '<div class="col-xs-1">'+
                 '<div class="btn-arrow">'+
-                '<a href="#"  class="btn-up"  id="left-btn'+x+'" onclick="onQtyIncreaseButtonClicked(' + x + ')" class="left-btn"><i class="fa fa-angle-up" aria-hidden="true"></i></a>'+
-                '<span id="count'+x+'" class="count f black">' + foodCartData[x].qty.toString() + '</span>' +
-                '<a href="#" class="btn-down" onclick="onQtyDecreasedButtonClicked(' + x + ')" class="increase-btn"><i class="fa fa-angle-down" aria-hidden="true"></i></a>' +
+                '<a href="#" class="btn-up" id="left-btn'+x+'"  onclick="onQtyIncreaseButtonClicked(' + x + ')" >'+
+                '<i class="fa fa-angle-up"  aria-hidden="true"></i>'+
+                '</a>'+
+                '<span id="count'+x+'" class="count f black">'+ foodCartData[x].qty.toString() +'</span>'+
+                '<a href="#" class="btn-down" onclick="onQtyDecreasedButtonClicked(' + x + ')">'+
+                '<i class="fa fa-angle-down" aria-hidden="true"></i>'+
+                '</a>'+
+                '</div>'+
                 '</div>'+
 
-                '</div>'+
-                '<div class="col-xs-8">';
+                '<div class="col-xs-10" style="padding: 0 7px 0 0;">';
 
 
             countItems = countItems +  parseInt(foodCartData[x].qty);
@@ -1176,18 +1198,18 @@ function updateCartElements()
 
                 if(foodCartData[x].detail != "") {
 
-                    str += '<p>' + foodCartData[x].detail + ', special request : ' + foodCartData[x].specialRequest + '</p>';
+                    str += '<p>' + foodCartData[x].detail_he + ', special request : ' + foodCartData[x].specialRequest + '</p>';
                 }
                 else
                 {
-                    str += '<p>' + foodCartData[x].detail + ' special request : ' + foodCartData[x].specialRequest + '</p>';
+                    str += '<p>' + foodCartData[x].detail_he + ' special request : ' + foodCartData[x].specialRequest + '</p>';
                 }
             }
             else {
 
                 if(foodCartData[x].detail != "") {
 
-                    str += '<p>' + foodCartData[x].detail + '</p>';
+                    str += '<p>' + foodCartData[x].detail_he + '</p>';
 
                 }
                 else {
@@ -1196,13 +1218,15 @@ function updateCartElements()
                 }
             }
 
-
             str += '</div>'+
-                '<div class="col-xs-2">'+
-                '<a class="remove" onclick="removeItem(' + x + ')" href="#"><i class="fa fa-times" aria-hidden="true"></i></a>'+
+                '<div class="col-xs-1">'+
+                '<a class="remove" onclick="removeItem(' + x + ')"   href="#"><img class="fa-times" src="/he/images/ic_cancel.png"></a>'+
                 '</div>'+
                 '</div>'+
                 '</div>';
+
+
+
 
         }
 
@@ -1227,19 +1251,19 @@ function updateCartElements()
         }
 
 
-        $('#total_paid').html(dataObject.total_paid + " NIS");
+        $('#total_paid').html(dataObject.total_paid + ' ש"ח ');
 
 
         $('#cc_parent').show();
 
 
-        $('#company_contribution').html(dataObject.company_contribution + " NIS");
+        $('#company_contribution').html(dataObject.company_contribution + ' ש"ח ');
 
 
         $('#st_parent').show();
 
 
-        $('#actual_total').html(dataObject.actual_total + " NIS");
+        $('#actual_total').html(dataObject.actual_total + ' ש"ח ');
 
 
 
@@ -1254,19 +1278,19 @@ function updateCartElements()
         $('.col-one').show();
 
 
-        $('#total_paid').html("0  NIS");
+        $('#total_paid').html("0"+' ש"ח ');
 
 
         $('#cc_parent').hide();
 
 
-        $('#company_contribution').html("0 NIS");
+        $('#company_contribution').html("0"+' ש"ח ');
 
 
         $('#st_parent').hide();
 
 
-        $('#actual_total').html("0 NIS");
+        $('#actual_total').html("0"+' ש"ח ');
 
 
     }
@@ -1455,19 +1479,19 @@ function onQtyDecreasedButtonClicked(index) {
         }
 
 
-        $('#total_paid').html(dataObject.total_paid + " NIS");
+        $('#total_paid').html(dataObject.total_paid + ' ש"ח ');
 
 
         $('#cc_parent').show();
 
 
-        $('#company_contribution').html(dataObject.company_contribution + " NIS");
+        $('#company_contribution').html(dataObject.company_contribution + ' ש"ח ');
 
 
         $('#st_parent').show();
 
 
-        $('#actual_total').html(dataObject.actual_total + " NIS");
+        $('#actual_total').html(dataObject.actual_total + ' ש"ח ');
 
 
 
@@ -1542,19 +1566,19 @@ function removeItem(index) {
 
 
 
-        $('#total_paid').html(dataObject.total_paid + " NIS");
+        $('#total_paid').html(dataObject.total_paid + ' ש"ח ');
 
 
         $('#cc_parent').show();
 
 
-        $('#company_contribution').html(dataObject.company_contribution + " NIS");
+        $('#company_contribution').html(dataObject.company_contribution + ' ש"ח ');
 
 
         $('#st_parent').show();
 
 
-        $('#actual_total').html(dataObject.actual_total + " NIS");
+        $('#actual_total').html(dataObject.actual_total + ' ש"ח ');
 
 
 
@@ -1581,7 +1605,7 @@ function OnOrderNowClicked() {
 
     if(dataObject.actual_total < dataObject.rests_orders[selectedRestIndex].selectedRestaurant.min_amount)
     {
-        $('#empty-tooltip').html('Minimum Order Amount '+dataObject.rests_orders[selectedRestIndex].selectedRestaurant.min_amount+"NIS");
+        $('#empty-tooltip').html('Minimum Order Amount '+dataObject.rests_orders[selectedRestIndex].selectedRestaurant.min_amount+' ש"ח ');
         $('#empty-tooltip').show();
 
     }
@@ -1596,18 +1620,18 @@ function OnOrderNowClicked() {
             dataObject.rests_orders[selectedRestIndex].foodCartData = foodCartData;
 
 
-            localStorage.setItem("data_object_en", JSON.stringify(dataObject));
+            localStorage.setItem("data_object_he", JSON.stringify(dataObject));
             localStorage.setItem("tempDiscountFromCompanyCal", tempDiscountFromCompanyCal);
 
 
-            window.location.href = '/en/confirm-order';
+            window.location.href = '/he/confirm-order';
 
             $('#empty-tooltip').hide();
 
         }
         else {
 
-            $('#empty-tooltip').html('Your cart is empty');
+            $('#empty-tooltip').html('העגלה שלך ריקה');
             $('#empty-tooltip').show();
 
         }

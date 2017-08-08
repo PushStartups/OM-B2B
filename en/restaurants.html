@@ -176,7 +176,7 @@
                             </ul>
                             <ul>
                                 <li  data-toggle="modal" data-target="#about"><a class="f white" href="#">About</a></li>
-                                <!--<li><a class="f white active" href="#">HE</a></li>-->
+                                <li><a class="f white active" onclick="goToHe();" href="#">HE</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -1121,6 +1121,18 @@
 
     });
 
+
+
+    function goToHe() {
+
+        var company_name = localStorage.getItem("company_name_b2b");
+
+        company_name  =  company_name.replace(/\s/g, '');
+
+        window.location.href = '/he/'+company_name+'/restaurants';
+
+
+    }
 
 
 </script>

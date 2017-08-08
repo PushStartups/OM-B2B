@@ -343,7 +343,7 @@
     font-size: 12px;
     line-height: 15px;
     text-decoration: underline;
-    margin: 12px 0 0 38px;
+    margin: 12px 0 0 0;
     position: relative;
 }
 .cancle-order {
@@ -639,6 +639,10 @@
     line-height: 18px;
     background-color: #2fd903;
     border: solid 1px rgba(255, 255, 255, 0.64);
+}
+#message-cancel {
+    margin: 0;
+    font-size: 12px;
 }
 
 .text-massage{

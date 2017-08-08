@@ -149,7 +149,7 @@
                                         <img class="icon-user" src="/he/images/ic_profile01.png">
                                         <span id="name_company"> מרינה לונדון, אור שלום <em>500 NIS</em></span>
                                     </a>
-                                    <div class="dropdown-nav" style="display: none;">
+                                    <div class="dropdown-nav" id="dropdown-nav" style="display: none;">
                                         <h3  id="user_name"></h3>
                                         <a onclick="localStorage.setItem('user_id_b2b', ''); window.location.href='/'" href="#">התנתק/י</a>
                                     </div>
@@ -311,7 +311,7 @@
                             <header class="gray-header">
                                 <h2 class="f black light">עגלת קניות <span class="counter badge">0</span></h2>
                             </header>
-                            <div class="row" style="display: none;">
+                            <div class="row col-one">
                                 <div class="col-xs-12">
                                     <div class="empty-cart">
                                         <img src="/he/images/Shopping-Cart-10.png" alt="cart">
@@ -321,44 +321,52 @@
                             </div>
 
 
+
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <div class="frame" id="nested-section" style="background: #fff;">
-                                        <!--<div class="order-item">-->
-                                        <!--<div class="row no-gutters">-->
-                                        <!--<div class="col-xs-1">-->
-                                        <!--</div>-->
-                                        <!--<div class="col-xs-11">-->
-                                        <!--<div class="row no-gutters">-->
-                                        <!--<div class="col-xs-9" style="padding: 0 7px 0 0;">-->
-                                        <!--<p class="f black">שווארמה</p>-->
-                                        <!--</div>-->
-                                        <!--<div class="col-xs-3">-->
-                                        <!--<p class="f black amount"> ש״ח 30</p>-->
-                                        <!--</div>-->
-                                        <!--</div>-->
-                                        <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="row no-gutters">-->
-                                        <!--<div class="col-xs-1">-->
-                                        <!--<div class="btn-arrow">-->
-                                        <!--<a href="#" class="btn-up">-->
-                                        <!--<i class="fa fa-angle-up" aria-hidden="true"></i>-->
-                                        <!--</a>-->
-                                        <!--<span class="count f black">1</span>-->
-                                        <!--<a href="#" class="btn-down">-->
-                                        <!--<i class="fa fa-angle-down" aria-hidden="true"></i>-->
-                                        <!--</a>-->
-                                        <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="col-xs-10" style="padding: 0 7px 0 0;">-->
-                                        <!--<p>בנדורה מחוזקת - לרציניים בלבד!! נתחי עגל/פרגית מחוזקת בטעמים על פלאנצ׳ה</p>-->
-                                        <!--</div>-->
-                                        <!--<div class="col-xs-1">-->
-                                        <!--<a class="remove" href="#"><img class="fa-times" src="/he/images/ic_cancel.png"></a>-->
-                                        <!--</div>-->
-                                        <!--</div>-->
-                                        <!--</div>-->
+                                    <div class="baron scrollable4 col-second" style="visibility: hidden;" >
+                                        <div id="scrollable4" class="baron__scroller right">
+                                            <div class="frame" id="nested-section" style="background: #fff;">
+                                                <!--<div class="order-item">-->
+                                                <!--<div class="row no-gutters">-->
+                                                <!--<div class="col-xs-1">-->
+                                                <!--</div>-->
+                                                <!--<div class="col-xs-11">-->
+                                                <!--<div class="row no-gutters">-->
+                                                <!--<div class="col-xs-9" style="padding: 0 7px 0 0;">-->
+                                                <!--<p class="f black">שווארמה</p>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-xs-3">-->
+                                                <!--<p class="f black amount"> ש״ח 30</p>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="row no-gutters">-->
+                                                <!--<div class="col-xs-1">-->
+                                                <!--<div class="btn-arrow">-->
+                                                <!--<a href="#" class="btn-up">-->
+                                                <!--<i class="fa fa-angle-up" aria-hidden="true"></i>-->
+                                                <!--</a>-->
+                                                <!--<span class="count f black">1</span>-->
+                                                <!--<a href="#" class="btn-down">-->
+                                                <!--<i class="fa fa-angle-down" aria-hidden="true"></i>-->
+                                                <!--</a>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-xs-10" style="padding: 0 7px 0 0;">-->
+                                                <!--<p>בנדורה מחוזקת - לרציניים בלבד!! נתחי עגל/פרגית מחוזקת בטעמים על פלאנצ׳ה</p>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-xs-1">-->
+                                                <!--<a class="remove" href="#"><img class="fa-times" src="/he/images/ic_cancel.png"></a>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                            </div>
+                                        </div>
+                                        <div class="baron__track">
+                                            <div class="baron__bar"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -370,7 +378,7 @@
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="frame" style="background: #fff;">
-                                            <div class="minimum-item add" id="st_parent">
+                                            <div class="minimum-item add" style="display: none" id="st_parent">
                                                 <div class="row no-gutters">
                                                     <div class="col-xs-8">
                                                         <h3 class="title light">סך הכל</h3>
@@ -380,7 +388,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="minimum-item add" id="cc_parent">
+                                            <div class="minimum-item add" style="display:none;" id="cc_parent">
                                                 <div class="row no-gutters">
                                                     <div class="col-xs-8">
                                                         <h3 class="title light">חלק חברה</h3>
@@ -406,7 +414,7 @@
                                                         <h3 class="title">סך הכל לתשלום</h3>
                                                     </div>
                                                     <div class="col-xs-4">
-                                                        <h3 id="total_paid" class="nis"></h3>
+                                                        <h3 id="total_paid" class="nis">0 ש"ח </h3>
                                                     </div>
                                                 </div>
                                             </div>
@@ -606,25 +614,26 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="modal-footer">
-                        <div class="row no-gutters">
-                            <div class="col-xs-6">
-                                <a class="link" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> הערות מיוחדות </a>
-                                <div class="input-group show-box">
-                                    <input id="special_request" class="form-control" type="text" placeholder="בקשות מיוחדות">
-                                    <i class="fa fa-times" aria-hidden="true"></i>
+            <div class="modal-footer">
+                <div class="row no-gutters">
+                    <div class="col-xs-6">
+                        <a class="link" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> הערות מיוחדות </a>
+                        <div class="input-group show-box">
+                            <input id="special_request" class="form-control" type="text" placeholder="הערות מיוחדות">
+                            <i class="fa fa-times" aria-hidden="true"></i>
 
-                                </div>
-                            </div>
-                            <div class="col-xs-6" style="text-align: left;">
-                                <h2 class="f black" id="itemPopUpPrice"></h2>
-                                <button  onclick="addUserOrder()" class="btn-cart f white" type="button">הוסף לעגלה</button>
-                            </div>
                         </div>
+                    </div>
+                    <div class="col-xs-6" style="text-align: left;">
+                        <h2 class="f black" id="itemPopUpPrice"></h2>
+                        <button  onclick="addUserOrder()" class="btn-cart f white" type="button">הוסף לעגלה</button>
                     </div>
                 </div>
             </div>
+
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -755,7 +764,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="/he/js/jquery.accordion.js"></script>
+<script src="/he/js/jquery.accordion.custom.js"></script>
 <script src="/he/js/baron.js"></script>
 <script src="/he/js/commonAjaxCall.js"></script>
 <script src="/he/js/ajaxRequestOrder.js"></script>
@@ -803,9 +812,9 @@
         var company_name   =   dataObject.company.company_name;
         company_name       =   company_name.replace(/\s/g, '');
 
-        localStorage.setItem("data_object_en", "");
+        localStorage.setItem("data_object_he", "");
 
-        window.location.href = '/en/'+company_name+'/restaurants';
+        window.location.href = '/he/'+company_name+'/restaurants';
     }
 
 

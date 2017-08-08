@@ -265,7 +265,7 @@
     vertical-align: middle;
     border-radius: 50%;
     font-size: 20px;
-    line-height: 27px;
+    line-height: 24px;
     font-weight: 300;
     color: #000;
     text-align: center;
@@ -758,7 +758,7 @@
     position: absolute;
     top: 5px;
     left: 25px;
-    display: block;
+    display: none;
 }
 .btn-secondary.add-error:before{
     display: block;
@@ -826,6 +826,7 @@
     position: absolute;
     top: -35px;
     right: -3px;
+    display: none;
     padding: 3px 10px;
     background: #fff;
     z-index: 100;
@@ -872,7 +873,7 @@
     font-size: 20px;
     line-height: 29px;
     cursor: pointer;
-    display: inline-block;
+    display: none;
     vertical-align: middle;
     /*transform: rotate(180deg);*/
 }
@@ -1238,3 +1239,16 @@
 .info .carousel-control.right {right:0;}
 .mypopup.info .scrollable-area-wrapper,
 .mypopup.info .scrollable-area.add{height: 570px !important;}
+
+.order-item.hide-row-extra {padding: 18px 0 5px;}
+.order-item .hide-row,
+.order-item .remove.new,
+.btn-arrow.new-add{display: none;}
+
+.order-item.hide-row-extra .hide-row,
+.order-item .remove.new,
+.btn-arrow.new-add{display: block;}
+
+.order-item.hide-row-extra .wd,
+.order-item .remove.new,
+.btn-arrow.new-add{display: none;}

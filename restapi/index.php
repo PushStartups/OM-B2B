@@ -24,8 +24,6 @@ if($_SERVER['HTTP_HOST'] == "devb2b.orderapp.com")
     define("EMAIL","devb2borders@orderapp.com");
     define("B2BLINK","devb2b.orderapp.com");
 }
-
-
 // QA SERVER
 else if($_SERVER['HTTP_HOST'] == "qab2b.orderapp.com"){
 
@@ -33,21 +31,16 @@ else if($_SERVER['HTTP_HOST'] == "qab2b.orderapp.com"){
     define("B2BLINK","qab2b.orderapp.com");
 }
 
-
 // PRODUCTION SERVER
 else
 {
     define("EMAIL","b2borders@orderapp.com");
     define("B2BLINK","b2b.orderapp.com");
 }
-
-
 // SERVER URL TO UPLOAD CONTENT
 
 // SLIM INITIALIZATION
 $app = new \Slim\App();
-
-
 
 //  USER LOGIN FOR B2B
 $app->post('/b2b_user_login', function ($request, $response, $args)
@@ -87,7 +80,8 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
                 $obj['field'] = "user-name";
 
             }
-            else{
+            else
+            {
 
                 $obj['field'] = "password";
 
@@ -100,7 +94,6 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
         $response = $response->withJson($obj);
         return $response;
     }
-
     catch(MeekroDBException $e) {
 
 
@@ -128,11 +121,9 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
         $user     = '';
         $company  = '';
         $discount = '';
-
-
+        
         DB::useDB('orderapp_b2b_wui');
-
-
+        
         $userDB = DB::queryFirstRow("select * from b2b_users where id = '$user_id'");
 
 
@@ -166,7 +157,6 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
                     $discount = $userDB['discount'];
 
                 }
-
             }
 
             // IF DISCOUNT TYPE IS MONTHLY
@@ -186,9 +176,7 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
                     $discount = $userDB['discount'];
 
                 }
-
             }
-
             DB::useDB('orderapp_b2b_wui');
 
             DB::query("select * from b2b_orders where user_id = '$user_id' AND order_status = 'pending'");
@@ -477,8 +465,8 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
 
         $count = 0;
 
-        foreach ($results as $result) {
-
+        foreach ($results as $result)
+        {
 
             DB::useDB('orderapp_restaurants_b2b_wui');
 
@@ -1927,7 +1915,7 @@ $app->post('/cancel_order', function ($request, $response, $args)
 
         } else {
 
-            //  email_order_summary_hebrew($user_order, $orderId, $todayDate);
+              email_order_summary_hebrew_cancel($user_order, $order_id, $todayDate, $remaining_discount);
 
         }
 
