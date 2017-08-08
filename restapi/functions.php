@@ -947,6 +947,211 @@ function sendReportToDevTeam($host, $url, $message){
 
 
 // EMAIL ORDER SUMMARY HEBREW VERSION
+function email_order_summary_hebrew_cancel($user_order,$orderId,$todayDate)
+{
+
+    $mailbody  = '<html><head><meta charset="UTF-8"></head>';
+    $mailbody  .= '<body style="padding: 0; margin: 0" >';
+    $mailbody  .= '<div style="max-width: 600px; margin: 0 auto; border: 1px solid #D3D3D3; border-radius: 5px; overflow: hidden ">';
+    $mailbody  .= '<style>';
+    $mailbody  .= '@import url("https://fonts.googleapis.com/css?family=Open+Sans:300");';
+    $mailbody  .= '</style>';
+    $mailbody  .= '<div style="font-family: Open Sans">';
+    $mailbody  .= '<div style="background-image: url(http://dev.orderapp.com/restapi/images/header.png); background-repeat: no-repeat; background-position: center; background-size: cover;" >';
+    $mailbody  .= '<table style="width: 100%; color: white; padding: 30px">';
+    $mailbody  .= '<tr style="font-size: 30px; padding: 10px">';
+    $mailbody  .= '<td dir="rtl" style="text-align: left">'.$user_order->total_paid.' ש"ח'.'</td>';
+    $mailbody  .= '<td style="text-align: right;" >  סיכום הזמנה <img style="padding-top: 10px; width: 20px" src="http://dev.orderapp.com/restapi/images/bag.png" ></td>';
+    $mailbody  .= '</tr>';
+    $mailbody  .= '<tr style="font-size: 12px; padding: 10px" >';
+    $mailbody  .= '<td>'.$user_order->payment_option.'</td>';
+    $mailbody  .= '<td style="text-align: right" dir="rtl">';
+    $mailbody  .=  '&nbsp;'.$todayDate.'&nbsp;';
+    $mailbody  .= 'מספר הזמנה #';
+    $mailbody  .=  $orderId;
+    $mailbody  .= '</tr>';
+    $mailbody  .= '</table>';
+    $mailbody  .= '</div>';
+    $mailbody  .= '<div  style="padding: 10px 30px 0px 30px;" >';
+
+    foreach($user_order->rests_orders[0]->foodCartData as $t) {
+
+        $mailbody.='<table style="width: 100%; color:black; padding: 30px 0; border-bottom: 1px solid #D3D3D3" >';
+        $mailbody.='<tr style="font-size: 18px; padding: 10px; font-weight: bold" >';
+        $mailbody.='<span style="color: #FF864C;" dir="rtl">';
+        $mailbody.=(($t->price * $t->qty)). ' ש"ח';
+        $mailbody.='</span> &nbsp; <span dir="rtl">  ש"ח</span>';
+        $mailbody.=$t->price.' x '.$t->qty.'</td>';
+        $mailbody.='<td style="text-align: right;" >'. $t->name_he .'</td>';
+        $mailbody.='</tr>';
+        $mailbody.='<tr style="font-size: 12px; padding: 5px 10px; color: #808080" >';
+        $mailbody.='<td > </td>';
+        $mailbody.='<td style="text-align: right; padding: 5px" dir="rtl">'.$t->detail_he.'</td>';
+
+        if($t->specialRequest != "") {
+
+            if ($t->detail_he == '') {
+
+
+                $mailbody.='<td style="text-align: right; padding: 5px" dir="rtl">'.$t->detail_he.' הערות : '.$t->specialRequest.'</td>';
+
+            }
+            else {
+
+                $mailbody.='<td style="text-align: right; padding: 5px" dir="rtl">'.$t->detail_he.', הערות : '.$t->specialRequest.'</td>';
+
+            }
+        }
+        else
+        {
+            $mailbody.='<td style="text-align: right; padding: 5px" dir="rtl">'.$t->detail_he.'</td>';
+
+        }
+
+        $mailbody.='</tr>';
+        $mailbody.='</table>';
+    }
+
+    $mailbody .= '</div>';
+    $mailbody .= '<table style="width: 100%; color:black; padding:10px 30px; background: #FEF2E8; border-bottom: 1px solid #D3D3D3 ">';
+
+    if($user_order->isCoupon == "false")
+    {
+
+        $mailbody .= '<tr style="font-size: 18px;  font-weight: bold">';
+        $mailbody .= '<td style=" white-space: nowrap"> <span style="color: #FF864C;" >&nbsp;<span dir="rtl">ש"ח</span>&nbsp;'.$user_order->total_paid. '</span></td>';
+        $mailbody .= '<td style="padding: 5px 0; text-align: right; " > סה"כ </td>';
+        $mailbody .= '</tr>';
+
+    }
+    else
+    {
+        $mailbody .= '<tr style="font-size: 18px;  font-weight: bold">';
+        $mailbody .= '<td style=" white-space: nowrap"> <span style="color: #FF864C;" >&nbsp;<span dir="rtl">ש"ח</span>&nbsp;'.$user_order->actual_total.'</span></td>';
+        $mailbody .= '<td style="padding: 5px 0; text-align: right; " > סיכום ביניים </td>';
+        $mailbody .= '</tr>';
+
+
+    }
+
+    //TODAY REMAINING BALANCE SECTION
+    $mailbody .= '<tr style="font-size: 18px;  font-weight: bold" >';
+    $mailbody .= '<td style="white-space: nowrap"> <span style="color: #FF864C;" >&nbsp;<span dir="rtl">% ש"ח</span>&nbsp; '.$user_order->discount.'</span></td>';
+
+    $mailbody .= '<td style="padding: 5px 0; text-align: right;" >אחוז הנחה </td>';
+    $mailbody .= '</tr>';
+
+    $mailbody .= '<tr style="font-size: 18px;  font-weight: bold" >';
+    $mailbody .= '<td style="white-space: nowrap"> <span style="color: #FF864C;" > '.$user_order->company_contribution.' ש"ח  '.'</span></td>';
+    $mailbody .= '<td style="padding: 5px 0; text-align: right;" >תרומת החברה </td>';
+    $mailbody .= '</tr>';
+
+
+    $mailbody .= '</table>';
+    if($user_order->specialRequest != '')
+    {
+
+        $mailbody .= '<br><span style="color: #000000;text-align: right;float: right;" dir="rtl"> <span style="color: #808080; padding:10px 30px;">בקשה מיוחדת :</span>'.$user_order->specialRequest.'</span><br>';
+
+    }
+
+
+    $mailbody .= '<table style="float: right;color:black; padding:10px 30px; width: 100%; position: relative; left: calc(100% - 270px)" cellspacing="5px">';
+    $mailbody .= '<tr style="font-size: 18px;  font-weight: bold" >';
+    $mailbody .= '<td colspan="2" style="padding: 10px 0; text-align: right" dir="rtl" > מידע ללקוחות   </td>';
+    $mailbody .= '</tr>';
+    $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080">';
+    $mailbody .= '<td style="text-align: right; white-space: nowrap"> '.$user_order->user->contact.' </td>';
+    $mailbody .= '<td style="padding: 10px 0"><img style="width: 20px" src="http://dev.orderapp.com/restapi/images/ic_phone.png"></td>';
+    $mailbody .= '</tr>';
+
+    //COMPANY INFO
+    $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080">';
+    $mailbody .= '<td style="text-align: right; white-space: nowrap"> '.$user_order->company->company_name.' </td>';
+    $mailbody .= '<td style="padding: 10px 0"><img style="width: 20px" src="http://dev.orderapp.com/restapi/images/ic_company.png"></td>';
+    $mailbody .= '</tr>';
+
+
+    //COMPANY INFO ENDS
+
+
+    $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080">';
+
+    //COMPANY ADDRESS
+    $mailbody .= '<td style="text-align: right; white-space: nowrap" dir="rtl"> לספק ב : '.$user_order->company->company_address.'</td>';
+
+
+
+    $mailbody .=  '<td style="padding: 10px 0; text-align: center"> <img style="height: 24px" src="http://dev.orderapp.com/restapi/images/ic_location.png" ></td>';
+    $mailbody .=  '</tr>';
+    $mailbody .=  '<tr style="font-size: 12px; padding: 5px 10px; color: #808080">';
+    $mailbody .=  '<td style="text-align: right; white-space: nowrap">'.$user_order->user->email.'</td>';
+    $mailbody .=  '<td style="padding: 10px 0;"><img style="width: 20px" src="http://dev.orderapp.com/restapi/images/ic_email.png" ></td>';
+    $mailbody .=  '</tr>';
+    $mailbody .=  '<tr style="font-size: 12px; padding: 5px 10px; color: #808080">';
+    $mailbody .=  '<td style="text-align: right; white-space: nowrap">'.$user_order->payment_option.'</td>';
+    $mailbody .=  '<td style="padding: 10px 0;" > <img style=" width: 20px" src="http://dev.orderapp.com/restapi/images/ic_card.png" ></td>';
+    $mailbody .=  '</tr>';
+    //COMMENT SECTION
+    $mailbody .=  '<tr style="font-size: 13px; padding: 5px 10px; color: #000; font-weight: bold;">';
+    $mailbody .=  '<td style="text-align: right;">  יש להשתמש ביתרה עד סוף זמן ההזמנה של בית העסק *</td>';
+
+
+    $mailbody .=  '</tr>';
+    $mailbody .=  '</table>';
+
+    $mailbody .=  '</div></div></body></html>';
+
+
+    $mail = new PHPMailer;
+
+    $mail->CharSet = 'UTF-8';
+
+
+
+    $mail->isSMTP();
+    $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
+    $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
+    $mail->Username = "AKIAJZTPZAMJBYRSJ27A";
+    $mail->Password = "AujjPinHpYPuio4CYc5LgkBrSRbs++g9sJIjDpS4l2Ky";   //   SMTP password
+    $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
+    $mail->Port = 587;
+
+    //From email address and name
+    $mail->From = "orders@orderapp.com";
+    $mail->FromName = "OrderApp";
+
+
+    //To address and name
+    $mail->addAddress($user_order->user->email);     // SEND EMAIL TO USER
+    $mail->addAddress(EMAIL);
+    $mail->AddCC("brina@orderapp.com");
+    //SEND  CLIENT EMAIL COPY TO ADMIN
+    $mail->AddBCC("oded@orderapp.com");
+    //Address to which recipient will reply
+    $mail->addReplyTo("orders@orderapp.com", "Reply");
+
+
+    //Send HTML or Plain Text email
+    $mail->isHTML(false);
+    $mail->Subject = 'עסק'." ".$user_order->rests_orders[0]->selectedRestaurant->name_he." בטל הזמנה # "."  ".$orderId;
+    $mail->Body = $mailbody;
+    $mail->AltBody = "OrderApp";
+
+    if (!$mail->send())
+    {
+        echo "Mailer Error: " . $mail->ErrorInfo;
+    }
+    else
+    {
+        echo "Message has been sent successfully";
+    }
+
+}
+
+
+
+// EMAIL ORDER SUMMARY HEBREW VERSION
 function email_order_summary_hebrew($user_order,$orderId,$todayDate)
 {
 
@@ -960,11 +1165,11 @@ function email_order_summary_hebrew($user_order,$orderId,$todayDate)
     $mailbody  .= '<div style="background-image: url(http://dev.orderapp.com/restapi/images/header.png); background-repeat: no-repeat; background-position: center; background-size: cover;" >';
     $mailbody  .= '<table style="width: 100%; color: white; padding: 30px">';
     $mailbody  .= '<tr style="font-size: 30px; padding: 10px">';
-    $mailbody  .= '<td dir="rtl" style="text-align: left">'.$user_order['total'].' ש"ח'.'</td>';
+    $mailbody  .= '<td dir="rtl" style="text-align: left">'.$user_order['total_paid'].' ש"ח'.'</td>';
     $mailbody  .= '<td style="text-align: right;" >  סיכום הזמנה <img style="padding-top: 10px; width: 20px" src="http://dev.orderapp.com/restapi/images/bag.png" ></td>';
     $mailbody  .= '</tr>';
     $mailbody  .= '<tr style="font-size: 12px; padding: 10px" >';
-    $mailbody  .= '<td>'.$user_order['Cash_Card_he'].'</td>';
+    $mailbody  .= '<td>'.$user_order['payment_option'].'</td>';
     $mailbody  .= '<td style="text-align: right" dir="rtl">';
     $mailbody  .=  '&nbsp;'.$todayDate.'&nbsp;';
     $mailbody  .= 'מספר הזמנה #';
@@ -974,7 +1179,7 @@ function email_order_summary_hebrew($user_order,$orderId,$todayDate)
     $mailbody  .= '</div>';
     $mailbody  .= '<div  style="padding: 10px 30px 0px 30px;" >';
 
-    foreach($user_order['cartData'] as $t) {
+    foreach($user_order['rests_orders'][0]['foodCartData'] as $t) {
 
         $mailbody.='<table style="width: 100%; color:black; padding: 30px 0; border-bottom: 1px solid #D3D3D3" >';
         $mailbody.='<tr style="font-size: 18px; padding: 10px; font-weight: bold" >';
@@ -1019,7 +1224,7 @@ function email_order_summary_hebrew($user_order,$orderId,$todayDate)
     {
 
         $mailbody .= '<tr style="font-size: 18px;  font-weight: bold">';
-        $mailbody .= '<td style=" white-space: nowrap"> <span style="color: #FF864C;" >&nbsp;<span dir="rtl">ש"ח</span>&nbsp;'.$user_order['total']. '</span></td>';
+        $mailbody .= '<td style=" white-space: nowrap"> <span style="color: #FF864C;" >&nbsp;<span dir="rtl">ש"ח</span>&nbsp;'.$user_order['total_paid']. '</span></td>';
         $mailbody .= '<td style="padding: 5px 0; text-align: right; " > סה"כ </td>';
         $mailbody .= '</tr>';
 
@@ -1027,7 +1232,7 @@ function email_order_summary_hebrew($user_order,$orderId,$todayDate)
     else
     {
         $mailbody .= '<tr style="font-size: 18px;  font-weight: bold">';
-        $mailbody .= '<td style=" white-space: nowrap"> <span style="color: #FF864C;" >&nbsp;<span dir="rtl">ש"ח</span>&nbsp;'.$user_order['totalWithoutDiscount'].'</span></td>';
+        $mailbody .= '<td style=" white-space: nowrap"> <span style="color: #FF864C;" >&nbsp;<span dir="rtl">ש"ח</span>&nbsp;'.$user_order['actual_total'].'</span></td>';
         $mailbody .= '<td style="padding: 5px 0; text-align: right; " > סיכום ביניים </td>';
         $mailbody .= '</tr>';
 
@@ -1039,6 +1244,11 @@ function email_order_summary_hebrew($user_order,$orderId,$todayDate)
     $mailbody .= '<td style="white-space: nowrap"> <span style="color: #FF864C;" >&nbsp;<span dir="rtl">% ש"ח</span>&nbsp; '.$user_order['discount'].'</span></td>';
 
     $mailbody .= '<td style="padding: 5px 0; text-align: right;" >אחוז הנחה </td>';
+    $mailbody .= '</tr>';
+
+    $mailbody .= '<tr style="font-size: 18px;  font-weight: bold" >';
+    $mailbody .= '<td style="white-space: nowrap"> <span style="color: #FF864C;" > '.$user_order['company_contribution'].' ש"ח  '.'</span></td>';
+    $mailbody .= '<td style="padding: 5px 0; text-align: right;" >תרומת החברה </td>';
     $mailbody .= '</tr>';
 
 
@@ -1056,13 +1266,13 @@ function email_order_summary_hebrew($user_order,$orderId,$todayDate)
     $mailbody .= '<td colspan="2" style="padding: 10px 0; text-align: right" dir="rtl" > מידע ללקוחות   </td>';
     $mailbody .= '</tr>';
     $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080">';
-    $mailbody .= '<td style="text-align: right; white-space: nowrap"> '.$user_order['contact'].' </td>';
+    $mailbody .= '<td style="text-align: right; white-space: nowrap"> '.$user_order['user']['contact'].' </td>';
     $mailbody .= '<td style="padding: 10px 0"><img style="width: 20px" src="http://dev.orderapp.com/restapi/images/ic_phone.png"></td>';
     $mailbody .= '</tr>';
 
     //COMPANY INFO
     $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080">';
-    $mailbody .= '<td style="text-align: right; white-space: nowrap"> '.$user_order['company_name'].' </td>';
+    $mailbody .= '<td style="text-align: right; white-space: nowrap"> '.$user_order['company']['company_name'].' </td>';
     $mailbody .= '<td style="padding: 10px 0"><img style="width: 20px" src="http://dev.orderapp.com/restapi/images/ic_company.png"></td>';
     $mailbody .= '</tr>';
 
@@ -1073,18 +1283,18 @@ function email_order_summary_hebrew($user_order,$orderId,$todayDate)
     $mailbody .= '<tr style="font-size: 12px; padding: 5px 10px; color: #808080">';
 
     //COMPANY ADDRESS
-    $mailbody .= '<td style="text-align: right; white-space: nowrap" dir="rtl"> לספק ב : '.$user_order['delivery_address'].'</td>';
+    $mailbody .= '<td style="text-align: right; white-space: nowrap" dir="rtl"> לספק ב : '.$user_order['company']['company_address'].'</td>';
 
 
 
     $mailbody .=  '<td style="padding: 10px 0; text-align: center"> <img style="height: 24px" src="http://dev.orderapp.com/restapi/images/ic_location.png" ></td>';
     $mailbody .=  '</tr>';
     $mailbody .=  '<tr style="font-size: 12px; padding: 5px 10px; color: #808080">';
-    $mailbody .=  '<td style="text-align: right; white-space: nowrap">'.$user_order['email'].'</td>';
+    $mailbody .=  '<td style="text-align: right; white-space: nowrap">'.$user_order['user']['email'].'</td>';
     $mailbody .=  '<td style="padding: 10px 0;"><img style="width: 20px" src="http://dev.orderapp.com/restapi/images/ic_email.png" ></td>';
     $mailbody .=  '</tr>';
     $mailbody .=  '<tr style="font-size: 12px; padding: 5px 10px; color: #808080">';
-    $mailbody .=  '<td style="text-align: right; white-space: nowrap">'.$user_order['Cash_Card_he'].'</td>';
+    $mailbody .=  '<td style="text-align: right; white-space: nowrap">'.$user_order['payment_option'].'</td>';
     $mailbody .=  '<td style="padding: 10px 0;" > <img style=" width: 20px" src="http://dev.orderapp.com/restapi/images/ic_card.png" ></td>';
     $mailbody .=  '</tr>';
     //COMMENT SECTION
@@ -1117,7 +1327,7 @@ function email_order_summary_hebrew($user_order,$orderId,$todayDate)
 
 
     //To address and name
-    $mail->addAddress($user_order['email']);     // SEND EMAIL TO USER
+    $mail->addAddress($user_order['user']['email']);     // SEND EMAIL TO USER
     $mail->addAddress(EMAIL);
     $mail->AddCC("brina@orderapp.com");
     //SEND  CLIENT EMAIL COPY TO ADMIN
@@ -1128,7 +1338,7 @@ function email_order_summary_hebrew($user_order,$orderId,$todayDate)
 
     //Send HTML or Plain Text email
     $mail->isHTML(false);
-    $mail->Subject = 'הזמנה חדשה '." ".$user_order['restaurantTitleHe']." ".'עסק';
+    $mail->Subject = 'עסק'." ".$user_order['rests_orders'][0]['selectedRestaurant']['name_he']." הזמנה חדשה # "."  ".$orderId;
     $mail->Body = $mailbody;
     $mail->AltBody = "OrderApp";
 
@@ -1478,7 +1688,7 @@ function email_for_mark2_cancel($user_order,$orderId,$todayDate)
 
     //Send HTML or Plain Text email
     $mail->isHTML(false);
-    $mail->Subject = 'Ledger '.$user_order->rests_orders[0]->selectedRestaurant->name_en->Order.'# '.$orderId;
+    $mail->Subject = 'Cancel Ledger '.$user_order->rests_orders[0]->selectedRestaurant->name_en->Order.'# '.$orderId;
     $mail->Body = $mailbody;
     $mail->AltBody = "OrderApp";
 
