@@ -13,6 +13,11 @@ use Mailgun\Mailgun;
 
 DB::query("set names utf8");
 
+
+define("EMAIL_HOST",'in-v3.mailjet.com');
+define("EMAIL_SMTP_USERNAME",'0678fe01dc183bf6233e88db22d7a8c1');
+define("EMAIL_SMTP_PASSWORD",'23e2c89d08c5fc829e2a2a3d467247df');
+
 define("B2B_DB","orderapp_b2b_wui");
 define("B2B_RESTAURANTS","orderapp_restaurants_b2b_wui");
 
@@ -121,9 +126,9 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
         $user     = '';
         $company  = '';
         $discount = '';
-        
+
         DB::useDB('orderapp_b2b_wui');
-        
+
         $userDB = DB::queryFirstRow("select * from b2b_users where id = '$user_id'");
 
 
@@ -749,7 +754,7 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
             $delivery_time = strtotime($get_delivery_time['delivery_timing']);
             $delivery_time = date('H:i',$delivery_time);
             $delivery_time   =  DateTime::createFromFormat('H:i', $delivery_time);
-            
+
 
             if ( $current_date > $order_date )
             {
@@ -1707,8 +1712,10 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
                 'order_id' => $orderId,
                 'qty' => $orders['qty'],
                 'item' => $orders['name'],
+                'item_he' => $orders['name_he'],
                 'sub_total' => $orders['price'],
-                'sub_items' => $orders['detail']
+                'sub_items' => $orders['detail'],
+                'sub_items_he' => $orders['detail_he']
 
             ));
 

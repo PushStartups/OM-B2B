@@ -150,10 +150,10 @@ function email_order_summary_english($user_order,$orderId,$todayDate)
 
 
     $mail->isSMTP();
-    $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
+    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
     $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = "AKIAJZTPZAMJBYRSJ27A";
-    $mail->Password = "AujjPinHpYPuio4CYc5LgkBrSRbs++g9sJIjDpS4l2Ky";   //   SMTP password
+    $mail->Username = EMAIL_SMTP_USERNAME;
+    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
     $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;
 
@@ -238,10 +238,10 @@ function email_to_b2b_users($email,$password,$username)
 
 
     $mail->isSMTP();
-    $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
+    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
     $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = "AKIAJZTPZAMJBYRSJ27A";
-    $mail->Password = "AujjPinHpYPuio4CYc5LgkBrSRbs++g9sJIjDpS4l2Ky";   //   SMTP password
+    $mail->Username = EMAIL_SMTP_USERNAME;
+    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
     $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;
 
@@ -427,10 +427,10 @@ function email_order_summary_english_cancel($user_order,$orderId,$todayDate,$rem
     $mail->CharSet = 'UTF-8';
 
     $mail->isSMTP();
-    $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
+    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
     $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = "AKIAJZTPZAMJBYRSJ27A";
-    $mail->Password = "AujjPinHpYPuio4CYc5LgkBrSRbs++g9sJIjDpS4l2Ky";   //   SMTP password
+    $mail->Username = EMAIL_SMTP_USERNAME;
+    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
     $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;
 
@@ -544,10 +544,10 @@ function email_for_kitchen_cancel($user_order,$orderId,$todayDate)
     // Enable verbose debug output
 
     $mail->isSMTP();
-    $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
+    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
     $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = "AKIAJZTPZAMJBYRSJ27A";
-    $mail->Password = "AujjPinHpYPuio4CYc5LgkBrSRbs++g9sJIjDpS4l2Ky";   //   SMTP password
+    $mail->Username = EMAIL_SMTP_USERNAME;
+    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
     $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;
 
@@ -685,11 +685,10 @@ function mailForgotPassword($password, $username, $user_email){
 
 
     $mail->isSMTP();
-    $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
-
+    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
     $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = "AKIAJZTPZAMJBYRSJ27A";
-    $mail->Password = "AujjPinHpYPuio4CYc5LgkBrSRbs++g9sJIjDpS4l2Ky";   //   SMTP password
+    $mail->Username = EMAIL_SMTP_USERNAME;
+    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
     $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;
 
@@ -791,11 +790,10 @@ function mailForgotPasswordHe($password, $username, $user_email){
 
 
     $mail->isSMTP();
-    $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
-
+    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
     $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = "AKIAJZTPZAMJBYRSJ27A";
-    $mail->Password = "AujjPinHpYPuio4CYc5LgkBrSRbs++g9sJIjDpS4l2Ky";   //   SMTP password
+    $mail->Username = EMAIL_SMTP_USERNAME;
+    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
     $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;
 
@@ -902,12 +900,11 @@ function sendReportToDevTeam($host, $url, $message){
     $mail->SMTPDebug = 3;                                                 // Enable verbose debug output
 
     $mail->isSMTP();
-    $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                   //   Set mailer to use SMTP
-
-    $mail->SMTPAuth = true;                                               //   Enable SMTP authentication
-    $mail->Username = "AKIAJZTPZAMJBYRSJ27A";
-    $mail->Password = "AujjPinHpYPuio4CYc5LgkBrSRbs++g9sJIjDpS4l2Ky";     //   SMTP password
-    $mail->SMTPSecure = 'tls';                                            //   Enable TLS encryption, `ssl` also accepted
+    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
+    $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
+    $mail->Username = EMAIL_SMTP_USERNAME;
+    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
+    $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;
 
     //From email address and name
@@ -947,7 +944,7 @@ function sendReportToDevTeam($host, $url, $message){
 
 
 // EMAIL ORDER SUMMARY HEBREW VERSION
-function email_order_summary_hebrew_cancel($user_order,$orderId,$todayDate)
+function email_order_summary_hebrew_cancel($user_order,$orderId,$todayDate, $remaining_discount)
 {
 
     $mailbody  = '<html><head><meta charset="UTF-8"></head>';
@@ -1042,7 +1039,7 @@ function email_order_summary_hebrew_cancel($user_order,$orderId,$todayDate)
     $mailbody .= '</tr>';
 
     $mailbody .= '<tr style="font-size: 18px;  font-weight: bold" >';
-    $mailbody .= '<td style="white-space: nowrap"> <span style="color: #FF864C;" > '.$user_order->company_contribution.' ש"ח  '.'</span></td>';
+    $mailbody .= '<td style="white-space: nowrap"> <span style="color: #FF864C;" > '.$remaining_discount.' ש"ח  '.'</span></td>';
     $mailbody .= '<td style="padding: 5px 0; text-align: right;" >תרומת החברה </td>';
     $mailbody .= '</tr>';
 
@@ -1054,7 +1051,6 @@ function email_order_summary_hebrew_cancel($user_order,$orderId,$todayDate)
         $mailbody .= '<br><span style="color: #000000;text-align: right;float: right;" dir="rtl"> <span style="color: #808080; padding:10px 30px;">בקשה מיוחדת :</span>'.$user_order->specialRequest.'</span><br>';
 
     }
-
 
     $mailbody .= '<table style="float: right;color:black; padding:10px 30px; width: 100%; position: relative; left: calc(100% - 270px)" cellspacing="5px">';
     $mailbody .= '<tr style="font-size: 18px;  font-weight: bold" >';
@@ -1108,12 +1104,11 @@ function email_order_summary_hebrew_cancel($user_order,$orderId,$todayDate)
     $mail->CharSet = 'UTF-8';
 
 
-
     $mail->isSMTP();
-    $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
+    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
     $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = "AKIAJZTPZAMJBYRSJ27A";
-    $mail->Password = "AujjPinHpYPuio4CYc5LgkBrSRbs++g9sJIjDpS4l2Ky";   //   SMTP password
+    $mail->Username = EMAIL_SMTP_USERNAME;
+    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
     $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;
 
@@ -1191,7 +1186,7 @@ function email_order_summary_hebrew($user_order,$orderId,$todayDate)
         $mailbody.='</tr>';
         $mailbody.='<tr style="font-size: 12px; padding: 5px 10px; color: #808080" >';
         $mailbody.='<td > </td>';
-        $mailbody.='<td style="text-align: right; padding: 5px" dir="rtl">'.$t['detail_he'].'</td>';
+   
 
         if($t['specialRequest'] != "") {
 
@@ -1314,10 +1309,10 @@ function email_order_summary_hebrew($user_order,$orderId,$todayDate)
 
 
     $mail->isSMTP();
-    $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
+    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
     $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = "AKIAJZTPZAMJBYRSJ27A";
-    $mail->Password = "AujjPinHpYPuio4CYc5LgkBrSRbs++g9sJIjDpS4l2Ky";   //   SMTP password
+    $mail->Username = EMAIL_SMTP_USERNAME;
+    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
     $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;
 
@@ -1511,10 +1506,10 @@ function email_order_summary_hebrew_admin($user_order,$orderId,$todayDate)
     $mail->SMTPDebug = false;                                               // Enable verbose debug output
 
     $mail->isSMTP();
-    $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
+    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
     $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = "AKIAJZTPZAMJBYRSJ27A";
-    $mail->Password = "AujjPinHpYPuio4CYc5LgkBrSRbs++g9sJIjDpS4l2Ky";   //   SMTP password
+    $mail->Username = EMAIL_SMTP_USERNAME;
+    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
     $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;
 
@@ -1666,10 +1661,10 @@ function email_for_mark2_cancel($user_order,$orderId,$todayDate)
 
 
     $mail->isSMTP();
-    $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
+    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
     $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = "AKIAJZTPZAMJBYRSJ27A";
-    $mail->Password = "AujjPinHpYPuio4CYc5LgkBrSRbs++g9sJIjDpS4l2Ky";   //   SMTP password
+    $mail->Username = EMAIL_SMTP_USERNAME;
+    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
     $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;
 
@@ -1824,12 +1819,13 @@ function email_for_mark2($user_order,$orderId,$todayDate)
 
 
     $mail->isSMTP();
-    $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
+    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
     $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = "AKIAJZTPZAMJBYRSJ27A";
-    $mail->Password = "AujjPinHpYPuio4CYc5LgkBrSRbs++g9sJIjDpS4l2Ky";   //   SMTP password
+    $mail->Username = EMAIL_SMTP_USERNAME;
+    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
     $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;
+
 
 
     //From email address and name
@@ -1948,10 +1944,10 @@ function email_for_kitchen($user_order,$orderId,$todayDate)
 
 
     $mail->isSMTP();
-    $mail->Host = "email-smtp.eu-west-1.amazonaws.com";                 //   Set mailer to use SMTP
+    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
     $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = "AKIAJZTPZAMJBYRSJ27A";
-    $mail->Password = "AujjPinHpYPuio4CYc5LgkBrSRbs++g9sJIjDpS4l2Ky";   //   SMTP password
+    $mail->Username = EMAIL_SMTP_USERNAME;
+    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
     $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;
 
