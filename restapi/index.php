@@ -5,18 +5,28 @@ require      'PHPMailer/PHPMailerAutoload.php';
 require_once 'inc/initDb.php';
 require_once 'functions.php';
 
-
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use Mailgun\Mailgun;
 
-
 DB::query("set names utf8");
 
-
 define("EMAIL_HOST",'in-v3.mailjet.com');
-define("EMAIL_SMTP_USERNAME",'0678fe01dc183bf6233e88db22d7a8c1');
-define("EMAIL_SMTP_PASSWORD",'23e2c89d08c5fc829e2a2a3d467247df');
+
+if($_SERVER['HTTP_HOST'] == "devb2b.orderapp.com" || $_SERVER['HTTP_HOST'] == "dev.orderapp.com" || $_SERVER['HTTP_HOST'] == "devwideui.orderapp.com" || $_SERVER['HTTP_HOST'] == "devdata.orderapp.com"
+    || $_SERVER['HTTP_HOST'] == "qa.orderapp.com" || $_SERVER['HTTP_HOST'] == "qab2b.orderapp.com" || $_SERVER['HTTP_HOST'] == "qadata.orderapp.com"
+    || $_SERVER['HTTP_HOST'] == "hunter.orderapp.com" ) {
+
+    define("EMAIL_SMTP_USERNAME", '36b628d25e50f1c49e10c29973f27ac5');
+    define("EMAIL_SMTP_PASSWORD", '8a589863b6cb4adbed8c73085fe01393');
+
+}
+else{
+
+    define("EMAIL_SMTP_USERNAME", '0678fe01dc183bf6233e88db22d7a8c1');
+    define("EMAIL_SMTP_PASSWORD", '23e2c89d08c5fc829e2a2a3d467247df');
+}
+
 
 define("B2B_DB","orderapp_b2b_wui");
 define("B2B_RESTAURANTS","orderapp_restaurants_b2b_wui");
