@@ -627,7 +627,14 @@ function responsePastOrders(url,response) {
 
                         for (var y = 0; y < response[x].order_detail.length; y++) {
 
-                            str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                            if(response[x].order_detail[y].item_he == null)
+                            {
+                                str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                            }
+                            else {
+
+                                str += '<p><em class="f black">' + response[x].order_detail[y].item_he + '</em> ' + response[x].order_detail[y].sub_items_he + ' </p>';
+                            }
 
                         }
 
@@ -636,7 +643,15 @@ function responsePastOrders(url,response) {
 
                         for (var y = 0; y < 2; y++) {
 
-                            str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+
+                            if(response[x].order_detail[y].item_he == null)
+                            {
+                                str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                            }
+                            else {
+
+                                str += '<p><em class="f black">' + response[x].order_detail[y].item_he + '</em> ' + response[x].order_detail[y].sub_items_he + ' </p>';
+                            }
 
                         }
 
@@ -648,7 +663,15 @@ function responsePastOrders(url,response) {
 
                         for (var y = 2; y < response[x].order_detail.length; y++) {
 
-                            str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+
+                            if(response[x].order_detail[y].item_he == null)
+                            {
+                                str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                            }
+                            else {
+
+                                str += '<p><em class="f black">' + response[x].order_detail[y].item_he + '</em> ' + response[x].order_detail[y].sub_items_he + ' </p>';
+                            }
 
                         }
 
@@ -697,7 +720,14 @@ function responsePastOrders(url,response) {
 
                             for (var y = 0; y < response[x].order_detail.length; y++) {
 
-                                str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                                if(response[x].order_detail[y].item_he == null)
+                                {
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                                }
+                                else {
+
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item_he + '</em> ' + response[x].order_detail[y].sub_items_he + ' </p>';
+                                }
 
                             }
                         }
@@ -705,7 +735,15 @@ function responsePastOrders(url,response) {
 
                             for (var y = 0; y < 2; y++) {
 
-                                str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                                if(response[x].order_detail[y].item_he == null)
+                                {
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                                }
+                                else {
+
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item_he + '</em> ' + response[x].order_detail[y].sub_items_he + ' </p>';
+                                }
+
 
                             }
 
@@ -717,7 +755,15 @@ function responsePastOrders(url,response) {
 
                             for (var y = 2; y < response[x].order_detail.length; y++) {
 
-                                str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                                if(response[x].order_detail[y].item_he == null)
+                                {
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                                }
+                                else {
+
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item_he + '</em> ' + response[x].order_detail[y].sub_items_he + ' </p>';
+                                }
+
 
                             }
 
@@ -766,7 +812,15 @@ function responsePastOrders(url,response) {
 
                         for (var y = 0; y < response[x].order_detail.length; y++) {
 
-                            str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                            if(response[x].order_detail[y].item_he == null)
+                            {
+                                str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                            }
+                            else {
+
+                                str += '<p><em class="f black">' + response[x].order_detail[y].item_he + '</em> ' + response[x].order_detail[y].sub_items_he + ' </p>';
+                            }
+
 
                         }
                     }
@@ -774,7 +828,15 @@ function responsePastOrders(url,response) {
 
                         for (var y = 0; y < 2; y++) {
 
-                            str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                            if(response[x].order_detail[y].item_he == null)
+                            {
+                                str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                            }
+                            else {
+
+                                str += '<p><em class="f black">' + response[x].order_detail[y].item_he + '</em> ' + response[x].order_detail[y].sub_items_he + ' </p>';
+                            }
+
 
                         }
 
@@ -786,7 +848,15 @@ function responsePastOrders(url,response) {
 
                         for (var y = 2; y < response[x].order_detail.length; y++) {
 
-                            str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                            if(response[x].order_detail[y].item_he == null)
+                            {
+                                str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                            }
+                            else {
+
+                                str += '<p><em class="f black">' + response[x].order_detail[y].item_he + '</em> ' + response[x].order_detail[y].sub_items_he + ' </p>';
+                            }
+
 
                         }
 
@@ -834,7 +904,15 @@ function responsePastOrders(url,response) {
 
                             for (var y = 0; y < response[x].order_detail.length; y++) {
 
-                                str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                                if(response[x].order_detail[y].item_he == null)
+                                {
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                                }
+                                else {
+
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item_he + '</em> ' + response[x].order_detail[y].sub_items_he + ' </p>';
+                                }
+
 
                             }
                         }
@@ -842,7 +920,15 @@ function responsePastOrders(url,response) {
 
                             for (var y = 0; y < 2; y++) {
 
-                                str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                                if(response[x].order_detail[y].item_he == null)
+                                {
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                                }
+                                else {
+
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item_he + '</em> ' + response[x].order_detail[y].sub_items_he + ' </p>';
+                                }
+
 
                             }
 
@@ -854,7 +940,15 @@ function responsePastOrders(url,response) {
 
                             for (var y = 2; y < response[x].order_detail.length; y++) {
 
-                                str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                                if(response[x].order_detail[y].item_he == null)
+                                {
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item + '</em> ' + response[x].order_detail[y].sub_items + ' </p>';
+                                }
+                                else {
+
+                                    str += '<p><em class="f black">' + response[x].order_detail[y].item_he + '</em> ' + response[x].order_detail[y].sub_items_he + ' </p>';
+                                }
+
 
                             }
 

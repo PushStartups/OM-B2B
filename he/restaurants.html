@@ -974,9 +974,18 @@
                     for(var x=0;x<pending_orders_object[index].order_detail.length;x++)
                     {
 
-                        str += '<tr>'+
-                            '<td>'+pending_orders_object[index].order_detail[x].qty+' '+pending_orders_object[index].order_detail[x].item+'</td>'+
-                            '<td>'+pending_orders_object[index].order_detail[x].sub_total+' ש"ח</td>'+
+                        str += '<tr>';
+
+                                if(pending_orders_object[index].order_detail[x].item_he == null)
+                                {
+                                    str += '<td>'+pending_orders_object[index].order_detail[x].qty+' '+pending_orders_object[index].order_detail[x].item+'</td>';
+                                }
+                                else {
+                                    str += '<td>'+pending_orders_object[index].order_detail[x].qty+' '+pending_orders_object[index].order_detail[x].item_he+'</td>';
+                                }
+
+
+                        str += '<td>'+pending_orders_object[index].order_detail[x].sub_total+' ש"ח</td>'+
                             '</tr>';
 
                     }
@@ -1126,7 +1135,7 @@
 
         company_name  =  company_name.replace(/\s/g, '');
 
-        window.location.href = '/he/'+company_name+'/restaurants';
+        window.location.href = '/en/'+company_name+'/restaurants';
 
 
     }
