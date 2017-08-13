@@ -158,6 +158,27 @@
             }
 
         }
+        else if(window.location.hostname == "b2bhunter.orderapp.com")
+        {
+
+            if (location.protocol != 'https:')
+            {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }
+
+
+            if(USER_LANGUAGE == 'EN') {
+
+                window.location.href = 'https://b2bhunter.orderapp.com/m/en/';
+
+            }
+            else {
+
+                window.location.href = 'https://b2bhunter.orderapp.com/m/he/';
+
+            }
+
+        }
 
     }
 
@@ -286,8 +307,34 @@
             }
 
         }
+        else if(window.location.hostname == "b2bhunter.orderapp.com")
+        {
+
+            if (location.protocol != 'https:')
+            {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }
+
+            if(USER_LANGUAGE == 'EN') {
+
+
+
+                window.location.href = 'https://b2bhunter.orderapp.com/en/';
+
+
+
+            }
+            else {
+
+
+                window.location.href = 'https://b2bhunter.orderapp.com/he';
+
+
+            }
+
+        }
 
     }
-    
+
 </script>
 </html>
