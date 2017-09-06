@@ -1881,6 +1881,10 @@ function email_for_kitchen($user_order,$orderId,$todayDate)
 
     foreach($user_order['rests_orders'][0]['foodCartData']  as $t)
     {
+        $mailbody .= '<br>';
+        $mailbody .= '<br>';
+
+        $mailbody .=  $t['qty'].' : כמות';
 
         $mailbody .= '<br>';
         $mailbody .= '<br>';

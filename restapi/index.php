@@ -11,19 +11,20 @@ use Mailgun\Mailgun;
 
 DB::query("set names utf8");
 
-define("EMAIL_HOST",'in-v3.mailjet.com');
+if($_SERVER['HTTP_HOST'] == "orderapp.com" || $_SERVER['HTTP_HOST'] == "b2b.orderapp.com" || $_SERVER['HTTP_HOST'] == "staging.orderapp.com" || $_SERVER['HTTP_HOST'] == "app.orderapp.com") {
 
-if($_SERVER['HTTP_HOST'] == "orderapp.com" || $_SERVER['HTTP_HOST'] == "b2b.orderapp.com" || $_SERVER['HTTP_HOST'] == "staging.orderapp.com" ) {
+    define("EMAIL_HOST",'email-smtp.eu-west-1.amazonaws.com');
+    define("EMAIL_SMTP_USERNAME", 'AKIAIPAKBGDBG7VA3Z5Q');
+    define("EMAIL_SMTP_PASSWORD", 'Anppp4pvtEtIs8snhnUHeQlwKHxS8fm3m1mILfes0ocI');
 
-
-    define("EMAIL_SMTP_USERNAME", '0678fe01dc183bf6233e88db22d7a8c1');
-    define("EMAIL_SMTP_PASSWORD", '23e2c89d08c5fc829e2a2a3d467247df');
 }
 else{
 
-    define("EMAIL_SMTP_USERNAME", '36b628d25e50f1c49e10c29973f27ac5');
-    define("EMAIL_SMTP_PASSWORD", '8a589863b6cb4adbed8c73085fe01393');
 
+    // EMAIL SERVERS FOR EACH EMAIL ADDRESS
+    define("EMAIL_HOST",'smtp.mailgun.org');
+    define("EMAIL_SMTP_USERNAME", 'postmaster@app.orderapp.com');
+    define("EMAIL_SMTP_PASSWORD", 'ad56352ed13c886389869b5fcc6bedd3');
 
 }
 
@@ -1659,18 +1660,30 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
         "browser_info"                  => $user_order['browser_info'],
         "ignore_old_reorder"            => "false",
     ));
-    $orderId = DB::insertId();
 
+    $orderId = DB::insertId();
 
     date_default_timezone_set("Asia/Jerusalem");
     $onlyDate = date("d-m-Y");              //FOR LEDGER
-    $onlytime = date("H:i");              //FOR LEDGER
+    $onlytime = date("H:i");                //FOR LEDGER
+
+
+    DB::useDB(B2B_RESTAURANTS);
+
+
+    $deliveryGrpId = DB::queryFirstRow("select delivery_group from restaurants where id = ".$user_order['rests_orders'][0]['selectedRestaurant']['id']);
+
+
+    $deliveryGrpName = DB::queryFirstRow("select delivery_team from delivery_groups where id =  ".$deliveryGrpId['delivery_group']);
+
+
     DB::useDB(B2B_DB);
     DB::insert('b2b_ledger', array(
         'date'                          => $onlyDate,
         'time'                          => $onlytime,
         'customer_name'                 => $getUser['name'],
         'customer_contact'              => $getUser['contact'],
+        'restaurant_id'                 => $user_order['rests_orders'][0]['selectedRestaurant']['id'],
         'customer_email'                => $user_order['user']['email'],
         'restaurant_name'               => $user_order['rests_orders'][0]['selectedRestaurant']['name_en'],
         'payment_method'                => $user_order['payment_option'],
@@ -1680,9 +1693,10 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
         "order_no"                      => $orderId,
         "discount_amount"               => $user_order['discount'],
         "restaurant_total"              => $user_order['actual_total'],
-        "customer_grand_total"          => $user_order['total_paid'],
+        "customer_grand_total"          => $user_order['actual_total'],
         "customer_total_paid_to_restaurant"  => $user_order['total_paid'],
         "eluna"                         => "false",
+        'delivery_team_id' => $deliveryGrpId['delivery_group']
     ));
 
 
@@ -1741,6 +1755,22 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
         }
 
     }
+
+    if($_SERVER['HTTP_HOST'] == "orderapp.com" || $_SERVER['HTTP_HOST'] == "b2b.orderapp.com" || $_SERVER['HTTP_HOST'] == "staging.orderapp.com" || $_SERVER['HTTP_HOST'] == "app.orderapp.com" ) {
+
+        // MESSAGE REGARDING ORDER
+
+        $phone = '972525133739,972547411863,972539342232,972538259764,972533062625';
+
+        $message = 'Order-Id : ' . $orderId . ' ' . 'Restaurant-Title : ' . $user_order['rests_orders'][0]['selectedRestaurant']['name_en'];
+
+        $smsMessage = str_replace(' ', '%20', $message);
+
+        file_get_contents('http://api.clickatell.com/http/sendmsg?user=Pushstartups&password=UGAgWOPIFNgTCM&api_id=3633970&to=' . $phone . '&text=' . $smsMessage);
+
+
+    }
+
 
     // EMAIL ORDER SUMMERY
 
@@ -1853,9 +1883,6 @@ $app->post('/cancel_order', function ($request, $response, $args)
     DB::useDB(B2B_DB);
     $order_id = $request->getParam('order_id');
 
-
-
-
     DB::useDB(B2B_DB);
     $rest_object = DB::queryFirstRow("select * from b2b_orders  WHERE  id = '$order_id'");
     $day = date('l');
@@ -1880,11 +1907,7 @@ $app->post('/cancel_order', function ($request, $response, $args)
         DB::query("UPDATE b2b_orders SET order_status = 'cancelled'  WHERE  id = '$order_id'");
 
 
-
-
         $todayDate = Date("d/m/Y");
-        $today = date("Y-m-d");
-
 
         $user_order = json_decode($rest_object['rest_order_object']);
 
@@ -1902,6 +1925,50 @@ $app->post('/cancel_order', function ($request, $response, $args)
         DB::query("UPDATE b2b_users SET discount = '$remaining_discount'  WHERE  id = '".$user['id']."'");
 
 
+
+        DB::useDB(B2B_DB);
+        //CHECK IF USER ALREADY EXIST, IF NO CREATE USER
+        $getUser = DB::queryFirstRow("select * from b2b_users where id = '" .  $rest_object['user_id'] . "'");
+
+
+
+        date_default_timezone_set("Asia/Jerusalem");
+        $onlyDate = date("d-m-Y");              //FOR LEDGER
+        $onlytime = date("H:i");                //FOR LEDGER
+
+
+        DB::useDB(B2B_RESTAURANTS);
+
+
+        $deliveryGrpId = DB::queryFirstRow("select delivery_group from restaurants where id = ".$user_order->rests_orders[0]->selectedRestaurant->id);
+
+        $deliveryGrpName = DB::queryFirstRow("select delivery_team from delivery_groups where id =  ".$deliveryGrpId['delivery_group']);
+
+
+        DB::useDB(B2B_DB);
+        DB::insert('b2b_ledger', array(
+            'date'                          => $onlyDate,
+            'time'                          => $onlytime,
+            'customer_name'                 => $getUser['name'],
+            'customer_contact'              => $getUser['contact'],
+            'restaurant_id'                 => $user_order->rests_orders[0]->selectedRestaurant->id,
+            'customer_email'                => $user_order->user->email,
+            'restaurant_name'               => $user_order->rests_orders[0]->selectedRestaurant->name_en,
+            'payment_method'                => $user_order->payment_option,
+            'delivery_or_pickup'            => 'Delivery',
+            'delivery_price'                => '0',
+            'company_name'                  => $user_order->company->company_name,
+            "order_no"                      => $order_id,
+            "discount_amount"               => $user_order->discount,
+            "restaurant_total"              => $user_order->actual_total,
+            "customer_grand_total"          => $user_order->actual_total,
+            "customer_total_paid_to_restaurant"  => '-'.$user_order->total_paid,
+            "is_cancelled"                  => 'true',
+            "eluna"                         => "false",
+            'delivery_team_id' => $deliveryGrpId['delivery_group']
+        ));
+
+
         // EMAIL ORDER SUMMERY
 
         email_for_kitchen_cancel($user_order, $order_id, $todayDate);
@@ -1912,12 +1979,6 @@ $app->post('/cancel_order', function ($request, $response, $args)
 
         email_for_mark2_cancel($user_order, $order_id, $todayDate);
         ob_end_clean();
-
-
-        // SEND ADMIN COPY EMAIL ORDER SUMMARY
-
-        //email_order_summary_hebrew_admin($user_order, $orderId, $todayDate);
-        // ob_end_clean();
 
 
         // CLIENT EMAIL
@@ -1932,7 +1993,7 @@ $app->post('/cancel_order', function ($request, $response, $args)
 
         } else {
 
-              email_order_summary_hebrew_cancel($user_order, $order_id, $todayDate, $remaining_discount);
+            email_order_summary_hebrew_cancel($user_order, $order_id, $todayDate, $remaining_discount);
 
         }
 

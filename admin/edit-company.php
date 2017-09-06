@@ -17,6 +17,7 @@ include "header.php";
         $getDay = DB::queryFirstRow("select * from company_timing where week_en = '$day' and company_id = '$companies_id' ");
 
         $delivery_time = $getDay['delivery_timing'];
+        $food_ready_for_pickup = $getDay['food_ready_for_pickup'];
 
 
         $timings = getSpecificCompanyTiming($companies_id);
@@ -34,45 +35,59 @@ include "header.php";
         {
             if($count == 1)
             {
-                $week1['id']                    =  $time['id'];
+                $week1['id']                    =   $time['id'];
                 $week1['opening_time']          =   $time['opening_time'];
                 $week1['closing_time']          =   $time['closing_time'];
+                $week1['delivery_timing']       =   $time['delivery_timing'];
+                $week1['food_ready_for_pickup'] =   $time['food_ready_for_pickup'];
             }
             if($count == 2)
             {
                 $week2['id']                    =  $time['id'];
                 $week2['opening_time']          =   $time['opening_time'];
                 $week2['closing_time']          =   $time['closing_time'];
+                $week2['delivery_timing']       =   $time['delivery_timing'];
+                $week2['food_ready_for_pickup'] =   $time['food_ready_for_pickup'];
             }
             if($count == 3)
             {
                 $week3['id']                    =  $time['id'];
                 $week3['opening_time']          =   $time['opening_time'];
                 $week3['closing_time']          =   $time['closing_time'];
+                $week3['delivery_timing']       =   $time['delivery_timing'];
+                $week3['food_ready_for_pickup'] =   $time['food_ready_for_pickup'];
             }
             if($count == 4)
             {
                 $week4['id']                    =  $time['id'];
                 $week4['opening_time']          =   $time['opening_time'];
                 $week4['closing_time']          =   $time['closing_time'];
+                $week4['delivery_timing']       =   $time['delivery_timing'];
+                $week4['food_ready_for_pickup'] =   $time['food_ready_for_pickup'];
             }
             if($count == 5)
             {
                 $week5['id']                    =  $time['id'];
                 $week5['opening_time']          =   $time['opening_time'];
                 $week5['closing_time']          =   $time['closing_time'];
+                $week5['delivery_timing']       =   $time['delivery_timing'];
+                $week5['food_ready_for_pickup'] =   $time['food_ready_for_pickup'];
             }
             if($count == 6)
             {
                 $week6['id']                    =  $time['id'];
                 $week6['opening_time']          =   $time['opening_time'];
                 $week6['closing_time']          =   $time['closing_time'];
+                $week6['delivery_timing']       =   $time['delivery_timing'];
+                $week6['food_ready_for_pickup'] =   $time['food_ready_for_pickup'];
             }
             if($count == 7)
             {
-                $week7['id']                    =  $time['id'];
+                $week7['id']                    =   $time['id'];
                 $week7['opening_time']          =   $time['opening_time'];
                 $week7['closing_time']          =   $time['closing_time'];
+                $week7['delivery_timing']       =   $time['delivery_timing'];
+                $week7['food_ready_for_pickup'] =   $time['food_ready_for_pickup'];
             }
             $count++;
 
@@ -273,6 +288,13 @@ include "header.php";
                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_delivery_time"></span>
                                         </div>
 
+                                        <div class="form-group">
+                                            <label>Food Ready For Pickup </label>
+                                            <input class="form-control" id="food_ready_for_pickup" name="food_ready_for_pickup" type="text"  value="<?=$food_ready_for_pickup;?>">
+                                            <input class="form-control" id="week_en" name="week_en" type="hidden" value="<?=$getDay['week_en'];?>">
+                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_food_ready_for_pickup"></span>
+                                        </div>
+
 
 
                                         <br>
@@ -312,6 +334,8 @@ include "header.php";
                                                                         <th >Start Time</th>
 
                                                                         <th>Close Time</th>
+                                                                        <th>Delivery Time</th>
+                                                                        <th>Food Ready For Pickup</th>
 
                                                                     </tr>
                                                                     </thead>
@@ -345,6 +369,31 @@ include "header.php";
                                                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_sunday_end_time"></span>
 
                                                                         </td>
+
+                                                                        <td>
+                                                                            <div class="input-group form-group clockpicker">
+                                                                                <input type="text" id="sunday_delivery_timing" class="form-control" placeholder="Select Delivery Time"
+                                                                                       value="<?php echo $week7['delivery_timing'];?>">
+                                                                                <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        </span>
+
+                                                                            </div>
+                                                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_sunday_delivery_timing"></span>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="input-group form-group clockpicker">
+                                                                                <input type="text" id="sunday_food_ready_for_pickup" class="form-control" placeholder="Select Food Ready Pickup Time"
+                                                                                       value="<?php echo $week7['food_ready_for_pickup'];?>">
+                                                                                <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        </span>
+
+                                                                            </div>
+                                                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_sunday_food_ready_for_pickup"></span>
+
+                                                                        </td>
                                                                     </tr>
 
                                                                     <tr>
@@ -373,6 +422,32 @@ include "header.php";
                                                                             </div>
                                                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_monday_end_time"></span>
                                                                         </td>
+
+                                                                        <td>
+                                                                            <div class="input-group form-group clockpicker">
+                                                                                <input type="text" id="monday_delivery_timing" class="form-control" placeholder="Select Delivery Time"
+                                                                                       value="<?php echo $week1['delivery_timing'];?>">
+                                                                                <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        </span>
+
+                                                                            </div>
+                                                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_monday_delivery_timing"></span>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="input-group form-group clockpicker">
+                                                                                <input type="text" id="monday_food_ready_for_pickup" class="form-control" placeholder="Select Food Ready Pickup Time"
+                                                                                       value="<?php echo $week1['food_ready_for_pickup'];?>">
+                                                                                <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        </span>
+
+                                                                            </div>
+                                                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_monday_food_ready_for_pickup"></span>
+
+                                                                        </td>
+                                                                        
                                                                     </tr>
 
                                                                     <tr>
@@ -400,6 +475,31 @@ include "header.php";
                                                         </span>
                                                                             </div>
                                                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_tuesday_end_time"></span>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="input-group form-group clockpicker">
+                                                                                <input type="text" id="tuesday_delivery_timing" class="form-control" placeholder="Select Delivery Time"
+                                                                                       value="<?php echo $week2['delivery_timing'];?>">
+                                                                                <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        </span>
+
+                                                                            </div>
+                                                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_tuesday_delivery_timing"></span>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="input-group form-group clockpicker">
+                                                                                <input type="text" id="tuesday_food_ready_for_pickup" class="form-control" placeholder="Select Food Ready Pickup Time"
+                                                                                       value="<?php echo $week2['food_ready_for_pickup'];?>">
+                                                                                <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        </span>
+
+                                                                            </div>
+                                                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_tuesday_food_ready_for_pickup"></span>
+
                                                                         </td>
                                                                     </tr>
 
@@ -429,6 +529,31 @@ include "header.php";
                                                                             </div>
                                                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_wednesday_end_time"></span>
                                                                         </td>
+
+                                                                        <td>
+                                                                            <div class="input-group form-group clockpicker">
+                                                                                <input type="text" id="wednesday_delivery_timing" class="form-control" placeholder="Select Delivery Time"
+                                                                                       value="<?php echo $week3['delivery_timing'];?>">
+                                                                                <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        </span>
+
+                                                                            </div>
+                                                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_wednesday_delivery_timing"></span>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="input-group form-group clockpicker">
+                                                                                <input type="text" id="wednesday_food_ready_for_pickup" class="form-control" placeholder="Select Food Ready Pickup Time"
+                                                                                       value="<?php echo $week3['food_ready_for_pickup'];?>">
+                                                                                <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        </span>
+
+                                                                            </div>
+                                                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_wednesday_food_ready_for_pickup"></span>
+
+                                                                        </td>
                                                                     </tr>
 
                                                                     <tr>
@@ -455,6 +580,31 @@ include "header.php";
                                                         </span>
                                                                             </div>
                                                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_thursday_end_time"></span>
+                                                                        </td>
+                                                                        
+                                                                        <td>
+                                                                            <div class="input-group form-group clockpicker">
+                                                                                <input type="text" id="thursday_delivery_timing" class="form-control" placeholder="Select Delivery Time"
+                                                                                       value="<?php echo $week4['delivery_timing'];?>">
+                                                                                <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        </span>
+
+                                                                            </div>
+                                                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_thursday_delivery_timing"></span>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="input-group form-group clockpicker">
+                                                                                <input type="text" id="thursday_food_ready_for_pickup" class="form-control" placeholder="Select Food Ready Pickup Time"
+                                                                                       value="<?php echo $week4['food_ready_for_pickup'];?>">
+                                                                                <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        </span>
+
+                                                                            </div>
+                                                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_thursday_food_ready_for_pickup"></span>
+
                                                                         </td>
                                                                     </tr>
 
@@ -484,6 +634,32 @@ include "header.php";
                                                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_friday_end_time"></span>
 
                                                                         </td>
+
+                                                                        <td>
+                                                                            <div class="input-group form-group clockpicker">
+                                                                                <input type="text" id="friday_delivery_timing" class="form-control" placeholder="Select Delivery Time"
+                                                                                       value="<?php echo $week5['delivery_timing'];?>">
+                                                                                <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        </span>
+
+                                                                            </div>
+                                                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_friday_delivery_timing"></span>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="input-group form-group clockpicker">
+                                                                                <input type="text" id="friday_food_ready_for_pickup" class="form-control" placeholder="Select Food Ready Pickup Time"
+                                                                                       value="<?php echo $week5['food_ready_for_pickup'];?>">
+                                                                                <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        </span>
+
+                                                                            </div>
+                                                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_friday_food_ready_for_pickup"></span>
+
+                                                                        </td>
+                                                                        
                                                                     </tr>
 
                                                                     <tr>
@@ -510,6 +686,31 @@ include "header.php";
                                                         </span>
                                                                             </div>
                                                                             <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_saturday_end_time"></span>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="input-group form-group clockpicker">
+                                                                                <input type="text" id="saturday_delivery_timing" class="form-control" placeholder="Select Delivery Time"
+                                                                                       value="<?php echo $week6['delivery_timing'];?>">
+                                                                                <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        </span>
+
+                                                                            </div>
+                                                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_saturday_delivery_timing"></span>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="input-group form-group clockpicker">
+                                                                                <input type="text" id="saturday_food_ready_for_pickup" class="form-control" placeholder="Select Food Ready Pickup Time"
+                                                                                       value="<?php echo $week6['food_ready_for_pickup'];?>">
+                                                                                <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        </span>
+
+                                                                            </div>
+                                                                            <span style="font-size: 14px; color: red; width: 100%;text-align: left; padding: 9px;text-transform: none;" id="error_saturday_food_ready_for_pickup"></span>
+
                                                                         </td>
                                                                     </tr>
 
