@@ -132,7 +132,7 @@ function getOrdersByRestaurant($ordersFromDB) {
           if ( $restaurantItem["id"] == $restaurant["id"] ) {
             array_push($restaurantItem["orders"], $restaurant["orders"][0]);
             break;
-          } 
+          }
           else {
             $restaurantsArray[$restaurant["id"]] = $restaurant;
             break;
@@ -207,7 +207,7 @@ function sendOrderMessage($restaurantsArray, $TEST_MODE) {
               if ( !is_string($values[0]) ) {
                 $msg .= $values[0]["subItemNameHe"] . "
 ";
-              } 
+              }
             }
           }
         }
@@ -303,7 +303,7 @@ function sendDeliveryMsg($company, $restaurantsArray, $TEST_MODE) {
           if ( $delivery_group["delivery_id"] == $delivery_groups_new_item["delivery_id"] ) {
             array_push($delivery_group["restaurants"], $restaurant);
             break;
-          } 
+          }
           else {
             array_push($delivery_groups, $delivery_groups_new_item);
             array_push($delivery_groups_id_array, $restaurants_delivery_data[$restaurant["id"]]["delivery_group"]);
@@ -381,12 +381,12 @@ function getRestauranstDeliveryData($restaurantsArray) {
 }
 
 function getTodaysPickupTime($timing) {
-  foreach($timing as $day) {
-      if ( $day["week_en"] == date('l') ) {
-        return $readyForPickUpTime = $day["food_ready_for_pickup"];
-      }
+  foreach ($timing as $day) {
+    if ($day["week_en"] == date('l')) {
+      return $readyForPickUpTime = $day["food_ready_for_pickup"];
     }
-} 
+  }
+}
 
 function telegramAPI($text, $TEST_MODE) {
 
@@ -418,7 +418,7 @@ function telegramAPI($text, $TEST_MODE) {
     $response = curl_exec($ch);
     //echo "Response: ".$response;
     curl_close($ch);
-} 
+}
 
 function whatsappAPI($groupAdmin, $groupName, $message, $TEST_MODE) {
 
