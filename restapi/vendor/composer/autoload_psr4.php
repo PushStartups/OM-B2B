@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'sngrl\\PhpFirebaseCloudMessaging\\' => array($vendorDir . '/sngrl/php-firebase-cloud-messaging/src'),
     'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
     'Voucherify\\Test\\Helpers\\' => array($vendorDir . '/rspective/voucherify/test/helpers'),
     'Voucherify\\' => array($vendorDir . '/rspective/voucherify/src'),

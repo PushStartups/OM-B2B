@@ -5,7 +5,9 @@
         "frankandoak/smooch-api": "^0.1.0",
         "mailgun/mailgun-php": "^2.3",
         "php-http/guzzle6-adapter": "^1.1",
-        "php-http/message": "^1.5"
+        "php-http/message": "^1.5",
+        "sngrl/php-firebase-cloud-messaging": "dev-master",
+        "ktamas77/firebase-php": "dev-master"
 
     }
 }

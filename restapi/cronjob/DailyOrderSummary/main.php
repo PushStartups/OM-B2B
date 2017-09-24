@@ -3,32 +3,74 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
+require_once(dirname(__FILE__) . '/../../vendor/autoload.php');
 require_once(dirname(__FILE__) . '/../../inc/initDb.php');
 require_once (dirname(__FILE__) . '/../../PHPMailer/PHPMailerAutoload.php');
 require_once (dirname(__FILE__) . '/../../Interfax/vendor/autoload.php');
 
 use Mailgun\Mailgun;
 use Interfax\Client;
+//use sngrl\PhpFirebaseCloudMessaging\FirebaseClient;
+//use sngrl\PhpFirebaseCloudMessaging\Message;
+//use sngrl\PhpFirebaseCloudMessaging\Recipient\Device;
+//use sngrl\PhpFirebaseCloudMessaging\Notification;
+
+const DEFAULT_URL = 'https://hunters-chat.firebaseio.com/';
+const DEFAULT_TOKEN = 'wSZSOmMJuloBAS5xa82Q7S7wzJ2ErDuwxadJiIJD';
+const DEFAULT_PATH = 'user-messages/';
+
+//const DEFAULT_URL = 'https://test-6a55f.firebaseio.com';
+//const DEFAULT_TOKEN = 'AIzaSyCEF7WtK0fu8LtD2dahcOhUX27HaUqyFH4';
+
+//$firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
 
 DB::query("set names utf8");
 
-//GET ALL ORDERS FOR TODAY SORTED BY RESTAURANT
-$restaurants_list = getOrders();
+const TEST_MODE = true;
+
+main();
+
+
+
+function main() {
+  //GET ALL ORDERS FOR TODAY SORTED BY RESTAURANT
+  $restaurants_list = getOrders();
 //POPULATE RESTAURANTS WITH DATA (EMAIL, FAX, WHATSAPP)
-$ready_restaurants_list = populateWithData($restaurants_list);
-//
-sendMessages($ready_restaurants_list);
+  if ( count($restaurants_list) > 0 ) {
+    $ready_restaurants_list = populateWithData($restaurants_list);
+    sendMessages($ready_restaurants_list, TEST_MODE);
+    echo '<pre>'; var_dump($ready_restaurants_list); echo '</pre>';
+  } else {
+    echo "No orders for the last 24h.";
+  }
+  
+  
+  
+}
 
-echo '<pre>'; var_dump($ready_restaurants_list); echo '</pre>';
-
-function sendMessages($ready_restaurants_list) {
+function sendMessages($ready_restaurants_list, $TEST_MODE) {
   
   foreach($ready_restaurants_list as $restaurant) {
     
     $msg = createMsg($restaurant);
     
-    telegramAPI($msg, true);
-  
+    telegramAPI($msg, $TEST_MODE);
+    whatsappAPI($restaurant["whatsapp_group_creator"], $restaurant["whatsapp_group_name"], $msg, $TEST_MODE);
+    
+    if ( $restaurant["fax_number"] ) {
+      sendFax($restaurant["fax_number"], $msg, $TEST_MODE);
+    }
+    
+    if ( $restaurant["email"] ) {
+      sendOrderEmail($msg, $restaurant["email"]);
+    }
+    
+    if($restaurant["firebase_chat_id"] && !is_null($restaurant["firebase_chat_id"]) ) {
+      firebaseMsg($restaurant["firebase_chat_id"], $msg, $TEST_MODE);
+    }
+    
+    
+    
   }
 }
 
@@ -38,9 +80,9 @@ function createMsg($restaurant) {
   
   $msg = $restaurant["name_he"] . "
 ";
-
-  $msg .= $restaurant["name_he"] . " OrderApp " . "
+  $msg .= $restaurant["whatsapp_group_name"] . "
 ";
+//  $msg .= $restaurant["name_he"] . " OrderApp " . "";
   $msg .= $restaurant["whatsapp_group_creator"] . "
 
 ";
@@ -52,7 +94,11 @@ function createMsg($restaurant) {
   foreach($restaurant["orders"] as $order) {
     $total_sum = $total_sum + $order["sum_order"];
     
-    $msg .=  "תאריך " . "*" . $order["date"] . "
+    $dateArr = explode('-', $order["date"]);
+    $day = $dateArr[0];
+    $month = $dateArr[1];
+    $year = $dateArr[2];
+    $msg .=  "תאריך " . $year . "-" . $month . "-" . $day . "*
 ";
     $msg .= "זמן " . $order["time"] . "
 ";
@@ -86,7 +132,7 @@ function populateWithData($restaurants_list) {
   }
   
   DB::useDB('orderapp_restaurants_b2b_wui');
-  $restaurants_data_array = DB::query("SELECT `id`, `fax_number`, `email`, `name_en`, `name_he`, `whatsapp_group_name`, `whatsapp_group_creator`, `balance` FROM `restaurants` WHERE id IN (". implode(",", $restaurants_ids_array) . ")");
+  $restaurants_data_array = DB::query("SELECT `id`, `fax_number`, `email`, `name_en`, `name_he`, `whatsapp_group_name`, `whatsapp_group_creator`, `balance`, `firebase_chat_id` FROM `restaurants` WHERE id IN (". implode(",", $restaurants_ids_array) . ")");
   
   foreach($restaurants_list as &$restaurant) {
     foreach($restaurants_data_array as $data_item) {
@@ -98,6 +144,7 @@ function populateWithData($restaurants_list) {
         $restaurant["whatsapp_group_name"] = $data_item["whatsapp_group_name"];
         $restaurant["whatsapp_group_creator"] = $data_item["whatsapp_group_creator"];
         $restaurant["balance"] = $data_item["balance"];
+        $restaurant["firebase_chat_id"] = $data_item["firebase_chat_id"];
         $restaurant["ready"] = true;
       }
     }
@@ -113,7 +160,7 @@ function populateWithData($restaurants_list) {
 //  }
 //
 //  DB::useDB('orderapp_restaurants');
-//  $left_restaurants_data = DB::query("SELECT `id`, `fax_number`, `email`, `name_en`, `name_he`, `whatsapp_group_name`, `whatsapp_group_creator`, `balance` FROM `restaurants` WHERE id IN (" . implode(",", $left_restaurants_ids) . ")");
+//  $left_restaurants_data = DB::query("SELECT `id`, `fax_number`, `email`, `name_en`, `name_he`, `whatsapp_group_name`, `whatsapp_group_creator`, `balance`, `firebase_chat_id` FROM `restaurants` WHERE id IN (" . implode(",", $left_restaurants_ids) . ")");
 //
 //  foreach($restaurants_list as &$restaurant) {
 //    foreach($left_restaurants_data as $data_item) {
@@ -125,6 +172,7 @@ function populateWithData($restaurants_list) {
 //        $restaurant["whatsapp_group_name"] = $data_item["whatsapp_group_name"];
 //        $restaurant["whatsapp_group_creator"] = $data_item["whatsapp_group_creator"];
 //        $restaurant["balance"] = $data_item["balance"];
+//        $restaurant["firebase_chat_id"] = $data_item["firebase_chat_id"];
 //        $restaurant["ready"] = true;
 //      }
 //    }
@@ -338,4 +386,152 @@ function sendFax($fax, $msg, $TEST_MODE ) {
   while ($fax->refresh()->status < 0) {
     sleep(5);
   }
+}
+
+function whatsappAPI($groupAdmin, $groupName, $message, $TEST_MODE) {
+  
+  if ( $TEST_MODE ) {
+    $groupAdmin = "972525952665";
+    $groupName = "Whatsapp Tests New";
+  }
+  
+  echo $groupAdmin . " - " . $groupName . '<br>';
+  
+  
+  $INSTANCE_ID = "3";
+  $CLIENT_ID = "orderapp.orders@gmail.com";
+  $CLIENT_SECRET = "59f0a2e52b384082a2f53b687836a65f";
+  
+  $postData = array(
+    'group_admin' => $groupAdmin,
+    'group_name' => $groupName,
+    'message' => $message
+  );
+  
+  $headers = array(
+    'Content-Type: application/json',
+    'X-WM-CLIENT-ID: '.$CLIENT_ID,
+    'X-WM-CLIENT-SECRET: '.$CLIENT_SECRET
+  );
+  
+  $url = 'http://api.whatsmate.net/v2/whatsapp/group/message/' . $INSTANCE_ID;
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_POST, 1);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+  $response = curl_exec($ch);
+  
+  echo $response;
+  
+  curl_close($ch);
+}
+
+//function firebaseMessage() {
+//  $server_key = 'wSZSOmMJuloBAS5xa82Q7S7wzJ2ErDuwxadJiIJD'; //_YOUR_SERVER_KEY_
+//  $client = new Client();
+//  $client->setApiKey($server_key);
+//  $client->injectGuzzleHttpClient(new \GuzzleHttp\Client());
+//
+//  $message = new Message();
+//  $message->setPriority('high');
+//  $message->addRecipient(new Device('-Ksm_bXAUCt1exAbXHWu')); //_YOUR_DEVICE_TOKEN_
+//  $message
+//    ->setNotification(new Notification('some test title', 'some test body'))
+//    ->setData(['key' => 'value'])
+//  ;
+//
+//  $response = $client->send($message);
+//  var_dump($response->getStatusCode());
+//  var_dump($response->getBody()->getContents());
+//}
+
+function firebaseMsg($toId, $msg, $test_mode) {
+
+  $fromId = 'xgUkB30C4BZwqwEqRiAait7Jsv83';
+  if ($test_mode) {
+    $toId = $toId = '-Ksm_bXAUCt1exAbXHWu';
+  }
+  
+  
+  $response = firebaseSendMsg($toId, $fromId, $msg);
+  $responseArr = explode(":", $response);
+  $message_name = preg_replace('/}/', "", preg_replace('/"/', "", $responseArr[1]));
+  
+  echo $message_name;
+  echo "<br>";
+  
+  $f = updateFirebaseUserMsg($fromId, $toId, $message_name);
+  $s = updateFirebaseUserMsg($toId, $fromId, $message_name);
+  
+//  echo "<br>";
+//  var_dump($f);
+//  echo "<br>";
+//  var_dump($s);
+}
+
+function firebaseSendMsg($toId, $fromId, $msg) {
+  
+  $data = array(
+    "toId" => $toId,
+    "text"  => $msg,
+    "fromId"  => $fromId,
+    "isToGroup"  => true,
+    "isDeleted"  => false,
+    "timestamp"  => array(
+       ".sv" => "timestamp"
+     ),
+  );
+  
+  $data_json = json_encode($data);
+  
+  $ch = curl_init();
+  
+  curl_setopt($ch, CURLOPT_URL, "https://hunters-chat.firebaseio.com/messages.json?auth=wSZSOmMJuloBAS5xa82Q7S7wzJ2ErDuwxadJiIJD");
+  curl_setopt($ch, CURLOPT_POST, 1);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+  
+  
+  $headers = array();
+  $headers[] = "Content-Type: application/x-www-form-urlencoded";
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  
+  $result = curl_exec($ch);
+  
+  if (curl_errno($ch)) {
+    echo 'Error:' . curl_error($ch);
+  }
+  curl_close ($ch);
+  
+  return $result;
+}
+
+function updateFirebaseUserMsg($fromId, $toId, $message_name) {
+  
+  $vars = array();
+  $vars[$message_name] = 1;
+  $json_vars = json_encode($vars);
+  echo $json_vars;
+  
+  $ch = curl_init();
+  
+    curl_setopt($ch, CURLOPT_URL, "https://hunters-chat.firebaseio.com/user-messages/" . $fromId ."/" . $toId ."/.json?auth=wSZSOmMJuloBAS5xa82Q7S7wzJ2ErDuwxadJiIJD");
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $json_vars);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
+  
+  
+  $headers = array();
+  $headers[] = "Content-Type: application/x-www-form-urlencoded";
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  
+  $result = curl_exec($ch);
+  if (curl_errno($ch)) {
+    echo 'Error:' . curl_error($ch);
+  }
+  curl_close ($ch);
+  
+  return $result;
 }
