@@ -5,7 +5,6 @@ ini_set('display_errors', '1');
 
 require_once(dirname(__FILE__) . '/../../vendor/autoload.php');
 require_once(dirname(__FILE__) . '/../../inc/initDb.php');
-require_once (dirname(__FILE__) . '/../../PHPMailer/PHPMailerAutoload.php');
 require_once (dirname(__FILE__) . '/../../Interfax/vendor/autoload.php');
 
 use Mailgun\Mailgun;
@@ -26,26 +25,26 @@ const DEFAULT_PATH = 'user-messages/';
 
 DB::query("set names utf8");
 
-const TEST_MODE = true;
+define('TEST_MODE', true);
 
+//RUN MAIN FUNCTION TO GET ORDERS AND SEND MESSAGES
 main();
-
 
 
 function main() {
   //GET ALL ORDERS FOR TODAY SORTED BY RESTAURANT
   $restaurants_list = getOrders();
-//POPULATE RESTAURANTS WITH DATA (EMAIL, FAX, WHATSAPP)
+  
+  //POPULATE RESTAURANTS WITH DATA (EMAIL, FAX, WHATSAPP)
   if ( count($restaurants_list) > 0 ) {
     $ready_restaurants_list = populateWithData($restaurants_list);
+    
     sendMessages($ready_restaurants_list, TEST_MODE);
+    
     echo '<pre>'; var_dump($ready_restaurants_list); echo '</pre>';
   } else {
     echo "No orders for the last 24h.";
   }
-  
-  
-  
 }
 
 function sendMessages($ready_restaurants_list, $TEST_MODE) {
@@ -62,18 +61,19 @@ function sendMessages($ready_restaurants_list, $TEST_MODE) {
     }
     
     if ( $restaurant["email"] ) {
-      sendOrderEmail($msg, $restaurant["email"]);
+      sendEmail(createEmailMsg($restaurant), $restaurant["email"]);
     }
     
-    if($restaurant["firebase_chat_id"] && !is_null($restaurant["firebase_chat_id"]) ) {
-      firebaseMsg($restaurant["firebase_chat_id"], $msg, $TEST_MODE);
-    }
-    
-    
-    
+    //SENDS FIREBASE MESSAGE
+//    if($restaurant["firebase_chat_id"] && !is_null($restaurant["firebase_chat_id"]) ) {
+//      firebaseMsg($restaurant["firebase_chat_id"], $msg, $TEST_MODE);
+//    }
+  
   }
 }
 
+
+//CREATE MESSAGE FOR TELEGRAM, WHATSAPP AND FAX
 function createMsg($restaurant) {
   
   $total_sum = 0;
@@ -82,7 +82,6 @@ function createMsg($restaurant) {
 ";
   $msg .= $restaurant["whatsapp_group_name"] . "
 ";
-//  $msg .= $restaurant["name_he"] . " OrderApp " . "";
   $msg .= $restaurant["whatsapp_group_creator"] . "
 
 ";
@@ -125,6 +124,48 @@ function createMsg($restaurant) {
   return $msg;
 }
 
+function createEmailMsg($restaurant) {
+  
+  $total_sum = 0;
+  $msg = "<html>";
+  $msg .= "<body dir='rtl'>";
+  
+  $msg .= "<p>" . $restaurant["name_he"] . "</p>";
+  $msg .= "<p>" . $restaurant["whatsapp_group_name"] . "</p>";
+  $msg .= "<p>" . $restaurant["whatsapp_group_creator"] . "</p>";
+  $msg .= "<br>";
+  
+  $msg .= "<p>" . "רשימת הזמנות היום" . "</p>";
+  $msg .= "<br>";
+  
+  foreach($restaurant["orders"] as $order) {
+    $total_sum = $total_sum + $order["sum_order"];
+    
+    $dateArr = explode('-', $order["date"]);
+    $day = $dateArr[0];
+    $month = $dateArr[1];
+    $year = $dateArr[2];
+    $msg .= "<p>" . "תאריך " . $year . "-" . $month . "-" . $day . "*" . "</p>";
+    $msg .= "<p>" . "זמן " . $order["time"] . "</p>";
+    $msg .= "<p>" . "מספר הזמנה " . $order["id"] . "</p>";
+    $msg .= "<p>". "סכום ההזמנה " . $order["sum_order"] . "</p>";
+    $msg .= "<br>";
+  }
+  
+  $msg .= "<p>" . "-----------------" . "</p>";
+  
+  $msg .= "<p>" . "סה״כ הזמנות " . count($restaurant["orders"]) . "</p>";
+  $msg .=  "<p>" . "סכום סה״כ הזמנות " .$total_sum . "</p>";
+  $msg .= "<br>";
+  
+  $msg .= "<p>" . "יתרה " . $restaurant["balance"] . "</p>";
+  $msg .= "</body>";
+  $msg .= "</html>";
+  
+  
+  return $msg;
+}
+
 function populateWithData($restaurants_list) {
   $restaurants_ids_array = array();
   foreach( $restaurants_list as $restaurant ) {
@@ -132,7 +173,9 @@ function populateWithData($restaurants_list) {
   }
   
   DB::useDB('orderapp_restaurants_b2b_wui');
-  $restaurants_data_array = DB::query("SELECT `id`, `fax_number`, `email`, `name_en`, `name_he`, `whatsapp_group_name`, `whatsapp_group_creator`, `balance`, `firebase_chat_id` FROM `restaurants` WHERE id IN (". implode(",", $restaurants_ids_array) . ")");
+  $restaurants_data_array = DB::query("SELECT `id`, `fax_number`, `email`, `name_en`, `name_he`, `whatsapp_group_name`, `whatsapp_group_creator` FROM `restaurants` WHERE id IN (". implode(",", $restaurants_ids_array) . ")");
+  
+  $restaurants_balances = getBalancesForRestaurants($restaurants_ids_array);
   
   foreach($restaurants_list as &$restaurant) {
     foreach($restaurants_data_array as $data_item) {
@@ -143,8 +186,7 @@ function populateWithData($restaurants_list) {
         $restaurant["name_he"] = $data_item["name_he"];
         $restaurant["whatsapp_group_name"] = $data_item["whatsapp_group_name"];
         $restaurant["whatsapp_group_creator"] = $data_item["whatsapp_group_creator"];
-        $restaurant["balance"] = $data_item["balance"];
-        $restaurant["firebase_chat_id"] = $data_item["firebase_chat_id"];
+        $restaurant["balance"] = $restaurants_balances[$restaurant["id"]];
         $restaurant["ready"] = true;
       }
     }
@@ -182,6 +224,26 @@ function populateWithData($restaurants_list) {
   return $restaurants_list;
 }
 
+//GET BALANCES FOR RESTAURANTS
+function getBalancesForRestaurants($restaurants_ids_array) {
+  $balances_for_restaurants = array();
+  
+  DB::useDB(B2B_B2C_COMMON);
+  $balances = DB::query("SELECT id, balance from restaurant_balance WHERE id IN(" . implode(",", $restaurants_ids_array) . ")");
+//  echo '<pre>'; var_dump($balances); echo '</pre>';
+  
+  foreach($restaurants_ids_array as $rest_id) {
+    foreach($balances as $balance) {
+      if($rest_id == $balance["id"]) {
+        $balances_for_restaurants[$balance["id"]] = $balance["balance"];
+      }
+    }
+  }
+  
+  echo '<pre>'; var_dump($balances_for_restaurants); echo '</pre>';
+  return $balances_for_restaurants;
+}
+
 function getOrders() {
   
   //GET ORDERS FROM B2B
@@ -196,10 +258,6 @@ function getOrders() {
   foreach($today_orders as $order ) {
     $restaurant = array(
       "id" => '',
-//      "fax" => '',
-//      "email" => '',
-//      "whatsapp_data" => '',
-//      "balance" => '',
       "orders"=> array(),
     );
     if ( count($restaurant_array) == 0 ) {
@@ -317,6 +375,82 @@ function telegramAPI($text, $TEST_MODE) {
   $response = curl_exec($ch);
   //echo "Response: ".$response;
   curl_close($ch);
+}
+
+function sendEmail($msg, $toEmail) {
+  
+  if($_SERVER['HTTP_HOST'] == 'eluna.orderapp.com')
+  {
+    //$subject = "(ELUNA) "+$user_order['restaurantTitle'].' Order# '.$orderId;
+  }
+  
+  else
+  {
+    $subject = 'Daily Order Summary';
+  }
+  
+  
+  //AMAZON SERVER ACTIVATED
+  if(ACTIVE_SERVER_ID == '1')
+  {
+    
+    $client = SesClient::factory(array(
+      'version'=> 'latest',
+      'region' => 'eu-west-1',
+      'credentials' => array(
+        'key'    => ACCESS_KEY_ID,
+        'secret' => ACCESS_KEY_SECRET,
+      )
+    ));
+    
+    try {
+      
+      $result = $client->sendEmail([
+        'Destination' => [
+          'ToAddresses' => [
+            $toEmail,
+          ],
+        ],
+        'Message' => [
+          'Body' => [
+            'Html' => [
+              'Charset' => 'UTF-8',
+              'Data' => $msg,
+            ]
+          ],
+          'Subject' => [
+            'Charset' => 'UTF-8',
+            'Data' => $subject,
+          ],
+        ],
+        'Source' => EMAIL,
+      
+      ]);
+      
+      $messageId = $result->get('MessageId');
+      
+      //echo("Email sent! Message ID: $messageId"."\n");
+      
+    } catch (SesException $error) {
+      
+      echo("The email was not sent. Error message: ".$error->getAwsErrorMessage()."\n");
+    }
+    
+  }
+  //MAIN GUN SERVER ACTIVATED
+  else if(ACTIVE_SERVER_ID == '2'){
+    
+    $mg = Mailgun::create(MAIL_GUN_API_KEY);
+    
+    $mg->messages()->send(MAIL_GUN_DOMAIN, [
+      'from'    =>  "OrderApp <".EMAIL.">",
+      'to'      =>  $toEmail,
+      'cc'      =>  EMAIL,
+      'subject' =>  $subject,
+      'html'    => $msg
+    ]);
+    
+  }
 }
 
 function sendOrderEmail($msg, $toEmail) {
@@ -535,3 +669,4 @@ function updateFirebaseUserMsg($fromId, $toId, $message_name) {
   
   return $result;
 }
+

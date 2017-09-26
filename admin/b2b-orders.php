@@ -44,7 +44,7 @@ $_SESSION['search_end_date'] = "";
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <select class="form-control" id="company_id" style="color: black;" >
+                                        <select class="form-control" id="company_id" style="color: black;"  >
                                             <option value=""  selected disabled> Select Company</option>
                                             <?php
                                             DB::useDB(B2B_DB);

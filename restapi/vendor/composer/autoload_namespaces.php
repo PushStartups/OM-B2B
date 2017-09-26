@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Stichoza\\GoogleTranslate\\' => array($vendorDir . '/stichoza/google-translate-php/src'),
     'Pimple' => array($vendorDir . '/pimple/pimple/src'),
     'Mailgun' => array($vendorDir . '/mailgun/mailgun-php/src'),
 );

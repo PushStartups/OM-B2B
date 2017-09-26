@@ -217,7 +217,9 @@ you can add as many as you like
             //"bAutoWidth": false,
             //"bPaginate": false,
             //"bStateSave": true // saves sort state using localStorage
-            "pageLength": 50,
+            "order": [[ 0, "desc" ]],
+            "pageLength": 25,
+            "scrollX": true,
             "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6 hidden-xs'f><'col-sm-6 col-xs-12 hidden-xs'<'toolbar'>>r>"+
             "t"+
             "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
@@ -260,6 +262,7 @@ you can add as many as you like
             "t"+
             "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
             "autoWidth" : true,
+            "order": [[ 0, "desc" ]],
             "oLanguage": {
                 "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
             },

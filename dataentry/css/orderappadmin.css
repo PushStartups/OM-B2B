@@ -1,0 +1,141 @@
+
+.client-form header,
+#header,
+#extr-page #header{
+    color: #fff;
+    background-image: linear-gradient(302deg, #f79f4a, #f46c00) !important;
+}
+body,
+#extr-page{
+    background-color: #fff;
+    background: url(../img/restaurants-bg.png) center center;
+    background-size: cover;
+}
+#extr-page .hero,
+#extr-page #main{background: none;}
+#extr-page #header #logo img {
+    width: 200px;
+    margin: -7px 0 0;
+}
+#extr-page #main{
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    background-color: inherit;
+}
+.center-block{float: none;}
+.smart-form footer{background:#ffaf5f;}
+.smart-form .checkbox input+i:after{  color: #f46c00;}
+.smart-form .checkbox input:checked+i, .smart-form .radio input:checked+i, .smart-form .toggle input:checked+i {
+    border-color: #f46c00;
+}
+.smart-form .icon-append, .smart-form .icon-prepend{color: #ff7f00;}
+a {
+    color: #ff7f00;
+    transition: all 1s;
+}
+.smart-form .checkbox:hover i, .smart-form .input:hover input, .smart-form .radio:hover i, .smart-form .select:hover select, .smart-form .textarea:hover textarea, .smart-form .toggle:hover i,
+.smart-form .checkbox input:focus+i, .smart-form .input input:focus, .smart-form .radio input:focus+i, .smart-form .select select:focus, .smart-form .textarea textarea:focus, .smart-form .toggle input:focus+i {
+    border-color: #f46c00;
+}
+
+.smart-form .tooltip{background: #f46c00;}
+
+
+.smart-form .tooltip-top-right:after {
+    top: 100%;
+    right: 11px;
+    border-top: 4px solid #f46c00;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+.txt-color-teal {
+    color: #63df7e !important;
+}
+.logo-table{
+    width: 65px;
+}
+.tel-holder{
+    width: 180px;
+}
+.tel-holder .form-control{
+    width: 60px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.tel-holder .btn-labeled{
+    display: inline-block;
+    vertical-align: middle;
+}
+.onoffswitch {
+    position: relative; width: 90px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #63DF7E; border-radius: 20px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 10px;
+    box-shadow: none;
+    background-color: #3276b1; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 10px;
+    background-color: #EEEEEE; color: #999999;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 18px; margin: 6px;
+    background: #63DF7E;
+    position: absolute; top: 0; bottom: 0;
+    right: 56px;
+    border: 2px solid #63DF7E; border-radius: 20px;
+    transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px;
+}
+.btn-labeled.add,
+.tel-holder .btn-labeled.add{
+    height:33px;
+}
+#sparks h5{
+    text-align:center;
+}
+.loader-css{
+
+    z-index:9999;
+    width: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 30px;
+    margin:auto;
+    height: auto;
+    display: none;
+}
+
+.btn-purple {
+    color: #fff;
+    background-color: #833be7;
+    border-color: #8402f3;
+}

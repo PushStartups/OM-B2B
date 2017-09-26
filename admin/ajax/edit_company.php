@@ -298,8 +298,7 @@ if(DB::count() == 0){
         "closing_time"                  =>  $_POST['monday_end_time'],
         "opening_time_he"               =>  $_POST['monday_start_time_he'],
         "closing_time_he"               =>  $_POST['monday_end_time_he'],
-        "delivery_timing"               =>  $_POST['monday_delivery_time'],
-        "food_ready_for_pickup"         =>  $_POST['monday_food_ready_for_pickup'],
+        "delivery_timing"               =>  $mon_delivery_time
     ));
 
     DB::useDB(B2B_DB);
@@ -311,8 +310,7 @@ if(DB::count() == 0){
         "closing_time"                  =>  $_POST['tuesday_end_time'],
         "opening_time_he"               =>  $_POST['tuesday_start_time_he'],
         "closing_time_he"               =>  $_POST['tuesday_end_time_he'],
-        "delivery_timing"               =>  $_POST['tuesday_delivery_time'],
-        "food_ready_for_pickup"         =>  $_POST['tuesday_food_ready_for_pickup'],
+        "delivery_timing"               =>  $tue_delivery_time
 
     ));
     DB::useDB(B2B_DB);
@@ -324,8 +322,7 @@ if(DB::count() == 0){
         "closing_time"                  =>  $_POST['wednesday_end_time'],
         "opening_time_he"               =>  $_POST['wednesday_start_time_he'],
         "closing_time_he"               =>  $_POST['wednesday_end_time_he'],
-        "delivery_timing"               =>  $_POST['wednesday_delivery_time'],
-        "food_ready_for_pickup"         =>  $_POST['wednesday_food_ready_for_pickup'],
+        "delivery_timing"               =>  $wed_delivery_time
     ));
 
     DB::useDB(B2B_DB);
@@ -337,8 +334,7 @@ if(DB::count() == 0){
         "closing_time"                  =>  $_POST['thursday_end_time'],
         "opening_time_he"               =>  $_POST['thursday_start_time_he'],
         "closing_time_he"               =>  $_POST['thursday_end_time_he'],
-        "delivery_timing"               =>  $_POST['thursday_delivery_time'],
-        "food_ready_for_pickup"         =>  $_POST['thursday_food_ready_for_pickup'],
+        "delivery_timing"               =>  $thur_delivery_time
     ));
 
 
@@ -351,8 +347,7 @@ if(DB::count() == 0){
         "closing_time"                  =>  $_POST['friday_end_time'],
         "opening_time_he"               =>  $_POST['friday_start_time_he'],
         "closing_time_he"               =>  $_POST['friday_end_time_he'],
-        "delivery_timing"               =>  $_POST['friday_delivery_time'],
-        "food_ready_for_pickup"         =>  $_POST['friday_food_ready_for_pickup'],
+        "delivery_timing"               =>  $fri_delivery_time
     ));
 
 
@@ -365,8 +360,7 @@ if(DB::count() == 0){
         "closing_time"                  =>  $_POST['saturday_end_time'],
         "opening_time_he"               =>  $_POST['saturday_start_time_he'],
         "closing_time_he"               =>  $_POST['saturday_end_time_he'],
-        "delivery_timing"               =>  $_POST['saturday_delivery_time'],
-        "food_ready_for_pickup"         =>  $_POST['saturday_food_ready_for_pickup'],
+        "delivery_timing"               =>  $sat_delivery_time
     ));
 
 
@@ -379,8 +373,7 @@ if(DB::count() == 0){
         "closing_time"                  =>  $_POST['sunday_end_time'],
         "opening_time_he"               =>  $_POST['sunday_start_time_he'],
         "closing_time_he"               =>  $_POST['sunday_end_time_he'],
-        "delivery_timing"               =>  $_POST['sunday_delivery_time'],
-        "food_ready_for_pickup"         =>  $_POST['sunday_food_ready_for_pickup'],
+        "delivery_timing"               =>  $sun_delivery_time
     ));
 
 
@@ -392,8 +385,7 @@ else{
     "closing_time"                  =>  $_POST['sunday_end_time'],
     "opening_time_he"               =>  $_POST['sunday_start_time_he'],
     "closing_time_he"               =>  $_POST['sunday_end_time_he'],
-        "delivery_timing"               =>  $_POST['sunday_delivery_time'],
-        "food_ready_for_pickup"         =>  $_POST['sunday_food_ready_for_pickup'],
+        "delivery_timing"               =>  $sun_delivery_time
 
 ),  "id=%d",     $week7_id  );
 
@@ -403,8 +395,7 @@ DB::update('company_timing', array(
     "closing_time"                  =>  $_POST['monday_end_time'],
     "opening_time_he"               =>  $_POST['monday_start_time_he'],
     "closing_time_he"               =>  $_POST['monday_end_time_he'],
-    "delivery_timing"               =>  $_POST['monday_delivery_time'],
-    "food_ready_for_pickup"         =>  $_POST['monday_food_ready_for_pickup'],
+    "delivery_timing"               =>  $mon_delivery_time
 
 ),  "id=%d",     $week1_id  );
 
@@ -414,8 +405,7 @@ DB::update('company_timing', array(
     "closing_time"                  =>  $_POST['tuesday_end_time'],
     "opening_time_he"               =>  $_POST['tuesday_start_time_he'],
     "closing_time_he"               =>  $_POST['tuesday_end_time_he'],
-    "delivery_timing"               =>  $_POST['tuesday_delivery_time'],
-    "food_ready_for_pickup"         =>  $_POST['tuesday_food_ready_for_pickup'],
+    "delivery_timing"               =>  $tue_delivery_time
 
 ),  "id=%d",     $week2_id  );
 
@@ -425,8 +415,7 @@ DB::update('company_timing', array(
     "closing_time"                  =>  $_POST['wednesday_end_time'],
     "opening_time_he"               =>  $_POST['wednesday_start_time_he'],
     "closing_time_he"               =>  $_POST['wednesday_end_time_he'],
-    "delivery_timing"               =>  $_POST['wednesday_delivery_time'],
-    "food_ready_for_pickup"         =>  $_POST['wednesday_food_ready_for_pickup'],
+    "delivery_timing"               =>  $wed_delivery_time
 
 ),  "id=%d",     $week3_id  );
 
@@ -436,8 +425,7 @@ DB::update('company_timing', array(
     "closing_time"                  =>  $_POST['thursday_end_time'],
     "opening_time_he"               =>  $_POST['thursday_start_time_he'],
     "closing_time_he"               =>  $_POST['thursday_end_time_he'],
-    "delivery_timing"               =>  $_POST['thursday_delivery_time'],
-    "food_ready_for_pickup"         =>  $_POST['thursday_food_ready_for_pickup'],
+    "delivery_timing"               =>  $thur_delivery_time
 
 ),  "id=%d",     $week4_id  );
 
@@ -447,8 +435,7 @@ DB::update('company_timing', array(
     "closing_time"                  =>  $_POST['friday_end_time'],
     "opening_time_he"               =>  $_POST['friday_start_time_he'],
     "closing_time_he"               =>  $_POST['friday_end_time_he'],
-    "delivery_timing"               =>  $_POST['friday_delivery_time'],
-    "food_ready_for_pickup"         =>  $_POST['friday_food_ready_for_pickup'],
+    "delivery_timing"               =>  $fri_delivery_time
 
 ),  "id=%d",     $week5_id  );
 
@@ -458,8 +445,7 @@ DB::update('company_timing', array(
     "closing_time"                  =>  $_POST['saturday_end_time'],
     "opening_time_he"               =>  $_POST['saturday_start_time_he'],
     "closing_time_he"               =>  $_POST['saturday_end_time_he'],
-    "delivery_timing"               =>  $_POST['saturday_delivery_time'],
-    "food_ready_for_pickup"         =>  $_POST['saturday_food_ready_for_pickup'],
+    "delivery_timing"               =>  $sat_delivery_time
 
 ),  "id=%d",     $week6_id  );
 

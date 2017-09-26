@@ -3,7 +3,7 @@ require_once '../inc/initDb.php';
 session_start();
 $email = $_POST['email'];
 $password = $_POST['password'];
-DB::useDB(B2B_RESTAURANTS);
+DB::useDB(B2B_DB);
 
 $admin = DB::queryFirstRow("select * from admin where email = '$email' and password = '$password'");
 

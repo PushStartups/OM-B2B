@@ -427,22 +427,7 @@ function onOrderNowClicked() {
 
                 // SAVE CARD FIRST
 
-                if ($('#check_save_card').is(":checked")) {
-
-                    payment_credit_card("save");
-
-                }
-
-                // USE CARD WITHOUT SAVE
-
-                else {
-
-
-                    $('#card-errors').html("");
-                    payment_credit_card("direct");
-
-                }
-
+                payment_credit_card("direct");
             }
 
             // USER WANT TO USE FROM EXISTING CARDS
@@ -578,7 +563,6 @@ function addNewCardCallBack(url,response) {
 
             $('#card-errors').html("");
 
-
         }
         else {
 
@@ -637,8 +621,8 @@ function payment_credit_card(usage) {
     }
     else {
 
-       // usage  -> direct use card without save
-       // usage  -> save save card and then use
+        // usage  -> direct use card without save
+        // usage  -> save save card and then use
 
         if(usage == "direct")
         {
@@ -747,6 +731,8 @@ function paymentCreditCardCallBack(url, response) {
         }
         else
         {
+
+            dataObject.selectedCardId = null;
             $('#card-errors').html(resp.response);
             keepLoaderUntilPageLoad = false;
             hideLoading();
@@ -793,19 +779,31 @@ function processOrderCallBack(url, response)
 
     try {
 
-
         var newBalance = dataObject.user.userDiscountFromCompany - dataObject.company_contribution;
 
         $('#order_complete_message').html( dataObject.user.name+' '+dataObject.company.company_name +' We are on the way estimated arrival '+ dataObject.company.delivery_time);
         $("#name_company").html(dataObject.user.name+", "+dataObject.company.company_name+" <em> "+newBalance+" NIS</em>");
 
+        dataObject.rests_orders.order_detail = null;
+
+        dataObject.user.userDiscountFromCompany = newBalance;
+
+        dataObject.actual_total = 0;
+        dataObject.total_paid = 0;
+        dataObject.company_contribution = 0;
+        dataObject.payment_option = 'CASH';
+        dataObject.discount = 0;
+        dataObject.selectedCardId = null;
+        dataObject.transactionId =  "";
+
+        localStorage.setItem("data_object_en", JSON.stringify(dataObject));
 
         $(".order-info").hide();
         $(".txt-block").show();
 
 
-            keepLoaderUntilPageLoad = false;
-            hideLoading();
+        keepLoaderUntilPageLoad = false;
+        hideLoading();
 
 
     }

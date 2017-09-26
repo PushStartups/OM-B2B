@@ -1,6 +1,6 @@
 <?php
 
-require_once (dirname(__FILE__) . '/../PHPMailer/PHPMailerAutoload.php');
+//require_once (dirname(__FILE__) . '/../PHPMailer/PHPMailerAutoload.php');
 require_once (dirname(__FILE__) . '/../Interfax/vendor/autoload.php');
 
 use Mailgun\Mailgun;
@@ -8,12 +8,12 @@ use Interfax\Client;
 
 //GET ARRAY OF ALL COMPANIES AND THEIR TIMINGS
 function getCompanies($TEST_MODE) {
-  $timings = DB::query("SELECT company_id, week_en, delivery_timing, food_ready_for_pickup FROM company_timing");
+  $timings = DB::query("SELECT company_id, week_en, closing_time, food_ready_for_pickup FROM company_timing");
   //echo '<pre>'; var_dump($timings); echo '</pre>';
   if ( $TEST_MODE ) {
     $companies = DB::query("SELECT id, name, delivery_address, contact_number FROM company WHERE id = 2");
     foreach ( $companies as &$company) {
-      $timing = getTimingForCompany($timings, 3);
+      $timing = getTimingForCompany($timings, 2);
       $company["timing"] = array();
       foreach( $timing as $day ) {
         array_push($company["timing"], $day);
@@ -29,14 +29,12 @@ function getCompanies($TEST_MODE) {
       foreach($companies as $company) {
         foreach ( $timings as $timing) {
           if ( $timing["company_id"] == $company["id"] ) {
-            //foreach($timing as $day) {
-              $today = date('l');
-              if ( $timing["week_en"] == $today && isSendTime($timing["delivery_timing"]) ) {
-                array_push($returnCompanies, $company);
-                //echo '<pre>'; var_dump($company); echo '</pre>';
-                break;
-              }
-            //}
+            $today = date('l');
+            if ( $timing["week_en"] == $today && isSendTime($timing["closing_time"]) ) {
+              array_push($returnCompanies, $company);
+              //echo '<pre>'; var_dump($company); echo '</pre>';
+              break;
+            }
           }
         }
       }
@@ -46,17 +44,17 @@ function getCompanies($TEST_MODE) {
 }
 
 //COMPARE THE SEND TIME AND CURRENT TIME
-function isSendTime($delivery_timing) {
-  if ( count($delivery_timing) != 0 && $delivery_timing != 'Closed' && !is_null($delivery_timing) ) {
-    $delivery_time_array = explode(":", $delivery_timing);
-    $delivery_hour = $delivery_time_array[0];
-    $delivery_minutes = $delivery_time_array[1];
+function isSendTime($closing_time) {
+  if ( count($closing_time) != 0 && $closing_time != 'Closed' && !is_null($closing_time) ) {
+    $closing_time_array = explode(":", $closing_time);
+    $closing_hour = $closing_time_array[0];
+    $closing_minutes = $closing_time_array[1];
     
     $current_hour = date('H');
     $current_minutes = date('i');
 
-    if( $current_hour == $delivery_hour ){
-      if( $current_minutes >= $delivery_minutes && $current_minutes - $delivery_minutes < 14 ){
+    if( $current_hour == $closing_hour){
+      if( $current_minutes >= $closing_minutes && $current_minutes - $closing_minutes < 3 ){
         return true;
       }
     }
@@ -85,7 +83,7 @@ function sendMessages($companies, $TEST_MODE) {
   foreach($companies as $company) {
 
     $ordersFromDB = DB::query("SELECT * FROM b2b_orders WHERE `company_id` = " . $company['id'] . " AND `sent` = 0");
-
+    
     if ( count($ordersFromDB) == 0 ) {
       continue;
     }
@@ -97,7 +95,7 @@ function sendMessages($companies, $TEST_MODE) {
     sendDeliveryMsg($company, $restaurantsArray, $TEST_MODE);
 
     //"itemName"
-    // echo '<pre>'; var_dump($restaurantsArray); echo '</pre>';
+    //echo '<pre>'; var_dump($restaurantsArray); echo '</pre>';
 
   }
 }
@@ -172,88 +170,28 @@ function getOrdersByRestaurant($ordersFromDB) {
 function sendOrderMessage($restaurantsArray, $TEST_MODE) {
 
   foreach( $restaurantsArray as $restaurant ) {
-
-      $msg = '';
-      $msg .= $restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["selectedRestaurant"]["name_he"] . "
-
-";
-      $msg .= 'הזמנה ללקוח עסקי' . '
-';
-      $msg .= $restaurant["orders"][0]["rest_order_object"]["company"]["company_name"]. '
-';
-      $msg .= "------------------------
-
-";
-      foreach( $restaurant['orders'] as $order ) {
-
-        $msg .= "שֵׁם : " . $order["rest_order_object"]["user"]["name"] . '
-';
-        foreach($order["rest_order_object"]['rests_orders'][0]['order_detail'] as $item) {
-          $msg .= $item['itemNameHe'] . '
-';
-            if ( array_key_exists('subItemsOneType', $item) ) {
-
-                foreach( $item['subItemsOneType'] as $subItem ) {
-                    foreach( $subItem as $key => $value) {
-                        $msg .= $key  . ": " . $value["subItemNameHe"] . "
-";
-                    }
-                }
-            }
-
-          if ( array_key_exists('multiItemsOneType', $item) ) {
-            foreach( $item["multiItemsOneType"] as $itemOnType ) {
-              $values = array_values($itemOnType);
-              if ( !is_string($values[0]) ) {
-                $msg .= $values[0]["subItemNameHe"] . "
-";
-              }
-            }
-          }
-        }
-        $msg .= "
-
-";
-       DB::useDB('orderapp_b2b_wui');
-       DB::query("UPDATE b2b_orders SET sent=1 WHERE id = " . $order['order_id']);
-      }
-
-      $msg .= "------------------------
-
-";
-
-      $msg .= ' כמות סכו״ם ' . count($restaurant["orders"]) . '
-';
-      $msg .= "*נא לרשום את שם הלקוח על האריזה*" . '
-
-
-';
-$msg .= "------------------------
-";
-      $timings = $restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["selectedRestaurant"]["timings"];
-      $msg .= "*שיהיה מוכן לאיסוף לשעה " . getTodaysPickupTime($timings) . "*";
-
       
       //SEND TELEGRAM FOR EVERY RESTAURANT
-      telegramAPI($msg, $TEST_MODE);
+      telegramAPI(createMessage($restaurant), $TEST_MODE);
 
       //SEND WHATSAPP MESSAGE
       $whatsapp_group_name = $restaurant["whatsapp_group_name"];
       $whatsapp_group_creator = $restaurant["whatsapp_group_creator"];
-      whatsappAPI($whatsapp_group_creator, $whatsapp_group_name, $msg, $TEST_MODE);
+      whatsappAPI($whatsapp_group_creator, $whatsapp_group_name, createMessage($restaurant), $TEST_MODE);
 
       //SEND EMAIL TO RESTAURANT IF IT HAS ONE
       if ( $restaurant["email"] ) {
-        sendOrderEmail($msg, $restaurant["email"]);
+        sendEmail(emailMessage($restaurant), $restaurant["email"]);
       }
 
       //SEND FAX TO RESTAURANT IF IT HAS ONE
       if ( $restaurant["fax_number"] ) {
-        sendFax($restaurant["fax_number"], $msg, $TEST_MODE);
+        sendFax($restaurant["fax_number"], createMessage($restaurant), $TEST_MODE);
       }
     }
 }
 
+//SENDS DELIVERY MESSAGE
 function sendDeliveryMsg($company, $restaurantsArray, $TEST_MODE) {
 
   $delivery_groups = array();
@@ -269,8 +207,8 @@ function sendDeliveryMsg($company, $restaurantsArray, $TEST_MODE) {
     $msg1 .= "איש קשר " . $company["contact_number"] . "
 
 ";
-
-    if ( $restaurants_delivery_data[$restaurant["id"]]["delivery_group"] == 0 ) {
+    
+    if ( $restaurants_delivery_data[$restaurant["id"]]["delivery_group"] == "0" ) {
       //$msg1 = $msg;
       $msg1 .= $restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["selectedRestaurant"]["name_en"] . '
 ';
@@ -313,46 +251,171 @@ function sendDeliveryMsg($company, $restaurantsArray, $TEST_MODE) {
       }
     }
   }
-
-
-    $delivery_groups_data = getDeliveryGroupsData($delivery_groups_id_array);
-
-    foreach( $delivery_groups as $delivery_group ) {
-
-      $msg2 = "*הזמנה עסקי ל*" . $company["name"] . "
+    
+    if ( count($delivery_groups) > 0 ) {
+      $delivery_groups_data = getDeliveryGroupsData($delivery_groups_id_array);
+  
+      foreach( $delivery_groups as $delivery_group ) {
+    
+        $msg2 = "*הזמנה עסקי ל*" . $company["name"] . "
 ";
-      $msg2 .= $company["delivery_address"] . "
+        $msg2 .= $company["delivery_address"] . "
 ";
-      $msg2 .= "איש קשר " . $company["contact_number"] . "
+        $msg2 .= "איש קשר " . $company["contact_number"] . "
 
 ";
-
-      foreach( $delivery_group['restaurants'] as $restaurant ) {
-
-        foreach( $restaurant['orders'] as $order ) {
-
-          $msg2 .= $order["rest_order_object"]["rests_orders"][0]["selectedRestaurant"]["name_en"] . '
+    
+        foreach( $delivery_group['restaurants'] as $restaurant ) {
+      
+          foreach( $restaurant['orders'] as $order ) {
+        
+            $msg2 .= $order["rest_order_object"]["rests_orders"][0]["selectedRestaurant"]["name_en"] . '
 ';
-          $msg2 .= "מנות " . count($restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["order_detail"]) . "
+            $msg2 .= "מנות " . count($restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["order_detail"]) . "
 
 ";
+          }
+        }
+    
+        $timings = $restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["selectedRestaurant"]["timings"];
+        $msg2 .= "*האוכל יהיה מוכן בשעה " . getTodaysPickupTime($timings) . "*";
+    
+        //SEND TELEGRAM
+        telegramAPI($msg2, $TEST_MODE);
+    
+        //SEND WHATSAPP TO THE RESTAURANT
+        whatsappAPI($delivery_groups_data[$delivery_group["delivery_id"]]["whatsapp_group_creator"], $delivery_groups_data[$delivery_group["delivery_id"]]["whatsapp_group_name"], $msg2, $TEST_MODE);
+    
+      }
+    }
+}
+
+//CREATE MESSAGE FOR TELEGRAM, WHATSAPP, FAX
+function createMessage($restaurant) {
+  $msg = '';
+  $msg .= $restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["selectedRestaurant"]["name_he"] . '
+
+';
+  $msg .= 'הזמנה ללקוח עסקי' . '
+';
+  $msg .= $restaurant["orders"][0]["rest_order_object"]["company"]["company_name"]. '
+';
+  $msg .= '------------------------
+
+';
+  foreach( $restaurant['orders'] as $order ) {
+    
+    $msg .= 'שֵׁם : ' . $order["rest_order_object"]["user"]["name"] . '
+';
+    foreach($order["rest_order_object"]['rests_orders'][0]['order_detail'] as $item) {
+      $msg .= $item['itemNameHe'] . '
+';
+      if ( array_key_exists('subItemsOneType', $item) ) {
+        
+        foreach( $item['subItemsOneType'] as $subItem ) {
+          foreach( $subItem as $key => $value) {
+            $msg .= $key  . ': ' . $value["subItemNameHe"] . '
+';
+          }
         }
       }
-
-      $timings = $restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["selectedRestaurant"]["timings"];
-      $msg2 .= "*האוכל יהיה מוכן בשעה " . getTodaysPickupTime($timings) . "*";
-
-      //SEND TELEGRAM
-      telegramAPI($msg2, $TEST_MODE);
-
-      //SEND WHATSAPP TO THE RESTAURANT
-      whatsappAPI($delivery_groups_data[$delivery_group["delivery_id"]]["whatsapp_group_creator"], $delivery_groups_data[$delivery_group["delivery_id"]]["whatsapp_group_name"], $msg2, $TEST_MODE);
-
+      
+      if ( array_key_exists('multiItemsOneType', $item) ) {
+        foreach( $item["multiItemsOneType"] as $itemOnType ) {
+          $values = array_values($itemOnType);
+          if ( !is_string($values[0]) ) {
+            $msg .= $values[0]["subItemNameHe"] . '
+';
+          }
+        }
+      }
     }
+    $msg .= '
 
+';
+    DB::useDB('orderapp_b2b_wui');
+    DB::query("UPDATE b2b_orders SET sent=1 WHERE id = " . $order['order_id']);
+  }
+  
+  $msg .= '------------------------
+
+';
+  
+  $msg .= ' כמות סכו״ם ' . count($restaurant["orders"]) . '
+';
+  $msg .= '*נא לרשום את שם הלקוח על האריזה*' . '
+
+
+';
+  $msg .= '------------------------
+';
+  $timings = $restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["selectedRestaurant"]["timings"];
+  $msg .= '*שיהיה מוכן לאיסוף לשעה ' . getTodaysPickupTime($timings) . '*';
+  
+  return $msg;
+}
+
+//CREATE HTML MESSAGE FOR EMAIL
+function emailMessage($restaurant) {
+  $msg = '<html>';
+  $msg .= '<body dir="rtl">';
+  
+  $msg .= '<p>' . $restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["selectedRestaurant"]["name_he"] . '</p>';
+  $msg .= '<br>';
+  $msg .= '<p>' . 'הזמנה ללקוח עסקי' . '</p>';
+  $msg .= '<p>' . $restaurant["orders"][0]["rest_order_object"]["company"]["company_name"]. '</p>';
+  $msg .= '<div>' . '------------------------' . '</div>';
+  $msg .= '<br>';
+  
+  foreach( $restaurant['orders'] as $order ) {
+    
+    $msg .= '<p>' . 'שֵׁם : ' . $order["rest_order_object"]["user"]["name"] . '</p>';
+    foreach($order["rest_order_object"]['rests_orders'][0]['order_detail'] as $item) {
+      
+      $msg .= '<p>' . $item['itemNameHe'] . '</p>';
+      
+      if ( array_key_exists('subItemsOneType', $item) ) {
+        foreach( $item['subItemsOneType'] as $subItem ) {
+          foreach( $subItem as $key => $value) {
+            $msg .= '<p>' . $key  . ": " . $value["subItemNameHe"] . '</p>';
+          }
+        }
+      }
+      
+      if ( array_key_exists('multiItemsOneType', $item) ) {
+        foreach( $item["multiItemsOneType"] as $itemOnType ) {
+          $values = array_values($itemOnType);
+          if ( !is_string($values[0]) ) {
+            $msg .= '<p>' . $values[0]["subItemNameHe"] . '</p>';
+          }
+        }
+      }
+    }
+    $msg .= '<br>';
+    DB::useDB('orderapp_b2b_wui');
+    DB::query("UPDATE b2b_orders SET sent=1 WHERE id = " . $order['order_id']);
+  }
+  
+  $msg .= '<div>' . '------------------------' . '</div>';
+  $msg .= '<br>';
+  
+  $msg .= '<p>' . ' כמות סכו״ם ' . count($restaurant["orders"]) . '</p>';
+  $msg .= '<p>'. '*נא לרשום את שם הלקוח על האריזה*' . '</p>';
+  $msg .= '<br>';
+  $msg .= '<br>';
+  $msg .= '<div>'.'------------------------'.'</div>';
+  $msg .= '<br>';
+  $timings = $restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["selectedRestaurant"]["timings"];
+  $msg .= '<p>' . '*שיהיה מוכן לאיסוף לשעה ' . getTodaysPickupTime($timings) . '*' . '</p>';
+  $msg .= '</body>';
+  $msg .= '</html>';
+  
+  return $msg;
 }
 
 function getDeliveryGroupsData($delivery_groups_id_array) {
+  
+    DB::useDB(B2B_B2C_COMMON);
     $delivery_groups_data = DB::query("SELECT `id`, `whatsapp_group_name`, `whatsapp_group_creator` FROM `delivery_groups` WHERE id IN (" . implode(",", $delivery_groups_id_array) . ")");
 
     $new_delivery_groups_data = array();
@@ -457,6 +520,82 @@ function whatsappAPI($groupAdmin, $groupName, $message, $TEST_MODE) {
     echo $response;
 
     curl_close($ch);
+}
+
+function sendEmail($msg, $toEmail) {
+  
+  if($_SERVER['HTTP_HOST'] == 'eluna.orderapp.com')
+  {
+    //$subject = "(ELUNA) "+$user_order['restaurantTitle'].' Order# '.$orderId;
+  }
+  
+  else
+  {
+    $subject = 'New Orders';
+  }
+  
+  
+  //AMAZON SERVER ACTIVATED
+  if(ACTIVE_SERVER_ID == '1')
+  {
+    
+    $client = SesClient::factory(array(
+      'version'=> 'latest',
+      'region' => 'eu-west-1',
+      'credentials' => array(
+        'key'    => ACCESS_KEY_ID,
+        'secret' => ACCESS_KEY_SECRET,
+      )
+    ));
+    
+    try {
+      
+      $result = $client->sendEmail([
+        'Destination' => [
+          'ToAddresses' => [
+            $toEmail,
+          ],
+        ],
+        'Message' => [
+          'Body' => [
+            'Html' => [
+              'Charset' => 'UTF-8',
+              'Data' => $msg,
+            ]
+          ],
+          'Subject' => [
+            'Charset' => 'UTF-8',
+            'Data' => $subject,
+          ],
+        ],
+        'Source' => EMAIL,
+      
+      ]);
+      
+      $messageId = $result->get('MessageId');
+      
+      //echo("Email sent! Message ID: $messageId"."\n");
+      
+    } catch (SesException $error) {
+      
+      echo("The email was not sent. Error message: ".$error->getAwsErrorMessage()."\n");
+    }
+    
+  }
+  //MAIN GUN SERVER ACTIVATED
+  else if(ACTIVE_SERVER_ID == '2'){
+    
+    $mg = Mailgun::create(MAIL_GUN_API_KEY);
+    
+    $mg->messages()->send(MAIL_GUN_DOMAIN, [
+      'from'    =>  "OrderApp <".EMAIL.">",
+      'to'      =>  $toEmail,
+      'cc'      =>  EMAIL,
+      'subject' =>  $subject,
+      'html'    => $msg
+    ]);
+    
+  }
 }
 
 //EMAIL FUNCTION

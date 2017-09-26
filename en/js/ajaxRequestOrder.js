@@ -412,7 +412,7 @@ function onItemSelectedCallBack(url,response)
 
         var isShow = false;
 
-        if(extras.extra_with_subitems.length != 0) {
+        if(extras.extra_with_subitems.length != 0 || allCategoriesWithItemsResp[currentCategoryId].items[currentItemIndex].desc_en != "") {
 
             // DISPLAY ALL AVAILABLE EXTRAS
             for (var x = 0; x < extras.extra_with_subitems.length; x++) {
@@ -626,7 +626,8 @@ function onItemSelectedCallBack(url,response)
             $('#parent_type_multiple_2').show();
 
 
-            if(isShow) {
+            if(isShow ||  allCategoriesWithItemsResp[currentCategoryId].items[currentItemIndex].desc_en != "")
+            {
                 $('#my-order').modal('show');
 
                 // CHECK DEFAULT SELECTED MINIMUM ITEMS
@@ -644,7 +645,8 @@ function onItemSelectedCallBack(url,response)
                 addUserOrder();
             }
         }
-        else {
+        else
+        {
 
             addUserOrder();
 

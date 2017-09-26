@@ -32,6 +32,32 @@ include "header.php";
                 <!-- end col -->
 
             </div>
+            <div class ="row">
+                <div class="col-xs-12">
+                    <form  method="post" enctype="multipart/form-data">
+                        <fieldset>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-xs-3">
+                                        <select class="form-control" id="company_select_id" style="color: black;"  >
+                                            <option value=""  selected disabled> Select Company</option>
+                                            <?php
+                                            DB::useDB(B2B_DB);
+                                            $company = DB::query("select * from company");
+                                            foreach($company as $companies){  ?>
+                                                <option value="<?=$companies['id']?>" ><?=$companies['name']?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
             <!-- end row -->
 
             <!--
@@ -86,15 +112,21 @@ include "header.php";
                                             <th data-hide="phone, tablet">Restaurant Name</th>
                                             <th data-hide="phone,tablet">Payment</th>
                                             <th data-hide="phone,tablet">Delivery Or Pickup</th>
+                                            <th data-hide="phone,tablet">Delivery Price</th>
                                             <th data-hide="phone,tablet">Order No</th>
+                                            <th data-hide="phone,tablet">Discount Amount</th>
                                             <th data-hide="phone,tablet">Restaurant Total</th>
                                             <th data-hide="phone, tablet">Customer Grand Total</th>
                                             <th data-hide="phone,tablet">Customer Total Paid To Restaurant</th>
+                                            <th data-hide="phone,tablet">Company daily allowance</th>
+                                            <th data-hide="phone,tablet">Company Total</th>
+                                            <th data-hide="phone,tablet">Customer Pay</th>
+                                            <th data-hide="phone,tablet">Action</th>
                                         </tr>
                                         </thead>
 
                                         <tbody id="target-content">
-                                        <?php DB::useDB(B2B_DB);
+                                        <?php DB::useDB(B2B_B2C_COMMON);
                                         $orders = DB::query("select * from b2b_ledger");
 
 
@@ -102,6 +134,12 @@ include "header.php";
                                             ?>
 
                                             <tr>
+                                                <?php
+                                                DB::useDB(B2B_DB);
+                                                $company_info = DB::queryFirstRow("select * from company where name = '".$order['company_name']."'");
+                                                $daily_allowance = $company_info['discount'];
+                                                ?>
+
                                                 <td><?= $order['date'] ?></td>
                                                 <td><?= $order['time'] ?></td>
                                                 <td><?= $order['customer_name'] ?></td>
@@ -111,10 +149,35 @@ include "header.php";
                                                 <td><?= $order['restaurant_name'] ?></td>
                                                 <td><?= $order['payment_method'] ?></td>
                                                 <td><?= $order['delivery_or_pickup'] ?></td>
+                                                <td><?= $order['delivery_price'] ?></td>
                                                 <td><?= $order['order_no'] ?></td>
+                                                <td><?= $order['discount_amount'] ?></td>
                                                 <td><?= $order['restaurant_total'] ?></td>
                                                 <td><?= $order['customer_grand_total'] ?></td>
                                                 <td><?= $order['customer_total_paid_to_restaurant'] ?></td>
+                                                <td><?= $daily_allowance ?></td>
+                                                <?php
+                                                //COMPANY TOTAL
+                                                if($order['customer_grand_total'] >= $daily_allowance)
+                                                { ?>
+                                                    <td><?= $daily_allowance ?></td>
+                                                <?php } else{ ?>
+                                                    <td><?= $order['customer_grand_total'] ?></td>
+                                                <?php }
+
+
+                                                if($order['customer_grand_total'] > $daily_allowance)
+                                                {
+                                                    $customer_pay = $order['customer_grand_total']- $daily_allowance;
+                                                    ?>
+                                                <td><?= $customer_pay ?></td>
+                                                <?php } else{ ?>
+                                                    <td><?= 0 ?></td>
+                                                <?php }
+                                                ?>
+                                                <td><a href="edit-ledger.php?id=<?=$order['id']?>"><button class="btn btn-labeled btn-primary bg-color-blueDark txt-color-white add" style="border-color: #4c4f53;"><i class="fa fa-fw fa-edit"></i> Edit </button></a></td>
+
+
                                             </tr>
 
                                             <?php

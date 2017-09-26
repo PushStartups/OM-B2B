@@ -14,9 +14,6 @@ DB::delete('b2b_rest_discounts', "company_id=%d", $company_id );
 
 DB::delete('b2b_users', "company_id=%d", $company_id );
 
-DB::delete('vote_timings', "company_id=%d", $company_id );
-
-DB::delete('company_voting', "company_id=%d", $company_id );
 
 DB::delete('company_timing', "company_id=%d", $company_id );
 

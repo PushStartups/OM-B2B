@@ -1,47 +1,67 @@
 <?php
 
 require      'vendor/autoload.php';
-require      'PHPMailer/PHPMailerAutoload.php';
 require_once 'inc/initDb.php';
 require_once 'functions.php';
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-use Mailgun\Mailgun;
+
+use Aws\Ses\SesClient;
 
 DB::query("set names utf8");
 
-if($_SERVER['HTTP_HOST'] == "orderapp.com" || $_SERVER['HTTP_HOST'] == "b2b.orderapp.com" || $_SERVER['HTTP_HOST'] == "staging.orderapp.com" || $_SERVER['HTTP_HOST'] == "app.orderapp.com") {
 
-    define("EMAIL_HOST",'email-smtp.eu-west-1.amazonaws.com');
-    define("EMAIL_SMTP_USERNAME", 'AKIAIPAKBGDBG7VA3Z5Q');
-    define("EMAIL_SMTP_PASSWORD", 'Anppp4pvtEtIs8snhnUHeQlwKHxS8fm3m1mILfes0ocI');
+if( $_SERVER['HTTP_HOST']    == "orderapp.com"
+    || $_SERVER['HTTP_HOST'] == "b2b.orderapp.com"
+    || $_SERVER['HTTP_HOST'] == "staging.orderapp.com"
+    || $_SERVER['HTTP_HOST'] == "app.orderapp.com"
+    || $_SERVER['HTTP_HOST'] == "backupb2b.orderapp.com") {
+
+
+    DB::useDB(B2B_B2C_COMMON);
+
+    $active_server         =  DB::queryFirstRow("select * from mail_servers where active = '1'");
+    $active_server_detail  =  DB::queryFirstRow("select * from mail_server_details where mail_server_id = '".$active_server['id']."'");
+
+    define("EMAIL_HOST" , $active_server_detail['host']);
+    define("ACTIVE_SERVER_ID",$active_server['id']);
+
+    //AMAZON SES SERVER
+    if($active_server['id'] == '1')
+    {
+        define("EMAIL_SMTP_USERNAME", $active_server_detail['smtp_user_name']);
+        define("EMAIL_SMTP_PASSWORD", $active_server_detail['smtp_password']);
+        define("ACCESS_KEY_ID", $active_server_detail['access_key_id']);
+        define("ACCESS_KEY_SECRET", $active_server_detail['access_key_secret']);
+    }
+    //MAIL GUN EMAIL SERVER
+    else if($active_server['id'] == '2')
+    {
+        define("MAIL_GUN_API_KEY", $active_server_detail['api_key']);
+        define("MAIL_GUN_DOMAIN", $active_server_detail['domain']);
+    }
 
 }
-else{
-
-
-    // EMAIL SERVERS FOR EACH EMAIL ADDRESS
-    define("EMAIL_HOST",'smtp.mailgun.org');
-    define("EMAIL_SMTP_USERNAME", 'postmaster@app.orderapp.com');
-    define("EMAIL_SMTP_PASSWORD", 'ad56352ed13c886389869b5fcc6bedd3');
+else
+{
+    define("ACTIVE_SERVER_ID",'2');
+    define("MAIL_GUN_API_KEY", 'key-65a57d31e6628f609456464d64223d44');
+    define("MAIL_GUN_DOMAIN", 'app.orderapp.com');
 
 }
-
-
-define("B2B_DB","orderapp_b2b_wui");
-define("B2B_RESTAURANTS","orderapp_restaurants_b2b_wui");
 
 // ORDER RECEIVE EMAILS FOR SERVERS
 
 // DEV SERVER
 if($_SERVER['HTTP_HOST'] == "devb2b.orderapp.com")
 {
-    define("EMAIL","devb2borders@orderapp.com");
+    define("EMAIL","orders@orderapp.com");
     define("B2BLINK","devb2b.orderapp.com");
 }
 // QA SERVER
-else if($_SERVER['HTTP_HOST'] == "qab2b.orderapp.com"){
+else if($_SERVER['HTTP_HOST'] == "qab2b.orderapp.com")
+{
 
     define("EMAIL","qab2borders@orderapp.com");
     define("B2BLINK","qab2b.orderapp.com");
@@ -54,6 +74,7 @@ else
     define("B2BLINK","b2b.orderapp.com");
 }
 // SERVER URL TO UPLOAD CONTENT
+
 
 // SLIM INITIALIZATION
 $app = new \Slim\App();
@@ -68,7 +89,7 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
 
         $obj      = '';
 
-        DB::useDB('orderapp_b2b_wui');
+        DB::useDB(B2B_DB);
 
 
         $userDB = DB::queryFirstRow("select * from b2b_users where user_name = '$user_name' and password = '$password'");
@@ -100,7 +121,6 @@ $app->post('/b2b_user_login', function ($request, $response, $args)
             {
 
                 $obj['field'] = "password";
-
             }
 
         }
@@ -138,7 +158,7 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
         $company  = '';
         $discount = '';
 
-        DB::useDB('orderapp_b2b_wui');
+        DB::useDB(B2B_DB);
 
         $userDB = DB::queryFirstRow("select * from b2b_users where id = '$user_id'");
 
@@ -193,7 +213,7 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
 
                 }
             }
-            DB::useDB('orderapp_b2b_wui');
+            DB::useDB(B2B_DB);
 
             DB::query("select * from b2b_orders where user_id = '$user_id' AND order_status = 'pending'");
 
@@ -255,7 +275,7 @@ $app->post('/confirm_user_login', function ($request, $response, $args)
 //  SEND CREDENTIAL DETAIL BACK TO USER IN CASE OF FORGET PASSWORD
 $app->post('/forgot_email', function ($request, $response, $args){
 
-    DB::useDB('orderapp_b2b_wui');
+    DB::useDB(B2B_DB);
 
     $msg = '';
     $user_email = $request->getParam('email');
@@ -294,7 +314,7 @@ $app->post('/forgot_email', function ($request, $response, $args){
 //  SEND CREDENTIAL DETAIL BACK TO USER IN CASE OF FORGET PASSWORD
 $app->post('/forgot_email_he', function ($request, $response, $args){
 
-    DB::useDB('orderapp_b2b_wui');
+    DB::useDB(B2B_DB);
 
     $msg = '';
     $user_email = $request->getParam('email');
@@ -338,7 +358,7 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
 {
     try
     {
-        DB::useDB('orderapp_b2b_wui');
+        DB::useDB(B2B_DB);
 
         $company_id = $request->getParam('company_id');
 
@@ -443,7 +463,7 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
 
         if($companyDetail['company_delivery_option'] == '1')
         {
-            DB::useDB('orderapp_restaurants_b2b_wui');
+            DB::useDB(B2B_RESTAURANTS);
             $rest_ids = DB::query("select id as rest_id from restaurants where city_id = '1'");
         }
         else
@@ -458,7 +478,7 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
 
 
 
-        DB::useDB('orderapp_restaurants_b2b_wui');
+        DB::useDB(B2B_RESTAURANTS);
 
         // GET RESTAURANTS DETAIL ON THE BASIS OF ID FOR THIS COMPANY
 
@@ -484,7 +504,7 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
         foreach ($results as $result)
         {
 
-            DB::useDB('orderapp_restaurants_b2b_wui');
+            DB::useDB(B2B_RESTAURANTS);
 
 
             // GET TAGS OF RESTAURANT i.e BURGER , PIZZA
@@ -496,7 +516,7 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
             foreach ($tagsIds as $id) {
 
 
-                DB::useDB('orderapp_restaurants_b2b_wui');
+                DB::useDB(B2B_RESTAURANTS);
                 $tag = DB::queryFirstRow("select * from tags where id = '" . $id["tag_id"] . "'");
                 $tags[$count2] = $tag;
                 $count2++;
@@ -505,7 +525,7 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
 
 
             // GET KOSHER OF RESTAURANT i.e MEHADRIN
-            DB::useDB('orderapp_restaurants_b2b_wui');
+            DB::useDB(B2B_RESTAURANTS);
             $kashrutIds = DB::query("select kashrut_id from restaurant_kashrut where restaurant_id = '" . $result['id'] . "'");
 
             $kashrut = Array();
@@ -514,7 +534,7 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
             foreach ($kashrutIds as $id) {
 
 
-                DB::useDB('orderapp_restaurants_b2b_wui');
+                DB::useDB(B2B_RESTAURANTS);
                 $kashruts  =  DB::queryFirstRow("select * from kashrut where id = '" . $id["kashrut_id"] . "'");
                 $kashrut[$count3]  =  $kashruts;
                 $count3++;
@@ -523,7 +543,7 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
 
 
             // GET GALLERY OF RESTAURANT
-            DB::useDB('orderapp_restaurants_b2b_wui');
+            DB::useDB(B2B_RESTAURANTS);
 
             $galleryImages = DB::query("select url from restaurant_gallery where restaurant_id = '" . $result['id'] . "'");
 
@@ -531,14 +551,14 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
 
             // RETRIEVING RESTAURANT TIMINGS i.e SUNDAY   STAT_TIME : 12:00  END_TIME 21:00;
 
-            DB::useDB('orderapp_b2b_wui');
+            DB::useDB(B2B_DB);
 
 
             // GET B2B PERCENTAGE DISCOUNT ON THIS ITEM
 
             $in_time_discount = 0;
 
-            DB::useDB('orderapp_b2b_wui');
+            DB::useDB(B2B_DB);
             $percentage_discount = DB::queryFirstRow("select * from b2b_rest_discounts where rest_id = '" .  $result['id'] . "' AND company_id = '".$company_id."'");
 
             if(DB::count() == 0)
@@ -554,7 +574,7 @@ $app->post('/get_all_restaurants', function ($request, $response, $args)
             }
 
 
-            DB::useDB('orderapp_restaurants_b2b_wui');
+            DB::useDB(B2B_RESTAURANTS);
             $city = DB::queryFirstRow("select * from cities where id = '" . $result['city_id'] . "'");
 
 
@@ -636,7 +656,7 @@ $app->post('/get_all_past_orders', function ($request, $response, $args)
 {
     try
     {
-        DB::useDB('orderapp_b2b_wui');
+        DB::useDB(B2B_DB);
 
 
         $user_id = $request->getParam('user_id');
@@ -670,7 +690,7 @@ $app->post('/get_all_past_orders', function ($request, $response, $args)
         foreach ($results as $result)
         {
 
-            DB::useDB('orderapp_restaurants_b2b_wui');
+            DB::useDB(B2B_RESTAURANTS);
 
             $restaurant   =  DB::queryFirstRow("select name_en,name_he,logo from restaurants where id = '" . $result['restaurant_id'] . "'");
 
@@ -679,7 +699,7 @@ $app->post('/get_all_past_orders', function ($request, $response, $args)
             $results[$ctn]['logo'] = $restaurant['logo'];
             $results[$ctn]['rest_order_object'] = "";
 
-            DB::useDB('orderapp_b2b_wui');
+            DB::useDB(B2B_DB);
 
             $order_detail =  DB::query("select * from b2b_order_detail where order_id = '" . $result['id'] . "'");
             $results[$ctn]['order_detail'] = $order_detail;
@@ -725,7 +745,7 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
     try
     {
 
-        DB::useDB('orderapp_b2b_wui');
+        DB::useDB(B2B_DB);
 
 
         $user_id = $request->getParam('user_id');
@@ -797,11 +817,11 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
         foreach ($results as $result)
         {
 
-            DB::useDB('orderapp_restaurants_b2b_wui');
+            DB::useDB(B2B_RESTAURANTS);
 
             $restaurant   =  DB::queryFirstRow("select * from restaurants where id = '" . $result['restaurant_id'] . "'");
 
-            DB::useDB('orderapp_restaurants_b2b_wui');
+            DB::useDB(B2B_RESTAURANTS);
 
             $city = DB::queryFirstRow("select * from cities where id = '" . $restaurant['city_id'] . "'");
 
@@ -813,7 +833,7 @@ $app->post('/get_all_pending_orders', function ($request, $response, $args)
 
             $results[$ctn]['rest_order_object'] = "";
 
-            DB::useDB('orderapp_b2b_wui');
+            DB::useDB(B2B_DB);
 
             $order_detail =  DB::query("select * from b2b_order_detail where order_id = '" . $result['id'] . "'");
             $results[$ctn]['order_detail'] = $order_detail;
@@ -952,6 +972,7 @@ $app->post('/categories_with_items', function ($request, $response, $args)
         $id = $request->getParam('restaurantId');
         $company_id = $request->getParam('company_id');
 
+        DB::useDB(B2B_RESTAURANTS);
         // GET MENUS FOR RESTAURANT i.e LUNCH
         $menu = DB::queryFirstRow("select * from menus where restaurant_id = '" . $id . "'");
 
@@ -995,7 +1016,7 @@ $app->post('/categories_with_items', function ($request, $response, $args)
 
         // GET B2B PERCENTAGE DISCOUNT ON THIS ITEM
 
-        DB::useDB('orderapp_b2b_wui');
+        DB::useDB(B2B_DB);
         $percentage_discount = DB::queryFirstRow("select * from b2b_rest_discounts where rest_id = '" . $id . "' AND company_id = '".$company_id."'");
 
         if(DB::count() == 0)
@@ -1187,7 +1208,7 @@ $app->post('/store_credit_card_info', function ($request, $response, $args){
             $card_id =  $cardId->item(0)->nodeValue;
 
 
-            $tempp = DB::queryFirstRow("select id,card_mask from user_credit_cards WHERE card_id = '$card_id'");
+            $tempp = DB::queryFirstRow("select id,card_mask from user_credit_cards WHERE card_id = '$card_id' AND user_id = '".$getUser['id']."'");
 
 
             if(DB::count() == 0) {
@@ -1293,7 +1314,6 @@ $app->post('/stripe_payment_request', function ($request, $response, $args) {
 
         $email = $order_data['user']['email'];
 
-
         DB::useDB(B2B_DB);
 
         $getUser = DB::queryFirstRow("select id,smooch_id from b2b_users where smooch_id = '$email'");
@@ -1357,7 +1377,6 @@ $app->post('/stripe_payment_request', function ($request, $response, $args) {
 
 
                 $result = stripePaymentRequestHE(($order_data['total_paid'] * 100), $user_id, $email, $card_no, $exp, $cvv, false);
-
 
             }
 
@@ -1604,6 +1623,207 @@ function  stripePaymentRequest($amount, $user_id, $email ,$creditCardNo, $expDat
 }
 
 
+
+// SUPPORT METHODS
+// STRIPE API PAYMENT REQUEST
+// AMOUNT DIVIDED BY 100 FROM API
+
+function  stripePaymentRequestHE($amount, $user_id, $email ,$creditCardNo, $expDate, $cvv ,$isUseCardId)
+{
+    $rest = "Error";
+    $cgConf['tid']='8804324';
+    $cgConf['amount']=$amount;
+    $cgConf['user']='pushstart';
+    $cgConf['password']='OE2@38sz';
+    $cgConf['cg_gateway_url']="https://cgpay5.creditguard.co.il/xpo/Relay";
+
+    $poststring = 'user='.$cgConf['user'];
+    $poststring .= '&password='.$cgConf['password'];
+
+    /*Build Ashrait XML to post*/
+    $poststring.='&int_in=<ashrait>
+							<request>
+							<language>HEB</language>
+							<command>doDeal</command>
+							<requestId/>
+							<version>1000</version>
+							<doDeal>
+								<terminalNumber>'.$cgConf['tid'].'</terminalNumber>
+								<authNumber/>
+								<transactionCode>Phone</transactionCode>
+								<transactionType>Debit</transactionType>
+								<total>'.$cgConf['amount'].'</total>
+								<creditType>RegularCredit</creditType>';
+
+
+    if($isUseCardId)
+    {
+        $poststring .= '<cardId>'.$creditCardNo.'</cardId>';
+    }
+    else{
+
+        $poststring .= '<cardNo>'.$creditCardNo.'</cardNo>';
+    }
+
+
+    $poststring .=	'<cvv>'.$cvv.'</cvv>
+								<cardExpiration>'.$expDate.'</cardExpiration>
+								<validation>AutoComm</validation>
+								<numberOfPayments/>
+								<customerData>
+									<userData1>'.$email.'</userData1>
+									<userData2/>
+									<userData3/>
+									<userData4/>
+									<userData5/>
+								</customerData>
+								<currency>ILS</currency>
+								<firstPayment/>
+								<periodicalPayment/>
+								<user>Push</user>	
+								
+								<invoice>
+
+									<invoiceCreationMethod>wait</invoiceCreationMethod>
+									
+									<invoiceDate/>
+									
+									<invoiceSubject> Order# '.$user_id.'</invoiceSubject>
+									
+									<invoiceDiscount/>
+									
+									<invoiceDiscountRate/>
+									
+									<invoiceItemCode>'.$user_id.'</invoiceItemCode>
+									
+									<invoiceItemDescription> Food Order </invoiceItemDescription>
+									
+									<invoiceItemQuantity>1</invoiceItemQuantity>
+									
+									<invoiceItemPrice>'.$amount.'</invoiceItemPrice>
+									
+									<invoiceTaxRate/>
+									
+									<invoiceComments/>
+									
+									<companyInfo>OrderApp</companyInfo>
+									
+									<sendMail>1</sendMail>
+									
+									<mailTo>'.$email.'</mailTo>
+									
+									<isItemPriceWithTax>0</isItemPriceWithTax>
+									
+									<ccDate>'.date("Y-m-d").'</ccDate>
+									
+									<invoiceSignature/>
+									
+									<invoiceType>receipt</invoiceType>
+									
+									<DocNotMaam/>
+									
+								</invoice>	
+								
+							</doDeal>
+						</request>
+					</ashrait>';
+
+
+    //init curl connection
+    if( function_exists( "curl_init" )) {
+        $CR = curl_init();
+        curl_setopt($CR, CURLOPT_URL, $cgConf['cg_gateway_url']);
+        curl_setopt($CR, CURLOPT_POST, 1);
+        curl_setopt($CR, CURLOPT_FAILONERROR, true);
+        curl_setopt($CR, CURLOPT_POSTFIELDS, $poststring);
+        curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($CR, CURLOPT_FAILONERROR,true);
+
+
+        //actual curl execution perfom
+        $result = curl_exec( $CR );
+        $error = curl_error ( $CR );
+
+        // on error - die with error message
+        if( !empty( $error )) {
+            die($error);
+        }
+
+        curl_close($CR);
+
+        $result = mb_convert_encoding( $result, "HTML-ENTITIES", "UTF-8");
+
+        $xml  = simplexml_load_string((string) $result);
+
+        if($xml->response->result[0] == 000)
+        {
+            $rest = [
+
+                "response" => 'success',
+                "trans_id" => (string) $xml->response->tranId[0]
+            ];
+
+        }
+        else{
+
+
+            if($xml->response->result[0] == "001")
+            {
+                $bug = "The card is blocked, confiscate it. The card is blocked, confiscate it.";
+            }
+            else if($xml->response->result[0] == "002")
+            {
+                $bug = "The card is stolen, confiscate it. The card is stolen, confiscate it";
+            }
+            else if($xml->response->result[0] == "004")
+            {
+                $bug = "Refusal by credit company.";
+            }
+            else if($xml->response->result[0] == "005")
+            {
+                $bug = "The card is forged, confiscate it.";
+            }
+            else if($xml->response->result[0] == "006")
+            {
+                $bug = "Incorrect CVV/ID.";
+            }
+            else if($xml->response->result[0] == "007")
+            {
+                $bug = "Incorrect CAVV/ECI/UCAF";
+            }
+            else if($xml->response->result[0] == "012")
+            {
+                $bug = "This card is not permitted for foreign currency transactions";
+            }
+            else if($xml->response->result[0] == "017")
+            {
+                $bug = "Last 4 digits were not entered (W field).";
+            }
+            else if($xml->response->result[0] == "036")
+            {
+                $bug = "Expired card";
+            }
+            else{
+                $bug = "Unknown Error occured, Please try again!";
+            }
+
+            $rest = [
+
+                "response" =>  $bug,
+                "extra_info"    => (string) $xml->response->message[0].$xml->response->result[0]
+
+            ];
+
+        }
+
+    }
+
+    return $rest;
+
+}
+
+
 //  ADD USER ORDER TO SERVER
 
 
@@ -1641,9 +1861,6 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
     date_default_timezone_set("Asia/Jerusalem");
     $curr = date("Y-m-d H:i:s");
 
-
-
-
     DB::insert('b2b_orders', array(
         'user_id'                       => $user_order['user']['user_id'],
         'company_id'                    => $user_order['company']['company_id'],
@@ -1663,28 +1880,106 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
 
     $orderId = DB::insertId();
 
+
     date_default_timezone_set("Asia/Jerusalem");
     $onlyDate = date("d-m-Y");              //FOR LEDGER
-    $onlytime = date("H:i");                //FOR LEDGER
+    $onlytime = date("H:i");              //FOR LEDGER
 
 
     DB::useDB(B2B_RESTAURANTS);
 
-
-    $deliveryGrpId = DB::queryFirstRow("select delivery_group from restaurants where id = ".$user_order['rests_orders'][0]['selectedRestaurant']['id']);
-
-
-    $deliveryGrpName = DB::queryFirstRow("select delivery_team from delivery_groups where id =  ".$deliveryGrpId['delivery_group']);
+    $rest = DB::queryFirstRow('select * from restaurants where id = '.$user_order['rests_orders'][0]['selectedRestaurant']['id']);
 
 
-    DB::useDB(B2B_DB);
+    DB::useDB(B2B_B2C_COMMON);
+
+    $rest_balance = DB::queryFirstRow('select * from restaurant_balance where restaurant_id = '.$rest['id']);
+
+    if(DB::count() == 0)
+    {
+
+        DB::insert('restaurant_balance', array(
+
+            "balance"  => 0,
+            "restaurant_id"       => $rest['id'],
+            "restaurant_name"     => $rest['name_en'],
+
+        ));
+
+        $rest_balance = DB::queryFirstRow('select * from restaurant_balance where restaurant_id = '.$rest['id']);
+    }
+
+    // RESTAURANT BALANACE CALCULATION AND UPDATE
+
+
+    $balance = $rest_balance['balance'] - $user_order['actual_total'];
+
+
+    DB::update('restaurant_balance',array(
+
+        'balance' => $balance
+
+    ),'id = %d',$user_order['rests_orders'][0]['selectedRestaurant']['id']);
+
+
+    // DELIVERY GROUP BALANCE CALCULATION
+
+
+    $delivery_balance = 0;
+
+    if($user_order['Cash_Card'] == 'CASH')
+    {
+        DB::useDB(B2B_B2C_COMMON);
+
+        $delivery_group   = DB::queryFirstRow('select * from delivery_groups where id = '.$rest['delivery_group']);
+
+        DB::useDB(B2B_DB);
+
+        $ourDeliveryPrice = DB::queryFirstRow('select * from company where id = '.$user_order['company']['company_id']);
+
+        $delivery_balance = $delivery_group['balance']  + $user_order['total_paid'] - $ourDeliveryPrice['our_delivery_price'];
+
+        DB::useDB(B2B_B2C_COMMON);
+
+        DB::update('delivery_groups',array(
+
+            'balance' => $delivery_balance
+
+        ),'id = %d',$rest['delivery_group']);
+
+
+    }
+    else if($user_order['Cash_Card'] == 'Credit Card')
+    {
+        DB::useDB(B2B_B2C_COMMON);
+
+        $delivery_group   = DB::queryFirstRow('select * from delivery_groups where id = '.$rest['delivery_group']);
+
+        DB::useDB(B2B_DB);
+
+        $ourDeliveryPrice = DB::queryFirstRow('select * from company where id = '.$user_order['company']['company_id']);
+
+        $delivery_balance = $delivery_group['balance'] - $ourDeliveryPrice['our_delivery_price'];
+
+        DB::useDB(B2B_B2C_COMMON);
+
+        DB::update('delivery_groups',array(
+
+            'balance' => $delivery_balance
+
+        ),'id = %d',$rest['delivery_group']);
+
+    }
+
+
+    DB::useDB(B2B_B2C_COMMON);
     DB::insert('b2b_ledger', array(
         'date'                          => $onlyDate,
         'time'                          => $onlytime,
         'customer_name'                 => $getUser['name'],
         'customer_contact'              => $getUser['contact'],
-        'restaurant_id'                 => $user_order['rests_orders'][0]['selectedRestaurant']['id'],
         'customer_email'                => $user_order['user']['email'],
+        'restaurant_id'                 => $user_order['rests_orders'][0]['selectedRestaurant']['id'],
         'restaurant_name'               => $user_order['rests_orders'][0]['selectedRestaurant']['name_en'],
         'payment_method'                => $user_order['payment_option'],
         'delivery_or_pickup'            => 'Delivery',
@@ -1693,12 +1988,12 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
         "order_no"                      => $orderId,
         "discount_amount"               => $user_order['discount'],
         "restaurant_total"              => $user_order['actual_total'],
-        "customer_grand_total"          => $user_order['actual_total'],
+        "customer_grand_total"          => $user_order['total_paid'],
         "customer_total_paid_to_restaurant"  => $user_order['total_paid'],
         "eluna"                         => "false",
-        'delivery_team_id' => $deliveryGrpId['delivery_group']
+        'balance' => $balance,
+        'delivery_team_balance' => $delivery_balance
     ));
-
 
 
     //GET COMPANY NAME
@@ -1719,8 +2014,6 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
 
     }
 
-
-
     // LAST INSERTED ORDER ID
     foreach($user_order['rests_orders'][0]['foodCartData'] as $orders)
     {
@@ -1730,9 +2023,7 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
             // ADD ORDER DETAIL AGAINST USER
             DB::useDB(B2B_DB);
 
-
             DB::insert('b2b_order_detail', array(
-
                 'order_id' => $orderId,
                 'qty' => $orders['qty'],
                 'item' => $orders['name'],
@@ -1740,9 +2031,7 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
                 'sub_total' => $orders['price'],
                 'sub_items' => $orders['detail'],
                 'sub_items_he' => $orders['detail_he']
-
             ));
-
 
         }
         catch(MeekroDBException $e) {
@@ -1758,16 +2047,20 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
 
     if($_SERVER['HTTP_HOST'] == "orderapp.com" || $_SERVER['HTTP_HOST'] == "b2b.orderapp.com" || $_SERVER['HTTP_HOST'] == "staging.orderapp.com" || $_SERVER['HTTP_HOST'] == "app.orderapp.com" ) {
 
-        // MESSAGE REGARDING ORDER
 
-        $phone = '972525133739,972547411863,972539342232,972538259764,972533062625';
+
+        $phone = '972525133739,972547411863,972539342232,972538259764,972533062625,972586288567,972547511863,972558838322'; // avi edit
 
         $message = 'Order-Id : ' . $orderId . ' ' . 'Restaurant-Title : ' . $user_order['rests_orders'][0]['selectedRestaurant']['name_en'];
 
         $smsMessage = str_replace(' ', '%20', $message);
 
-        file_get_contents('http://api.clickatell.com/http/sendmsg?user=Pushstartups&password=UGAgWOPIFNgTCM&api_id=3633970&to=' . $phone . '&text=' . $smsMessage);
+        // avi edit
+        if ($user_order['email']!="test@orderapp.com")
+        {
 
+            file_get_contents('http://api.clickatell.com/http/sendmsg?user=Pushstartups&password=UGAgWOPIFNgTCM&api_id=3633970&to=' . $phone . '&text=' . $smsMessage);
+        }
 
     }
 
@@ -1778,14 +2071,12 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
     ob_end_clean();
 
 
-
     // EMAIL FOR LEDGER
     email_for_mark2($user_order, $orderId, $todayDate);
     ob_end_clean();
 
 
     // SEND ADMIN COPY EMAIL ORDER SUMMARY
-
     email_order_summary_hebrew_admin($user_order, $orderId, $todayDate);
     ob_end_clean();
 
@@ -1793,19 +2084,15 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
     // CLIENT EMAIL
     // EMAIL ORDER SUMMARY
     //
-    if ($user_order['language'] == 'en')
-    {
+    if ($user_order['language'] == 'en') {
 
         email_order_summary_english($user_order, $orderId, $todayDate);
 
-    }
-    else
-    {
+    } else {
 
         email_order_summary_hebrew($user_order, $orderId, $todayDate);
 
     }
-
     ob_end_clean();
 
 
@@ -1818,7 +2105,7 @@ $app->post('/b2b_add_order', function ($request, $response, $args) {
 
     // RESPONSE RETURN TO REST API CALL
     $response = $response->withStatus(202);
-    $response = $response->withJson(json_encode('success'));
+    $response = $response->withJson("success");
     return $response;
 });
 
@@ -1883,6 +2170,7 @@ $app->post('/cancel_order', function ($request, $response, $args)
     DB::useDB(B2B_DB);
     $order_id = $request->getParam('order_id');
 
+
     DB::useDB(B2B_DB);
     $rest_object = DB::queryFirstRow("select * from b2b_orders  WHERE  id = '$order_id'");
     $day = date('l');
@@ -1908,6 +2196,8 @@ $app->post('/cancel_order', function ($request, $response, $args)
 
 
         $todayDate = Date("d/m/Y");
+        $today = date("Y-m-d");
+
 
         $user_order = json_decode($rest_object['rest_order_object']);
 
@@ -1923,50 +2213,6 @@ $app->post('/cancel_order', function ($request, $response, $args)
         //UPDATE THE DISCOUNT OF USE AFTER CANCLLING ORDER
         DB::useDB(B2B_DB);
         DB::query("UPDATE b2b_users SET discount = '$remaining_discount'  WHERE  id = '".$user['id']."'");
-
-
-
-        DB::useDB(B2B_DB);
-        //CHECK IF USER ALREADY EXIST, IF NO CREATE USER
-        $getUser = DB::queryFirstRow("select * from b2b_users where id = '" .  $rest_object['user_id'] . "'");
-
-
-
-        date_default_timezone_set("Asia/Jerusalem");
-        $onlyDate = date("d-m-Y");              //FOR LEDGER
-        $onlytime = date("H:i");                //FOR LEDGER
-
-
-        DB::useDB(B2B_RESTAURANTS);
-
-
-        $deliveryGrpId = DB::queryFirstRow("select delivery_group from restaurants where id = ".$user_order->rests_orders[0]->selectedRestaurant->id);
-
-        $deliveryGrpName = DB::queryFirstRow("select delivery_team from delivery_groups where id =  ".$deliveryGrpId['delivery_group']);
-
-
-        DB::useDB(B2B_DB);
-        DB::insert('b2b_ledger', array(
-            'date'                          => $onlyDate,
-            'time'                          => $onlytime,
-            'customer_name'                 => $getUser['name'],
-            'customer_contact'              => $getUser['contact'],
-            'restaurant_id'                 => $user_order->rests_orders[0]->selectedRestaurant->id,
-            'customer_email'                => $user_order->user->email,
-            'restaurant_name'               => $user_order->rests_orders[0]->selectedRestaurant->name_en,
-            'payment_method'                => $user_order->payment_option,
-            'delivery_or_pickup'            => 'Delivery',
-            'delivery_price'                => '0',
-            'company_name'                  => $user_order->company->company_name,
-            "order_no"                      => $order_id,
-            "discount_amount"               => $user_order->discount,
-            "restaurant_total"              => $user_order->actual_total,
-            "customer_grand_total"          => $user_order->actual_total,
-            "customer_total_paid_to_restaurant"  => '-'.$user_order->total_paid,
-            "is_cancelled"                  => 'true',
-            "eluna"                         => "false",
-            'delivery_team_id' => $deliveryGrpId['delivery_group']
-        ));
 
 
         // EMAIL ORDER SUMMERY
@@ -1989,7 +2235,7 @@ $app->post('/cancel_order', function ($request, $response, $args)
 
 
             email_order_summary_english_cancel($user_order, $order_id, $todayDate, $remaining_discount);
-            ob_end_clean();
+
 
         } else {
 
@@ -2017,12 +2263,11 @@ $app->post('/cancel_order', function ($request, $response, $args)
 
 
 
-
 //  SEND ERROR REPORT TO DEVELOPMENT TEAM
 $app->post('/error_report', function ($request, $response, $args){
 
 
-    DB::useDB('orderapp_b2b_wui');
+    DB::useDB(B2B_DB);
 
     $msg = '';
     $host    =  $request->getParam('host');

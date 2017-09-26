@@ -1,5 +1,10 @@
 <?php
 
+use Mailgun\Mailgun;
+use Aws\Ses\SesClient;
+use Aws\Ses\Exception\SesException;
+
+
 
 // EMAIL ORDER SUMMARY ENGLISH VERSION
 function email_order_summary_english($user_order,$orderId,$todayDate)
@@ -143,47 +148,79 @@ function email_order_summary_english($user_order,$orderId,$todayDate)
     $mailbody .= '</body>';
     $mailbody .= '</html>';
 
-    $mail = new PHPMailer;
 
-    $mail->CharSet = 'UTF-8';
+    $subject = 'Biz '.$user_order['rests_orders'][0]['selectedRestaurant']['name_en'].' Order# '.$orderId;
 
-
-
-    $mail->isSMTP();
-    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
-    $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = EMAIL_SMTP_USERNAME;
-    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
-    $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;
-
-//From email address and name
-    $mail->From = "orders@orderapp.com";
-    $mail->FromName = "OrderApp";
-
-
-//To address and name
-    $mail->addAddress($user_order['user']['email']);     // SEND EMAIL TO USER
-    $mail->AddCC(EMAIL);
-    $mail->AddCC("brina@orderapp.com");
-    $mail->AddBCC("oded@orderapp.com");
-
-
-//Send HTML or Plain Text email
-    $mail->isHTML(false);
-    $mail->Subject = 'Biz '.$user_order['rests_orders'][0]['selectedRestaurant']['name_en'].' Order# '.$orderId;
-    $mail->Body = $mailbody;
-    $mail->AltBody = "OrderApp";
-
-    if (!$mail->send())
+    //AMAZON SERVER ACTIVATED
+    if(ACTIVE_SERVER_ID == '1')
     {
-        echo "Mailer Error: " . $mail->ErrorInfo;
-    }
-    else
-    {
-        echo "Message has been sent successfully";
-    }
 
+        $client = SesClient::factory(array(
+            'version'=> 'latest',
+            'region' => 'eu-west-1',
+            'credentials' => array(
+                'key'    => ACCESS_KEY_ID,
+                'secret' => ACCESS_KEY_SECRET,
+            )
+        ));
+
+        try {
+
+            $result = $client->sendEmail([
+                'Destination' => [
+                    'ToAddresses' => [
+                        $user_order['user']['email'],
+                    ],
+                ],
+                'Message' => [
+                    'Body' => [
+                        'Html' => [
+                            'Charset' => 'UTF-8',
+                            'Data' => $mailbody,
+                        ]
+                    ],
+                    'Subject' => [
+                        'Charset' => 'UTF-8',
+                        'Data' => $subject,
+                    ],
+                ],
+                'Source' => EMAIL,
+
+            ]);
+
+            $messageId = $result->get('MessageId');
+
+            //echo("Email sent! Message ID: $messageId"."\n");
+
+        } catch (SesException $error) {
+
+            echo("The email was not sent. Error message: ".$error->getAwsErrorMessage()."\n");
+        }
+
+
+    }
+    //MAIN GUN SERVER ACTIVATED
+    else if(ACTIVE_SERVER_ID == '2'){
+
+        try {
+
+            $mg = Mailgun::create(MAIL_GUN_API_KEY);
+
+            $mg->messages()->send(MAIL_GUN_DOMAIN, [
+                'from' => "Biz OrderApp <" . EMAIL . ">",
+                'to' => $user_order['user']['email'],
+                'cc' => 'oded@orderapp.com', 'brina@orderapp.com',
+                'subject' => $subject,
+                'html' => $mailbody
+            ]);
+
+        }
+        catch (Exception $e)
+        {
+
+        }
+
+    }
 }
 
 
@@ -231,46 +268,70 @@ function email_to_b2b_users($email,$password,$username)
     $mailbody .= '<tr>';
     $mailbody .= '<td><p style="margin: 0; text-align: center;"><a style="color: #797979; text-decoration: none;" href="https://dev.orderapp.com/en/">orderapp.com</a></p></td></tr></table></body></html>';
 
-    $mail = new PHPMailer;
-
-    $mail->CharSet = 'UTF-8';
+    $subject = "B2B OrderApp Credentials Info";
 
 
-
-    $mail->isSMTP();
-    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
-    $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = EMAIL_SMTP_USERNAME;
-    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
-    $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;
-
-    //From email address and name
-    $mail->From = "orders@orderapp.com";
-    $mail->FromName = "OrderApp";
-
-
-    //To address and name
-    $mail->addAddress($email);                    //SEND ADMIN EMAIL
-
-
-    //Address to which recipient will reply
-    $mail->addReplyTo("orders@orderapp.com", "Reply");
-
-
-    //Send HTML or Plain Text email
-    $mail->isHTML(false);
-    $mail->Subject = "B2B OrderApp Credentials Info";
-    $mail->Body = $mailbody;
-    $mail->AltBody = "OrderApp";
-
-    if (!$mail->send())
+    //AMAZON SERVER ACTIVATED
+    if(ACTIVE_SERVER_ID == '1')
     {
-        echo "Mailer Error: " . $mail->ErrorInfo;
+
+        $client = SesClient::factory(array(
+            'version'=> 'latest',
+            'region' => 'eu-west-1',
+            'credentials' => array(
+                'key'    => ACCESS_KEY_ID,
+                'secret' => ACCESS_KEY_SECRET,
+            )
+        ));
+
+        try {
+
+            $result = $client->sendEmail([
+                'Destination' => [
+                    'ToAddresses' => [
+                        $email,
+                    ],
+                ],
+                'Message' => [
+                    'Body' => [
+                        'Html' => [
+                            'Charset' => 'UTF-8',
+                            'Data' => $mailbody,
+                        ]
+                    ],
+                    'Subject' => [
+                        'Charset' => 'UTF-8',
+                        'Data' => $subject,
+                    ],
+                ],
+                'Source' => EMAIL,
+
+            ]);
+
+            $messageId = $result->get('MessageId');
+
+            //echo("Email sent! Message ID: $messageId"."\n");
+
+        } catch (SesException $error) {
+
+            echo("The email was not sent. Error message: ".$error->getAwsErrorMessage()."\n");
+        }
+
+
     }
-    else
-    {
-        echo "Message has been sent successfully";
+    //MAIN GUN SERVER ACTIVATED
+    else if(ACTIVE_SERVER_ID == '2'){
+
+        $mg = Mailgun::create(MAIL_GUN_API_KEY);
+
+        $mg->messages()->send(MAIL_GUN_DOMAIN, [
+            'from'    =>  "Biz OrderApp <".EMAIL.">",
+            'to'      =>  $email,
+            'cc'      => 'oded@orderapp.com','brina@orderapp.com',
+            'subject' =>  $subject,
+            'html'    => $mailbody
+        ]);
+
     }
 
 }
@@ -357,10 +418,13 @@ function email_order_summary_english_cancel($user_order,$orderId,$todayDate,$rem
 
     //TODAY REMAINING BALANCE SECTION
     $mailbody .= '<tr style="font-size: 18px;  font-weight: bold" >';
+
     if($user_order->discount_type == "daily"){
+
         $mailbody .= "<td style='padding: 5px 0' >Remaining Balance Today* </td>";
     }
     else{
+
         $mailbody .= "<td style='padding: 5px 0' >Remaining Balance for the month* </td>";
     }
 
@@ -422,46 +486,74 @@ function email_order_summary_english_cancel($user_order,$orderId,$todayDate,$rem
     $mailbody .= '</body>';
     $mailbody .= '</html>';
 
-    $mail = new PHPMailer;
+    $subject = 'Cancel Order : Biz '.$user_order->rests_orders[0]->selectedRestaurant->name_en.' Order# '.$orderId;
 
-    $mail->CharSet = 'UTF-8';
-
-    $mail->isSMTP();
-    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
-    $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = EMAIL_SMTP_USERNAME;
-    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
-    $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;
-
-//From email address and name
-    $mail->From = "orders@orderapp.com";
-    $mail->FromName = "OrderApp";
-
-
-//To address and name
-    $mail->addAddress($user_order->user->email);     // SEND EMAIL TO USER
-    $mail->AddCC(EMAIL);
-    $mail->AddCC("brina@orderapp.com");
-    $mail->AddBCC("oded@orderapp.com");
-
-
-//Send HTML or Plain Text email
-    $mail->isHTML(false);
-    $mail->Subject = 'Cancel Order : Biz '.$user_order->rests_orders[0]->selectedRestaurant->name_en.' Order# '.$orderId;
-    $mail->Body = $mailbody;
-    $mail->AltBody = "OrderApp";
-
-    if (!$mail->send())
+    //AMAZON SERVER ACTIVATED
+    if(ACTIVE_SERVER_ID == '1')
     {
-        echo "Mailer Error: " . $mail->ErrorInfo;
-    }
-    else
-    {
-        //  echo "Message has been sent successfully";
-    }
+
+        $client = SesClient::factory(array(
+            'version'=> 'latest',
+            'region' => 'eu-west-1',
+            'credentials' => array(
+                'key'    => ACCESS_KEY_ID,
+                'secret' => ACCESS_KEY_SECRET,
+            )
+        ));
+
+        try {
+
+            $userEmail = $user_order->user->email;
+
+            $result = $client->sendEmail([
+                'Destination' => [
+                    'ToAddresses' => [
+                        $userEmail,
+                    ],
+                ],
+                'Message' => [
+                    'Body' => [
+                        'Html' => [
+                            'Charset' => 'UTF-8',
+                            'Data' => $mailbody,
+                        ]
+                    ],
+                    'Subject' => [
+                        'Charset' => 'UTF-8',
+                        'Data' => $subject,
+                    ],
+                ],
+                'Source' => EMAIL,
+
+            ]);
+
+            $messageId = $result->get('MessageId');
+
+            //echo("Email sent! Message ID: $messageId"."\n");
+
+        } catch (SesException $error) {
+
+            echo("The email was not sent. Error message: ".$error->getAwsErrorMessage()."\n");
+        }
 
 
+    }
+    //MAIN GUN SERVER ACTIVATED
+    else if(ACTIVE_SERVER_ID == '2'){
+
+        $userEmail = $user_order->user->email;
+
+        $mg = Mailgun::create(MAIL_GUN_API_KEY);
+
+        $mg->messages()->send(MAIL_GUN_DOMAIN, [
+            'from'    =>  "Biz OrderApp <".EMAIL.">",
+            'to'      =>  $userEmail,
+            'cc'      => 'oded@orderapp.com','brina@orderapp.com',
+            'subject' =>  $subject,
+            'html'    => $mailbody
+        ]);
+
+    }
 }
 
 
@@ -535,50 +627,64 @@ function email_for_kitchen_cancel($user_order,$orderId,$todayDate)
     $mailbody .= '<br>';
     $mailbody .= '<br>';
 
+    $subject = " בטל הזמנה ".$orderId . " #" . $user_order->rests_orders[0]->selectedRestaurant->name_he;
+
+    //AMAZON SERVER ACTIVATED
+    if(ACTIVE_SERVER_ID == '1')
+    {
+        $client = SesClient::factory(array(
+            'version'=> 'latest',
+            'region' => 'eu-west-1',
+            'credentials' => array(
+                'key'    => ACCESS_KEY_ID,
+                'secret' => ACCESS_KEY_SECRET,
+            )
+        ));
+
+        try {
+
+            $result = $client->sendEmail([
+                'Destination' => [
+                    'ToAddresses' => [
+                        EMAIL,
+                    ],
+                ],
+                'Message' => [
+                    'Body' => [
+                        'Html' => [
+                            'Charset' => 'UTF-8',
+                            'Data' => $mailbody,
+                        ]
+                    ],
+                    'Subject' => [
+                        'Charset' => 'UTF-8',
+                        'Data' => $subject,
+                    ],
+                ],
+                'Source' => EMAIL,
+
+            ]);
 
 
-    $mail = new PHPMailer;
+            $messageId = $result->get('MessageId');
+            //echo("Email sent! Message ID: $messageId"."\n");
 
-    $mail->CharSet = 'UTF-8';
+        } catch (SesException $error) {
 
-    // Enable verbose debug output
-
-    $mail->isSMTP();
-    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
-    $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = EMAIL_SMTP_USERNAME;
-    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
-    $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;
-
-    //From email address and name
-    $mail->From = "orders@orderapp.com";
-    $mail->FromName = "OrderApp";
-
-
-    //To address and name
-    $mail->addAddress(EMAIL);                    //SEND ADMIN EMAIL
-
-
-    //Address to which recipient will reply
-    $mail->addReplyTo("orders@orderapp.com", "Reply");
-
-
-    //Send HTML or Plain Text email
-    $mail->isHTML(false);
-    $mail->Subject = " בטל הזמנה ".$orderId . " #" . $user_order->rests_orders[0]->selectedRestaurant->name_he;
-    $mail->Body = $mailbody;
-    $mail->AltBody = "OrderApp";
-
-    if (!$mail->send()) {
-
-        //  echo "Mailer Error: " . $mail->ErrorInfo;
+            echo("The email was not sent. Error message: ".$error->getAwsErrorMessage()."\n");
+        }
 
     }
-    else {
+    //MAIN GUN SERVER ACTIVATED
+    else if(ACTIVE_SERVER_ID == '2'){
+        $mg = Mailgun::create(MAIL_GUN_API_KEY);
 
-        // echo "Message has been sent successfully";
-
+        $mg->messages()->send(MAIL_GUN_DOMAIN, [
+            'from'    =>  "Biz OrderApp <".EMAIL.">",
+            'to'      =>  EMAIL,
+            'subject' =>  $subject,
+            'html'    => $mailbody
+        ]);
     }
 
 }
@@ -677,52 +783,66 @@ function mailForgotPassword($password, $username, $user_email){
     $mailbody .= '</body>';
     $mailbody .= '</html>';
 
+    $subject = 'Password Recovery';
 
 
-
-    $mail = new PHPMailer;
-    $mail->CharSet = 'UTF-8';
-
-
-    $mail->isSMTP();
-    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
-    $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = EMAIL_SMTP_USERNAME;
-    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
-    $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;
-
-    //From email address and name
-    $mail->From = "orders@orderapp.com";
-    $mail->FromName = "OrderApp";
-
-
-    //To address and name
-    $mail->addAddress($user_email);                      // SEND EMAIL TO USER
-
-    $mail->AddCC(EMAIL);                        //SEND  CLIENT EMAIL COPY TO ADMIN
-
-    //Send HTML or Plain Text email
-    $mail->isHTML(false);
-    $mail->Subject = 'Password Recovery';
-    $mail->Body =    $mailbody;
-    $mail->AltBody = "OrderApp";
-
-
-    if ($mail->send())
+    //AMAZON SERVER ACTIVATED
+    if(ACTIVE_SERVER_ID == '1')
     {
-        $msg = "Message has been sent successfully";
-        return false;
+        $client = SesClient::factory(array(
+            'version'=> 'latest',
+            'region' => 'eu-west-1',
+            'credentials' => array(
+                'key'    => ACCESS_KEY_ID,
+                'secret' => ACCESS_KEY_SECRET,
+            )
+        ));
+
+        try {
+
+            $result = $client->sendEmail([
+                'Destination' => [
+                    'ToAddresses' => [
+                        $user_email,
+                    ],
+                ],
+                'Message' => [
+                    'Body' => [
+                        'Html' => [
+                            'Charset' => 'UTF-8',
+                            'Data' => $mailbody,
+                        ]
+                    ],
+                    'Subject' => [
+                        'Charset' => 'UTF-8',
+                        'Data' => $subject,
+                    ],
+                ],
+                'Source' => EMAIL,
+
+            ]);
+
+
+            $messageId = $result->get('MessageId');
+            //echo("Email sent! Message ID: $messageId"."\n");
+
+        } catch (SesException $error) {
+
+            echo("The email was not sent. Error message: ".$error->getAwsErrorMessage()."\n");
+        }
 
     }
-    else
-    {
+    //MAIN GUN SERVER ACTIVATED
+    else if(ACTIVE_SERVER_ID == '2'){
+        $mg = Mailgun::create(MAIL_GUN_API_KEY);
 
-        $msg = "Mailer Error: " . $mail->ErrorInfo;
-        return true;
-
+        $mg->messages()->send(MAIL_GUN_DOMAIN, [
+            'from'    =>  "Biz OrderApp <".EMAIL.">",
+            'to'      =>  $user_email,
+            'subject' =>  $subject,
+            'html'    => $mailbody
+        ]);
     }
-
 }
 
 
@@ -782,50 +902,64 @@ function mailForgotPasswordHe($password, $username, $user_email){
     $mailbody .= '</body>';
     $mailbody .= '</html>';
 
+    $subject = 'שחזור סיסמא';
 
-
-
-    $mail = new PHPMailer;
-    $mail->CharSet = 'UTF-8';
-
-
-    $mail->isSMTP();
-    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
-    $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = EMAIL_SMTP_USERNAME;
-    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
-    $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;
-
-    //From email address and name
-    $mail->From = "orders@orderapp.com";
-    $mail->FromName = "OrderApp";
-
-
-    //To address and name
-    $mail->addAddress($user_email);                      // SEND EMAIL TO USER
-
-    $mail->AddCC(EMAIL);                        //SEND  CLIENT EMAIL COPY TO ADMIN
-
-    //Send HTML or Plain Text email
-    $mail->isHTML(false);
-    $mail->Subject = 'Password Recovery';
-    $mail->Body =    $mailbody;
-    $mail->AltBody = "OrderApp";
-
-
-    if ($mail->send())
+    //AMAZON SERVER ACTIVATED
+    if(ACTIVE_SERVER_ID == '1')
     {
-        $msg = "Message has been sent successfully";
-        return false;
+        $client = SesClient::factory(array(
+            'version'=> 'latest',
+            'region' => 'eu-west-1',
+            'credentials' => array(
+                'key'    => ACCESS_KEY_ID,
+                'secret' => ACCESS_KEY_SECRET,
+            )
+        ));
+
+        try {
+
+            $result = $client->sendEmail([
+                'Destination' => [
+                    'ToAddresses' => [
+                        $user_email,
+                    ],
+                ],
+                'Message' => [
+                    'Body' => [
+                        'Html' => [
+                            'Charset' => 'UTF-8',
+                            'Data' => $mailbody,
+                        ]
+                    ],
+                    'Subject' => [
+                        'Charset' => 'UTF-8',
+                        'Data' => $subject,
+                    ],
+                ],
+                'Source' => EMAIL,
+
+            ]);
+
+
+            $messageId = $result->get('MessageId');
+            //echo("Email sent! Message ID: $messageId"."\n");
+
+        } catch (SesException $error) {
+
+            echo("The email was not sent. Error message: ".$error->getAwsErrorMessage()."\n");
+        }
 
     }
-    else
-    {
+    //MAIN GUN SERVER ACTIVATED
+    else if(ACTIVE_SERVER_ID == '2'){
+        $mg = Mailgun::create(MAIL_GUN_API_KEY);
 
-        $msg = "Mailer Error: " . $mail->ErrorInfo;
-        return true;
-
+        $mg->messages()->send(MAIL_GUN_DOMAIN, [
+            'from'    =>  "Biz OrderApp <".EMAIL.">",
+            'to'      =>  $user_email,
+            'subject' =>  $subject,
+            'html'    => $mailbody
+        ]);
     }
 
 }
@@ -892,53 +1026,67 @@ function sendReportToDevTeam($host, $url, $message){
     $mailbody .= '</body>';
     $mailbody .= '</html>';
 
+    $subject = 'OrderApp Errors';
 
-
-
-    $mail = new PHPMailer;
-    $mail->CharSet = 'UTF-8';
-    $mail->SMTPDebug = 3;                                                 // Enable verbose debug output
-
-    $mail->isSMTP();
-    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
-    $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = EMAIL_SMTP_USERNAME;
-    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
-    $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;
-
-    //From email address and name
-    $mail->From = "orders@orderapp.com";
-    $mail->FromName = "OrderApp";
-
-
-    //To address and name
-    $mail->addAddress('errors@orderapp.com');                // SEND EMAIL TO DEV TEAM
-
-    $mail->addAddress('errors@experintsol.com');                // SEND EMAIL TO DEV TEAM
-
-    $mail->AddCC(EMAIL);                                          //SEND  CLIENT EMAIL COPY TO ADMIN
-
-    //Send HTML or Plain Text email
-    $mail->isHTML(false);
-    $mail->Subject = 'OrderApp Errors';
-    $mail->Body =    $mailbody;
-    $mail->AltBody = "OrderApp";
-
-
-    if ($mail->send())
+    //AMAZON SERVER ACTIVATED
+    if(ACTIVE_SERVER_ID == '1')
     {
-        $msg = "Message has been sent successfully";
-        return false;
+        $client = SesClient::factory(array(
+            'version'=> 'latest',
+            'region' => 'eu-west-1',
+            'credentials' => array(
+                'key'    => ACCESS_KEY_ID,
+                'secret' => ACCESS_KEY_SECRET,
+            )
+        ));
+
+        try {
+
+            $result = $client->sendEmail([
+                'Destination' => [
+                    'ToAddresses' => [
+                        'errors@orderapp.com',
+                    ],
+                ],
+                'Message' => [
+                    'Body' => [
+                        'Html' => [
+                            'Charset' => 'UTF-8',
+                            'Data' => $mailbody,
+                        ]
+                    ],
+                    'Subject' => [
+                        'Charset' => 'UTF-8',
+                        'Data' => $subject,
+                    ],
+                ],
+                'Source' => EMAIL,
+
+            ]);
+
+
+            $messageId = $result->get('MessageId');
+            //echo("Email sent! Message ID: $messageId"."\n");
+
+        } catch (SesException $error) {
+
+            echo("The email was not sent. Error message: ".$error->getAwsErrorMessage()."\n");
+        }
 
     }
-    else
-    {
+    //MAIN GUN SERVER ACTIVATED
+    else if(ACTIVE_SERVER_ID == '2'){
+        $mg = Mailgun::create(MAIL_GUN_API_KEY);
 
-        $msg = "Mailer Error: " . $mail->ErrorInfo;
-        return true;
-
+        $mg->messages()->send(MAIL_GUN_DOMAIN, [
+            'from'    =>  "Biz OrderApp <".EMAIL.">",
+            'to'      =>  'errors@orderapp.com',
+            'subject' =>  $subject,
+            'html'    => $mailbody
+        ]);
     }
+
+
 
 }
 
@@ -1098,49 +1246,76 @@ function email_order_summary_hebrew_cancel($user_order,$orderId,$todayDate, $rem
 
     $mailbody .=  '</div></div></body></html>';
 
+    $subject = 'עסק'." ".$user_order->rests_orders[0]->selectedRestaurant->name_he." בטל הזמנה # "."  ".$orderId;
 
-    $mail = new PHPMailer;
-
-    $mail->CharSet = 'UTF-8';
-
-
-    $mail->isSMTP();
-    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
-    $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = EMAIL_SMTP_USERNAME;
-    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
-    $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;
-
-    //From email address and name
-    $mail->From = "orders@orderapp.com";
-    $mail->FromName = "OrderApp";
-
-
-    //To address and name
-    $mail->addAddress($user_order->user->email);     // SEND EMAIL TO USER
-    $mail->addAddress(EMAIL);
-    $mail->AddCC("brina@orderapp.com");
-    //SEND  CLIENT EMAIL COPY TO ADMIN
-    $mail->AddBCC("oded@orderapp.com");
-    //Address to which recipient will reply
-    $mail->addReplyTo("orders@orderapp.com", "Reply");
-
-
-    //Send HTML or Plain Text email
-    $mail->isHTML(false);
-    $mail->Subject = 'עסק'." ".$user_order->rests_orders[0]->selectedRestaurant->name_he." בטל הזמנה # "."  ".$orderId;
-    $mail->Body = $mailbody;
-    $mail->AltBody = "OrderApp";
-
-    if (!$mail->send())
+    //AMAZON SERVER ACTIVATED
+    if(ACTIVE_SERVER_ID == '1')
     {
-        echo "Mailer Error: " . $mail->ErrorInfo;
+        $client = SesClient::factory(array(
+            'version'=> 'latest',
+            'region' => 'eu-west-1',
+            'credentials' => array(
+                'key'    => ACCESS_KEY_ID,
+                'secret' => ACCESS_KEY_SECRET,
+            )
+        ));
+
+        try {
+
+            $userEmail = $user_order->user->email;
+
+            $result = $client->sendEmail([
+                'Destination' => [
+                    'ToAddresses' => [
+                        $userEmail,
+                    ],
+                ],
+                'Message' => [
+                    'Body' => [
+                        'Html' => [
+                            'Charset' => 'UTF-8',
+                            'Data' => $mailbody,
+                        ]
+                    ],
+                    'Subject' => [
+                        'Charset' => 'UTF-8',
+                        'Data' => $subject,
+                    ],
+                ],
+                'Source' => EMAIL,
+
+            ]);
+
+            $messageId = $result->get('MessageId');
+
+            //echo("Email sent! Message ID: $messageId"."\n");
+
+        } catch (SesException $error) {
+
+            echo("The email was not sent. Error message: ".$error->getAwsErrorMessage()."\n");
+        }
+
+
+
     }
-    else
-    {
-        echo "Message has been sent successfully";
+    //MAIN GUN SERVER ACTIVATED
+    else if(ACTIVE_SERVER_ID == '2'){
+
+        $userEmail = $user_order->user->email;
+
+        $mg = Mailgun::create(MAIL_GUN_API_KEY);
+
+        $mg->messages()->send(MAIL_GUN_DOMAIN, [
+            'from'    =>  "Biz OrderApp <".EMAIL.">",
+            'to'      =>  $userEmail,
+            'cc'      => 'oded@orderapp.com','brina@orderapp.com',
+            'subject' =>  $subject,
+            'html'    => $mailbody
+        ]);
     }
+
+
+
 
 }
 
@@ -1186,7 +1361,7 @@ function email_order_summary_hebrew($user_order,$orderId,$todayDate)
         $mailbody.='</tr>';
         $mailbody.='<tr style="font-size: 12px; padding: 5px 10px; color: #808080" >';
         $mailbody.='<td > </td>';
-   
+
 
         if($t['specialRequest'] != "") {
 
@@ -1302,49 +1477,78 @@ function email_order_summary_hebrew($user_order,$orderId,$todayDate)
     $mailbody .=  '</div></div></body></html>';
 
 
-    $mail = new PHPMailer;
+    $subject = 'עסק'." ".$user_order['rests_orders'][0]['selectedRestaurant']['name_he']." הזמנה חדשה # "."  ".$orderId;
 
-    $mail->CharSet = 'UTF-8';
-
-
-
-    $mail->isSMTP();
-    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
-    $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = EMAIL_SMTP_USERNAME;
-    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
-    $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;
-
-    //From email address and name
-    $mail->From = "orders@orderapp.com";
-    $mail->FromName = "OrderApp";
-
-
-    //To address and name
-    $mail->addAddress($user_order['user']['email']);     // SEND EMAIL TO USER
-    $mail->addAddress(EMAIL);
-    $mail->AddCC("brina@orderapp.com");
-    //SEND  CLIENT EMAIL COPY TO ADMIN
-    $mail->AddBCC("oded@orderapp.com");
-    //Address to which recipient will reply
-    $mail->addReplyTo("orders@orderapp.com", "Reply");
-
-
-    //Send HTML or Plain Text email
-    $mail->isHTML(false);
-    $mail->Subject = 'עסק'." ".$user_order['rests_orders'][0]['selectedRestaurant']['name_he']." הזמנה חדשה # "."  ".$orderId;
-    $mail->Body = $mailbody;
-    $mail->AltBody = "OrderApp";
-
-    if (!$mail->send())
+    //AMAZON SERVER ACTIVATED
+    if(ACTIVE_SERVER_ID == '1')
     {
-        echo "Mailer Error: " . $mail->ErrorInfo;
+        $client = SesClient::factory(array(
+            'version'=> 'latest',
+            'region' => 'eu-west-1',
+            'credentials' => array(
+                'key'    => ACCESS_KEY_ID,
+                'secret' => ACCESS_KEY_SECRET,
+            )
+        ));
+
+        try {
+
+            $result = $client->sendEmail([
+                'Destination' => [
+                    'ToAddresses' => [
+                        $user_order['user']['email'],
+                    ],
+                ],
+                'Message' => [
+                    'Body' => [
+                        'Html' => [
+                            'Charset' => 'UTF-8',
+                            'Data' => $mailbody,
+                        ]
+                    ],
+                    'Subject' => [
+                        'Charset' => 'UTF-8',
+                        'Data' => $subject,
+                    ],
+                ],
+                'Source' => EMAIL,
+
+            ]);
+
+            $messageId = $result->get('MessageId');
+
+            //echo("Email sent! Message ID: $messageId"."\n");
+
+        } catch (SesException $error) {
+
+            echo("The email was not sent. Error message: ".$error->getAwsErrorMessage()."\n");
+        }
+
+
+
     }
-    else
-    {
-        echo "Message has been sent successfully";
+    //MAIN GUN SERVER ACTIVATED
+    else if(ACTIVE_SERVER_ID == '2'){
+
+        try {
+
+            $mg = Mailgun::create(MAIL_GUN_API_KEY);
+
+            $mg->messages()->send(MAIL_GUN_DOMAIN, [
+                'from' => "Biz OrderApp <" . EMAIL . ">",
+                'to' => $user_order['user']['email'],
+                'cc' => 'oded@orderapp.com', 'brina@orderapp.com',
+                'subject' => $subject,
+                'html' => $mailbody
+            ]);
+
+        }
+        catch (Exception $e)
+        {
+
+        }
     }
+
 
 }
 
@@ -1498,50 +1702,67 @@ function email_order_summary_hebrew_admin($user_order,$orderId,$todayDate)
     $mailbody .=  '</div></div></body></html>';
 
 
+    $subject = 'עסק'." ".$user_order['rests_orders'][0]['selectedRestaurant']['name_he']." הזמנה חדשה # "."  ".$orderId;
 
-    $mail = new PHPMailer;
-
-    $mail->CharSet = 'UTF-8';
-
-    $mail->SMTPDebug = false;                                               // Enable verbose debug output
-
-    $mail->isSMTP();
-    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
-    $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = EMAIL_SMTP_USERNAME;
-    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
-    $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;
-
-    //From email address and name
-    $mail->From = "orders@orderapp.com";
-    $mail->FromName = "OrderApp";
-
-
-    //To address and name
-    $mail->addAddress(EMAIL);                    //SEND ADMIN EMAIL
-
-
-
-
-    //Address to which recipient will reply
-    $mail->addReplyTo("orders@orderapp.com", "Reply");
-
-
-    //Send HTML or Plain Text email
-    $mail->isHTML(false);
-    $mail->Subject = 'עסק'." ".$user_order['rests_orders'][0]['selectedRestaurant']['name_he']." הזמנה חדשה # "."  ".$orderId;
-    $mail->Body = $mailbody;
-    $mail->AltBody = "OrderApp";
-
-    if (!$mail->send())
+    //AMAZON SERVER ACTIVATED
+    if(ACTIVE_SERVER_ID == '1')
     {
-        echo "Mailer Error: " . $mail->ErrorInfo;
+        $client = SesClient::factory(array(
+            'version'=> 'latest',
+            'region' => 'eu-west-1',
+            'credentials' => array(
+                'key'    => ACCESS_KEY_ID,
+                'secret' => ACCESS_KEY_SECRET,
+            )
+        ));
+
+        try {
+
+            $result = $client->sendEmail([
+                'Destination' => [
+                    'ToAddresses' => [
+                        EMAIL,
+                    ],
+                ],
+                'Message' => [
+                    'Body' => [
+                        'Html' => [
+                            'Charset' => 'UTF-8',
+                            'Data' => $mailbody,
+                        ]
+                    ],
+                    'Subject' => [
+                        'Charset' => 'UTF-8',
+                        'Data' => $subject,
+                    ],
+                ],
+                'Source' => EMAIL,
+
+            ]);
+
+
+            $messageId = $result->get('MessageId');
+            //echo("Email sent! Message ID: $messageId"."\n");
+
+        } catch (SesException $error) {
+
+            echo("The email was not sent. Error message: ".$error->getAwsErrorMessage()."\n");
+        }
+
+
     }
-    else
-    {
-        echo "Message has been sent successfully";
+    //MAIN GUN SERVER ACTIVATED
+    else if(ACTIVE_SERVER_ID == '2'){
+        $mg = Mailgun::create(MAIL_GUN_API_KEY);
+
+        $mg->messages()->send(MAIL_GUN_DOMAIN, [
+            'from'    =>  "Biz OrderApp <".EMAIL.">",
+            'to'      =>  EMAIL,
+            'subject' =>  $subject,
+            'html'    => $mailbody
+        ]);
     }
+
 
 }
 
@@ -1653,49 +1874,66 @@ function email_for_mark2_cancel($user_order,$orderId,$todayDate)
     $mailbody .= 'Total : '.$user_order->total_paid;
     $mailbody .= '\n';
 
+    $subject = 'Cancel Ledger '.$user_order->rests_orders[0]->selectedRestaurant->name_en->Order.'# '.$orderId;
 
-    $mail = new PHPMailer;
-
-
-    $mail->CharSet = 'UTF-8';
-
-
-    $mail->isSMTP();
-    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
-    $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = EMAIL_SMTP_USERNAME;
-    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
-    $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;
-
-
-    //From email address and name
-    $mail->From = "orders@orderapp.com";
-    $mail->FromName = "OrderApp";
-
-
-    //To address and name
-    $mail->addAddress(EMAIL);                    //SEND ADMIN EMAIL
-
-    //Address to which recipient will reply
-    $mail->addReplyTo("orders@orderapp.com", "Reply");
-
-
-    //Send HTML or Plain Text email
-    $mail->isHTML(false);
-    $mail->Subject = 'Cancel Ledger '.$user_order->rests_orders[0]->selectedRestaurant->name_en->Order.'# '.$orderId;
-    $mail->Body = $mailbody;
-    $mail->AltBody = "OrderApp";
-
-
-    if (!$mail->send())
+    //AMAZON SERVER ACTIVATED
+    if(ACTIVE_SERVER_ID == '1')
     {
-        //echo "Mailer Error: " . $mail->ErrorInfo;
+        $client = SesClient::factory(array(
+            'version'=> 'latest',
+            'region' => 'eu-west-1',
+            'credentials' => array(
+                'key'    => ACCESS_KEY_ID,
+                'secret' => ACCESS_KEY_SECRET,
+            )
+        ));
+
+        try {
+
+            $result = $client->sendEmail([
+                'Destination' => [
+                    'ToAddresses' => [
+                        EMAIL,
+                    ],
+                ],
+                'Message' => [
+                    'Body' => [
+                        'Html' => [
+                            'Charset' => 'UTF-8',
+                            'Data' => $mailbody,
+                        ]
+                    ],
+                    'Subject' => [
+                        'Charset' => 'UTF-8',
+                        'Data' => $subject,
+                    ],
+                ],
+                'Source' => EMAIL,
+
+            ]);
+
+
+            $messageId = $result->get('MessageId');
+            //echo("Email sent! Message ID: $messageId"."\n");
+
+        } catch (SesException $error) {
+
+            echo("The email was not sent. Error message: ".$error->getAwsErrorMessage()."\n");
+        }
+
+
+
     }
-    else
-    {
-        //echo "Message has been sent successfully";
+    //MAIN GUN SERVER ACTIVATED
+    else if(ACTIVE_SERVER_ID == '2'){
 
+        $mg = Mailgun::create(MAIL_GUN_API_KEY);
+        $mg->messages()->send(MAIL_GUN_DOMAIN, [
+            'from'    =>  "Biz OrderApp <".EMAIL.">",
+            'to'      =>  EMAIL,
+            'subject' =>  $subject,
+            'html'    => $mailbody
+        ]);
     }
 
 }
@@ -1809,52 +2047,66 @@ function email_for_mark2($user_order,$orderId,$todayDate)
     $mailbody .= '\n';
 
 
-    $mail = new PHPMailer;
+    $subject = 'Ledger '.$user_order['rests_orders'][0]['selectedRestaurant']['name_en'].' Order# '.$orderId;
 
-
-    $mail->CharSet = 'UTF-8';
-
-
-
-
-
-    $mail->isSMTP();
-    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
-    $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = EMAIL_SMTP_USERNAME;
-    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
-    $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;
-
-
-
-    //From email address and name
-    $mail->From = "orders@orderapp.com";
-    $mail->FromName = "OrderApp";
-
-
-    //To address and name
-    $mail->addAddress(EMAIL);                    //SEND ADMIN EMAIL
-
-    //Address to which recipient will reply
-    $mail->addReplyTo("orders@orderapp.com", "Reply");
-
-
-    //Send HTML or Plain Text email
-    $mail->isHTML(false);
-    $mail->Subject = 'Ledger '.$user_order['rests_orders'][0]['selectedRestaurant']['name_en'].' Order# '.$orderId;
-    $mail->Body = $mailbody;
-    $mail->AltBody = "OrderApp";
-
-
-    if (!$mail->send())
+    //AMAZON SERVER ACTIVATED
+    if(ACTIVE_SERVER_ID == '1')
     {
-        // echo "Mailer Error: " . $mail->ErrorInfo;
+        $client = SesClient::factory(array(
+            'version'=> 'latest',
+            'region' => 'eu-west-1',
+            'credentials' => array(
+                'key'    => ACCESS_KEY_ID,
+                'secret' => ACCESS_KEY_SECRET,
+            )
+        ));
+
+        try {
+
+            $result = $client->sendEmail([
+                'Destination' => [
+                    'ToAddresses' => [
+                        EMAIL,
+                    ],
+                ],
+                'Message' => [
+                    'Body' => [
+                        'Html' => [
+                            'Charset' => 'UTF-8',
+                            'Data' => $mailbody,
+                        ]
+                    ],
+                    'Subject' => [
+                        'Charset' => 'UTF-8',
+                        'Data' => $subject,
+                    ],
+                ],
+                'Source' => EMAIL,
+
+            ]);
+
+
+            $messageId = $result->get('MessageId');
+            //echo("Email sent! Message ID: $messageId"."\n");
+
+        } catch (SesException $error) {
+
+            echo("The email was not sent. Error message: ".$error->getAwsErrorMessage()."\n");
+        }
+
+
+
     }
-    else
-    {
-        //  echo "Message has been sent successfully";
+    //MAIN GUN SERVER ACTIVATED
+    else if(ACTIVE_SERVER_ID == '2'){
 
+        $mg = Mailgun::create(MAIL_GUN_API_KEY);
+        $mg->messages()->send(MAIL_GUN_DOMAIN, [
+            'from'    =>  "Biz OrderApp <".EMAIL.">",
+            'to'      =>  EMAIL,
+            'subject' =>  $subject,
+            'html'    => $mailbody
+        ]);
     }
 
 }
@@ -1881,10 +2133,6 @@ function email_for_kitchen($user_order,$orderId,$todayDate)
 
     foreach($user_order['rests_orders'][0]['foodCartData']  as $t)
     {
-        $mailbody .= '<br>';
-        $mailbody .= '<br>';
-
-        $mailbody .=  $t['qty'].' : כמות';
 
         $mailbody .= '<br>';
         $mailbody .= '<br>';
@@ -1940,48 +2188,67 @@ function email_for_kitchen($user_order,$orderId,$todayDate)
     $mailbody .= '<br>';
 
 
-
-    $mail = new PHPMailer;
-
-    $mail->CharSet = 'UTF-8';
+    $subject =  " הזמנה חדשה ".$orderId . " #" . $user_order['rests_orders'][0]['selectedRestaurant']['name_he'];
 
 
+    //AMAZON SERVER ACTIVATED
+    if(ACTIVE_SERVER_ID == '1')
+    {
+        $client = SesClient::factory(array(
+            'version'=> 'latest',
+            'region' => 'eu-west-1',
+            'credentials' => array(
+                'key'    => ACCESS_KEY_ID,
+                'secret' => ACCESS_KEY_SECRET,
+            )
+        ));
 
-    $mail->isSMTP();
-    $mail->Host = EMAIL_HOST;                 //   Set mailer to use SMTP
-    $mail->SMTPAuth = true;                                             //   Enable SMTP authentication
-    $mail->Username = EMAIL_SMTP_USERNAME;
-    $mail->Password = EMAIL_SMTP_PASSWORD;   //   SMTP password
-    $mail->SMTPSecure = 'tls';                                          //   Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;
+        try {
 
-    //From email address and name
-    $mail->From = "orders@orderapp.com";
-    $mail->FromName = "OrderApp";
+            $result = $client->sendEmail([
+                'Destination' => [
+                    'ToAddresses' => [
+                        EMAIL,
+                    ],
+                ],
+                'Message' => [
+                    'Body' => [
+                        'Html' => [
+                            'Charset' => 'UTF-8',
+                            'Data' => $mailbody,
+                        ]
+                    ],
+                    'Subject' => [
+                        'Charset' => 'UTF-8',
+                        'Data' => $subject,
+                    ],
+                ],
+                'Source' => EMAIL,
+
+            ]);
 
 
-    //To address and name
-    $mail->addAddress(EMAIL);                    //SEND ADMIN EMAIL
+            $messageId = $result->get('MessageId');
+            //echo("Email sent! Message ID: $messageId"."\n");
 
+        } catch (SesException $error) {
 
-    //Address to which recipient will reply
-    $mail->addReplyTo("orders@orderapp.com", "Reply");
-
-
-    //Send HTML or Plain Text email
-    $mail->isHTML(false);
-    $mail->Subject = " הזמנה חדשה ".$orderId . " #" . $user_order['rests_orders'][0]['selectedRestaurant']['name_he'];
-    $mail->Body = $mailbody;
-    $mail->AltBody = "OrderApp";
-
-    if (!$mail->send()) {
-
-        echo "Mailer Error: " . $mail->ErrorInfo;
+           echo("The email was not sent. Error message: ".$error->getAwsErrorMessage()."\n");
+        }
 
     }
-    else {
+    //MAIN GUN SERVER ACTIVATED
+    else if(ACTIVE_SERVER_ID == '2'){
 
-        echo "Message has been sent successfully";
+
+        $mg = Mailgun::create(MAIL_GUN_API_KEY);
+
+        $mg->messages()->send(MAIL_GUN_DOMAIN, [
+            'from'    =>  "Biz OrderApp <".EMAIL.">",
+            'to'      =>  EMAIL,
+            'subject' =>  $subject,
+            'html'    => $mailbody
+        ]);
 
     }
 

@@ -23,6 +23,7 @@ $rolee = $_SESSION['b2b_admin_role'];
     <!-- Basic Styles -->
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/font-awesome.min.css">
+    
 
     <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
     <link rel="stylesheet" type="text/css" media="screen" href="css/orderappadmin-production-plugins.min.css">
@@ -72,7 +73,7 @@ $rolee = $_SESSION['b2b_admin_role'];
   
 </head>
 <body class="">
-<img id="loader" style="z-index: 99999;" class="loader-css" src="<?=WEB_PATH?>/en/img/loader.gif" >
+<img id="loader" style="z-index: 99999;" class="loader-css" src="http://resources.orderapp.com/loader.gif" >
 <div id="Loader_bg" style="display:none ; z-index: 9999; width: 100%; height: 100%; position: absolute; top: 0; left: 0;right:  0; bottom: 0; background-color: rgba(255,233,206,0.9);"></div>
 
 

@@ -10,16 +10,15 @@ class ComposerStaticInit0bc7c5224831b30f18aa10a45831ced4
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
         'ddc0a4d7e61c0286f0f8593b1903e894' => __DIR__ . '/..' . '/clue/stream-filter/src/functions.php',
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '8cff32064859f4559445b89279f3199c' => __DIR__ . '/..' . '/php-http/message/src/filters.php',
+        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        'b067bc7112e384b61c701452d53a14a8' => __DIR__ . '/..' . '/mtdowling/jmespath.php/src/JmesPath.php',
+        '8a9dc1de0ca7e01f3e08231539562f61' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        's' => 
-        array (
-            'sngrl\\PhpFirebaseCloudMessaging\\' => 32,
-        ),
         'W' => 
         array (
             'Webmozart\\Assert\\' => 17,
@@ -32,13 +31,21 @@ class ComposerStaticInit0bc7c5224831b30f18aa10a45831ced4
         'S' => 
         array (
             'Symfony\\Component\\OptionsResolver\\' => 34,
-            'Smooch\\' => 7,
+            'Stichoza\\GoogleTranslate\\' => 25,
             'Slim\\' => 5,
         ),
         'P' => 
         array (
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
+        ),
+        'L' => 
+        array (
+            'League\\OAuth2\\Client\\' => 21,
+        ),
+        'J' => 
+        array (
+            'JmesPath\\' => 9,
         ),
         'I' => 
         array (
@@ -50,9 +57,9 @@ class ComposerStaticInit0bc7c5224831b30f18aa10a45831ced4
             'Http\\Message\\MultipartStream\\' => 29,
             'Http\\Message\\' => 13,
             'Http\\Discovery\\' => 15,
+            'Http\\Client\\Curl\\' => 17,
             'Http\\Client\\Common\\' => 19,
             'Http\\Client\\' => 12,
-            'Http\\Adapter\\Guzzle6\\' => 21,
         ),
         'G' => 
         array (
@@ -62,20 +69,19 @@ class ComposerStaticInit0bc7c5224831b30f18aa10a45831ced4
         ),
         'F' => 
         array (
-            'Firebase\\JWT\\' => 13,
             'FastRoute\\' => 10,
         ),
         'C' => 
         array (
             'Clue\\StreamFilter\\' => 18,
         ),
+        'A' => 
+        array (
+            'Aws\\' => 4,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'sngrl\\PhpFirebaseCloudMessaging\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/sngrl/php-firebase-cloud-messaging/src',
-        ),
         'Webmozart\\Assert\\' => 
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
@@ -92,9 +98,9 @@ class ComposerStaticInit0bc7c5224831b30f18aa10a45831ced4
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
         ),
-        'Smooch\\' => 
+        'Stichoza\\GoogleTranslate\\' => 
         array (
-            0 => __DIR__ . '/..' . '/frankandoak/smooch-api/src',
+            0 => __DIR__ . '/..' . '/stichoza/google-translate-php/src/Stichoza/GoogleTranslate',
         ),
         'Slim\\' => 
         array (
@@ -107,6 +113,15 @@ class ComposerStaticInit0bc7c5224831b30f18aa10a45831ced4
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'League\\OAuth2\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/oauth2-client/src',
+            1 => __DIR__ . '/..' . '/league/oauth2-google/src',
+        ),
+        'JmesPath\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mtdowling/jmespath.php/src',
         ),
         'Interop\\Container\\' => 
         array (
@@ -129,6 +144,10 @@ class ComposerStaticInit0bc7c5224831b30f18aa10a45831ced4
         array (
             0 => __DIR__ . '/..' . '/php-http/discovery/src',
         ),
+        'Http\\Client\\Curl\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/curl-client/src',
+        ),
         'Http\\Client\\Common\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-http/client-common/src',
@@ -136,10 +155,6 @@ class ComposerStaticInit0bc7c5224831b30f18aa10a45831ced4
         'Http\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-http/httplug/src',
-        ),
-        'Http\\Adapter\\Guzzle6\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/php-http/guzzle6-adapter/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -153,10 +168,6 @@ class ComposerStaticInit0bc7c5224831b30f18aa10a45831ced4
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
-        'Firebase\\JWT\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
-        ),
         'FastRoute\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',
@@ -165,9 +176,20 @@ class ComposerStaticInit0bc7c5224831b30f18aa10a45831ced4
         array (
             0 => __DIR__ . '/..' . '/clue/stream-filter/src',
         ),
+        'Aws\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/aws/aws-sdk-php/src',
+        ),
     );
 
     public static $prefixesPsr0 = array (
+        'S' => 
+        array (
+            'Stichoza\\GoogleTranslate\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/stichoza/google-translate-php/src',
+            ),
+        ),
         'P' => 
         array (
             'Pimple' => 
@@ -184,20 +206,12 @@ class ComposerStaticInit0bc7c5224831b30f18aa10a45831ced4
         ),
     );
 
-    public static $classMap = array (
-        'Firebase\\Error' => __DIR__ . '/..' . '/ktamas77/firebase-php/src/firebaseStub.php',
-        'Firebase\\FirebaseInterface' => __DIR__ . '/..' . '/ktamas77/firebase-php/src/firebaseInterface.php',
-        'Firebase\\FirebaseLib' => __DIR__ . '/..' . '/ktamas77/firebase-php/src/firebaseLib.php',
-        'Firebase\\FirebaseStub' => __DIR__ . '/..' . '/ktamas77/firebase-php/src/firebaseStub.php',
-    );
-
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit0bc7c5224831b30f18aa10a45831ced4::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit0bc7c5224831b30f18aa10a45831ced4::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit0bc7c5224831b30f18aa10a45831ced4::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit0bc7c5224831b30f18aa10a45831ced4::$classMap;
 
         }, null, ClassLoader::class);
     }

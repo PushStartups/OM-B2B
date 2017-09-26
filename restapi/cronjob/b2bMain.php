@@ -20,7 +20,7 @@ DB::useDB('orderapp_b2b_wui');
 
 
 
-$TEST_MODE = true;
+$TEST_MODE = false;
 $companies = getCompanies($TEST_MODE);
 echo '<pre>'; var_dump($companies); echo '</pre>';
 sendMessages($companies, $TEST_MODE);

@@ -248,7 +248,6 @@ function edit_company(companies_id,urll)
     var sunday_start_time       =  $('#sunday_start_time').val();
     var sunday_end_time         =  $('#sunday_end_time').val();
 
-
     var monday_start_time       =  $('#monday_start_time').val();
     var monday_end_time         =  $('#monday_end_time').val();
 
@@ -268,7 +267,7 @@ function edit_company(companies_id,urll)
     var saturday_start_time     =  $('#saturday_start_time').val();
     var saturday_end_time       =  $('#saturday_end_time').val();
 
-    var delivery_time            = $('#delivery_time').val();
+    var delivery_time                  = $('#delivery_time').val();
 
 
     if(name == "")
@@ -513,34 +512,21 @@ function edit_company(companies_id,urll)
 
         'monday_start_time'       :  $('#monday_start_time').val(),
         'monday_end_time'         :  $('#monday_end_time').val(),
-        'monday_delivery_time'    :  $('#monday_delivery_timing').val(),
-        'monday_food_ready_for_pickup'    :  $('#monday_food_ready_for_pickup').val(),
 
         'tuesday_start_time'      :  $('#tuesday_start_time').val(),
         'tuesday_end_time'        :  $('#tuesday_end_time').val(),
-        'tuesday_delivery_time'    :  $('#tuesday_delivery_timing').val(),
-        'tuesday_food_ready_for_pickup'    :  $('#tuesday_food_ready_for_pickup').val(),
 
         'wednesday_start_time'    :  $('#wednesday_start_time').val(),
         'wednesday_end_time'      :  $('#wednesday_end_time').val(),
-        'wednesday_delivery_time'    :  $('#wednesday_delivery_timing').val(),
-        'wednesday_food_ready_for_pickup'    :  $('#wednesday_food_ready_for_pickup').val(),
 
         'thursday_start_time'     :  $('#thursday_start_time').val(),
         'thursday_end_time'       :  $('#thursday_end_time').val(),
-        'thursday_delivery_time'    :  $('#thursday_delivery_timing').val(),
-        'thursday_food_ready_for_pickup'    :  $('#thursday_food_ready_for_pickup').val(),
 
         'friday_start_time'       :  $('#friday_start_time').val(),
         'friday_end_time'         :  $('#friday_end_time').val(),
-        'friday_delivery_time'    :  $('#friday_delivery_timing').val(),
-        'friday_food_ready_for_pickup'    :  $('#friday_food_ready_for_pickup').val(),
 
         'saturday_start_time'     :  $('#saturday_start_time').val(),
         'saturday_end_time'       :  $('#saturday_end_time').val(),
-        'saturday_delivery_time'    :  $('#saturday_delivery_timing').val(),
-        'saturday_food_ready_for_pickup'    :  $('#saturday_food_ready_for_pickup').val(),
-
         'lat'                     :  $('#lat').val(),
         'lng'                     :  $('#lng').val(),
 

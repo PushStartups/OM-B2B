@@ -125,7 +125,7 @@ else{
                                         ?>
                                         <tr>
                                             <td><?=$restaurants['id']?></td>
-                                            <td><img class="logo-table" src="<?=WEB_PATH.$restaurants['logo'] ?>"></td>
+                                            <td><img class="logo-table" src="<?=$restaurants['logo'] ?>"></td>
                                             <td><?=$restaurants['name_en']?></td>
                                             <td><?=$restaurants['city_name']?></td>
 
