@@ -18,11 +18,18 @@ DB::query("set names utf8");
 
 DB::useDB('orderapp_b2b_wui');
 
+//GET ALL THE COMPANIES THAT A SCHEDULED TO FINISH DOING THEIR ORDERS
+$companies = getCompanies(false);
 
-
+//SET TEST MODE FOR COMPANY WITH ID=2
+//TEST_MODE = TRUE MAKE sendMessage TO WORK IN TEST PROTOCOL
 $TEST_MODE = false;
-$companies = getCompanies($TEST_MODE);
+if ($companies[0]["id"] == 2) {
+  $TEST_MODE = true;
+}
 echo '<pre>'; var_dump($companies); echo '</pre>';
+
+//TAKES THE COMPANY ONE BY ONE AND SENDS MESSAGES TO EVERY RESTAURANT THIS COMPANY MADE ORDERS FROM
 sendMessages($companies, $TEST_MODE);
 
 

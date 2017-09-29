@@ -9,23 +9,11 @@ require_once (dirname(__FILE__) . '/../../Interfax/vendor/autoload.php');
 
 use Mailgun\Mailgun;
 use Interfax\Client;
-//use sngrl\PhpFirebaseCloudMessaging\FirebaseClient;
-//use sngrl\PhpFirebaseCloudMessaging\Message;
-//use sngrl\PhpFirebaseCloudMessaging\Recipient\Device;
-//use sngrl\PhpFirebaseCloudMessaging\Notification;
 
-const DEFAULT_URL = 'https://hunters-chat.firebaseio.com/';
-const DEFAULT_TOKEN = 'wSZSOmMJuloBAS5xa82Q7S7wzJ2ErDuwxadJiIJD';
-const DEFAULT_PATH = 'user-messages/';
-
-//const DEFAULT_URL = 'https://test-6a55f.firebaseio.com';
-//const DEFAULT_TOKEN = 'AIzaSyCEF7WtK0fu8LtD2dahcOhUX27HaUqyFH4';
-
-//$firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
 
 DB::query("set names utf8");
 
-define('TEST_MODE', true);
+define('TEST_MODE', false);
 
 //RUN MAIN FUNCTION TO GET ORDERS AND SEND MESSAGES
 main();
@@ -35,10 +23,13 @@ function main() {
   //GET ALL ORDERS FOR TODAY SORTED BY RESTAURANT
   $restaurants_list = getOrders();
   
-  //POPULATE RESTAURANTS WITH DATA (EMAIL, FAX, WHATSAPP)
+  
   if ( count($restaurants_list) > 0 ) {
+  
+    //POPULATE RESTAURANTS WITH DATA (EMAIL, FAX, WHATSAPP)
     $ready_restaurants_list = populateWithData($restaurants_list);
     
+    //SEND MESSAGES TO EVERY RESTAURANT FROM THE ARRAY $ready_restaurants_list
     sendMessages($ready_restaurants_list, TEST_MODE);
     
     echo '<pre>'; var_dump($ready_restaurants_list); echo '</pre>';
@@ -65,9 +56,9 @@ function sendMessages($ready_restaurants_list, $TEST_MODE) {
     }
     
     //SENDS FIREBASE MESSAGE
-//    if($restaurant["firebase_chat_id"] && !is_null($restaurant["firebase_chat_id"]) ) {
-//      firebaseMsg($restaurant["firebase_chat_id"], $msg, $TEST_MODE);
-//    }
+    if( ($restaurant["firebase_chat_id"] && $restaurant["firebase_chat_id"] !== "NULL") || $TEST_MODE ) {
+      firebaseMsg($restaurant["firebase_chat_id"], $msg, $TEST_MODE);
+    }
   
   }
 }
@@ -173,7 +164,7 @@ function populateWithData($restaurants_list) {
   }
   
   DB::useDB('orderapp_restaurants_b2b_wui');
-  $restaurants_data_array = DB::query("SELECT `id`, `fax_number`, `email`, `name_en`, `name_he`, `whatsapp_group_name`, `whatsapp_group_creator` FROM `restaurants` WHERE id IN (". implode(",", $restaurants_ids_array) . ")");
+  $restaurants_data_array = DB::query("SELECT `id`, `fax_number`, `email`, `name_en`, `name_he`, `whatsapp_group_name`, `whatsapp_group_creator`, `firebase_chat_id` FROM `restaurants` WHERE id IN (". implode(",", $restaurants_ids_array) . ")");
   
   $restaurants_balances = getBalancesForRestaurants($restaurants_ids_array);
   
@@ -187,6 +178,7 @@ function populateWithData($restaurants_list) {
         $restaurant["whatsapp_group_name"] = $data_item["whatsapp_group_name"];
         $restaurant["whatsapp_group_creator"] = $data_item["whatsapp_group_creator"];
         $restaurant["balance"] = $restaurants_balances[$restaurant["id"]];
+        $restaurant["firebase_chat_id"] = $data_item["firebase_chat_id"];
         $restaurant["ready"] = true;
       }
     }
@@ -561,32 +553,12 @@ function whatsappAPI($groupAdmin, $groupName, $message, $TEST_MODE) {
   curl_close($ch);
 }
 
-//function firebaseMessage() {
-//  $server_key = 'wSZSOmMJuloBAS5xa82Q7S7wzJ2ErDuwxadJiIJD'; //_YOUR_SERVER_KEY_
-//  $client = new Client();
-//  $client->setApiKey($server_key);
-//  $client->injectGuzzleHttpClient(new \GuzzleHttp\Client());
-//
-//  $message = new Message();
-//  $message->setPriority('high');
-//  $message->addRecipient(new Device('-Ksm_bXAUCt1exAbXHWu')); //_YOUR_DEVICE_TOKEN_
-//  $message
-//    ->setNotification(new Notification('some test title', 'some test body'))
-//    ->setData(['key' => 'value'])
-//  ;
-//
-//  $response = $client->send($message);
-//  var_dump($response->getStatusCode());
-//  var_dump($response->getBody()->getContents());
-//}
-
 function firebaseMsg($toId, $msg, $test_mode) {
-
-  $fromId = 'xgUkB30C4BZwqwEqRiAait7Jsv83';
-  if ($test_mode) {
-    $toId = $toId = '-Ksm_bXAUCt1exAbXHWu';
-  }
   
+  $fromId = 'vZ0itdFLNxMxhIQhzT2PAA1Lhb33';
+  if ($test_mode) {
+    $toId = '-KtpHWXIj_VmA3cUg-p0';
+  }
   
   $response = firebaseSendMsg($toId, $fromId, $msg);
   $responseArr = explode(":", $response);
@@ -598,10 +570,6 @@ function firebaseMsg($toId, $msg, $test_mode) {
   $f = updateFirebaseUserMsg($fromId, $toId, $message_name);
   $s = updateFirebaseUserMsg($toId, $fromId, $message_name);
   
-//  echo "<br>";
-//  var_dump($f);
-//  echo "<br>";
-//  var_dump($s);
 }
 
 function firebaseSendMsg($toId, $fromId, $msg) {
@@ -612,6 +580,7 @@ function firebaseSendMsg($toId, $fromId, $msg) {
     "fromId"  => $fromId,
     "isToGroup"  => true,
     "isDeleted"  => false,
+    "isEdit" => false,
     "timestamp"  => array(
        ".sv" => "timestamp"
      ),

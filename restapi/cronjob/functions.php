@@ -1,10 +1,14 @@
 <?php
 
-//require_once (dirname(__FILE__) . '/../PHPMailer/PHPMailerAutoload.php');
 require_once (dirname(__FILE__) . '/../Interfax/vendor/autoload.php');
-
+require_once (dirname(__FILE__) . '/../vendor/autoload.php');
 use Mailgun\Mailgun;
 use Interfax\Client;
+use Stichoza\GoogleTranslate\TranslateClient;
+
+//TRANSLATION SET UP
+$tr = new TranslateClient();
+$tr->setTarget('iw');
 
 //GET ARRAY OF ALL COMPANIES AND THEIR TIMINGS
 function getCompanies($TEST_MODE) {
@@ -105,8 +109,6 @@ function sendMessages($companies, $TEST_MODE) {
 function getOrdersByRestaurant($ordersFromDB) {
   $restaurantsArray = array();
 
-  //echo '<pre>'; var_dump($ordersFromDB); echo '</pre>';
-
   foreach ( $ordersFromDB as $restaurantOrder ) {
 
       $rest_order_object = json_decode($restaurantOrder['rest_order_object'], true);
@@ -125,8 +127,6 @@ function getOrdersByRestaurant($ordersFromDB) {
         $restaurantsArray[$restaurant["id"]] = $restaurant;
       } else {
         foreach( $restaurantsArray as &$restaurantItem) {
-          // echo $restaurantItem["id"] . " == " . $restaurant["id"];
-          // echo '<br>';
           if ( $restaurantItem["id"] == $restaurant["id"] ) {
             array_push($restaurantItem["orders"], $restaurant["orders"][0]);
             break;
@@ -138,9 +138,7 @@ function getOrdersByRestaurant($ordersFromDB) {
         }
       }
     }
-
-    //echo '<pre>'; var_dump($restaurantsArray); echo '</pre>';
-
+  
     //ADD WHATSAPP GROUPS INFO TO THE RESTAURANTS ARRAYS
     $restaurantsIds = array();
     foreach( $restaurantsArray as $restaurant) {
@@ -148,21 +146,22 @@ function getOrdersByRestaurant($ordersFromDB) {
     }
 
     DB::useDB('orderapp_restaurants_b2b_wui');
-    $whatsapp_rest_data = DB::query("SELECT `id`, `delivery_group`, `whatsapp_group_name` , `whatsapp_group_creator`, `fax_number` , `email` FROM `restaurants` WHERE  `id` IN (". implode(",", $restaurantsIds) . ")");
-    //echo '<pre>'; var_dump($whatsapp_rest_data); echo '</pre>';
+    $additional_rest_data = DB::query("SELECT `id`, `delivery_group`, `whatsapp_group_name` , `whatsapp_group_creator`, `fax_number` , `email`, `firebase_chat_id` FROM `restaurants` WHERE  `id` IN (". implode(",", $restaurantsIds) . ")");
+    
 
     foreach($restaurantsArray as &$restaurant) {
-      foreach( $whatsapp_rest_data as $item ) {
+      foreach( $additional_rest_data as $item ) {
         if ( $restaurant["id"] == $item["id"] ) {
           $restaurant["delivery_group"] = $item["delivery_group"];
           $restaurant["whatsapp_group_name"] = $item["whatsapp_group_name"];
           $restaurant["whatsapp_group_creator"] = $item["whatsapp_group_creator"];
           $restaurant["fax_number"] = $item["fax_number"];
           $restaurant["email"] = $item["email"];
+          $restaurant["firebase_chat_id"] = $item["firebase_chat_id"];
         }
       }
     }
-
+  
     return $restaurantsArray;
 }
 
@@ -188,6 +187,12 @@ function sendOrderMessage($restaurantsArray, $TEST_MODE) {
       if ( $restaurant["fax_number"] ) {
         sendFax($restaurant["fax_number"], createMessage($restaurant), $TEST_MODE);
       }
+  
+      if( ($restaurant["firebase_chat_id"] && !is_null($restaurant["firebase_chat_id"])) || $TEST_MODE ) {
+        firebaseMsg($restaurant["firebase_chat_id"], createMessage($restaurant), $TEST_MODE);
+      }
+      
+      
     }
 }
 
@@ -200,23 +205,23 @@ function sendDeliveryMsg($company, $restaurantsArray, $TEST_MODE) {
 
   foreach( $restaurantsArray as $restaurant ) {
 
-    $msg1 = "*הזמנה עסקי ל*" . $company["name"] . "
+    $msg1 = "הזמנה ללקוח עסקי:  " . $company["name"] . "
 ";
-    $msg1 .= $company["delivery_address"] . "
+    $msg1 .= "כתובת: " . $company["delivery_address"] . "
 ";
-    $msg1 .= "איש קשר " . $company["contact_number"] . "
+    $msg1 .= "איש קשר : " . $company["contact_number"] . "
 
 ";
     
     if ( $restaurants_delivery_data[$restaurant["id"]]["delivery_group"] == "0" ) {
       //$msg1 = $msg;
-      $msg1 .= $restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["selectedRestaurant"]["name_en"] . '
+      $msg1 .= "ממסעדה: " .$restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["selectedRestaurant"]["name_en"] . '
 ';
-      $msg1 .= "מנות " . count($restaurant["orders"]) . "
+      $msg1 .= "כמות מנות " . count($restaurant["orders"]) . "
 
 ";
       $timings = $restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["selectedRestaurant"]["timings"];
-      $msg1 .= "*האוכל יהיה מוכן בשעה " . getTodaysPickupTime($timings) . "*";
+      $msg1 .= "האוכל יהיה מוכן בשעה " . getTodaysPickupTime($timings) . "";
 
       //SEND WHATSAPP TO THE RESTAURANT
       whatsappAPI($restaurants_delivery_data[$restaurant["id"]]["whatsapp_group_creator"], $restaurants_delivery_data[$restaurant["id"]]["whatsapp_group_name"], $msg1, $TEST_MODE);
@@ -257,11 +262,11 @@ function sendDeliveryMsg($company, $restaurantsArray, $TEST_MODE) {
   
       foreach( $delivery_groups as $delivery_group ) {
     
-        $msg2 = "*הזמנה עסקי ל*" . $company["name"] . "
+        $msg2 = "*הזמנה ללקוח עסקי: *" . $company["name"] . "
 ";
         $msg2 .= $company["delivery_address"] . "
 ";
-        $msg2 .= "איש קשר " . $company["contact_number"] . "
+        $msg2 .= "איש קשר : " . $company["contact_number"] . "
 
 ";
     
@@ -271,7 +276,7 @@ function sendDeliveryMsg($company, $restaurantsArray, $TEST_MODE) {
         
             $msg2 .= $order["rest_order_object"]["rests_orders"][0]["selectedRestaurant"]["name_en"] . '
 ';
-            $msg2 .= "מנות " . count($restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["order_detail"]) . "
+            $msg2 .= "כמות מנות " . count($restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["order_detail"]) . "
 
 ";
           }
@@ -292,6 +297,7 @@ function sendDeliveryMsg($company, $restaurantsArray, $TEST_MODE) {
 
 //CREATE MESSAGE FOR TELEGRAM, WHATSAPP, FAX
 function createMessage($restaurant) {
+  global $tr;
   $msg = '';
   $msg .= $restaurant["orders"][0]["rest_order_object"]["rests_orders"][0]["selectedRestaurant"]["name_he"] . '
 
@@ -305,7 +311,7 @@ function createMessage($restaurant) {
 ';
   foreach( $restaurant['orders'] as $order ) {
     
-    $msg .= 'שֵׁם : ' . $order["rest_order_object"]["user"]["name"] . '
+    $msg .= 'שם : ' . $order["rest_order_object"]["user"]["name"] . '
 ';
     foreach($order["rest_order_object"]['rests_orders'][0]['order_detail'] as $item) {
       $msg .= $item['itemNameHe'] . '
@@ -314,7 +320,7 @@ function createMessage($restaurant) {
         
         foreach( $item['subItemsOneType'] as $subItem ) {
           foreach( $subItem as $key => $value) {
-            $msg .= $key  . ': ' . $value["subItemNameHe"] . '
+            $msg .= $tr->translate($key)  . ': ' . $value["subItemNameHe"] . '
 ';
           }
         }
@@ -357,6 +363,7 @@ function createMessage($restaurant) {
 
 //CREATE HTML MESSAGE FOR EMAIL
 function emailMessage($restaurant) {
+  global $tr;
   $msg = '<html>';
   $msg .= '<body dir="rtl">';
   
@@ -377,7 +384,7 @@ function emailMessage($restaurant) {
       if ( array_key_exists('subItemsOneType', $item) ) {
         foreach( $item['subItemsOneType'] as $subItem ) {
           foreach( $subItem as $key => $value) {
-            $msg .= '<p>' . $key  . ": " . $value["subItemNameHe"] . '</p>';
+            $msg .= '<p>' . $tr-translate($key)  . ": " . $value["subItemNameHe"] . '</p>';
           }
         }
       }
@@ -666,4 +673,94 @@ function sendFax($fax, $msg, $TEST_MODE ) {
     while ($fax->refresh()->status < 0) {
         sleep(5);
     }
+}
+
+//HANDLES FIREBASE MESSAGES
+function firebaseMsg($toId, $msg, $test_mode) {
+  
+  $fromId = 'vZ0itdFLNxMxhIQhzT2PAA1Lhb33';
+  if ($test_mode) {
+    $toId = '-KtpHWXIj_VmA3cUg-p0';
+  }
+  
+  
+  $response = firebaseSendMsg($toId, $fromId, $msg);
+  $responseArr = explode(":", $response);
+  $message_name = preg_replace('/}/', "", preg_replace('/"/', "", $responseArr[1]));
+  
+  echo $message_name;
+  echo "<br>";
+  
+  $f = updateFirebaseUserMsg($fromId, $toId, $message_name);
+  $s = updateFirebaseUserMsg($toId, $fromId, $message_name);
+  
+}
+
+//SENDS MESSAGES
+function firebaseSendMsg($toId, $fromId, $msg) {
+  
+  $data = array(
+    "toId" => $toId,
+    "text"  => $msg,
+    "fromId"  => $fromId,
+    "isToGroup"  => true,
+    "isDeleted"  => false,
+    "isEdit" => false,
+    "timestamp"  => array(
+      ".sv" => "timestamp"
+    ),
+  );
+  
+  $data_json = json_encode($data);
+  
+  $ch = curl_init();
+  
+  curl_setopt($ch, CURLOPT_URL, "https://hunters-chat.firebaseio.com/messages.json?auth=wSZSOmMJuloBAS5xa82Q7S7wzJ2ErDuwxadJiIJD");
+  curl_setopt($ch, CURLOPT_POST, 1);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+  
+  
+  $headers = array();
+  $headers[] = "Content-Type: application/x-www-form-urlencoded";
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  
+  $result = curl_exec($ch);
+  
+  if (curl_errno($ch)) {
+    echo 'Error:' . curl_error($ch);
+  }
+  curl_close ($ch);
+  
+  return $result;
+}
+
+//UPDATES THE FIREBASE AFTER THE MESSAGE WAS SENT
+function updateFirebaseUserMsg($fromId, $toId, $message_name) {
+  
+  $vars = array();
+  $vars[$message_name] = 1;
+  $json_vars = json_encode($vars);
+  echo $json_vars;
+  
+  $ch = curl_init();
+  
+  curl_setopt($ch, CURLOPT_URL, "https://hunters-chat.firebaseio.com/user-messages/" . $fromId ."/" . $toId ."/.json?auth=wSZSOmMJuloBAS5xa82Q7S7wzJ2ErDuwxadJiIJD");
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $json_vars);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
+  
+  
+  $headers = array();
+  $headers[] = "Content-Type: application/x-www-form-urlencoded";
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  
+  $result = curl_exec($ch);
+  if (curl_errno($ch)) {
+    echo 'Error:' . curl_error($ch);
+  }
+  curl_close ($ch);
+  
+  return $result;
 }
